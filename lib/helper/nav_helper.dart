@@ -4,6 +4,7 @@
 import 'dart:collection';
 
 import 'package:flutter/cupertino.dart';
+import 'package:phoenix/screens/dashboard.dart';
 import 'package:phoenix/screens/dashboard_screen.dart';
 
 import 'dependency.dart';
@@ -39,7 +40,7 @@ Route<Object?>? generateRoute(RouteSettings settings){
 Route<Object?>? getRoute(String? name, {LinkedHashMap? args, Function? result}){
   switch (name){
     case dashboardScreen:
-      return _customPageRoute( DashboardScreen(),name: name!);
+      return _customPageRoute( Dashboard(),name: name!);
   }
   return null;
 }

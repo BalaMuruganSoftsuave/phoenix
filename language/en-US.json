@@ -1,0 +1,6 @@
+{
+  "helloWorld": "Hello World!",
+  "logout": "Logout",
+  "logout_confirm": "Are you sure you want to log out?",
+  "cancel": "Cancel"
+}

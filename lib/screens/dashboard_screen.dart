@@ -1,106 +1,118 @@
 import 'package:flutter/material.dart';
-import 'package:phoenix/helper/font_helper.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:phoenix/generated/assets.dart';
+import 'package:phoenix/helper/color_helper.dart';
+import 'package:phoenix/helper/dialog_helper.dart';
 import 'package:phoenix/helper/responsive_helper.dart';
-import 'package:phoenix/widgets/dashboard_card.dart';
+import 'package:phoenix/widgets/filter_by_day_widget.dart';
+import 'package:phoenix/widgets/glowing_card.dart';
+import 'package:phoenix/widgets/profile_menu_button.dart';
 
 import '../widgets/sales_revenue_chart.dart';
 
-class DashboardScreen extends StatelessWidget {
-   DashboardScreen({super.key});
-  // final List<String> icons = [
-  //   'assets/Icons/detail.png',
-  //   'assets/Icons/initial.png',
-  //   'assets/Icons/recurring.png',
-  //   'assets/Icons/subscription.png',
-  //   'assets/Icons/upsell.png',
-  //   'assets/Icons/bill.png',
-  // ];
-   @override
-   Widget build(BuildContext context) {
-     return Scaffold(
-       backgroundColor: Color(0xFF0B111A),
-       appBar: AppBar(),
-       body: SingleChildScrollView( // Allows entire screen to scroll
-         child: Padding(
-           padding: EdgeInsets.all(10), // Adjust padding
-           child: Column(
-             crossAxisAlignment: CrossAxisAlignment.start,
-             children: [
-               // First ListView
-               ListView.builder(
-                 itemCount: 6,
-                 shrinkWrap: true, // Important: prevents infinite height
-                 physics: NeverScrollableScrollPhysics(), // Prevents nested scrolling
-                 itemBuilder: (context, index) {
-                   return card("leading", "title", "subtitle");
-                 },
-               ),
-                SizedBox(height: 30),
-               // Second Container Inside Column
-               Container(
-                 padding: EdgeInsets.all(10),
-                 decoration: BoxDecoration(
-                   border: Border.all(color: Color(0x33A3AED0), width: 0.5),
-                   borderRadius: BorderRadius.circular(15),
-                 ),
-                 child: Column(
-                   children: [
-                     Align(
-                       alignment: Alignment.topLeft,
-                       child: Text(
-                         "February 2024",
-                         style: TextStyle(color: Colors.white),
-                       ),
-                     ),
-                     ListView.builder(
-                       itemCount: 3,
-                       shrinkWrap: true, // Important
-                       physics: NeverScrollableScrollPhysics(),
-                       itemBuilder: (context, index) {
-                         return card("leading", "title", "subtitle");
-                       },
-                     ),
-                   ],
-                 ),
-               ),
-               SizedBox(height: 30),
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
 
-               Container(
-                 padding: EdgeInsets.all(10),
-                 decoration: BoxDecoration(
-                   border: Border.all(color: Color(0x33A3AED0), width: 0.5),
-                   borderRadius: BorderRadius.circular(15),
-                 ),
-                 child: Column(
-                   children: [
-                     Align(
-                       alignment: Alignment.topLeft,
-                       child: Text(
-                         "February 2024",
-                         style: TextStyle(color: Colors.white),
-                       ),
-                     ),
-                     ListView.builder(
-                       itemCount: 3,
-                       shrinkWrap: true, // Important
-                       physics: NeverScrollableScrollPhysics(),
-                       itemBuilder: (context, index) {
-                         return   card("leading", "title", "subtitle");
-                         ;
-                       },
-                     ),
-                   ],
-                 ),
-               ),
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Color(0xFF0B111A),
+      body: SafeArea(
+        child: Column(
+          children: [
+            SizedBox(
+              height: Responsive.boxH(context, 10),
+              child: AppBar(
+                backgroundColor: AppColors.darkBg,
+                centerTitle: true,
+                title: SvgPicture.asset(
+                  Assets.imagesPhoenixLogo,
+                  width: Responsive.boxW(context, 15),
+                  height: Responsive.boxH(context, 5),
+                ),
+                actions: [
+                  ProfilePopupMenu(
+                    userName: "John Doe",
+                    onLogout: () {
+                      showLogoutDialog(context, (){});
+                      print("User logged out");
+                      // Implement logout functionality here
+                    },
+                  )
+                ],
+              ),
+            ),
+            Expanded(
+              child: SingleChildScrollView(
+                // Allows entire screen to scroll
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    FilterComponent(
+                    onSelectionChange: (key, {range}) {
+                                print("Selected: $key, Range: ${range?.start} - ${range?.end}");
+                                },
+                                ),
+                    GlowingCard(
+                        svgAsset: Assets.imagesActiveSubscribers,
+                        title: "title",
+                        subtitle: "subtitle",
+                        circleBgColor: Colors.yellow),
+                    // First ListView
 
-               SizedBox(
-                 height: 300,
-                   child: SalesRevenueChart(isShowingMainData: true,)
-               )
-             ],
-           ),
-         ),
-       ),
-     );
-   }
+                    SizedBox(height: 30),
+                    // Second Container Inside Column
+                    Container(
+                      padding: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Color(0x33A3AED0), width: 0.5),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: Column(
+                        children: [
+                          Align(
+                            alignment: Alignment.topLeft,
+                            child: Text(
+                              "February 2024",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 30),
+
+                    Container(
+                      padding: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Color(0x33A3AED0), width: 0.5),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: Column(
+                        children: [
+                          Align(
+                            alignment: Alignment.topLeft,
+                            child: Text(
+                              "February 2024",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    SizedBox(
+                        height: 300,
+                        child: SalesRevenueChart(
+                          isShowingMainData: true,
+                        ))
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }
