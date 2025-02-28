@@ -7,7 +7,7 @@ import 'package:phoenix/helper/enum_helper.dart';
 import 'package:phoenix/helper/font_helper.dart';
 import 'package:phoenix/helper/responsive_helper.dart';
 import 'package:phoenix/helper/utils.dart';
-import 'package:phoenix/screens/dashboard_screen.dart';
+import 'package:phoenix/screens/dashboard/dashboard_screen.dart';
 import 'package:phoenix/widgets/bottom_navigation_widget/gbutton.dart';
 import 'package:phoenix/widgets/bottom_navigation_widget/gnav.dart';
 

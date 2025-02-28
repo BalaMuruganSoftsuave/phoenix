@@ -2,6 +2,35 @@
 class Assets {
   Assets._();
 
+  static const String apiApiConstant = 'lib/helper/api/api_constant.dart';
+  static const String apiApiHelper = 'lib/helper/api/api_helper.dart';
+  static const String bottomNavigationWidgetButton = 'lib/widgets/bottom_navigation_widget/button.dart';
+  static const String bottomNavigationWidgetGbutton = 'lib/widgets/bottom_navigation_widget/gbutton.dart';
+  static const String bottomNavigationWidgetGnav = 'lib/widgets/bottom_navigation_widget/gnav.dart';
+  static const String customCalendarWidgetCalendarDatesWidget = 'lib/widgets/custom_calendar_widget/calendar_dates_widget.dart';
+  static const String customCalendarWidgetCalendarWidget = 'lib/widgets/custom_calendar_widget/calendar_widget.dart';
+  static const String customCalendarWidgetCalenderWidgetModal = 'lib/widgets/custom_calendar_widget/calender_widget_modal.dart';
+  static const String customCalendarWidgetChartDateFilterWidget = 'lib/widgets/custom_calendar_widget/chart_date_filter_widget.dart';
+  static const String customCalendarWidgetMonthYearSelectionWidget = 'lib/widgets/custom_calendar_widget/month_year_selection_widget.dart';
+  static const String customCalendarWidgetNumberPicker = 'lib/widgets/custom_calendar_widget/number_picker.dart';
+  static const String customCalendarWidgetSingleDayWidget = 'lib/widgets/custom_calendar_widget/single_day_widget.dart';
+  static const String customCalendarWidgetWeekRowWidget = 'lib/widgets/custom_calendar_widget/week_row_widget.dart';
+  static const String dashboardDashboardCubit = 'lib/Cubit/dashboard/dashboard_cubit.dart';
+  static const String dashboardDashboardScreen = 'lib/screens/dashboard/dashboard_screen.dart';
+  static const String dashboardDashboardState = 'lib/Cubit/dashboard/dashboard_state.dart';
+  static const String dashboardTransactionDataWidget = 'lib/screens/dashboard/transaction_data_widget.dart';
+  static const String generatedAssets = 'lib/generated/assets.dart';
+  static const String helperColorHelper = 'lib/helper/color_helper.dart';
+  static const String helperDependency = 'lib/helper/dependency.dart';
+  static const String helperDialogHelper = 'lib/helper/dialog_helper.dart';
+  static const String helperEnumHelper = 'lib/helper/enum_helper.dart';
+  static const String helperFontHelper = 'lib/helper/font_helper.dart';
+  static const String helperNavHelper = 'lib/helper/nav_helper.dart';
+  static const String helperNavObserver = 'lib/helper/nav_observer.dart';
+  static const String helperResponsiveHelper = 'lib/helper/responsive_helper.dart';
+  static const String helperTextHelper = 'lib/helper/text_helper.dart';
+  static const String helperThemeHelper = 'lib/helper/theme_helper.dart';
+  static const String helperUtils = 'lib/helper/utils.dart';
   static const String imagesActiveSubscribers = 'assets/images/active_subscribers.svg';
   static const String imagesCalendarToday = 'assets/images/calendar_today.svg';
   static const String imagesCanceledSubscribers = 'assets/images/canceled_subscribers.svg';
@@ -31,5 +60,16 @@ class Assets {
   static const String imagesTablerMenu3 = 'assets/images/tabler_menu-3.svg';
   static const String imagesTotalTransactions = 'assets/images/total_transactions.svg';
   static const String imagesUpsell = 'assets/images/upsell.svg';
+  static const String languageEnUS = 'language/en-US.json';
+  static const String libMain = 'lib/main.dart';
+  static const String screensBottomNavBar = 'lib/screens/bottom_nav_bar.dart';
+  static const String screensDashboard = 'lib/screens/dashboard.dart';
+  static const String widgetsCardDataWidget = 'lib/widgets/card_data_widget.dart';
+  static const String widgetsFilterByDayWidget = 'lib/widgets/filter_by_day_widget.dart';
+  static const String widgetsGlowingCard = 'lib/widgets/glowing_card.dart';
+  static const String widgetsProfileMenuButton = 'lib/widgets/profile_menu_button.dart';
+  static const String widgetsSalesRevenueChart = 'lib/widgets/sales_revenue_chart.dart';
+  static const String widgetsShimmer = 'lib/widgets/shimmer.dart';
+  static const String widgetsShimmerWidget = 'lib/widgets/shimmer_widget.dart';
 
 }

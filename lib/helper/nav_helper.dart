@@ -5,7 +5,7 @@ import 'dart:collection';
 
 import 'package:flutter/cupertino.dart';
 import 'package:phoenix/screens/dashboard.dart';
-import 'package:phoenix/screens/dashboard_screen.dart';
+import 'package:phoenix/screens/dashboard/dashboard_screen.dart';
 
 import 'dependency.dart';
 import 'nav_observer.dart';

@@ -4,6 +4,7 @@ import 'package:phoenix/helper/color_helper.dart';
 import 'package:phoenix/helper/font_helper.dart';
 import 'package:phoenix/helper/responsive_helper.dart';
 import 'package:phoenix/helper/utils.dart';
+import 'package:phoenix/widgets/shimmer.dart';
 
 class GlowingCard extends StatelessWidget {
   final String svgAsset;
@@ -30,13 +31,15 @@ class GlowingCard extends StatelessWidget {
     return GestureDetector(
       onTap: isDisabled ? null : onPress,
       child: Container(
-        padding:  EdgeInsets.all(Responsive.padding(context, 4),),
+        padding: EdgeInsets.all(
+          Responsive.padding(context, 4),
+        ),
         decoration: BoxDecoration(
           color: const Color(0xFF141E2D), // Background color
           borderRadius: BorderRadius.circular(Responsive.padding(context, 7)),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha:0.2),
+              color: Colors.black.withValues(alpha: 0.2),
               blurRadius: 10,
               offset: const Offset(0, 2),
             ),
@@ -46,7 +49,7 @@ class GlowingCard extends StatelessWidget {
           children: [
             // Circle with Glow Effect
             Container(
-              width:Responsive.boxW(context, 12),
+              width: Responsive.boxW(context, 12),
               height: Responsive.boxW(context, 12),
               decoration: BoxDecoration(
                 color: circleBgColor,
@@ -62,42 +65,46 @@ class GlowingCard extends StatelessWidget {
               child: Center(
                 child: SvgPicture.asset(
                   svgAsset,
-                  width:Responsive.boxW(context, 8),
+                  width: Responsive.boxW(context, 8),
                   height: Responsive.boxW(context, 8),
                 ),
               ),
             ),
-             SizedBox(width: Responsive.boxW(context, 4),),
+            SizedBox(
+              width: Responsive.boxW(context, 4),
+            ),
 
             // Text Column
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                      title,
-                      style: getTextTheme().bodyMedium?.copyWith(fontSize: Responsive.fontSize(context, 4),color: AppColors.subText,fontWeight: FontHelper.semiBold)
-                  ),
-                  Text(
-                      subtitle,
-                      style: getTextTheme().bodyMedium?.copyWith(fontSize: Responsive.fontSize(context, 5),color: AppColors.white,fontWeight: FontHelper.semiBold)
-                  ),
+                  isLoading
+                      ? ShimmerWidget(
+                          height: Responsive.boxH(context, 3),
+                          width: Responsive.boxW(context, 30))
+                      : Text(title,
+                          style: getTextTheme().bodyMedium?.copyWith(
+                              fontSize: Responsive.fontSize(context, 3),
+                              color: AppColors.subText,
+                              fontWeight: FontHelper.semiBold)),
+                  isLoading
+                      ? Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: ShimmerWidget(
+                            height: Responsive.boxH(context, 3),
+                            width: Responsive.boxW(context, 60)),
+                      )
+                      : Text(subtitle,
+                          style: getTextTheme().bodyMedium?.copyWith(
+                              fontSize: Responsive.fontSize(context, 4),
+                              color: AppColors.white,
+                              fontWeight: FontHelper.semiBold)),
                 ],
               ),
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _buildShimmer({required double width, required double height}) {
-    return Container(
-      width: width,
-      height: height,
-      decoration: BoxDecoration(
-        color: Colors.grey[300],
-        borderRadius: BorderRadius.circular(10),
       ),
     );
   }

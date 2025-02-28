@@ -2,5 +2,18 @@
   "helloWorld": "Hello World!",
   "logout": "Logout",
   "logout_confirm": "Are you sure you want to log out?",
-  "cancel": "Cancel"
+  "cancel": "Cancel",
+  "directSale": "Direct Sale",
+  "initialSubscription": "Initial Subscription",
+  "recurringSubscription": "Recurring Subscription",
+  "subscriptionSalvage": "Subscription Salvage",
+  "subscriptionBill": "Subscription to Bill",
+  "upsell": "Upsell",
+  "lifetime": "Lifetime",
+  "totalTransactions": "Total Transactions",
+  "Refunds": "Refunds",
+  "chargebacks": "Chargebacks",
+  "activeSubscribers": "Active Subscribers",
+  "SubscribersSalvage": "Subscribers in Salvage",
+  "canceledSubscribers": "Canceled Subscribers"
 }

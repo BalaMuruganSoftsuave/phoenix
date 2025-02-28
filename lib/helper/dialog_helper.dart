@@ -24,7 +24,7 @@ void showLogoutDialog(BuildContext context, VoidCallback onConfirm) {
               fontWeight: FontHelper.semiBold, color: AppColors.white),
         ),
         content: Text(
-          translate(TextHelper.logout_confirm),
+          translate(TextHelper.logoutConfirm),
           textAlign: TextAlign.center,
           style: getTextTheme().displayMedium?.copyWith(
               fontWeight: FontHelper.medium, color: AppColors.subText),
