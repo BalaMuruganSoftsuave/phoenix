@@ -1,7 +1,7 @@
 #!/bin/sh
 # This is a generated file; do not edit or check into version control.
 export "FLUTTER_ROOT=/Users/phanindra/development/flutter"
-export "FLUTTER_APPLICATION_PATH=/Users/phanindra/Projects/Flutter apps/pheonix_mobile/phoenix"
+export "FLUTTER_APPLICATION_PATH=/Users/phanindra/Projects/Flutter apps/phoenix"
 export "COCOAPODS_PARALLEL_CODE_SIGN=true"
 export "FLUTTER_BUILD_DIR=build"
 export "FLUTTER_BUILD_NAME=1.0.0"

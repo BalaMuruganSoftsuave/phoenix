@@ -1,0 +1,84 @@
+{
+  "Result": [
+    {
+      "Range": "02/25 12AM",
+      "DirectSale": 2910.12,
+      "UpsellSale": 0,
+      "InitialSale": 519.82,
+      "RecurringSale": 2515.31,
+      "SalvageSale": 179.95
+    },
+    {
+      "Range": "02/25 1AM",
+      "DirectSale": 2007.04,
+      "UpsellSale": 0,
+      "InitialSale": 559.8,
+      "RecurringSale": 6470.95,
+      "SalvageSale": 39.99
+    },
+    {
+      "Range": "02/25 2AM",
+      "DirectSale": 1937.92,
+      "UpsellSale": 0,
+      "InitialSale": 276.92,
+      "RecurringSale": 834.76,
+      "SalvageSale": 39.99
+    },
+    {
+      "Range": "02/25 3AM",
+      "DirectSale": 1321.69,
+      "UpsellSale": 0,
+      "InitialSale": 159.95,
+      "RecurringSale": 1045.72,
+      "SalvageSale": 0
+    },
+    {
+      "Range": "02/25 4AM",
+      "DirectSale": 898.74,
+      "UpsellSale": 0,
+      "InitialSale": 219.92,
+      "RecurringSale": 1125.74,
+      "SalvageSale": 39.99
+    },
+    {
+      "Range": "02/25 5AM",
+      "DirectSale": 2709.01,
+      "UpsellSale": 0,
+      "InitialSale": 119.96,
+      "RecurringSale": 991.77,
+      "SalvageSale": 0
+    },
+    {
+      "Range": "02/25 6AM",
+      "DirectSale": 1392.53,
+      "UpsellSale": 0,
+      "InitialSale": 179.94,
+      "RecurringSale": 888.8,
+      "SalvageSale": 0
+    },
+    {
+      "Range": "02/25 7AM",
+      "DirectSale": 3030.47,
+      "UpsellSale": 0,
+      "InitialSale": 369.88,
+      "RecurringSale": 1409.67,
+      "SalvageSale": 0
+    },
+    {
+      "Range": "02/25 8AM",
+      "DirectSale": 3848.41,
+      "UpsellSale": 0,
+      "InitialSale": 376.88,
+      "RecurringSale": 2412.33,
+      "SalvageSale": 0
+    },
+    {
+      "Range": "02/25 9AM",
+      "DirectSale": 665.76,
+      "UpsellSale": 0,
+      "InitialSale": 119.96,
+      "RecurringSale": 464.88,
+      "SalvageSale": 0
+    }
+  ]
+}

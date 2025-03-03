@@ -19,4 +19,5 @@ class AppColors {
   static const Color notificationCardBackground = Color(0xFF4D586E);
   static const Color seaBlue = Color(0xFF6AD2FF);
   static const Color red = Color(0xFFE84040);
+  static const Color lines = Color(0x33A3AED0);
 }

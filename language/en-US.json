@@ -15,5 +15,6 @@
   "chargebacks": "Chargebacks",
   "activeSubscribers": "Active Subscribers",
   "SubscribersSalvage": "Subscribers in Salvage",
-  "canceledSubscribers": "Canceled Subscribers"
+  "canceledSubscribers": "Canceled Subscribers",
+  "directSaleRefundRatio": "Direct Sale Refund Ratio"
 }
