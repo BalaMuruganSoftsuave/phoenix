@@ -1,8 +1,8 @@
 import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:phoenix/helper/responsive_helper.dart';
 import 'package:phoenix/helper/text_helper.dart';
+import 'package:phoenix/widgets/charts/tool_tip_widget.dart';
 
 import '../../helper/color_helper.dart';
 import '../../helper/font_helper.dart';
@@ -16,7 +16,7 @@ class BarChartWidget extends StatelessWidget {
   final String title;
 
 
-   const BarChartWidget({super.key, required this.chartData,required this.barRadius, required this.barSpace, required this.title});
+    BarChartWidget({super.key, required this.chartData,required this.barRadius, required this.barSpace, required this.title});
 
   BarChartGroupData generateGroupData(
       int x, ChartData data, BuildContext context) {
@@ -86,7 +86,43 @@ class BarChartWidget extends StatelessWidget {
       ),
     );
   }
+  /// ✅ **Hide Tooltip When User Taps Elsewhere**
+  void _hideTooltip() {
+    _overlayEntry?.remove();
+    _overlayEntry = null;
+  }
 
+
+
+  OverlayEntry? _overlayEntry;
+  final LayerLink _layerLink = LayerLink();
+
+  /// ✅ Show Tooltip When Bar is Tapped
+  void _showTooltip(BuildContext context,BarTouchResponse barTouchResponse, ChartData data) {
+    _overlayEntry?.remove(); // Remove any existing tooltip
+    final RenderBox renderBox = context.findRenderObject() as RenderBox;
+    final Offset chartPosition = renderBox.localToGlobal(Offset.zero); // Chart's global position
+
+    final touchedIndex = barTouchResponse.spot!.touchedBarGroupIndex;
+
+    // Get bar position from the chart width
+    final double chartWidth = renderBox.size.width;
+    final double barX = chartWidth / chartData.length * (touchedIndex + 0.5); // Center of bar
+    final double tooltipX = chartPosition.dx + 60; // Adjust for center
+    final double tooltipY = chartPosition.dy ; // Position above the bar
+    _overlayEntry = OverlayEntry(
+      builder: (context) => Positioned(
+        left: tooltipX, // Adjust X position
+        top:tooltipY, // Adjust Y position
+        child: Material(
+          color: Colors.transparent,
+          child: TooltipWidget(data: data),
+        ),
+      ),
+    );
+
+    Overlay.of(context).insert(_overlayEntry!);
+  }
   @override
   Widget build(BuildContext context) {
     double totalRevenue = chartData.fold(0, (sum, item) => sum + item.revenueValue);
@@ -136,75 +172,83 @@ class BarChartWidget extends StatelessWidget {
                       chartData.length * 120, // Ensures enough space for scrolling
                   padding: const EdgeInsets.only(left: 10, right: 10),
 
-                  child: BarChart(
-                    BarChartData(
-                      titlesData: FlTitlesData(
-                        bottomTitles: AxisTitles(
-                          sideTitles: SideTitles(
+                  child: CompositedTransformTarget(
+                    link: _layerLink,
+                    child: BarChart(
+                      BarChartData(
+                        titlesData: FlTitlesData(
+                          bottomTitles: AxisTitles(
+                            sideTitles: SideTitles(
+                              showTitles: true,
+                              getTitlesWidget: bottomTitles,
+                              reservedSize: 40,
+                            ),
+                          ),
+                          leftTitles: AxisTitles(
+                            sideTitles: SideTitles(
+                              showTitles: true,
+                              getTitlesWidget: leftTitles,
+                              reservedSize: 40, // Ensures enough space for numbers
+                              interval: 20, // Show labels at 0, 20, 40, 60, 80, 100
+                            ),
+                          ),
+                          rightTitles: const AxisTitles(),
+                          topTitles: AxisTitles(
+                            sideTitles: SideTitles(
                             showTitles: true,
-                            getTitlesWidget: bottomTitles,
-                            reservedSize: 40,
+                            reservedSize: 6, // Adds space at the top to prevent clipping
+                            ),
                           ),
                         ),
-                        leftTitles: AxisTitles(
-                          sideTitles: SideTitles(
-                            showTitles: true,
-                            getTitlesWidget: leftTitles,
-                            reservedSize: 40, // Ensures enough space for numbers
-                            interval: 20, // Show labels at 0, 20, 40, 60, 80, 100
+                        barTouchData: BarTouchData(
+                    
+                          enabled: true,
+                          handleBuiltInTouches: true,
+                          touchCallback: (FlTouchEvent event, BarTouchResponse? barTouchResponse) {
+                            if (event is FlTapDownEvent) {
+                              _hideTooltip(); // Hide any existing tooltip first
+
+                              if (barTouchResponse?.spot != null) {
+                                final touchedIndex = barTouchResponse!.spot!.touchedBarGroupIndex;
+                                if (touchedIndex >= 0 && touchedIndex < chartData.length) {
+                                  _showTooltip(context, barTouchResponse, chartData[touchedIndex] );
+                                }
+                              }
+                            } else if (event is FlTapUpEvent || event is FlLongPressEnd) {
+                              _hideTooltip(); // Hide tooltip when the finger is lifted
+                            }
+                          },
+
+                          touchTooltipData: BarTouchTooltipData(
+                            getTooltipItem: (group, groupIndex, rod, rodIndex) => null, // Disable tooltips
+
                           ),
+                    
+                    
                         ),
-                        rightTitles: const AxisTitles(),
-                        topTitles: AxisTitles(
-                          sideTitles: SideTitles(
-                          showTitles: true,
-                          reservedSize: 6, // Adds space at the top to prevent clipping
-                          ),
-                        ),
-                      ),
-                      barTouchData: BarTouchData(
-                        enabled: true,
-                        handleBuiltInTouches: true,
-                        touchCallback: (FlTouchEvent event, barTouchResponse) {
-                          if (event is FlTapUpEvent && barTouchResponse != null) {
-                            print("Touched: ${barTouchResponse.spot?.touchedBarGroupIndex}");
-                          }
-                        },
-                        touchTooltipData: BarTouchTooltipData(
-                          // tooltipBgColor: Colors.white,
-                          getTooltipItem: (group, groupIndex, rod, rodIndex) {
-                            final data = chartData[group.x.toInt()];
-                            return BarTooltipItem(
-                              '${data.range}\nVoid: ${data.voidValue} (${data.voidPercentage.toStringAsFixed(1)}%)\n'
-                                  'Revenue: ${data.revenueValue} (${data.revenuePercentage.toStringAsFixed(1)}%)\n'
-                                  'Refund: ${data.refundValue} (${data.refundPercentage.toStringAsFixed(1)}%)',
-                              const TextStyle(color: Colors.black, fontSize: 10),
+                    
+                        borderData: FlBorderData(show: false),
+                        gridData: FlGridData(
+                          show: true,
+                          drawHorizontalLine: true,
+                          drawVerticalLine: false,
+                          horizontalInterval: 20,
+                          getDrawingHorizontalLine: (value) {
+                            return FlLine(
+                              color: AppColors.lines,
+                              strokeWidth: 1, // Thin but visible
+                              dashArray: null, // Ensures solid line (not dotted)
                             );
                           },
                         ),
+                        barGroups: List.generate(
+                          chartData.length,
+                          (index) =>
+                              generateGroupData(index, chartData[index], context),
+                        ),
+                        // groupsSpace: 50,
+                        maxY: 100,
                       ),
-
-                      borderData: FlBorderData(show: false),
-                      gridData: FlGridData(
-                        show: true,
-                        drawHorizontalLine: true,
-                        drawVerticalLine: false,
-                        horizontalInterval: 20,
-                        getDrawingHorizontalLine: (value) {
-                          return FlLine(
-                            color: AppColors.lines,
-                            strokeWidth: 1, // Thin but visible
-                            dashArray: null, // Ensures solid line (not dotted)
-                          );
-                        },
-                      ),
-                      barGroups: List.generate(
-                        chartData.length,
-                        (index) =>
-                            generateGroupData(index, chartData[index], context),
-                      ),
-                      // groupsSpace: 50,
-                      maxY: 100,
                     ),
                   ),
                 ),
@@ -237,7 +281,10 @@ class BarChartWidget extends StatelessWidget {
               LegendWidget(color: refundColor, text: 'Refund', amount: totalRefund, percentage: totalPercentageRefund),
             ],
           ),
-
+          // GestureDetector(
+          //   onTap: _hideTooltip, // Hide tooltip when user taps elsewhere
+          //   behavior: HitTestBehavior.opaque,
+          // ),
         ],
       ),
     );

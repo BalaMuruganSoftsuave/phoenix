@@ -14,6 +14,7 @@ class SalesData {
   final double recurringSale;
   final double salvageSale;
 
+
   SalesData({
     required this.range,
     required this.directSale,

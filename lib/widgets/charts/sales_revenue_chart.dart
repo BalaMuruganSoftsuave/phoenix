@@ -16,6 +16,7 @@ class SalesRevenueChart extends StatelessWidget {
   final LineChartModel chartModel;
   final title;
 
+
   @override
   Widget build(BuildContext context) {
     final totalSales = _calculateTotalSales(); // Calculate totals for legend
@@ -43,9 +44,9 @@ class SalesRevenueChart extends StatelessWidget {
             ),
           ),
 
-    SizedBox(
-    height: 20,
-    ),
+          SizedBox(
+          height: 20,
+          ),
           SizedBox(
             height: 300,
             child: SingleChildScrollView(
@@ -245,7 +246,50 @@ class SalesRevenueChart extends StatelessWidget {
     return LineTouchData(
       handleBuiltInTouches: true,
       touchTooltipData: LineTouchTooltipData(
-        tooltipRoundedRadius: 10
+        tooltipRoundedRadius: 10,
+        maxContentWidth: 500,
+        tooltipBorder: BorderSide(
+          color: Colors.white, // Border color
+          width: 0.5, // Thin border
+        ),
+        tooltipPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8), // Wider padding
+        tooltipMargin: 12, // Adds extra margin for spacing
+        fitInsideHorizontally: true,
+        fitInsideVertically: true,
+        getTooltipColor: (LineBarSpot spot) => AppColors.darkBg2,
+        getTooltipItems: (List<LineBarSpot> touchedSpots) {
+          return touchedSpots.map((spot) {
+
+            Color? color = spot.bar.color; // Get the color of the line
+            String? lineName = chartModel.dataPoints.keys.elementAtOrNull(spot.barIndex);
+
+            return LineTooltipItem(
+               '',// Empty main text to use only children
+               TextStyle(fontSize: 12, color: Colors.white, fontWeight: FontWeight.bold),
+              textAlign: TextAlign.start,
+
+              children: [
+                TextSpan(
+                  text: '$lineName : ', // Label with extra spaces (thin spaces)
+                  style: const TextStyle(
+                    fontSize: 12,
+                    color: Colors.white, // White label
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+
+                TextSpan(
+                  text: '\$${spot.y.toStringAsFixed(2)}', // Invisible zero-width space
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: color, // Change this to any color
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            );
+          }).toList();
+        },
       ),
     );
   }
