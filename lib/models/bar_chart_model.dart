@@ -12,47 +12,37 @@ const Color refundColor = AppColors.seaBlue;
 // Data model to convert raw values into percentages
 class ChartData {
   final String range;
-  final double voidPercentage;
-  final double revenuePercentage;
-  final double refundPercentage;
-  final double voidValue;
-  final double revenueValue;
-  final double refundValue;
+  final Map<String, double> values; // Stores raw values
+  final Map<String, double> percentages; // Stores percentage values
 
   ChartData({
     required this.range,
-    required this.voidPercentage,
-    required this.revenuePercentage,
-    required this.refundPercentage,
-    required this.voidValue,
-    required this.revenueValue,
-    required this.refundValue,
+    required this.values,
+    required this.percentages,
   });
 }
 
 List<ChartData> processData(List<Map<String, dynamic>> data) {
   return data.map((entry) {
-    double voidValue = (entry['Void'] as num).toDouble();
-    double revenueValue = (entry['Revenue'] as num).toDouble();
-    double refundValue = (entry['Refund'] as num).toDouble();
+    String range = entry['Range'].toString();
 
-    // Correct total calculation
-    double total = voidValue + revenueValue + refundValue;
+    // Extract numeric keys dynamically (excluding 'Range')
+    List<String> keys = entry.keys.where((key) => key != 'Range').toList();
 
-    // Avoid division by zero
-    double voidPercentage = (total > 0) ? (voidValue / total) * 100 : 0;
-    double revenuePercentage = (total > 0) ? (revenueValue / total) * 100 : 0;
-    double refundPercentage = (total > 0) ? (refundValue / total) * 100 : 0;
+    // Store raw values
+    Map<String, double> values = {
+      for (var key in keys) key: (entry[key] as num).toDouble(),
+    };
 
-    return ChartData(
-      range: entry['Range'].toString(),
-      voidPercentage: voidPercentage,
-      revenuePercentage: revenuePercentage,
-      refundPercentage: refundPercentage,
-      voidValue: voidValue,
-      revenueValue: revenueValue,
-      refundValue: refundValue,
-    );
+    // Calculate total
+    double total = values.values.fold(0, (sum, value) => sum + value);
+
+    // Store percentage values
+    Map<String, double> percentages = {
+      for (var key in keys) key: (total > 0) ? (values[key]! / total) * 100 : 0,
+    };
+
+    return ChartData(range: range, values: values, percentages: percentages);
   }).toList();
 }
 

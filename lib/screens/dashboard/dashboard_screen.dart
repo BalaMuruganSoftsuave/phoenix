@@ -119,13 +119,48 @@ class HomeScreen extends StatelessWidget {
     ]
   };
    List<Map<String, dynamic>> rawData = [
-     {"Void": 0, "Range": "02/21", "Refund": 10043.5, "Revenue": 182327.05},
-     {"Void": 0, "Range": "02/22", "Refund": 8124.91, "Revenue": 150270.88},
-     {"Void": 37, "Range": "02/23", "Refund": 4857.19, "Revenue": 110804.4},
-     {"Void": 0, "Range": "02/24", "Refund": 8626.84, "Revenue": 107813.33},
-     {"Void": 66.84, "Range": "02/25", "Refund": 11591.73, "Revenue": 114784.71},
-     {"Void": 22.9, "Range": "02/26", "Refund": 8514.03, "Revenue": 149069.58},
-     {"Void": 0, "Range": "02/27", "Refund": 7117.65, "Revenue": 141883.33},
+     {
+       "Void": 906.71,
+       "Range": "02/27",
+       "Refund": 15466.63,
+       "Revenue": 80499.81
+     },
+     {
+       "Void": 1139.62,
+       "Range": "02/28",
+       "Refund": 13808.83,
+       "Revenue": 69587.33
+     },
+     {
+       "Void": 299.9,
+       "Range": "03/01",
+       "Refund": 9251,
+       "Revenue": 151689.47
+     },
+     {
+       "Void": 546.83,
+       "Range": "03/02",
+       "Refund": 4311.04,
+       "Revenue": 100401.48
+     },
+     {
+       "Void": 1543.51,
+       "Range": "03/03",
+       "Refund": 13382.84,
+       "Revenue": 155845.19
+     },
+     {
+       "Void": 1179.61,
+       "Range": "03/04",
+       "Refund": 15055.92,
+       "Revenue": 130411.92
+     },
+     {
+       "Void": 59.98,
+       "Range": "03/05",
+       "Refund": 1499.52,
+       "Revenue": 16007.9
+     }
    ];
 
   @override
