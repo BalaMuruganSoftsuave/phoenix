@@ -158,8 +158,8 @@ class HomeScreen extends StatelessWidget {
      {
        "Void": 59.98,
        "Range": "03/05",
-       "Refund": 1499.52,
-       "Revenue": 16007.9
+       "Refund": 1529.51,
+       "Revenue": 21793.1
      }
    ];
 
@@ -282,13 +282,13 @@ class HomeScreen extends StatelessWidget {
 
                       SizedBox(
                           height: 350,
-                          child: BarChartWidget(chartData: processedData, barRadius: 10, barSpace:-1, title: TextHelper.directSaleRefundRatio,)
+                          child: BarChartWidget(chartData: processedData, barRadius: 3, barSpace:-1, title: TextHelper.directSaleRefundRatio,)
                       ),
                       SizedBox(height: 20),
 
                       SizedBox(
                           height: 350,
-                          child: BarChartWidget(chartData: processedData, barRadius: 33, barSpace: -33, title: TextHelper.directSaleRefundRatio,)
+                          child: BarChartWidget(chartData: processedData, barRadius: 30, barSpace: -30, title: TextHelper.directSaleRefundRatio,showBackDraw: true,)
                       ),
                     ],
                   ),

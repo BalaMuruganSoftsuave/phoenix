@@ -26,22 +26,19 @@ List<ChartData> processData(List<Map<String, dynamic>> data) {
   return data.map((entry) {
     String range = entry['Range'].toString();
 
-    // Extract numeric keys dynamically (excluding 'Range')
+    // Extract values dynamically
     List<String> keys = entry.keys.where((key) => key != 'Range').toList();
-
-    // Store raw values
     Map<String, double> values = {
       for (var key in keys) key: (entry[key] as num).toDouble(),
     };
 
-    // Calculate total
+    // Calculate total sum for the date
     double total = values.values.fold(0, (sum, value) => sum + value);
 
-    // Store percentage values
+    // Calculate percentages
     Map<String, double> percentages = {
-      for (var key in keys) key: (total > 0) ? (values[key]! / total) * 100 : 0,
+      for (var key in keys) key: total > 0 ? (values[key]! / total) * 100 : 0,
     };
-
     return ChartData(range: range, values: values, percentages: percentages);
   }).toList();
 }

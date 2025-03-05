@@ -14,9 +14,15 @@ class BarChartWidget extends StatelessWidget {
   final double barRadius;
   final double barSpace;
   final String title;
+  final bool showBackDraw;
 
-
-    BarChartWidget({super.key, required this.chartData,required this.barRadius, required this.barSpace, required this.title});
+  BarChartWidget(
+      {super.key,
+        this.showBackDraw=false,
+      required this.chartData,
+      required this.barRadius,
+      required this.barSpace,
+      required this.title});
   //
   // BarChartGroupData generateGroupData(
   //     int x, ChartData data, BuildContext context) {
@@ -86,13 +92,12 @@ class BarChartWidget extends StatelessWidget {
       ),
     );
   }
+
   /// ✅ **Hide Tooltip When User Taps Elsewhere**
   void _hideTooltip() {
     _overlayEntry?.remove();
     _overlayEntry = null;
   }
-
-
 
   OverlayEntry? _overlayEntry;
   final LayerLink _layerLink = LayerLink();
@@ -135,25 +140,32 @@ class BarChartWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // double totalRevenue = chartData
-    // double totalRefund = chartData.fold(0, (sum, item) => sum + item.refundValue);
-    // double totalVoid = chartData.fold(0, (sum, item) => sum + item.voidValue);
-    //
-    // // Calculate percentages correctly
-    // double total = totalRevenue + totalRefund + totalVoid;
-    // double totalPercentageRevenue = (total > 0) ? (totalRevenue / total) * 100 : 0;
-    // double totalPercentageRefund = (total > 0) ? (totalRefund / total) * 100 : 0;
-    // double totalPercentageVoid = (total > 0) ? (totalVoid / total) * 100 : 0;
+// Calculate the grand total of all values
+    double grandTotal = chartData.fold(
+        0, (sum, data) => sum + data.values.values.fold(0, (s, v) => s + v));
+
+// Calculate the total sum for each category
+    Map<String, double> totalSums = {};
+
+// Loop through all chartData entries
+    for (var data in chartData) {
+      data.values.forEach((key, value) {
+        totalSums[key] = (totalSums[key] ?? 0) + value;
+      });
+    }
+
+// Compute total percentage contribution for each category
+    Map<String, double> totalPercentages = {
+      for (var key in totalSums.keys)
+        key: (grandTotal > 0) ? (totalSums[key]! / grandTotal) * 100 : 0,
+    };
 
     return Container(
-
-      padding:  EdgeInsets.all(Responsive.padding(context, 3)),
+      padding: EdgeInsets.all(Responsive.padding(context, 3)),
       decoration: BoxDecoration(
-        color: AppColors.darkBg2,
+          color: AppColors.darkBg2,
           borderRadius: BorderRadius.circular(Responsive.padding(context, 3)),
-          border: Border.all(color: AppColors.grey2)
-      ),
-
+          border: Border.all(color: AppColors.grey2)),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start, // Aligns text to the left
@@ -163,23 +175,24 @@ class BarChartWidget extends StatelessWidget {
             translate(title),
             textAlign: TextAlign.start, // Ensures text itself aligns left
             style: getTextTheme().titleSmall?.copyWith(
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-              fontSize: Responsive.fontSize(context, 4.8),
-            ),
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                  fontSize: Responsive.fontSize(context, 4.8),
+                ),
           ),
           SizedBox(
             height: 20,
           ),
           Expanded(
             child: SizedBox(
-              height: Responsive.screenH(context,25),
+              height: Responsive.screenH(context, 25),
               child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal, // Enables horizontal scrolling
+                scrollDirection:
+                    Axis.horizontal, // Enables horizontal scrolling
 
                 child: Container(
-                  width:
-                      chartData.length * 120, // Ensures enough space for scrolling
+                  width: chartData.length *
+                      120, // Ensures enough space for scrolling
                   padding: const EdgeInsets.only(left: 10, right: 10),
 
                   child: CompositedTransformTarget(
@@ -198,72 +211,97 @@ class BarChartWidget extends StatelessWidget {
                             sideTitles: SideTitles(
                               showTitles: true,
                               getTitlesWidget: leftTitles,
-                              reservedSize: 40, // Ensures enough space for numbers
-                              interval: 20, // Show labels at 0, 20, 40, 60, 80, 100
+                              reservedSize:
+                                  40, // Ensures enough space for numbers
+                              interval:
+                                  20, // Show labels at 0, 20, 40, 60, 80, 100
                             ),
                           ),
                           rightTitles: const AxisTitles(),
                           topTitles: AxisTitles(
                             sideTitles: SideTitles(
-                            showTitles: true,
-                            reservedSize: 6, // Adds space at the top to prevent clipping
+                              showTitles: true,
+                              reservedSize:
+                                  6, // Adds space at the top to prevent clipping
                             ),
                           ),
                         ),
                         barTouchData: BarTouchData(
-                    
-                          enabled: true,
-                          handleBuiltInTouches: true,
-                          // touchCallback: (FlTouchEvent event, BarTouchResponse? barTouchResponse) {
-                          //   if (event is FlTapDownEvent) {
-                          //     _hideTooltip(); // Hide any existing tooltip first
-                          //
-                          //     if (barTouchResponse?.spot != null) {
-                          //       final touchedIndex = barTouchResponse!.spot!.touchedBarGroupIndex;
-                          //       if (touchedIndex >= 0 && touchedIndex < chartData.length) {
-                          //         _showTooltip(context, barTouchResponse, chartData[touchedIndex] );
-                          //       }
-                          //     }
-                          //   } else if (event is FlTapUpEvent || event is FlLongPressEnd) {
-                          //     _hideTooltip(); // Hide tooltip when the finger is lifted
-                          //   }
-                          // },
+                            enabled: true,
+                            handleBuiltInTouches: true,
+                            // touchCallback: (FlTouchEvent event, BarTouchResponse? barTouchResponse) {
+                            //   if (event is FlTapDownEvent) {
+                            //     _hideTooltip(); // Hide any existing tooltip first
+                            //
+                            //     if (barTouchResponse?.spot != null) {
+                            //       final touchedIndex = barTouchResponse!.spot!.touchedBarGroupIndex;
+                            //       if (touchedIndex >= 0 && touchedIndex < chartData.length) {
+                            //         _showTooltip(context, barTouchResponse, chartData[touchedIndex] );
+                            //       }
+                            //     }
+                            //   } else if (event is FlTapUpEvent || event is FlLongPressEnd) {
+                            //     _hideTooltip(); // Hide tooltip when the finger is lifted
+                            //   }
+                            // },
 
-                          touchTooltipData: BarTouchTooltipData(
-                            // tooltipBgColor: Colors.black87,
-                            tooltipBorder: BorderSide(
-                              color: Colors.white, // Border color
-                              width: 0.5, // Thin border
-                            ),
-                            maxContentWidth: 500,
-                            tooltipRoundedRadius: 10,
+                            touchTooltipData: BarTouchTooltipData(
+                              // tooltipBgColor: Colors.black87,
+                              tooltipBorder: BorderSide(
+                                color: Colors.white, // Border color
+                                width: 0.5, // Thin border
+                              ),
+                              maxContentWidth: 500,
+                              tooltipRoundedRadius: 10,
 
-                            tooltipPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8), // Wider padding
-                            tooltipMargin: 12, // Adds extra margin for spacing
-                            fitInsideHorizontally: true,
-                            fitInsideVertically: true,
-                            getTooltipColor: (group)=> AppColors.darkBg2,
-                           // Background color for tooltip
-                              getTooltipItem: (group, groupIndex, rod, rodIndex) {
-                                if (groupIndex < 0 || groupIndex >= chartData.length) return null;
+                              tooltipPadding: const EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 8), // Wider padding
+                              tooltipMargin:
+                                  12, // Adds extra margin for spacing
+                              fitInsideHorizontally: true,
+                              fitInsideVertically: true,
+                              getTooltipColor: (group) => AppColors.darkBg2,
+                              // Background color for tooltip
+                              getTooltipItem:
+                                  (group, groupIndex, rod, rodIndex) {
+                                if (groupIndex < 0 ||
+                                    groupIndex >= chartData.length) return null;
 
                                 ChartData data = chartData[groupIndex];
 
                                 List<TextSpan> textSpans = [];
 
                                 data.values.forEach((label, value) {
+                                  double percentage =
+                                      data.percentages[label] ?? 0;
+
                                   Color color = getColorForLabel(label);
 
                                   textSpans.add(
                                     TextSpan(
                                       text: '$label: ',
-                                      style: TextStyle(fontSize: 12, color: Colors.white, fontWeight: FontWeight.bold),
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold),
                                     ),
                                   );
                                   textSpans.add(
                                     TextSpan(
                                       text: '\$${value.toStringAsFixed(2)}\n',
-                                      style: TextStyle(fontSize: 12, color: color, fontWeight: FontWeight.bold),
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          color: color,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  );
+                                  textSpans.add(
+                                    TextSpan(
+                                      text:
+                                          '(${percentage.toStringAsFixed(1)}%)\n',
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          color: Colors.grey[300],
+                                          fontWeight: FontWeight.bold),
                                     ),
                                   );
                                 });
@@ -271,17 +309,16 @@ class BarChartWidget extends StatelessWidget {
                                 return BarTooltipItem(
                                   textAlign: TextAlign.start,
                                   '', // Empty title
-                                  TextStyle(fontSize: 12, color: Colors.white, fontWeight: FontWeight.bold),
-                                  children: textSpans, // Show all values in a single tooltip
+                                  TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                  children:
+                                      textSpans, // Show all values in a single tooltip
                                 );
                               },
+                            )),
 
-                          )
-    ),
-
-
-
-                    
                         borderData: FlBorderData(show: false),
                         gridData: FlGridData(
                           show: true,
@@ -292,48 +329,50 @@ class BarChartWidget extends StatelessWidget {
                             return FlLine(
                               color: AppColors.lines,
                               strokeWidth: 1, // Thin but visible
-                              dashArray: null, // Ensures solid line (not dotted)
+                              dashArray:
+                                  null, // Ensures solid line (not dotted)
                             );
                           },
                         ),
-                        barGroups: List.generate(
-                          chartData.length,
-                              (index) {
-                            ChartData data = chartData[index]; // Get data for each range
-                            return BarChartGroupData(
-                              x: index,
-                              barRods: data.values.entries.map((entry) {
-                                String key = entry.key;
-                                double value = entry.value;
-                                double percentage = data.percentages[key] ?? 0; // Get percentage
+                        barGroups: chartData.asMap().entries.map((entry) {
+                          int index = entry.key;
+                          ChartData data = entry.value;
 
-                                return BarChartRodData(
-                                  toY: percentage, // Bar height
-                                  color: getColorForLabel(key), // Get color dynamically
-                                  width: 30, // Bar width
-                                  borderRadius: BorderRadius.circular(4),
-                                  // backDrawRodData: BackgroundBarChartRodData(
-                                  //   show: true,
-                                  //   toY: chartData.map((e) => e.values[key] ?? 0).reduce((a, b) => a > b ? a : b), // Set max height for background
-                                  //   color: Colors.grey.withValues(alpha: 0.2),
-                                  // ),
-                                  // // Add percentage label
-                                  // rodStackItems: [
-                                  //   BarChartRodStackItem(
-                                  //     0,
-                                  //     value,
-                                  //     getColorForLabel(key),
-                                  //     BorderSide(
-                                  //       color: Colors.black.withValues(alpha: 0.6),
-                                  //       width: 1,
-                                  //     ),
-                                  //   ),
-                                  // ],
-                                );
-                              }).toList(),
-                            );
-                          },
-                        ),
+                          List<MapEntry<String, double>> sortedEntries = data.percentages.entries.toList().reversed.toList();
+
+                          return BarChartGroupData(
+                            x: index,
+                            barsSpace: barSpace,
+                            barRods: List.generate(sortedEntries.length, (i) {
+                              final entry = sortedEntries[i];
+                              bool isBottomBar = (i == sortedEntries.length-1); // Bottom-most bar (Revenue)
+
+                              return BarChartRodData(
+                                backDrawRodData:( !isBottomBar && showBackDraw)// Apply background only to bottom-most bar
+                                    ? BackgroundBarChartRodData(
+                                  show: true,
+                                  toY: 100, // Full bar height for reference
+                                  color: Colors.grey.withValues(alpha: 0.1), // Subtle background
+                                )
+                                    : BackgroundBarChartRodData(show: false), // Disable for other bars
+                                toY: entry.value, // Ensures bars start from the x-axis
+                                color: getColorForLabel(entry.key),
+                                width: 30,
+                                borderRadius: isBottomBar
+                                    ? BorderRadius.only(
+                                  topLeft: Radius.circular(0),
+                                    topRight: Radius.circular(0),
+
+                              ):BorderRadius.only(
+                              topLeft: Radius.circular(barRadius),
+                              topRight: Radius.circular(barRadius),
+                              ), // Keep top bars flat for stacking
+                              );
+                            }),
+                          );
+                        }).toList(),
+
+
                         // groupsSpace: 50,
                         maxY: 100,
                       ),
@@ -344,16 +383,28 @@ class BarChartWidget extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 10),
+
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               for (int i = 0; i < chartData[0].values.keys.length; i++) ...[
                 Expanded(
                   child: LegendWidget(
-                    color: getColorForLabel(chartData[0].values.keys.elementAt(i)), // Get corresponding color
+                    color: getColorForLabel(chartData[0]
+                        .values
+                        .keys
+                        .elementAt(i)), // Get corresponding color
                     text: chartData[0].values.keys.elementAt(i), // Legend text
-                    amount: chartData.fold(0, (sum, data) => sum + (data.values[chartData[0].values.keys.elementAt(i)] ?? 0)), // Get total amount dynamically
-                    percentage: chartData[0].percentages[chartData[0].values.keys.elementAt(i)] ?? 0, // Use **direct percentage** from chartData[0]
+                    amount: chartData.fold(
+                        0,
+                        (sum, data) =>
+                            sum +
+                            (data.values[
+                                    chartData[0].values.keys.elementAt(i)] ??
+                                0)), // Get total amount dynamically
+                    percentage:
+                        totalPercentages[totalPercentages.keys.elementAt(i)] ??
+                            0, // Use **total percentage** from all data
                   ),
                 ),
 
@@ -363,7 +414,8 @@ class BarChartWidget extends StatelessWidget {
                     width: 1, // Divider thickness
                     height: 60, // Adjust height as needed
                     color: AppColors.lines, // Adjust color as needed
-                    margin: EdgeInsets.symmetric(horizontal: 10), // Space around divider
+                    margin: EdgeInsets.symmetric(
+                        horizontal: 10), // Space around divider
                   ),
               ],
             ],
@@ -406,19 +458,19 @@ class LegendWidget extends StatelessWidget {
         Text(
           text, // Revenue, Refund, Void
           style: getTextTheme().labelSmall?.copyWith(
-            fontSize: Responsive.fontSize(getCtx()!, 3),
-            color: AppColors.text,
-            fontWeight: FontHelper.semiBold,
-          ),
+                fontSize: Responsive.fontSize(getCtx()!, 3),
+                color: AppColors.text,
+                fontWeight: FontHelper.semiBold,
+              ),
         ),
         const SizedBox(height: 2),
         Text(
           '\$${amount.toStringAsFixed(2)} / ${percentage.toStringAsFixed(1)}%', // Example: $500 / 10%
           style: getTextTheme().labelSmall?.copyWith(
-            fontSize: Responsive.fontSize(getCtx()!, 3),
-            color: AppColors.text,
-            fontWeight: FontHelper.semiBold,
-          ),
+                fontSize: Responsive.fontSize(getCtx()!, 3),
+                color: AppColors.text,
+                fontWeight: FontHelper.semiBold,
+              ),
         ),
       ],
     );
