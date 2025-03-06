@@ -7,7 +7,7 @@ import 'package:phoenix/helper/utils.dart';
 
 import 'color_helper.dart'; // Update the import path as needed
 
-void showLogoutDialog(BuildContext context, VoidCallback onConfirm) {
+void showLogoutDialog(context, VoidCallback onConfirm) {
   showDialog(
     context: context,
     barrierDismissible: false,
@@ -113,6 +113,7 @@ class CustomToast {
         width: MediaQuery.of(context).size.width * 0.8,
         child: Material(
           color: Colors.transparent,
+          elevation: 10,
           child: Container(
             padding: EdgeInsets.symmetric(
                 horizontal: Responsive.boxW(context, 2),
@@ -121,7 +122,7 @@ class CustomToast {
               color: Color(0xFF141E2D),
               borderRadius: BorderRadius.circular(Responsive.boxW(context, 2)),
               border:
-                  Border.all(color: Color(0xFFA3AED0).withValues(alpha: 0.4)),
+                  Border.all(color: Colors.white.withValues(alpha: 0.4)),
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withValues(alpha: 0.2),

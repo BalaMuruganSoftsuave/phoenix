@@ -1,24 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:phoenix/Cubit/dashboard/dashboard_cubit.dart';
 import 'package:phoenix/generated/assets.dart';
 import 'package:phoenix/helper/color_helper.dart';
 import 'package:phoenix/helper/dialog_helper.dart';
 import 'package:phoenix/helper/responsive_helper.dart';
 import 'package:phoenix/helper/text_helper.dart';
+import 'package:phoenix/models/bar_chart_model.dart';
+import 'package:phoenix/models/line_chart_model.dart';
 import 'package:phoenix/screens/dashboard/transaction_data_widget.dart';
+import 'package:phoenix/widgets/charts/pieChart.dart';
+import 'package:phoenix/widgets/charts/refund_ratio_chart.dart';
+import 'package:phoenix/widgets/charts/sales_revenue_chart.dart';
 import 'package:phoenix/widgets/filter_by_day_widget.dart';
-import 'package:phoenix/widgets/glowing_card.dart';
 import 'package:phoenix/widgets/profile_menu_button.dart';
+import 'package:phoenix/widgets/storefilter/phoenix_dropDown_Screen.dart';
 
-import '../../models/bar_chart_model.dart';
-import '../../models/line_chart_model.dart';
-import '../../widgets/charts/pieChart.dart';
-import '../../widgets/charts/refund_ratio_chart.dart';
-import '../../widgets/charts/sales_revenue_chart.dart';
+
 
 class HomeScreen extends StatelessWidget {
-   HomeScreen({super.key});
-  var data={
+  HomeScreen({super.key});
+
+  var data = {
     "Result": [
       {
         "Range": "02/25 12AM",
@@ -180,7 +184,7 @@ class HomeScreen extends StatelessWidget {
               height: Responsive.boxH(context, 10),
               child: AppBar(
                 backgroundColor: AppColors.darkBg,
-                centerTitle: true,
+                centerTitle: false,
                 title: SvgPicture.asset(
                   Assets.imagesPhoenixLogo,
                   width: Responsive.boxW(context, 15),
@@ -191,21 +195,44 @@ class HomeScreen extends StatelessWidget {
                     userName: "John Doe",
                     onLogout: () {
                       showLogoutDialog(context, () {});
-                      print("User logged out");
+                      debugPrint("User logged out");
                       // Implement logout functionality here
                     },
                   )
                 ],
               ),
             ),
-            FilterComponent(
-              onSelectionChange: (key, {range}) {
-                print("Selected: $key, Range: ${range?.start} - ${range?.end}");
-              },
+            SizedBox(
+              height: 100,
+              child: Row(
+                children: [
+                  Expanded(
+                    flex: 4,
+                    child: FilterComponent(
+                      onSelectionChange: (key, {range}) {
+                        context.read<DashBoardCubit>().updateFilter(
+                            startDate: range?.start.toString(),
+                            endDate: range?.end.toString());
+                        debugPrint(
+                            "Selected: $key, Range: ${range?.start} - ${range?.end}");
+                      },
+                    ),
+                  ),
+                  Expanded(
+                      flex: 1,
+                      child: ClientStoreFilterWidget(
+                        onChanged: (clientIDs, storeIDs) {
+                          debugPrint(
+                              "Selected: $key, clientIDs: $clientIDs -storeIDs: $storeIDs");
+                        },
+                      ))
+                ],
+              ),
             ),
             Expanded(
               child: Padding(
-                padding:  EdgeInsets.symmetric(horizontal:Responsive.padding(context, 2)),
+                padding: EdgeInsets.symmetric(
+                    horizontal: Responsive.padding(context, 2)),
                 child: SingleChildScrollView(
                   // Allows entire screen to scroll
                   child: Column(
@@ -216,69 +243,34 @@ class HomeScreen extends StatelessWidget {
                       SizedBox(height: 30),
                       LifeTimeDataWidget(),
 
-                      // First ListView
 
                       SizedBox(height: 30),
                       // Second Container Inside Column
-                      Container(
-                        padding: EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          border:
-                              Border.all(color: Color(0x33A3AED0), width: 0.5),
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        child: Column(
-                          children: [
-                            Align(
-                              alignment: Alignment.topLeft,
-                              child: Text(
-                                "February 2024",
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 30),
-
-                      Container(
-                        padding: EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          border:
-                              Border.all(color: Color(0x33A3AED0), width: 0.5),
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        child: Column(
-                          children: [
-                            Align(
-                              alignment: Alignment.topLeft,
-                              child: Text(
-                                "February 2024",
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 20),
-
 
                       SizedBox(
                           height: 450,
-                          child: SalesRevenueChart(title:"Sales Revenue",areaMap: true,chartModel: chartModel)
-                      ),
+                          child: SalesRevenueChart(
+                              title: "Sales Revenue",
+                              areaMap: true,
+                              chartModel: chartModel)),
                       SizedBox(height: 20),
 
                       SizedBox(
                           height: 450,
-                          child: SalesRevenueChart(title:"Net Subscribers",areaMap: false,chartModel: chartModel)
-                      ) ,
+                          child: SalesRevenueChart(
+                              title: "Net Subscribers",
+                              areaMap: false,
+                              chartModel: chartModel)),
                       SizedBox(height: 20),
                       SizedBox(
                         height: 500,
-                        child: PieChartFilterWidget(title: "Coverage Health",),
+                        child: PieChartFilterWidget(
+                          title: "Coverage Health",
+                        ),
                       ),
-                      SizedBox(height: 20,),
+                      SizedBox(
+                        height: 20,
+                      ),
 
                       SizedBox(
                           height: 350,
@@ -300,7 +292,6 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
-
 
   String getSubtitle(int approvedOrders, double approvalPercentage) {
     return '$approvedOrders orders - ${approvalPercentage.toStringAsFixed(1)}% approval';

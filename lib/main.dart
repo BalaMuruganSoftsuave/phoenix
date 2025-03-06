@@ -8,10 +8,13 @@ import 'package:phoenix/helper/theme_helper.dart';
 import 'package:phoenix/helper/utils.dart';
 
 import 'Cubit/dashboard/dashboard_cubit.dart';
+import 'cubit/auth/auth_cubit.dart';
 import 'helper/nav_observer.dart';
+import 'helper/preference_helper.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await PreferenceHelper.init();
   await EasyLocalization.ensureInitialized();
   runApp(
     EasyLocalization(
@@ -32,12 +35,17 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
         providers: [
-          BlocProvider(create: (context) => DashBoardCubit()),
+          BlocProvider(
+            create: (context) => DashBoardCubit(),
+          ),
+          BlocProvider(
+            create: (context) => AuthCubit(),
+          ),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
           navigatorObservers: [NavObserver.instance],
-          initialRoute: dashboardScreen,
+          initialRoute: splashScreen,
           onGenerateRoute: generateRoute,
           title: 'Phoenix',
           theme: ThemeHelper.lightTheme(context),
@@ -49,7 +57,6 @@ class MyApp extends StatelessWidget {
             return GestureDetector(
               onTap: () {
                 if (Platform.isIOS) {
-                  print("object");
                   hideKeyboard(context);
                 }
               },

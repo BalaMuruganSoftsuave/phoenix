@@ -209,7 +209,7 @@ class PieChartFilterWidgetState extends State<PieChartFilterWidget> {
                         setState(() {
                           if (event is FlTapUpEvent || event is FlTapDownEvent) {
                             if (pieTouchResponse != null && pieTouchResponse.touchedSection != null) {
-                              touchedIndex = pieTouchResponse.touchedSection!.touchedSectionIndex;
+                              touchedIndex = pieTouchResponse.touchedSection?.touchedSectionIndex??0;
                               tooltipPosition = event.localPosition!; // Update tooltip position
                             } else {
                               touchedIndex = -1; // Reset if not touching any section

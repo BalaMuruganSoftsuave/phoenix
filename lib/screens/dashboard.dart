@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:phoenix/Cubit/dashboard/dashboard_cubit.dart';
 import 'package:phoenix/generated/assets.dart';
 import 'package:phoenix/helper/color_helper.dart';
+import 'package:phoenix/helper/dependency.dart';
 import 'package:phoenix/helper/dialog_helper.dart';
 import 'package:phoenix/helper/enum_helper.dart';
 import 'package:phoenix/helper/font_helper.dart';
@@ -37,7 +40,11 @@ class _DashboardState extends State<Dashboard> {
       style: optionStyle,
     ),
   ];
-
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

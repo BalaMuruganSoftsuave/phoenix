@@ -236,7 +236,7 @@ class _FilterComponentState extends State<FilterComponent> {
                         child: Container(
                             margin: EdgeInsets.symmetric(horizontal: 5),
                             padding: EdgeInsets.symmetric(
-                                vertical: selectedCustomRange == null?15:10, horizontal: 20),
+                                vertical: 10, horizontal: 20),
                             decoration: BoxDecoration(
                               color: isSelected
                                   ? Color(0xFFF90182)

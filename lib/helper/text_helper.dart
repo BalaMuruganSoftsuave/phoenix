@@ -16,4 +16,7 @@ class TextHelper{
   static const String subscribersSalvage= "SubscribersSalvage";
   static const String canceledSubscribers= "canceledSubscribers";
   static const String directSaleRefundRatio= "directSaleRefundRatio";
+  static const String userName= "userName";
+  static const String password= "password";
+  static const String loggedSuccessfully= "loggedSuccessfully";
 }

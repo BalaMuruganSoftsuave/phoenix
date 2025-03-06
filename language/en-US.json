@@ -16,5 +16,8 @@
   "activeSubscribers": "Active Subscribers",
   "SubscribersSalvage": "Subscribers in Salvage",
   "canceledSubscribers": "Canceled Subscribers",
-  "directSaleRefundRatio": "Direct Sale Refund Ratio"
+  "directSaleRefundRatio": "Direct Sale Refund Ratio",
+  "userName": "User Name",
+  "password": "Password",
+  "loggedSuccessfully": "Logged in Successfully"
 }
