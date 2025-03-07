@@ -1,9 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:phoenix/Cubit/dashboard/dashboard_cubit.dart';
 import 'package:phoenix/cubit/auth/auth_cubit.dart';
+import 'package:phoenix/models/dashboard/additional_models.dart';
 
+import '../cubit/dashboard/dashboard_cubit.dart';
 import 'nav_observer.dart';
 
 BuildContext? getCtx([BuildContext? context]) =>
@@ -15,7 +16,7 @@ AuthCubit? getAuthCubit([BuildContext? context]) =>
 DashBoardCubit? getDashBoardCubit([BuildContext? context]) =>
     getCtx(context)?.read<DashBoardCubit>();
 
-String getSubtitle(int approvedOrders, double approvalPercentage) {
+String getSubtitle(double approvedOrders, double approvalPercentage) {
   if (approvedOrders == 0) {
     return '-'; // Show "-" if ApprovedOrders is 0
   }
@@ -122,4 +123,39 @@ DateTime? _parseDate(dynamic date) {
     }
   }
   return null;
+}
+
+AdjustedDates adjustDates(String start, String end) {
+  DateTime startDate = DateTime.parse(start);
+  DateTime endDate = DateTime.parse(end);
+
+  // Calculate the first day of the month for the start date
+  DateTime adjustedStartDate = DateTime(startDate.year, startDate.month, 1);
+  // Calculate the last day of the month for the end date
+  DateTime adjustedEndDate = DateTime(endDate.year, endDate.month + 1, 0);
+  DateTime adjustedEndDateMonth = DateTime(endDate.year, endDate.month + 1, 0);
+
+  // Format the dates as "YYYY-MM-DD"
+  String formatDate(DateTime date) => DateFormat('yyyy-MM-dd').format(date);
+
+  // Get month and year as "MMM YY"
+  String startMonthName = DateFormat('MMM').format(adjustedStartDate);
+  String endMonthName = DateFormat('MMM').format(adjustedEndDateMonth);
+
+  int startYear = adjustedStartDate.year;
+  int endYear = adjustedEndDateMonth.year;
+
+  // Construct the month range
+  String monthRange = (startMonthName == endMonthName && startYear == endYear)
+      ? "$startMonthName $startYear"
+      : "$startMonthName $startYear - $endMonthName $endYear";
+  return AdjustedDates(
+      adjustedStartDate: formatDate(adjustedStartDate),
+      adjustedEndDate: formatDate(adjustedEndDate),
+      monthRange: monthRange);
+  // return {
+  //   'adjustedStartDate': formatDate(adjustedStartDate),
+  //   'adjustedEndDate': formatDate(adjustedEndDate),
+  //   'monthRange': monthRange,
+  // };
 }

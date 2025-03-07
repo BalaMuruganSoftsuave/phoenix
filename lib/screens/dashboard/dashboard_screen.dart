@@ -19,6 +19,8 @@ import 'package:phoenix/widgets/filter_by_day_widget.dart';
 import 'package:phoenix/widgets/profile_menu_button.dart';
 import 'package:phoenix/widgets/storefilter/phoenix_dropDown_Screen.dart';
 
+import 'charge_back_summary_widget.dart';
+
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
 
@@ -195,6 +197,7 @@ class HomeScreen extends StatelessWidget {
                               child: FilterComponent(
                                 onSelectionChange: (key, {range}) {
                                   context.read<DashBoardCubit>().updateFilter(
+                                      context,
                                       startDate: formatter.format(range!.start),
                                       endDate: formatter.format(range.end));
                                   debugPrint(
@@ -208,6 +211,7 @@ class HomeScreen extends StatelessWidget {
                                   state: state,
                                   onChanged: (clientIDs, storeIDs) {
                                     context.read<DashBoardCubit>().updateFilter(
+                                        context,
                                         clientList: clientIDs,
                                         storeList: storeIDs);
                                     debugPrint(
@@ -226,11 +230,15 @@ class HomeScreen extends StatelessWidget {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                DashBoardFirstDataWidget(),
-                                TransactionDataWidget(),
+                                DashBoardFirstDataWidget(state: state),
+                                TransactionDataWidget(
+                                  state: state,
+                                ),
                                 SizedBox(height: 30),
-                                LifeTimeDataWidget(),
-
+                                LifeTimeDataWidget(
+                                  state: state,
+                                ),
+                                ChargebackSummary(),
                                 SizedBox(height: 30),
                                 // Second Container Inside Column
 

@@ -22,6 +22,8 @@ class Assets {
   static const String customCalendarWidgetNumberPicker = 'lib/widgets/custom_calendar_widget/number_picker.dart';
   static const String customCalendarWidgetSingleDayWidget = 'lib/widgets/custom_calendar_widget/single_day_widget.dart';
   static const String customCalendarWidgetWeekRowWidget = 'lib/widgets/custom_calendar_widget/week_row_widget.dart';
+  static const String dashboardAdditionalModels = 'lib/models/dashboard/additional_models.dart';
+  static const String dashboardChargeBackSummaryWidget = 'lib/screens/dashboard/charge_back_summary_widget.dart';
   static const String dashboardChargebackSummaryModel = 'lib/models/dashboard/chargeback_summary_model.dart';
   static const String dashboardCoverageHealthDataModel = 'lib/models/dashboard/coverage_health_data_model.dart';
   static const String dashboardDashboardCubit = 'lib/cubit/dashboard/dashboard_cubit.dart';

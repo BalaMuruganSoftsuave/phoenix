@@ -1,6 +1,8 @@
 class ApiConstants {
   // Base URLs
-  static const String baseUrl = 'https://dev-api.phoenixcrm.io/portal/api/';
+  // static const String baseUrl = 'https://dev-api.phoenixcrm.io/portal/api/';
+  static const String baseUrl = 'https://api.phoenixcrm.io/portal/api/';
+
   static const String localUrl = 'https://915c-14-97-127-234.ngrok-free.app/portal/api/';
 
   // Authentication

@@ -5,6 +5,7 @@ import 'package:phoenix/cubit/auth/auth_cubit.dart';
 import 'package:phoenix/cubit/auth/auth_state.dart';
 import 'package:phoenix/generated/assets.dart';
 import 'package:phoenix/helper/color_helper.dart';
+import 'package:phoenix/helper/dependency.dart';
 import 'package:phoenix/helper/dialog_helper.dart';
 import 'package:phoenix/helper/enum_helper.dart';
 import 'package:phoenix/helper/nav_helper.dart';
@@ -105,7 +106,8 @@ final GlobalKey<FormState> _formKey= GlobalKey();
                             listener: (context, state) {
                               if (state.authState == ProcessState.success) {
                                 CustomToast.show(context: context, message: translate(TextHelper.loggedSuccessfully), status: ToastStatus.success);
-                                openScreen(dashboardScreen);
+                                getDashBoardCubit(context)?.getPermissionsData(context);
+                                openScreen(dashboardScreen,requiresAsInitial: true);
                               }
                             },
                             buildWhen: (oldState, newState) =>

@@ -107,7 +107,14 @@ class APIHelper {
         if (errors.isNotEmpty) {
           message = errors["message"];
         }
-      } else if (body != null && body.containsKey("error_description")) {
+      }else if (body != null && body.containsKey("message")) {
+        if( body["message"]!=null &&  body["error"]!=null){
+          message = body["error"];
+        }else{
+          message = body["message"];
+        }
+
+      }  else if (body != null && body.containsKey("error_description")) {
         message = body["error_description"];
       } else {
         message = body?.toString() ?? "error response body not found";

@@ -37,10 +37,18 @@ class Result {
 
   Result.fromJson(Map<String, dynamic> json) {
     label = json['Label'];
-    approvedOrders = double.parse(json['ApprovedOrders'].toString());
-    averageOrderValue = double.parse(json['AverageOrderValue'].toString());
-    approvalPercentage = double.parse(json['ApprovalPercentage'].toString());
-    abandonCartRatio = double.parse(json['AbandonCartRatio'].toString());
+    approvedOrders = json['ApprovedOrders'] != null
+        ? double.parse(json['ApprovedOrders'].toString())
+        : null;
+    averageOrderValue = json['AverageOrderValue'] != null
+        ? double.parse(json['AverageOrderValue'].toString())
+        : null;
+    approvalPercentage = json['ApprovalPercentage'] != null
+        ? double.parse(json['ApprovalPercentage'].toString())
+        : null;
+    abandonCartRatio = json['AbandonCartRatio'] != null
+        ? double.parse(json['AbandonCartRatio'].toString())
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -53,14 +61,16 @@ class Result {
     return data;
   }
 }
+
 class DashBoardSecondData {
-  DashBoardSecondData? result;
+  DashBoardSecondDataResult? result;
 
   DashBoardSecondData({this.result});
 
   DashBoardSecondData.fromJson(Map<String, dynamic> json) {
-    result =
-    json['Result'] != null ? DashBoardSecondData.fromJson(json['Result']) : null;
+    result = json['Result'] != null
+        ? DashBoardSecondDataResult.fromJson(json['Result'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -77,12 +87,16 @@ class DashBoardSecondDataResult {
   String? refundTotal;
   String? chargebackTotal;
 
-  DashBoardSecondDataResult({this.totalTransactions, this.refundTotal, this.chargebackTotal});
+  DashBoardSecondDataResult(
+      {this.totalTransactions, this.refundTotal, this.chargebackTotal});
 
   DashBoardSecondDataResult.fromJson(Map<String, dynamic> json) {
-    totalTransactions = '${json['TotalTransactions']}';
-    refundTotal = "${json['RefundTotal']}";
-    chargebackTotal = '${json['ChargebackTotal']}';
+    totalTransactions =
+        json['TotalTransactions'] != null ? '${json['TotalTransactions']}' : null;
+    refundTotal =
+        json['RefundTotal'] != null ? "${json['RefundTotal']}" : null;
+    chargebackTotal =
+        json['ChargebackTotal'] != null ? '${json['ChargebackTotal']}' : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -93,6 +107,7 @@ class DashBoardSecondDataResult {
     return data;
   }
 }
+
 class LifeTimeDataResponse {
   LifeTimeDataResult? result;
   String? currentTime;
@@ -100,8 +115,9 @@ class LifeTimeDataResponse {
   LifeTimeDataResponse({this.result, this.currentTime});
 
   LifeTimeDataResponse.fromJson(Map<String, dynamic> json) {
-    result =
-    json['Result'] != null ? LifeTimeDataResult.fromJson(json['Result']) : null;
+    result = json['Result'] != null
+        ? LifeTimeDataResult.fromJson(json['Result'])
+        : null;
     currentTime = json['CurrentTime'];
   }
 
@@ -123,9 +139,9 @@ class LifeTimeDataResult {
 
   LifeTimeDataResult(
       {this.totalSubscriptions,
-        this.cancelledSubscriptions,
-        this.activeSubscriptions,
-        this.subscriptionInSalvage});
+      this.cancelledSubscriptions,
+      this.activeSubscriptions,
+      this.subscriptionInSalvage});
 
   LifeTimeDataResult.fromJson(Map<String, dynamic> json) {
     totalSubscriptions = json['TotalSubscriptions'];

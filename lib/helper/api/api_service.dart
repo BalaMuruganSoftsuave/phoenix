@@ -33,9 +33,7 @@ class ApiService {
     }
   }
 
-  Future<LoginResponse?> getRefreshToken(
-    String token,
-  ) async {
+  Future<LoginResponse?> getRefreshToken(String token) async {
     try {
       final response = await _apiHelper.makeReq(
         ApiConstants.refreshToken,
@@ -50,10 +48,10 @@ class ApiService {
   }
 
   Future<PermissionResponse?> getPermissionsData() async {
-    var token= PreferenceHelper.getAccessToken();
+    var token = PreferenceHelper.getAccessToken();
     try {
       final response = await _apiHelper.makeReq(ApiConstants.getPermissions, {},
-          method: Method.get,token: token??"");
+          method: Method.get, token: token ?? "");
       return PermissionResponse.fromJson(response);
     } catch (e) {
       rethrow;
@@ -61,9 +59,12 @@ class ApiService {
   }
 
   Future<DashBoardOverViewResponse?> getDirectSaleData(body) async {
+    var token = PreferenceHelper.getAccessToken();
+
     try {
-      final response = await _apiHelper
-          .makeReq(ApiConstants.getDirectSale, body, method: Method.get);
+      final response = await _apiHelper.makeReq(
+          ApiConstants.getDirectSale, body,
+          method: Method.post, token: token ?? "");
       return DashBoardOverViewResponse.fromJson(response);
     } catch (e) {
       rethrow;
@@ -71,10 +72,12 @@ class ApiService {
   }
 
   Future<DashBoardOverViewResponse?> getInitialSubscriptionData(body) async {
+    var token = PreferenceHelper.getAccessToken();
+
     try {
       final response = await _apiHelper.makeReq(
           ApiConstants.getInitialSubscription, body,
-          method: Method.get);
+          method: Method.post, token: token ?? "");
       return DashBoardOverViewResponse.fromJson(response);
     } catch (e) {
       rethrow;
@@ -82,10 +85,12 @@ class ApiService {
   }
 
   Future<DashBoardOverViewResponse?> getSubscriptionSalvageData(body) async {
+    var token = PreferenceHelper.getAccessToken();
+
     try {
       final response = await _apiHelper.makeReq(
           ApiConstants.getSubscriptionSalvage, body,
-          method: Method.get);
+          method: Method.post, token: token ?? "");
       return DashBoardOverViewResponse.fromJson(response);
     } catch (e) {
       rethrow;
@@ -93,9 +98,12 @@ class ApiService {
   }
 
   Future<DashBoardOverViewResponse?> getSubscriptionBillData(body) async {
+    var token = PreferenceHelper.getAccessToken();
+
     try {
-      final response = await _apiHelper
-          .makeReq(ApiConstants.getSubscriptionBill, body, method: Method.get);
+      final response = await _apiHelper.makeReq(
+          ApiConstants.getSubscriptionBill, body,
+          method: Method.post, token: token ?? "");
       return DashBoardOverViewResponse.fromJson(response);
     } catch (e) {
       rethrow;
@@ -103,10 +111,12 @@ class ApiService {
   }
 
   Future<DashBoardOverViewResponse?> getRecurringData(body) async {
+    var token = PreferenceHelper.getAccessToken();
+
     try {
       final response = await _apiHelper.makeReq(
           ApiConstants.getRecurringSubscription, body,
-          method: Method.get);
+          method: Method.post, token: token ?? "");
       return DashBoardOverViewResponse.fromJson(response);
     } catch (e) {
       rethrow;
@@ -114,9 +124,11 @@ class ApiService {
   }
 
   Future<DashBoardOverViewResponse?> getUpsellData(body) async {
+    var token = PreferenceHelper.getAccessToken();
+
     try {
       final response = await _apiHelper.makeReq(ApiConstants.getUpsell, body,
-          method: Method.get);
+          method: Method.post, token: token ?? "");
       return DashBoardOverViewResponse.fromJson(response);
     } catch (e) {
       rethrow;
@@ -124,9 +136,12 @@ class ApiService {
   }
 
   Future<DashBoardSecondData?> getTotalTransactionsData(body) async {
+    var token = PreferenceHelper.getAccessToken();
+
     try {
-      final response = await _apiHelper
-          .makeReq(ApiConstants.getTotalTransactions, body, method: Method.get);
+      final response = await _apiHelper.makeReq(
+          ApiConstants.getTotalTransactions, body,
+          method: Method.post, token: token ?? "");
       return DashBoardSecondData.fromJson(response);
     } catch (e) {
       rethrow;
@@ -134,10 +149,12 @@ class ApiService {
   }
 
   Future<DashBoardSecondData?> getRefundTransactionsData(body) async {
+    var token = PreferenceHelper.getAccessToken();
+
     try {
       final response = await _apiHelper.makeReq(
           ApiConstants.getRefundTransactions, body,
-          method: Method.get);
+          method: Method.post, token: token ?? "");
       return DashBoardSecondData.fromJson(response);
     } catch (e) {
       rethrow;
@@ -145,10 +162,12 @@ class ApiService {
   }
 
   Future<DashBoardSecondData?> getChargebackTransactionsData(body) async {
+    var token = PreferenceHelper.getAccessToken();
+
     try {
       final response = await _apiHelper.makeReq(
           ApiConstants.getChargebackTransactions, body,
-          method: Method.get);
+          method: Method.post, token: token ?? "");
       return DashBoardSecondData.fromJson(response);
     } catch (e) {
       rethrow;
@@ -156,9 +175,11 @@ class ApiService {
   }
 
   Future<LifeTimeDataResponse?> getLifeTimeData(body) async {
+    var token = PreferenceHelper.getAccessToken();
+
     try {
       final response = await _apiHelper.makeReq(ApiConstants.getLifetime, body,
-          method: Method.get);
+          method: Method.post, token: token ?? "");
       return LifeTimeDataResponse.fromJson(response);
     } catch (e) {
       rethrow;
@@ -166,9 +187,12 @@ class ApiService {
   }
 
   Future<SalesRevenueDataResponse?> getSalesRevenueData(body) async {
+    var token = PreferenceHelper.getAccessToken();
+
     try {
-      final response = await _apiHelper
-          .makeReq(ApiConstants.getTotalSalesRevenue, body, method: Method.get);
+      final response = await _apiHelper.makeReq(
+          ApiConstants.getTotalSalesRevenue, body,
+          method: Method.post, token: token ?? "");
       return SalesRevenueDataResponse.fromJson(response);
     } catch (e) {
       rethrow;
@@ -176,9 +200,12 @@ class ApiService {
   }
 
   Future<NetSubscribersDataResponse?> getNetSubscriberData(body) async {
+    var token = PreferenceHelper.getAccessToken();
+
     try {
-      final response = await _apiHelper
-          .makeReq(ApiConstants.getNetSubscribers, body, method: Method.get);
+      final response = await _apiHelper.makeReq(
+          ApiConstants.getNetSubscribers, body,
+          method: Method.post, token: token ?? "");
       return NetSubscribersDataResponse.fromJson(response);
     } catch (e) {
       rethrow;
@@ -186,9 +213,12 @@ class ApiService {
   }
 
   Future<ChargeBackSummaryDataResponse?> getChargebackSummaryData(body) async {
+    var token = PreferenceHelper.getAccessToken();
+
     try {
-      final response = await _apiHelper
-          .makeReq(ApiConstants.getChargebackSummary, body, method: Method.get);
+      final response = await _apiHelper.makeReq(
+          ApiConstants.getChargebackSummary, body,
+          method: Method.post, token: token ?? "");
       return ChargeBackSummaryDataResponse.fromJson(response);
     } catch (e) {
       rethrow;
@@ -196,9 +226,12 @@ class ApiService {
   }
 
   Future<CoverageHealthDataResponse?> getCoverageHealthData(body) async {
+    var token = PreferenceHelper.getAccessToken();
+
     try {
-      final response = await _apiHelper
-          .makeReq(ApiConstants.getCoverageHealth, body, method: Method.get);
+      final response = await _apiHelper.makeReq(
+          ApiConstants.getCoverageHealth, body,
+          method: Method.post, token: token ?? "");
       return CoverageHealthDataResponse.fromJson(response);
     } catch (e) {
       rethrow;
@@ -206,9 +239,12 @@ class ApiService {
   }
 
   Future<RefundRatioDataResponse?> getRefundRatioData(body) async {
+    var token = PreferenceHelper.getAccessToken();
+
     try {
-      final response = await _apiHelper
-          .makeReq(ApiConstants.getRefundRatio, body, method: Method.get);
+      final response = await _apiHelper.makeReq(
+          ApiConstants.getRefundRatio, body,
+          method: Method.post, token: token ?? "");
       return RefundRatioDataResponse.fromJson(response);
     } catch (e) {
       rethrow;
