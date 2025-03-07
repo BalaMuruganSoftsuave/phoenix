@@ -40,6 +40,7 @@ class Assets {
   static const String helperDependency = 'lib/helper/dependency.dart';
   static const String helperDialogHelper = 'lib/helper/dialog_helper.dart';
   static const String helperEnumHelper = 'lib/helper/enum_helper.dart';
+  static const String helperFirebaseHelper = 'lib/helper/firebase_helper.dart';
   static const String helperFontHelper = 'lib/helper/font_helper.dart';
   static const String helperNavHelper = 'lib/helper/nav_helper.dart';
   static const String helperNavObserver = 'lib/helper/nav_observer.dart';
@@ -78,6 +79,7 @@ class Assets {
   static const String imagesTotalTransactions = 'assets/images/total_transactions.svg';
   static const String imagesUpsell = 'assets/images/upsell.svg';
   static const String languageEnUS = 'language/en-US.json';
+  static const String libFirebaseOptions = 'lib/firebase_options.dart';
   static const String libMain = 'lib/main.dart';
   static const String libSalesRevenue = 'lib/sales_revenue.json';
   static const String modelsBarChartModel = 'lib/models/bar_chart_model.dart';
@@ -85,6 +87,14 @@ class Assets {
   static const String modelsLineChartModel = 'lib/models/line_chart_model.dart';
   static const String modelsLoginResponseModel = 'lib/models/login_response_model.dart';
   static const String modelsPermissionModel = 'lib/models/permission_model.dart';
+  static const String notificationNotificationScreen = 'lib/screens/notification/notification_screen.dart';
+  static const String notificationNumberPicker = 'lib/screens/notification/number_picker.dart';
+  static const String notificationWidgetDayPickerWidget = 'lib/widgets/notification_widget/day_picker_widget.dart';
+  static const String notificationWidgetNotificationListWidget = 'lib/widgets/notification_widget/notification_list_widget.dart';
+  static const String notificationWidgetNotificationSettingsWidget = 'lib/widgets/notification_widget/notification_settings_widget.dart';
+  static const String notificationWidgetRadioButtonWidget = 'lib/widgets/notification_widget/radio_button_widget.dart';
+  static const String notificationWidgetSmallContainerWidget = 'lib/widgets/notification_widget/small_container_widget.dart';
+  static const String notificationWidgetTimePickerWidget = 'lib/widgets/notification_widget/time_picker_widget.dart';
   static const String renderingGap = 'lib/widgets/gap/rendering/gap.dart';
   static const String renderingSliverGap = 'lib/widgets/gap/rendering/sliver_gap.dart';
   static const String screensBottomNavBar = 'lib/screens/bottom_nav_bar.dart';

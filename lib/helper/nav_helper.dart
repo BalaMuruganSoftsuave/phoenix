@@ -46,10 +46,9 @@ Route<Object?>? getRoute(String? name,
     case splashScreen:
       return _customPageRoute(SplashScreen(), name: name!);
     case dashboardScreen:
-      return _customPageRoute( Dashboard(),name: name!);
+      return _customPageRoute( Dashboard(args),name: name!,);
     case salesRevenueDetails:
       return _customPageRoute(SalesRevenueDetails(args), name: salesRevenueDetails);
-      return _customPageRoute(Dashboard(), name: name!);
     case loginScreen:
       return _customPageRoute(LoginScreen(), name: name!);
   }

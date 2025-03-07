@@ -1,5 +1,10 @@
 import 'package:phoenix/helper/enum_helper.dart';
+import 'package:phoenix/models/dashboard/chargeback_summary_model.dart';
+import 'package:phoenix/models/dashboard/coverage_health_data_model.dart';
 import 'package:phoenix/models/dashboard/dashboard_overview_model.dart';
+import 'package:phoenix/models/dashboard/net_subscribers_model.dart';
+import 'package:phoenix/models/dashboard/refund_ratio_data_model.dart';
+import 'package:phoenix/models/dashboard/sales_revenue_data_model.dart';
 import 'package:phoenix/models/filter_payload_model.dart';
 import 'package:phoenix/models/permission_model.dart';
 
@@ -27,6 +32,16 @@ class DashboardState {
   ProcessState? chargeBacksReqState;
   LifeTimeDataResponse? lifeTimeData;
   ProcessState? lifeTimeReqState;
+  SalesRevenueDataResponse? totalSalesRevenueData;
+  ProcessState? totalSalesRevenueReqState;
+  NetSubscribersDataResponse? netSubscribersData;
+  ProcessState? netSubscribersReqState;
+  CoverageHealthDataResponse? coverageHealthDataData;
+  ProcessState? coverageHealthDataReqState;
+  ChargeBackSummaryDataResponse? chargeBackSummaryData;
+  ProcessState? chargeBackSummaryReqState;
+  RefundRatioDataResponse? refundRatioData;
+  ProcessState? refundRatioReqState;
 
   DashboardState({
     this.filterPayload,
@@ -52,6 +67,16 @@ class DashboardState {
     this.totalTransactionReqState = ProcessState.none,
     this.upsellData,
     this.upsellReqState = ProcessState.none,
+    this.totalSalesRevenueData,
+    this.totalSalesRevenueReqState = ProcessState.none,
+    this.netSubscribersData,
+    this.netSubscribersReqState = ProcessState.none,
+    this.chargeBackSummaryData,
+    this.chargeBackSummaryReqState = ProcessState.none,
+    this.coverageHealthDataData,
+    this.coverageHealthDataReqState = ProcessState.none,
+    this.refundRatioData,
+    this.refundRatioReqState = ProcessState.none,
   });
 
   DashboardState copyWith({
@@ -78,6 +103,16 @@ class DashboardState {
     ProcessState? chargeBacksReqState,
     LifeTimeDataResponse? lifeTimeData,
     ProcessState? lifeTimeReqState,
+    SalesRevenueDataResponse? totalSalesRevenueData,
+    ProcessState? totalSalesRevenueReqState,
+    NetSubscribersDataResponse? netSubscribersData,
+    ProcessState? netSubscribersReqState,
+    CoverageHealthDataResponse? coverageHealthDataData,
+    ProcessState? coverageHealthDataReqState,
+    ChargeBackSummaryDataResponse? chargeBackSummaryData,
+    ProcessState? chargeBackSummaryReqState,
+    RefundRatioDataResponse? refundRatioData,
+    ProcessState? refundRatioReqState,
   }) {
     return DashboardState(
       filterPayload: filterPayload ?? this.filterPayload,
@@ -109,8 +144,25 @@ class DashboardState {
       chargeBacksReqState: chargeBacksReqState ?? this.chargeBacksReqState,
       refundsData: refundsData ?? this.refundsData,
       refundsReqState: refundsReqState ?? this.refundsReqState,
-      lifeTimeData: lifeTimeData?? this.lifeTimeData,
-      lifeTimeReqState: lifeTimeReqState ?? this.lifeTimeReqState
+      lifeTimeData: lifeTimeData ?? this.lifeTimeData,
+      lifeTimeReqState: lifeTimeReqState ?? this.lifeTimeReqState,
+      totalSalesRevenueData:
+          totalSalesRevenueData ?? this.totalSalesRevenueData,
+      totalSalesRevenueReqState:
+          totalSalesRevenueReqState ?? this.totalSalesRevenueReqState,
+      netSubscribersData: netSubscribersData ?? this.netSubscribersData,
+      netSubscribersReqState:
+          netSubscribersReqState ?? this.totalSalesRevenueReqState,
+      chargeBackSummaryData:
+          chargeBackSummaryData ?? this.chargeBackSummaryData,
+      chargeBackSummaryReqState:
+          chargeBackSummaryReqState ?? this.chargeBackSummaryReqState,
+      coverageHealthDataData:
+          coverageHealthDataData ?? this.coverageHealthDataData,
+      coverageHealthDataReqState:
+          coverageHealthDataReqState ?? this.coverageHealthDataReqState,
+      refundRatioData: refundRatioData ?? this.refundRatioData,
+      refundRatioReqState: refundRatioReqState ?? this.refundRatioReqState,
     );
   }
 }

@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "441627515569",
+    "project_id": "phx-staging-442422",
+    "storage_bucket": "phx-staging-442422.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:441627515569:android:387bcc4ceb9162a10aa090",
+        "android_client_info": {
+          "package_name": "io.phoenixtechnologies.phoenix"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "441627515569-hodpjfshvbgar1n8acrnh4q4h72orhg2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAq0TFD1b2pGfjA49CJE4SiYTJXgZ1V9LE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "441627515569-hodpjfshvbgar1n8acrnh4q4h72orhg2.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "441627515569-t93g55d4dmkkc1udv8o6mc9r4on1v72u.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "io.phoenixtechnologies.phoenix"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

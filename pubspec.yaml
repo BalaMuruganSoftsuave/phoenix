@@ -44,6 +44,9 @@ dependencies:
   http:
 
   shared_preferences: ^2.5.2
+  firebase_core:
+  firebase_messaging:
+  flutter_local_notifications:
 
 
 dev_dependencies:
