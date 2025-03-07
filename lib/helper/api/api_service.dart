@@ -1,4 +1,5 @@
 import 'package:phoenix/helper/enum_helper.dart';
+import 'package:phoenix/helper/preference_helper.dart';
 import 'package:phoenix/models/dashboard/chargeback_summary_model.dart';
 import 'package:phoenix/models/dashboard/coverage_health_data_model.dart';
 import 'package:phoenix/models/dashboard/dashboard_overview_model.dart';
@@ -49,9 +50,10 @@ class ApiService {
   }
 
   Future<PermissionResponse?> getPermissionsData() async {
+    var token= PreferenceHelper.getAccessToken();
     try {
       final response = await _apiHelper.makeReq(ApiConstants.getPermissions, {},
-          method: Method.get);
+          method: Method.get,token: token??"");
       return PermissionResponse.fromJson(response);
     } catch (e) {
       rethrow;

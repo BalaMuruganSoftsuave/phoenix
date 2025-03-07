@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:phoenix/cubit/dashboard/dashboard_cubit.dart';
+import 'package:phoenix/cubit/dashboard/dashboard_state.dart';
+
 import 'package:phoenix/helper/color_helper.dart';
 import 'package:phoenix/helper/font_helper.dart';
 import 'package:phoenix/helper/utils.dart';
-import 'package:phoenix/widgets/storefilter/pheniox.dart';
+import 'package:phoenix/models/permission_model.dart';
+import 'package:phoenix/screens/dashboard.dart';
 
 import 'custom_multi_selection_dropdown.dart';
 
 class ClientStoreFilterWidget extends StatefulWidget {
+  final DashboardState state;
   final Function(List<int>, List<int>) onChanged;
 
-  const ClientStoreFilterWidget({super.key, required this.onChanged});
+  const ClientStoreFilterWidget({super.key, required this.onChanged, required this.state});
 
   @override
   _ClientStoreFilterWidgetState createState() =>
@@ -56,8 +62,8 @@ class _ClientStoreFilterWidgetState extends State<ClientStoreFilterWidget> {
                 height: screenHeight * 0.37,
                 child: StoreSelectionWidget(
                   onSubmit: handleSubmit,
-                  clientList: ClientsList.clientsList,
-                  storeList: StoresList.stores,
+                  clientList: widget.state.permissions?.clientsList??[],
+                  storeList: widget.state.permissions?.storesList??{},
                   onClose: _hideOverlay,
                 ),
               ),
@@ -109,7 +115,7 @@ class _ClientStoreFilterWidgetState extends State<ClientStoreFilterWidget> {
 class StoreSelectionWidget extends StatefulWidget {
   final Function(List<int>, List<int>) onSubmit;
   final List<ClientsList> clientList;
-  final Map<String, List<StoresList>> storeList;
+  final Map<String, List<StoreData>> storeList;
   final VoidCallback onClose;
 
   const StoreSelectionWidget(
@@ -128,7 +134,7 @@ class _StoreSelectionWidgetState extends State<StoreSelectionWidget> {
 
   List<int> selectedStoreID = [];
 
-  List<StoresList> storesList = [];
+  List<StoreData> storesList = [];
 
   @override
   Widget build(BuildContext context) {
@@ -163,7 +169,7 @@ class _StoreSelectionWidgetState extends State<StoreSelectionWidget> {
               MultiSelectionDropDown(
                 items: widget.clientList
                     .map((e) => CustomDropDownMenuItem(
-                        id: e.clientId, name: e.clientName))
+                        id: e.clientId!, name: e.clientName!))
                     .toList(),
                 onSelection: (selectedItems) {
                   selectedClientID.clear();
@@ -171,7 +177,7 @@ class _StoreSelectionWidgetState extends State<StoreSelectionWidget> {
                     selectedClientID.add(e.id);
                   }
                   setState(() {
-                    updateStoreList(selectedClientID);
+                    updateStoreList(selectedClientID,context);
                   });
                 },
                 hitText: 'Select Clients',
@@ -186,7 +192,7 @@ class _StoreSelectionWidgetState extends State<StoreSelectionWidget> {
                 key: ValueKey(storesList.length),
                 items: storesList
                     .map((i) => CustomDropDownMenuItem(
-                        id: i.storeId, name: i.storeName))
+                        id: i.storeId!, name: i.storeName!))
                     .toList(),
                 onSelection: (selectedItems) {
                   selectedStoreID.clear();
@@ -225,23 +231,24 @@ class _StoreSelectionWidgetState extends State<StoreSelectionWidget> {
     });
   }
 
-  updateStoreList(List<int> selectedClientID) {
+  updateStoreList(List<int> selectedClientID,BuildContext context) {
     storesList.clear();
     if (selectedClientID.any((item) => item == -1) && storesList.isEmpty) {
-      storesList.add(StoresList(storeId: -1, storeName: "Select All"));
+      storesList.add(StoreData(storeId: -1, storeName: "Select All"));
       widget.storeList.forEach((clientId, stores) {
         storesList.addAll(stores);
       });
     } else {
       if (!storesList
-              .contains(StoresList(storeId: -1, storeName: "Select All")) &&
+              .contains(StoreData(storeId: -1, storeName: "Select All")) &&
           selectedClientID.isNotEmpty) {
-        storesList.add(StoresList(storeId: -1, storeName: "Select All"));
+        storesList.add(StoreData(storeId: -1, storeName: "Select All"));
       }
+      var stores=context.read<DashBoardCubit>().state.permissions?.storesList;
       for (var item in selectedClientID) {
         final clientIdString = item.toString();
         if (widget.storeList.containsKey(clientIdString)) {
-          storesList.addAll(StoresList.stores[clientIdString]!);
+          storesList.addAll(stores?[clientIdString]??[]);
         }
       }
     }

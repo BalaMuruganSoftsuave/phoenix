@@ -76,6 +76,7 @@ class APIHelper {
     }
     dynamic decodedJson;
     String? decodeError;
+
     if (!isFile) {
       try {
         decodedJson = jsonDecode(response.body);
@@ -83,6 +84,8 @@ class APIHelper {
         decodeError = e.toString();
       }
     }
+    makeLog(text: "Response: ${response.body.toString()}");
+
     if (decodeError != null) {
       throw ApiFailure(response.statusCode, 'jsonDecode Error : $decodeError');
     } //TODO: remove after development (when response.statusCode == 302 is fixed)

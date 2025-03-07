@@ -7,6 +7,7 @@ import 'package:phoenix/helper/utils.dart';
 
 import '../helper/theme_helper.dart';
 import 'custom_calendar_widget/chart_date_filter_widget.dart';
+DateFormat formatter = DateFormat('yyyy-MM-dd');
 
 class FilterComponent extends StatefulWidget {
   final Function(String, {DateTimeRange? range})? onSelectionChange;
@@ -35,7 +36,6 @@ class _FilterComponentState extends State<FilterComponent> {
   DateTimeRange? selectedRange;
   DateTimeRange? selectedCustomRange;
 
-  DateFormat formatter = DateFormat('yyyy-MM-dd');
 
   void handleSelection(String key) {
     if (key == "custom") {

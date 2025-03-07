@@ -59,6 +59,7 @@ class _DashboardState extends State<Dashboard> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             GNav(
+              tabMargin: EdgeInsets.symmetric(horizontal: 10),
               gap: Responsive.boxW(context, 4),
               activeColor: AppColors.pink,
               iconSize: Responsive.padding(context, 8),

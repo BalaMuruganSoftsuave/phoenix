@@ -3,11 +3,11 @@ import 'dart:io';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:phoenix/cubit/dashboard/dashboard_cubit.dart';
 import 'package:phoenix/helper/nav_helper.dart';
 import 'package:phoenix/helper/theme_helper.dart';
 import 'package:phoenix/helper/utils.dart';
 
-import 'Cubit/dashboard/dashboard_cubit.dart';
 import 'cubit/auth/auth_cubit.dart';
 import 'helper/nav_observer.dart';
 import 'helper/preference_helper.dart';

@@ -79,15 +79,14 @@ void showLogoutDialog(context, VoidCallback onConfirm) {
   );
 }
 
+
+
 class CustomToast {
   static void show({
     required BuildContext context,
     required String message,
     required ToastStatus status,
   }) {
-    OverlayState? overlayState = Overlay.of(context);
-    OverlayEntry overlayEntry;
-
     Color bgColor;
     IconData icon;
 
@@ -106,56 +105,26 @@ class CustomToast {
         break;
     }
 
-    overlayEntry = OverlayEntry(
-      builder: (context) => Positioned(
-        bottom: Responsive.boxH(context, 10),
-        left: MediaQuery.of(context).size.width * 0.1,
-        width: MediaQuery.of(context).size.width * 0.8,
-        child: Material(
-          color: Colors.transparent,
-          elevation: 10,
-          child: Container(
-            padding: EdgeInsets.symmetric(
-                horizontal: Responsive.boxW(context, 2),
-                vertical: Responsive.boxH(context, 2)),
-            decoration: BoxDecoration(
-              color: Color(0xFF141E2D),
-              borderRadius: BorderRadius.circular(Responsive.boxW(context, 2)),
-              border:
-                  Border.all(color: Colors.white.withValues(alpha: 0.4)),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.2),
-                  blurRadius: 5,
-                  offset: Offset(0, 3),
-                ),
-              ],
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(icon,
-                    color: bgColor, size: Responsive.padding(context, 8)),
-                SizedBox(width: Responsive.boxW(context, 3)),
-                Expanded(
-                  child: Text(
-                    message,
-                    style: getTextTheme().bodyMedium?.copyWith(
-                        fontSize: Responsive.fontSize(context, 4),
-                        color: AppColors.white),
-                  ),
-                ),
-              ],
+    final snackBar = SnackBar(
+      content: Row(
+        children: [
+          Icon(icon, color: Colors.white),
+          SizedBox(width: 8),
+          Expanded(
+            child: Text(
+              message,
+              style: TextStyle(color: Colors.white),
             ),
           ),
-        ),
+        ],
       ),
+      backgroundColor: bgColor,
+      behavior: SnackBarBehavior.floating, // Makes it float above UI
+      margin: EdgeInsets.all(16), // Adds spacing around the snackbar
+      duration: Duration(seconds: 2),
     );
 
-    overlayState.insert(overlayEntry);
-
-    Future.delayed(Duration(seconds: 2), () {
-      overlayEntry.remove();
-    });
+    ScaffoldMessenger.of(context).clearSnackBars(); // Clears old toasts
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }

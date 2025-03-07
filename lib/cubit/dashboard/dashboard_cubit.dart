@@ -6,6 +6,7 @@ import 'package:phoenix/helper/dependency.dart';
 import 'package:phoenix/helper/dialog_helper.dart';
 import 'package:phoenix/helper/enum_helper.dart';
 import 'package:phoenix/models/filter_payload_model.dart';
+import 'package:phoenix/widgets/filter_by_day_widget.dart';
 
 import 'dashboard_state.dart';
 
@@ -36,11 +37,40 @@ class DashBoardCubit extends Cubit<DashboardState> {
   }
 
   void getPermissionsData(BuildContext context) async {
+    List<int> clientIDs = [];
+    List<int> storeIds = [];
+
     try {
       emit(state.copyWith(permissionReqState: ProcessState.loading));
 
       final res = await _apiService.getPermissionsData();
+
       _tokenRefreshAttempts = 0; // Reset counter on success
+      // Collect all client IDs
+      if (res?.clientsList != null) {
+        clientIDs = res!.clientsList!
+            .where((e) => e.clientId != null)
+            .map((e) => e.clientId!)
+            .toList();
+      }
+
+      // Collect store IDs only for matching client IDs
+      if (res?.storesList != null) {
+        res!.storesList!.forEach((clientId, stores) {
+          if (clientIDs.contains(int.tryParse(clientId))) {
+            storeIds.addAll(
+              stores
+                  .where((store) => store.storeId != null)
+                  .map((store) => store.storeId!),
+            );
+          }
+        });
+      }
+      updateFilter(
+          startDate: formatter.format(DateTime.now()),
+          endDate: formatter.format(DateTime.now()),
+          clientList: clientIDs,
+          storeList: storeIds);
 
       emit(state.copyWith(
           permissionReqState: ProcessState.success, permissions: res));
@@ -51,8 +81,10 @@ class DashBoardCubit extends Cubit<DashboardState> {
               context: context,
               message: "Session Expired",
               status: ToastStatus.failure);
-          emit(state.copyWith(permissionReqState: ProcessState.failure));          return;
+          emit(state.copyWith(permissionReqState: ProcessState.failure));
+          return;
         }
+        _tokenRefreshAttempts++;
         final isTokenRefreshed =
             await getAuthCubit(context)?.refreshToken(context) ?? false;
 
@@ -74,6 +106,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
         emit(state.copyWith(permissionReqState: ProcessState.failure));
       }
     } catch (e) {
+      debugLog("permission api:  ${e.toString()}");
       CustomToast.show(
           context: context, message: e.toString(), status: ToastStatus.failure);
       emit(state.copyWith(permissionReqState: ProcessState.failure));
