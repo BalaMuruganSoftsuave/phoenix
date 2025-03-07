@@ -13,6 +13,9 @@ class GlowingCard extends StatelessWidget {
   final Color circleBgColor;
   final bool isLoading;
   final VoidCallback? onPress;
+  final bool isGlowing;
+  final double? imageHeight;
+  final double? imageWidth;
 
   const GlowingCard({
     super.key,
@@ -21,7 +24,7 @@ class GlowingCard extends StatelessWidget {
     required this.subtitle,
     required this.circleBgColor,
     this.isLoading = false,
-    this.onPress,
+    this.onPress, required this.isGlowing, this.imageHeight, this.imageWidth,
   });
 
   @override
@@ -38,11 +41,11 @@ class GlowingCard extends StatelessWidget {
           color: const Color(0xFF141E2D), // Background color
           borderRadius: BorderRadius.circular(Responsive.padding(context, 7)),
           boxShadow: [
-            BoxShadow(
+           BoxShadow(
               color: Colors.black.withValues(alpha: 0.2),
               blurRadius: 10,
               offset: const Offset(0, 2),
-            ),
+            )
           ],
         ),
         child: Row(
@@ -54,19 +57,19 @@ class GlowingCard extends StatelessWidget {
               decoration: BoxDecoration(
                 color: circleBgColor,
                 shape: BoxShape.circle,
-                boxShadow: [
+                boxShadow: isGlowing? [
                   BoxShadow(
                     color: circleBgColor.withValues(alpha: 0.8),
                     blurRadius: 15,
                     offset: const Offset(2, 2),
                   ),
-                ],
+                ]: [],
               ),
               child: Center(
                 child: SvgPicture.asset(
                   svgAsset,
-                  width: Responsive.boxW(context, 8),
-                  height: Responsive.boxW(context, 8),
+                  width: Responsive.boxW(context, imageWidth??7),
+                  height: Responsive.boxW(context, imageHeight??7),
                 ),
               ),
             ),

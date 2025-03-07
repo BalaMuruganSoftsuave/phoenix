@@ -1,6 +1,9 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import 'package:phoenix/generated/assets.dart';
 import 'package:phoenix/helper/dependency.dart';
+import 'package:phoenix/helper/nav_helper.dart';
 import 'package:phoenix/helper/responsive_helper.dart';
 import 'package:phoenix/helper/text_helper.dart';
 import 'package:phoenix/helper/utils.dart';
@@ -15,12 +18,16 @@ class DashBoardFirstDataWidget extends StatelessWidget {
       CardData(
         circleBgColor: Color(0xFFF90182),
         title: 'Direct Sale',
-        subtitle: "hghh",
+        subtitle: "hg2hh",
         // subtitle: getSubtitle(directSale['ApprovedOrders'] ?? 0, directSale['ApprovalPercentage'] ?? 0),
         image: Assets.imagesDirectSale,
         // Replace with actual image
         isLoading: false,
-        onPress: () {},
+        onPress: () {
+          openScreen(salesRevenueDetails, args: LinkedHashMap.from({
+            "isDirectSale": true, "image": Assets.imagesDirectSale, "title": "Direct Sale", "color":Color(0xFFF90182)
+          }));
+        },
       ),
       CardData(
           circleBgColor: Color(0xFFC237F3),
@@ -29,7 +36,12 @@ class DashBoardFirstDataWidget extends StatelessWidget {
           // subtitle: getSubtitle(initialSubscription['ApprovedOrders'] ?? 0, initialSubscription['ApprovalPercentage'] ?? 0),
           image: Assets.imagesInitialSubscription,
           isLoading: false,
-          onPress: () {}),
+          onPress: () {
+            openScreen(salesRevenueDetails, args: LinkedHashMap.from({
+              "isDirectSale": false, "image": Assets.imagesInitialSubscription, "title": "Initial Subscription", "color":Color(0xFFC237F3)
+            }));
+          }
+          ),
       CardData(
         circleBgColor: Color(0xFF05CD99),
         title: 'Recurring Subscription',
@@ -37,7 +49,11 @@ class DashBoardFirstDataWidget extends StatelessWidget {
         // subtitle: getSubtitle(recurringSubscription['ApprovedOrders'] ?? 0, recurringSubscription['ApprovalPercentage'] ?? 0),
         image: Assets.imagesRecurringSubscription,
         isLoading: false,
-        onPress: () {},
+          onPress: () {
+            openScreen(salesRevenueDetails, args: LinkedHashMap.from({
+              "isDirectSale": false, "image": Assets.imagesRecurringSubscription, "title": "Recurring Subscription", "color":Color(0xFF05CD99)
+            }));
+          }
       ),
       CardData(
         circleBgColor: Color(0xFF6AD2FF),
@@ -46,7 +62,11 @@ class DashBoardFirstDataWidget extends StatelessWidget {
         // subtitle: getSubtitle(subscriptionSalvage['ApprovedOrders'] ?? 0, subscriptionSalvage['ApprovalPercentage'] ?? 0),
         image: Assets.imagesSubscriptionSalvage,
         isLoading: false,
-        onPress: () {},
+          onPress: () {
+            openScreen(salesRevenueDetails, args: LinkedHashMap.from({
+              "isDirectSale": false, "image": Assets.imagesSubscriptionSalvage, "title": "Subscription Salvage", "color":Color(0xFF6AD2FF)
+            }));
+          }
       ),
       CardData(
         circleBgColor: Color(0xFFF36337),

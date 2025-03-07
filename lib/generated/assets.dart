@@ -31,6 +31,7 @@ class Assets {
   static const String dashboardNetSubscribersModel = 'lib/models/dashboard/net_subscribers_model.dart';
   static const String dashboardRefundRatioDataModel = 'lib/models/dashboard/refund_ratio_data_model.dart';
   static const String dashboardSalesRevenueDataModel = 'lib/models/dashboard/sales_revenue_data_model.dart';
+  static const String dashboardSalesRevenueDetails = 'lib/screens/dashboard/sales_revenue_details.dart';
   static const String dashboardTransactionDataWidget = 'lib/screens/dashboard/transaction_data_widget.dart';
   static const String generatedAssets = 'lib/generated/assets.dart';
   static const String helperColorHelper = 'lib/helper/color_helper.dart';
@@ -82,6 +83,8 @@ class Assets {
   static const String modelsLineChartModel = 'lib/models/line_chart_model.dart';
   static const String modelsLoginResponseModel = 'lib/models/login_response_model.dart';
   static const String modelsPermissionModel = 'lib/models/permission_model.dart';
+  static const String renderingGap = 'lib/widgets/gap/rendering/gap.dart';
+  static const String renderingSliverGap = 'lib/widgets/gap/rendering/sliver_gap.dart';
   static const String screensBottomNavBar = 'lib/screens/bottom_nav_bar.dart';
   static const String screensDashboard = 'lib/screens/dashboard.dart';
   static const String screensDashboardScreen = 'lib/screens/dashboard_screen.dart';
@@ -92,12 +95,14 @@ class Assets {
   static const String storefilterPhoenixDropDownScreen = 'lib/widgets/storefilter/phoenix_dropDown_Screen.dart';
   static const String widgetsCardDataWidget = 'lib/widgets/card_data_widget.dart';
   static const String widgetsFilterByDayWidget = 'lib/widgets/filter_by_day_widget.dart';
+  static const String widgetsGap = 'lib/widgets/gap/widgets/gap.dart';
   static const String widgetsGlowingCard = 'lib/widgets/glowing_card.dart';
   static const String widgetsGradientButton = 'lib/widgets/gradient_button.dart';
   static const String widgetsLegendWidget = 'lib/widgets/legend_widget.dart';
   static const String widgetsProfileMenuButton = 'lib/widgets/profile_menu_button.dart';
   static const String widgetsShimmer = 'lib/widgets/shimmer.dart';
   static const String widgetsShimmerWidget = 'lib/widgets/shimmer_widget.dart';
+  static const String widgetsSliverGap = 'lib/widgets/gap/widgets/sliver_gap.dart';
   static const String widgetsTextFieldWidget = 'lib/widgets/text_field_widget.dart';
 
 }

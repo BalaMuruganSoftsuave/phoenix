@@ -19,5 +19,6 @@
   "directSaleRefundRatio": "Direct Sale Refund Ratio",
   "userName": "User Name",
   "password": "Password",
-  "loggedSuccessfully": "Logged in Successfully"
+  "loggedSuccessfully": "Logged in Successfully",
+  "uniqueApprovalRatio": "Unique Approval Ratio"
 }

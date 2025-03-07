@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'calender_widget_modal.dart';
 import 'single_day_widget.dart';
 

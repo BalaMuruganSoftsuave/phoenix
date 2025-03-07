@@ -19,4 +19,5 @@ class TextHelper{
   static const String userName= "userName";
   static const String password= "password";
   static const String loggedSuccessfully= "loggedSuccessfully";
+  static const String uniqueApprovalRatio= "uniqueApprovalRatio";
 }

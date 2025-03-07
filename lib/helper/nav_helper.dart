@@ -4,36 +4,39 @@ import 'package:flutter/cupertino.dart';
 import 'package:phoenix/screens/dashboard.dart';
 import 'package:phoenix/screens/login_screen.dart';
 import 'package:phoenix/screens/splashscreen.dart';
+import 'package:phoenix/screens/dashboard/dashboard_screen.dart';
+import 'package:phoenix/screens/dashboard/sales_revenue_details.dart';
 
 import 'dependency.dart';
 import 'nav_observer.dart';
 
-const String dashboardScreen = '/dashboardScreen';
+const String dashboardScreen='/dashboardScreen';
+const String salesRevenueDetails='/salesRevenueDetails';
 const String loginScreen = '/loginScreen';
 const String splashScreen = '/splashScreen';
 
-Route<Object?> _customPageRoute(Widget page, {required String name}) {
+Route<Object?> _customPageRoute(Widget page, {required String name}){
   return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) => page,
-      settings: RouteSettings(name: name),
-      transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        const begin = Offset(1.0, 0.0); // Slide in from right
-        const end = Offset.zero;
-        const curve = Curves.easeInOut;
+      pageBuilder: (context,animation, secondaryAnimation) => page,
+    settings:  RouteSettings(name:name),
+    transitionsBuilder: (context,animation, secondaryAnimation, child){
+      const begin = Offset(1.0, 0.0); // Slide in from right
+      const end = Offset.zero;
+      const curve = Curves.easeInOut;
 
-        var tween =
-            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-        var offsetAnimation = animation.drive(tween);
+      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+      var offsetAnimation = animation.drive(tween);
 
-        return SlideTransition(
-          position: offsetAnimation,
-          child: child,
-        );
-      },
-      transitionDuration: const Duration(milliseconds: 300));
+      return SlideTransition(
+        position: offsetAnimation,
+        child: child,
+      );
+    },
+    transitionDuration: const Duration(milliseconds: 300)
+  );
 }
 
-Route<Object?>? generateRoute(RouteSettings settings) {
+Route<Object?>? generateRoute(RouteSettings settings){
   return getRoute(settings.name);
 }
 
@@ -43,19 +46,21 @@ Route<Object?>? getRoute(String? name,
     case splashScreen:
       return _customPageRoute(SplashScreen(), name: name!);
     case dashboardScreen:
+      return _customPageRoute( Dashboard(),name: name!);
+    case salesRevenueDetails:
+      return _customPageRoute(SalesRevenueDetails(args), name: salesRevenueDetails);
       return _customPageRoute(Dashboard(), name: name!);
     case loginScreen:
       return _customPageRoute(LoginScreen(), name: name!);
   }
   return null;
 }
-
 openScreen(String routeName,
     {bool forceNew = false,
-    bool requiresAsInitial = false,
-    LinkedHashMap? args,
-    Function? result,
-    BuildContext? ctx}) async {
+      bool requiresAsInitial = false,
+      LinkedHashMap? args,
+      Function? result,
+      BuildContext? ctx}) async {
   final route = getRoute(routeName, args: args, result: result);
   final context = ctx ?? NavObserver.navKey.currentContext;
   if (route != null && context != null) {
@@ -81,8 +86,8 @@ openScreen(String routeName,
   }
 }
 
-void back([LinkedHashMap? args]) {
-  if (NavObserver.navKey.currentContext != null) {
-    Navigator.pop(NavObserver.navKey.currentContext!, args);
+void back([LinkedHashMap? args]){
+  if(NavObserver.navKey.currentContext !=null){
+    Navigator.pop(NavObserver.navKey.currentContext!,args);
   }
 }

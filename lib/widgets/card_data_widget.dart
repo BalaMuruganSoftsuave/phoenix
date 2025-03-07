@@ -12,6 +12,9 @@ class CardData {
   final String image;
   final bool isLoading;
   final VoidCallback? onPress;
+  final bool? isGlowing;
+  final double? imageHeight;
+  final double? imageWidth;
 
   CardData({
     required this.circleBgColor,
@@ -20,6 +23,9 @@ class CardData {
     required this.image,
     required this.isLoading,
     this.onPress,
+    this.imageHeight,
+    this.imageWidth,
+    this.isGlowing = true
   });
 }
 
@@ -61,6 +67,9 @@ class RenderSection extends StatelessWidget {
                     svgAsset: card.image,
                     isLoading: card.isLoading,
                     onPress: card.onPress,
+                    imageHeight: card.imageHeight,
+                    imageWidth: card.imageWidth,
+                    isGlowing: card.isGlowing!
                   ),
                   const SizedBox(height: 8),
                 ],

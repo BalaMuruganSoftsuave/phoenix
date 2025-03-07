@@ -130,11 +130,11 @@ class SalesRevenueChart extends StatelessWidget {
     };
 
     for (var entry in chartModel.salesData) {
-      totals["Direct Sale"] = (totals["Direct Sale"] ?? 0) + entry.directSale;
-      totals["Upsell Sale"] = (totals["Upsell Sale"] ?? 0) + entry.upsellSale;
-      totals["Initial Sale"] = (totals["Initial Sale"] ?? 0) + entry.initialSale;
-      totals["Recurring Sale"] = (totals["Recurring Sale"] ?? 0) + entry.recurringSale;
-      totals["Salvage Sale"] = (totals["Salvage Sale"] ?? 0) + entry.salvageSale;
+      totals["Direct Sale"] = (totals["Direct Sale"] ?? 0) + (entry.directSale??0);
+      totals["Upsell Sale"] = (totals["Upsell Sale"] ?? 0) + (entry.upsellSale??0);
+      totals["Initial Sale"] = (totals["Initial Sale"] ?? 0) + (entry.initialSale??0);
+      totals["Recurring Sale"] = (totals["Recurring Sale"] ?? 0) + (entry.recurringSale??0);
+      totals["Salvage Sale"] = (totals["Salvage Sale"] ?? 0) + (entry.salvageSale??0);
     }
 
     return totals;
