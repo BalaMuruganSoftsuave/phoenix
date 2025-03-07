@@ -20,4 +20,12 @@ class TextHelper{
   static const String password= "password";
   static const String loggedSuccessfully= "loggedSuccessfully";
   static const String uniqueApprovalRatio= "uniqueApprovalRatio";
+  static const String selectTheTime="Select the Time";
+  static const String selectTheDay="Select the Day";
+  static const String save="Save";
+  static const String notificationSchedule="Notification Schedule";
+  static const String notification="Notification";
+  static const String subscriptionCount="Subscription Count";
+  static const String subscriptionAmount="Subscription Amount";
+
 }

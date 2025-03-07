@@ -20,5 +20,12 @@
   "userName": "User Name",
   "password": "Password",
   "loggedSuccessfully": "Logged in Successfully",
-  "uniqueApprovalRatio": "Unique Approval Ratio"
+  "uniqueApprovalRatio": "Unique Approval Ratio",
+  "selectTheTime": "Select the Time",
+  "selectTheDay": "Select the Day",
+  "save": "Save",
+  "notificationSchedule": "Notification Schedule",
+  "notification": "Notification",
+  "subscriptionCount":"Subscription Count",
+  "subscriptionAmount":"Subscription Amount"
 }

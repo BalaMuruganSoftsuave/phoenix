@@ -62,6 +62,30 @@ double percentage(
       : double.parse(result.toStringAsFixed(toFixed));
 }
 
+class IdValueItem {
+  String? id;
+  String? name;
+
+  IdValueItem({this.name, this.id});
+}
+
+List<IdValueItem> weekDays = [
+  IdValueItem(id: "Sunday", name: "Sun"),
+  IdValueItem(id: "Monday", name: "Mon"),
+  IdValueItem(id: "Tuesday", name: "Tue"),
+  IdValueItem(id: "Wednesday", name: "Wed"),
+  IdValueItem(id: "Thursday", name: "Thu"),
+  IdValueItem(id: "Friday", name: "Fri"),
+  IdValueItem(id: "Saturday", name: "Sat"),
+];
+
+List<IdValueItem> notificationConfigurationItem = [
+  IdValueItem(id: "0", name: "Hourly"),
+  IdValueItem(id: "1", name: "Daily"),
+  IdValueItem(id: "2", name: "Weekly"),
+];
+
+
 String getGroupBy(dynamic start, dynamic end) {
   // Ensure inputs are valid DateTime objects
   DateTime? startDate = _parseDate(start);

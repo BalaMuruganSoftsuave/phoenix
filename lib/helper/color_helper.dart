@@ -20,5 +20,10 @@ class AppColors {
   static const Color seaBlue = Color(0xFF6AD2FF);
   static const Color red = Color(0xFFE84040);
   static const Color lines = Color(0x33A3AED0);
+
   static const Color textEnabledBorder = Color(0x33aed033);
+
+  static const Color schedule = Color(0x40A3AED0);
+
+
 }

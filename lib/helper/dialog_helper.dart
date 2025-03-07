@@ -5,7 +5,7 @@ import 'package:phoenix/helper/responsive_helper.dart';
 import 'package:phoenix/helper/text_helper.dart';
 import 'package:phoenix/helper/utils.dart';
 
-import 'color_helper.dart'; // Update the import path as needed
+import 'color_helper.dart';
 
 void showLogoutDialog(context, VoidCallback onConfirm) {
   showDialog(
@@ -128,3 +128,4 @@ class CustomToast {
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }
+

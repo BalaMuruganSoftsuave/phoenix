@@ -11,6 +11,7 @@ import 'package:phoenix/helper/font_helper.dart';
 import 'package:phoenix/helper/responsive_helper.dart';
 import 'package:phoenix/helper/utils.dart';
 import 'package:phoenix/screens/dashboard/dashboard_screen.dart';
+import 'package:phoenix/screens/notification/notification_screen.dart';
 import 'package:phoenix/widgets/bottom_navigation_widget/gbutton.dart';
 import 'package:phoenix/widgets/bottom_navigation_widget/gnav.dart';
 
@@ -25,20 +26,21 @@ class _DashboardState extends State<Dashboard> {
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.w600);
-  static List<Widget> _widgetOptions = <Widget>[
+  static final List<Widget> _widgetOptions = <Widget>[
     HomeScreen(),
-    const Text(
-      'Likes',
-      style: optionStyle,
-    ),
-    const Text(
-      'Search',
-      style: optionStyle,
-    ),
-    const Text(
-      'Profile',
-      style: optionStyle,
-    ),
+    NotificationScreen(),
+    // const Text(
+    //   'Notification',
+    //   style: optionStyle,
+    // ),
+    // const Text(
+    //   'Search',
+    //   style: optionStyle,
+    // ),
+    // const Text(
+    //   'Profile',
+    //   style: optionStyle,
+    // ),
   ];
 @override
   void initState() {
@@ -90,7 +92,7 @@ class _DashboardState extends State<Dashboard> {
                         ? ColorFilter.mode(AppColors.pink, BlendMode.srcIn)
                         : null,
                   ),
-                  text: 'Likes',
+                  text: 'Notification',
                 ),
               ],
               selectedIndex: _selectedIndex,
