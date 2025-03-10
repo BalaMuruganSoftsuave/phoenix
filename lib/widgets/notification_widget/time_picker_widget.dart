@@ -33,14 +33,6 @@ class _TimePickerWidgetState extends State<TimePickerWidget> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
-              decoration: BoxDecoration(
-                border: Border(
-                  top: BorderSide(color: AppColors.lines),
-                  bottom: BorderSide(color: AppColors.lines),
-                ),
-              ),
-            ),
             Expanded(
               child: NumberPicker(
                 value: _selectedTime.hour == 0 ? 24 : _selectedTime.hour,
