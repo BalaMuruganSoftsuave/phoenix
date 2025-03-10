@@ -740,7 +740,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
             await getAuthCubit(context)?.refreshToken(context) ?? false;
 
         if (isTokenRefreshed) {
-          return getLifeTimeData(context); // Retry fetching data after refresh
+          return getNetSubscribersData(context); // Retry fetching data after refresh
         } else {
           CustomToast.show(
               context: context,
