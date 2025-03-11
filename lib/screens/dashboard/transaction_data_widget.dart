@@ -29,6 +29,7 @@ class DashBoardFirstDataWidget extends StatelessWidget {
         image: Assets.imagesDirectSale,
         isLoading: state.directSaleReqState == ProcessState.loading,
         onPress: () {
+
           openScreen(salesRevenueDetails,
               args: LinkedHashMap.from({
                 "isDirectSale": true,

@@ -3,6 +3,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:phoenix/helper/nav_observer.dart';
 
+import 'dependency.dart';
+
 ///hide keyboard in iOS
 void hideKeyboard(BuildContext buildContext) {
   FocusScopeNode currentFocus = FocusScope.of(buildContext);
@@ -11,9 +13,9 @@ void hideKeyboard(BuildContext buildContext) {
   }
 }
 
-///get current context
-BuildContext? getCtx([BuildContext? context]) =>
-    NavObserver.navKey.currentContext ?? context;
+// ///get current context
+// BuildContext? getCtx([BuildContext? context]) =>
+//     NavObserver.navKey.currentContext ?? context;
 
 ///get text theme from material
 TextTheme getTextTheme() => Theme.of(getCtx()!).textTheme;

@@ -63,6 +63,7 @@ class Assets {
   static const String imagesHome = 'assets/images/home.svg';
   static const String imagesInitialSubscription = 'assets/images/initial_subscription.svg';
   static const String imagesNotification = 'assets/images/Notification.svg';
+  static const String imagesPhoenixBird = 'assets/images/phoenix_bird.svg';
   static const String imagesPhoenixLogo = 'assets/images/phoenix_logo.svg';
   static const String imagesRecurringSubscription = 'assets/images/recurring_subscription.svg';
   static const String imagesRefundRatio = 'assets/images/refund_ratio.svg';
@@ -87,13 +88,18 @@ class Assets {
   static const String modelsLineChartModel = 'lib/models/line_chart_model.dart';
   static const String modelsLoginResponseModel = 'lib/models/login_response_model.dart';
   static const String modelsPermissionModel = 'lib/models/permission_model.dart';
+  static const String notificationNotificationConfigurationModel = 'lib/models/notification/notification_configuration_model.dart';
+  static const String notificationNotificationCubit = 'lib/cubit/notification/notification_cubit.dart';
+  static const String notificationNotificationListModel = 'lib/models/notification/notification_list_model.dart';
   static const String notificationNotificationScreen = 'lib/screens/notification/notification_screen.dart';
+  static const String notificationNotificationState = 'lib/cubit/notification/notification_state.dart';
   static const String notificationNumberPicker = 'lib/screens/notification/number_picker.dart';
   static const String notificationWidgetDayPickerWidget = 'lib/widgets/notification_widget/day_picker_widget.dart';
   static const String notificationWidgetNotificationListWidget = 'lib/widgets/notification_widget/notification_list_widget.dart';
   static const String notificationWidgetNotificationSettingsWidget = 'lib/widgets/notification_widget/notification_settings_widget.dart';
   static const String notificationWidgetRadioButtonWidget = 'lib/widgets/notification_widget/radio_button_widget.dart';
   static const String notificationWidgetSmallContainerWidget = 'lib/widgets/notification_widget/small_container_widget.dart';
+  static const String notificationWidgetTimePicker = 'lib/widgets/notification_widget/time_picker.dart';
   static const String notificationWidgetTimePickerWidget = 'lib/widgets/notification_widget/time_picker_widget.dart';
   static const String renderingGap = 'lib/widgets/gap/rendering/gap.dart';
   static const String renderingSliverGap = 'lib/widgets/gap/rendering/sliver_gap.dart';
@@ -111,6 +117,7 @@ class Assets {
   static const String widgetsGlowingCard = 'lib/widgets/glowing_card.dart';
   static const String widgetsGradientButton = 'lib/widgets/gradient_button.dart';
   static const String widgetsLegendWidget = 'lib/widgets/legend_widget.dart';
+  static const String widgetsLoader = 'lib/widgets/loader.dart';
   static const String widgetsProfileMenuButton = 'lib/widgets/profile_menu_button.dart';
   static const String widgetsShimmer = 'lib/widgets/shimmer.dart';
   static const String widgetsShimmerWidget = 'lib/widgets/shimmer_widget.dart';

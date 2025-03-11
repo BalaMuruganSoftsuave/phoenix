@@ -1,58 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:phoenix/cubit/notification/notification_cubit.dart';
+import 'package:phoenix/cubit/notification/notification_state.dart';
 import 'package:phoenix/generated/assets.dart';
 import 'package:phoenix/helper/color_helper.dart';
+import 'package:phoenix/helper/dependency.dart';
 import 'package:phoenix/helper/dialog_helper.dart';
+import 'package:phoenix/helper/enum_helper.dart';
 import 'package:phoenix/helper/responsive_helper.dart';
 import 'package:phoenix/helper/text_helper.dart';
+import 'package:phoenix/widgets/loader.dart';
 import 'package:phoenix/widgets/notification_widget/notification_list_widget.dart';
 import 'package:phoenix/widgets/notification_widget/notification_settings_widget.dart';
 import 'package:phoenix/widgets/profile_menu_button.dart';
 
-class NotificationScreen extends StatefulWidget {
-  const NotificationScreen({super.key});
+class NotificationScreen extends StatelessWidget {
+  NotificationScreen({super.key});
 
-  @override
-  _NotificationScreenState createState() => _NotificationScreenState();
-}
-
-class _NotificationScreenState extends State<NotificationScreen> {
-  int selectedOption = 0;
-  TimeOfDay selectedTime = TimeOfDay.now();
-  String selectedDay = "";
-  var hour = 0;
-  var minutes = 0;
+  final ValueNotifier<int> selectedOption = ValueNotifier<int>(-1);
+  final ValueNotifier<String> selectedTime = ValueNotifier<String>("1:00");
+  final ValueNotifier<String> selectedDay = ValueNotifier<String>("");
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF0B111A),
+      backgroundColor: AppColors.darkBg,
       body: SafeArea(
         child: Column(
           children: [
-            SizedBox(
-              height: Responsive.boxH(context, 10),
-              child: AppBar(
-                backgroundColor: AppColors.darkBg,
-                centerTitle: true,
-                title: SvgPicture.asset(
-                  Assets.imagesPhoenixLogo,
-                  width: Responsive.boxW(context, 15),
-                  height: Responsive.boxH(context, 5),
-                ),
-                actions: [
-                  ProfilePopupMenu(
-                    userName: "John Doe",
-                    onLogout: () {
-                      showLogoutDialog(context, () {});
-                      debugPrint("User logged out");
-                    },
-                  )
-                ],
-              ),
-            ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
+              padding: const EdgeInsets.symmetric(
+                  horizontal: 16.0, vertical: 10),
               child: Row(
                 children: [
                   Expanded(
@@ -66,34 +45,26 @@ class _NotificationScreenState extends State<NotificationScreen> {
                     ),
                   ),
                   IconButton(
-                    onPressed: () {
-                      showModalBottomSheet(
-                        context: context,
-                        isScrollControlled: true,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-                        ),
-                        backgroundColor: AppColors.darkBg2,
-                        builder: (context) => NotificationSettingsWidget(
-                          selectedOption: selectedOption,
-                          selectedTime: selectedTime,
-                          selectedDay: selectedDay,
-                          onOptionChanged: (value) => setState(() => selectedOption = value),
-                          onTimeChanged: (time) => setState(() => selectedTime = time),
-                          onDayChanged: (day) => setState(() => selectedDay = day),
-                          onSaveSettings: (settings){
-                            setState(() {
-                              selectedOption=settings['selectedOption'];
-                              selectedTime=settings['selectedTime'] ?? selectedTime;
-                              selectedDay=settings['selectedDay'] ?? selectedDay;
-                            });
-                            debugPrint("SelectedOption: $selectedOption");
-                            debugPrint("SelectedTime: $selectedTime");
-                            debugPrint("SelectedDay: $selectedDay");
-
-                          },
-                        ),
-                      );
+                    onPressed: () async {
+                      showLoader(context);
+                      var res= await context
+                          .read<NotificationCubit>()
+                          .getNotificationConfiguration(context);
+                      hideLoader(context);
+                      if(res) {
+                        showModalBottomSheet(
+                          isDismissible: false,
+                          context: context,
+                          isScrollControlled: true,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.vertical(
+                                top: Radius.circular(20)),
+                          ),
+                          backgroundColor: AppColors.darkBg2,
+                          builder: (context) =>
+                          const NotificationSettingsModal(),
+                        );
+                      }
                     },
                     icon: Icon(Icons.settings, color: AppColors.subText),
                   ),
@@ -101,15 +72,93 @@ class _NotificationScreenState extends State<NotificationScreen> {
               ),
             ),
             Expanded(
-              child: NotificationListWidget(
-                title: "Hourly Summary",
-                time: "41 minutes ago",
-                description: "Total new subscription count and earnings.",
-              ),
+              child: NotificationListWidget(),
             ),
           ],
         ),
       ),
+    );
+  }
+}
+
+class NotificationSettingsModal extends StatefulWidget {
+  const NotificationSettingsModal({super.key});
+
+  @override
+  State<NotificationSettingsModal> createState() =>
+      _NotificationSettingsModalState();
+}
+
+class _NotificationSettingsModalState extends State<NotificationSettingsModal> {
+  int selectedOption = -1;
+  String selectedTime = "1:00";
+  String selectedDay = "";
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeState();
+  }
+
+  void _initializeState() {
+    final state = context.read<NotificationCubit>().state;
+    final notificationType =
+        state.notificationConfiguration?.result?.notificationType ?? "";
+
+    for (var e in notificationConfigurationItem) {
+      if ((e.name ?? "").toLowerCase().trim() ==
+          notificationType.toLowerCase().trim()) {
+        int selectedId = int.tryParse(e.id ?? "-1") ?? -1;
+
+        // Delay state update to avoid build conflicts
+        setState(() {
+          selectedOption = selectedId;
+
+          if (selectedId == 1) {
+            selectedTime =
+                state.notificationConfiguration?.result?.triggerTime ?? "";
+          } else if (selectedId == 2) {
+            selectedDay =
+                state.notificationConfiguration?.result?.weekDay ?? "";
+            selectedTime =
+                state.notificationConfiguration?.result?.triggerTime ?? "";
+          }
+        });
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<NotificationCubit, NotificationState>(
+      builder: (context, state) {
+        return NotificationSettingsWidget(
+          isLoading: state.getNotificationReqState == ProcessState.loading,
+          isLoadingSaving:
+              state.setNotificationReqState == ProcessState.loading,
+          selectedOption: selectedOption,
+          selectedTime: selectedTime,
+          selectedDay: selectedDay,
+          onOptionChanged: (value) {
+            setState(() {
+              selectedOption = value;
+            });
+          },
+          onTimeChanged: (time) {
+            setState(() {
+              selectedTime = time;
+            });
+          },
+          onDayChanged: (day) {
+            setState(() {
+              selectedDay = day;
+            });
+          },
+          onSaveSettings: (settings) async {
+
+          },
+        );
+      },
     );
   }
 }

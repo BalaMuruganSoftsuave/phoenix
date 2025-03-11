@@ -16,6 +16,7 @@ import 'package:phoenix/widgets/charts/pieChart.dart';
 import 'package:phoenix/widgets/charts/refund_ratio_chart.dart';
 import 'package:phoenix/widgets/charts/sales_revenue_chart.dart';
 import 'package:phoenix/widgets/filter_by_day_widget.dart';
+import 'package:phoenix/widgets/loader.dart';
 import 'package:phoenix/widgets/profile_menu_button.dart';
 import 'package:phoenix/widgets/storefilter/phoenix_dropDown_Screen.dart';
 
@@ -163,33 +164,33 @@ class HomeScreen extends StatelessWidget {
         child: BlocBuilder<DashBoardCubit, DashboardState>(
           builder: (context, state) {
             return state.permissionReqState == ProcessState.loading
-                ? Center(child: CircularProgressIndicator())
+                ? Center(child: Loader())
                 : Column(
                     children: [
+                      // SizedBox(
+                      //   height: Responsive.boxH(context, 10),
+                      //   child: AppBar(
+                      //     backgroundColor: AppColors.darkBg,
+                      //     centerTitle: false,
+                      //     title: SvgPicture.asset(
+                      //       Assets.imagesPhoenixLogo,
+                      //       width: Responsive.boxW(context, 15),
+                      //       height: Responsive.boxH(context, 5),
+                      //     ),
+                      //     actions: [
+                      //       ProfilePopupMenu(
+                      //         userName: "John Doe",
+                      //         onLogout: () {
+                      //           showLogoutDialog(context, () {});
+                      //           debugPrint("User logged out");
+                      //           // Implement logout functionality here
+                      //         },
+                      //       )
+                      //     ],
+                      //   ),
+                      // ),
                       SizedBox(
-                        height: Responsive.boxH(context, 10),
-                        child: AppBar(
-                          backgroundColor: AppColors.darkBg,
-                          centerTitle: false,
-                          title: SvgPicture.asset(
-                            Assets.imagesPhoenixLogo,
-                            width: Responsive.boxW(context, 15),
-                            height: Responsive.boxH(context, 5),
-                          ),
-                          actions: [
-                            ProfilePopupMenu(
-                              userName: "John Doe",
-                              onLogout: () {
-                                showLogoutDialog(context, () {});
-                                debugPrint("User logged out");
-                                // Implement logout functionality here
-                              },
-                            )
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 100,
+                        height: 80,
                         child: Row(
                           children: [
                             Expanded(

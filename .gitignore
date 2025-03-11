@@ -71,3 +71,7 @@ app.*.map.json
 /windows/flutter/ephemeral/.plugin_symlinks/firebase_core/
 /linux/flutter/ephemeral/.plugin_symlinks/flutter_local_notifications_linux/
 /windows/flutter/ephemeral/.plugin_symlinks/connectivity_plus/
+/linux/flutter/ephemeral/.plugin_symlinks/connectivity_plus/
+/windows/flutter/ephemeral/.plugin_symlinks/connectivity_plus/
+/windows/flutter/ephemeral/.plugin_symlinks/firebase_core/
+/linux/flutter/ephemeral/.plugin_symlinks/flutter_local_notifications_linux/

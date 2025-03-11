@@ -1,11 +1,11 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phoenix/helper/api/api_helper.dart';
 import 'package:phoenix/helper/api/api_service.dart';
+import 'package:phoenix/helper/dependency.dart';
 import 'package:phoenix/helper/dialog_helper.dart';
 import 'package:phoenix/helper/enum_helper.dart';
 import 'package:phoenix/helper/nav_helper.dart';
 import 'package:phoenix/helper/preference_helper.dart';
-import 'package:phoenix/helper/utils.dart';
 import 'package:phoenix/models/login_response_model.dart';
 
 import 'auth_state.dart';
@@ -44,7 +44,9 @@ class AuthCubit extends Cubit<AuthState> {
       return true;
     } on ApiFailure catch (e) {
       CustomToast.show(
-          context: getCtx(context)!, message:"Session Expired Please login", status: ToastStatus.failure);
+          context: getCtx(context)!,
+          message: "Session Expired Please login",
+          status: ToastStatus.failure);
       emit(state.copyWith(authState: ProcessState.failure));
       openScreen(loginScreen);
       debugLog("refreshToken issue : \n${e.message.toString()}");
@@ -53,5 +55,9 @@ class AuthCubit extends Cubit<AuthState> {
       debugLog("refreshToken issue: \n${e.toString()}");
       return false;
     } finally {}
+  }
+
+  logout() {
+    emit(AuthState());
   }
 }

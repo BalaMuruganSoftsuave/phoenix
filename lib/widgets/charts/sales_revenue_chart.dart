@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:phoenix/helper/dependency.dart';
 import 'package:phoenix/models/line_chart_model.dart';
 
 import '../../helper/color_helper.dart';

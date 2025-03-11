@@ -1,16 +1,15 @@
 import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phoenix/cubit/dashboard/dashboard_cubit.dart';
+import 'package:phoenix/cubit/notification/notification_cubit.dart';
 import 'package:phoenix/helper/nav_helper.dart';
 import 'package:phoenix/helper/theme_helper.dart';
 import 'package:phoenix/helper/utils.dart';
 
 import 'cubit/auth/auth_cubit.dart';
-import 'firebase_options.dart';
 import 'helper/firebase_helper.dart';
 import 'helper/nav_observer.dart';
 import 'helper/preference_helper.dart';
@@ -46,6 +45,9 @@ class MyApp extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) => AuthCubit(),
+          ),
+          BlocProvider(
+            create: (context) => NotificationCubit(),
           ),
         ],
         child: MaterialApp(

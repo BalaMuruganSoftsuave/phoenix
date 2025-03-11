@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:phoenix/helper/enum_helper.dart';
 import 'package:phoenix/helper/preference_helper.dart';
 import 'package:phoenix/models/dashboard/chargeback_summary_model.dart';
@@ -7,6 +8,8 @@ import 'package:phoenix/models/dashboard/net_subscribers_model.dart';
 import 'package:phoenix/models/dashboard/refund_ratio_data_model.dart';
 import 'package:phoenix/models/dashboard/sales_revenue_data_model.dart';
 import 'package:phoenix/models/login_response_model.dart';
+import 'package:phoenix/models/notification/notification_configuration_model.dart';
+import 'package:phoenix/models/notification/notification_list_model.dart';
 import 'package:phoenix/models/permission_model.dart';
 
 import 'api_constant.dart';
@@ -246,6 +249,41 @@ class ApiService {
           ApiConstants.getRefundRatio, body,
           method: Method.post, token: token ?? "");
       return RefundRatioDataResponse.fromJson(response);
+    } catch (e) {
+      rethrow;
+    }
+  }
+  Future<NotificationConfigurationResponse?> getNotificationConfiguration() async {
+    var token = PreferenceHelper.getAccessToken();
+
+    try {
+      final response = await _apiHelper.makeReq(
+          ApiConstants.getNotificationConfiguration, {},
+          method: Method.get, token: token ?? "");
+      return NotificationConfigurationResponse.fromJson(response);
+    } catch (e) {
+      rethrow;
+    }
+  }
+  Future<void> setNotificationConfiguration(body) async {
+    var token = PreferenceHelper.getAccessToken();
+
+    try {
+     await _apiHelper.makeReq(
+          ApiConstants.setNotificationConfiguration, body,
+          method: Method.post, token: token ?? "");
+
+    } catch (e) {
+      rethrow;
+    }
+  }
+ getNotificationList(int pageNumber) async {
+    var token = PreferenceHelper.getAccessToken();
+    try {
+      final response = await _apiHelper.makeReq(
+          "${ApiConstants.getNotificationAll}?Page=$pageNumber&Limit=10", {},
+          method: Method.get, token: token ?? "");
+      return NotificationListResponse.fromJson(response);
     } catch (e) {
       rethrow;
     }

@@ -86,6 +86,7 @@ class CustomToast {
     required BuildContext context,
     required String message,
     required ToastStatus status,
+    bool isTop = false,
   }) {
     Color bgColor;
     IconData icon;
@@ -120,8 +121,9 @@ class CustomToast {
       ),
       backgroundColor: bgColor,
       behavior: SnackBarBehavior.floating, // Makes it float above UI
-      margin: EdgeInsets.all(16), // Adds spacing around the snackbar
-      duration: Duration(seconds: 2),
+      margin: isTop
+          ? EdgeInsets.only(bottom: MediaQuery.sizeOf(context).height*0.8)  // Top position
+          : EdgeInsets.all(16),  // Default bottom position      duration: Duration(seconds: 2),
     );
 
     ScaffoldMessenger.of(context).clearSnackBars(); // Clears old toasts

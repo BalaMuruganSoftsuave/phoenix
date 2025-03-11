@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:phoenix/helper/dependency.dart';
 
 import '../../helper/color_helper.dart';
 import '../../helper/font_helper.dart';

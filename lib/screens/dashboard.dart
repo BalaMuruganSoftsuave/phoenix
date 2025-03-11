@@ -1,9 +1,12 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:phoenix/cubit/notification/notification_cubit.dart';
 import 'package:phoenix/generated/assets.dart';
 import 'package:phoenix/helper/color_helper.dart';
+import 'package:phoenix/helper/dependency.dart';
 import 'package:phoenix/helper/dialog_helper.dart';
 import 'package:phoenix/helper/enum_helper.dart';
 import 'package:phoenix/helper/font_helper.dart';
@@ -13,13 +16,14 @@ import 'package:phoenix/screens/dashboard/dashboard_screen.dart';
 import 'package:phoenix/screens/notification/notification_screen.dart';
 import 'package:phoenix/widgets/bottom_navigation_widget/gbutton.dart';
 import 'package:phoenix/widgets/bottom_navigation_widget/gnav.dart';
+import 'package:phoenix/widgets/profile_menu_button.dart';
 
 class Dashboard extends StatefulWidget {
   int tab = 0;
 
   Dashboard(LinkedHashMap<dynamic, dynamic>? args, {super.key}) {
-    if(args !=null) {
-      tab = args["tab"]??0;
+    if (args != null) {
+      tab = args["tab"] ?? 0;
     }
   }
 
@@ -30,7 +34,7 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard> {
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.w600);
+  TextStyle(fontSize: 30, fontWeight: FontWeight.w600);
   static final List<Widget> _widgetOptions = <Widget>[
     HomeScreen(),
     NotificationScreen(),
@@ -54,7 +58,7 @@ class _DashboardState extends State<Dashboard> {
     super.initState();
     setState(() {
       print(widget.tab);
-      _selectedIndex=widget.tab;
+      _selectedIndex = widget.tab;
     });
   }
 
@@ -62,6 +66,31 @@ class _DashboardState extends State<Dashboard> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.darkBg,
+      appBar:       PreferredSize(preferredSize: Size(double.infinity, Responsive.boxH(context, 8),),
+        child: AppBar(
+          backgroundColor: AppColors.darkBg,
+          centerTitle: false,
+          title: SvgPicture.asset(
+            Assets.imagesPhoenixLogo,
+            width: Responsive.boxW(context, 15),
+            height: Responsive.boxH(context, 5),
+          ),
+          actions: [
+            ProfilePopupMenu(
+              userName: getUserName(),
+              onLogout: () {
+                CustomToast.show(
+                    context: context,
+                    message: "Please Select any option",
+                    status: ToastStatus.failure,
+                    isTop: true);
+                // showLogoutDialog(context, () {});
+                // debugPrint("User logged out");
+              },
+            )
+          ],
+        ),
+      ),
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
@@ -119,6 +148,7 @@ class _DashboardState extends State<Dashboard> {
                 setState(() {
                   _selectedIndex = index;
                 });
+                context.read<NotificationCubit>().getNotificationConfiguration(context);
               },
             ),
             IconButton(

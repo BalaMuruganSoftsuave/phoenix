@@ -1,5 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:phoenix/helper/dependency.dart';
 import 'package:phoenix/helper/responsive_helper.dart';
 import 'package:phoenix/helper/text_helper.dart';
 import 'package:phoenix/widgets/charts/tool_tip_widget.dart';

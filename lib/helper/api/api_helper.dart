@@ -76,7 +76,10 @@ class APIHelper {
     }
     dynamic decodedJson;
     String? decodeError;
-
+    String contentType = response.headers['content-type'] ?? '';
+     if(contentType.contains('text/html')){
+       throw ApiFailure(400, "Failed to load");
+     }
     if (!isFile) {
       try {
         decodedJson = jsonDecode(response.body);

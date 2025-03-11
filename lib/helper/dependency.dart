@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phoenix/cubit/auth/auth_cubit.dart';
+import 'package:phoenix/helper/preference_helper.dart';
 import 'package:phoenix/models/dashboard/additional_models.dart';
 
 import '../cubit/dashboard/dashboard_cubit.dart';
@@ -71,13 +72,13 @@ class IdValueItem {
 }
 
 List<IdValueItem> weekDays = [
-  IdValueItem(id: "Sunday", name: "Sun"),
-  IdValueItem(id: "Monday", name: "Mon"),
-  IdValueItem(id: "Tuesday", name: "Tue"),
-  IdValueItem(id: "Wednesday", name: "Wed"),
-  IdValueItem(id: "Thursday", name: "Thu"),
-  IdValueItem(id: "Friday", name: "Fri"),
-  IdValueItem(id: "Saturday", name: "Sat"),
+  IdValueItem(id: "1", name: "Sun"),
+  IdValueItem(id: "2", name: "Mon"),
+  IdValueItem(id: "3", name: "Tue"),
+  IdValueItem(id: "4", name: "Wed"),
+  IdValueItem(id: "5", name: "Thu"),
+  IdValueItem(id: "6", name: "Fri"),
+  IdValueItem(id: "7", name: "Sat"),
 ];
 
 List<IdValueItem> notificationConfigurationItem = [
@@ -158,4 +159,34 @@ AdjustedDates adjustDates(String start, String end) {
   //   'adjustedEndDate': formatDate(adjustedEndDate),
   //   'monthRange': monthRange,
   // };
+}
+String timeAgo(String dateString) {
+  DateTime dateTime = DateTime.parse(dateString).toLocal();
+  Duration difference = DateTime.now().difference(dateTime);
+
+  if (difference.inSeconds < 60) {
+    return '${difference.inSeconds} secs ago';
+  } else if (difference.inMinutes < 60) {
+    return '${difference.inMinutes} min${difference.inMinutes > 1 ? 's' : ''} ago';
+  } else if (difference.inHours < 24) {
+    return '${difference.inHours} hour${difference.inHours > 1 ? 's' : ''} ago';
+  } else if (difference.inDays < 7) {
+    return '${difference.inDays} day${difference.inDays > 1 ? 's' : ''} ago';
+  } else if (difference.inDays < 30) {
+    int weeks = (difference.inDays / 7).floor();
+    return '$weeks week${weeks > 1 ? 's' : ''} ago';
+  } else if (difference.inDays < 365) {
+    int months = (difference.inDays / 30).floor();
+    return '$months month${months > 1 ? 's' : ''} ago';
+  } else {
+    int years = (difference.inDays / 365).floor();
+    return '$years year${years > 1 ? 's' : ''} ago';
+  }
+}
+getUserName(){
+ return PreferenceHelper.getUserName();
+}
+
+logout(){
+
 }
