@@ -5,7 +5,7 @@ import 'package:phoenix/screens/dashboard.dart';
 import 'package:phoenix/screens/login_screen.dart';
 import 'package:phoenix/screens/splashscreen.dart';
 import 'package:phoenix/screens/dashboard/dashboard_screen.dart';
-import 'package:phoenix/screens/dashboard/sales_revenue_details.dart';
+import 'package:phoenix/screens/dashboard/dashboard_details_screen.dart';
 
 import 'dependency.dart';
 import 'nav_observer.dart';
@@ -48,7 +48,7 @@ Route<Object?>? getRoute(String? name,
     case dashboardScreen:
       return _customPageRoute( Dashboard(args),name: name!,);
     case salesRevenueDetails:
-      return _customPageRoute(SalesRevenueDetails(args), name: salesRevenueDetails);
+      return _customPageRoute(DashboardDetailsScreen(args), name: salesRevenueDetails);
     case loginScreen:
       return _customPageRoute(LoginScreen(), name: name!);
   }

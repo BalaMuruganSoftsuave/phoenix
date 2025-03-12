@@ -1,7 +1,10 @@
 import 'package:phoenix/helper/enum_helper.dart';
 import 'package:phoenix/models/dashboard/chargeback_summary_model.dart';
 import 'package:phoenix/models/dashboard/coverage_health_data_model.dart';
+import 'package:phoenix/models/dashboard/dashboard_detail_data_model.dart';
 import 'package:phoenix/models/dashboard/dashboard_overview_model.dart';
+import 'package:phoenix/models/dashboard/detail_chart_data_model.dart';
+import 'package:phoenix/models/dashboard/direct_sale_data_model.dart';
 import 'package:phoenix/models/dashboard/net_subscribers_model.dart';
 import 'package:phoenix/models/dashboard/refund_ratio_data_model.dart';
 import 'package:phoenix/models/dashboard/sales_revenue_data_model.dart';
@@ -42,6 +45,15 @@ class DashboardState {
   ProcessState? chargeBackSummaryReqState;
   RefundRatioDataResponse? refundRatioData;
   ProcessState? refundRatioReqState;
+  ProcessState? dashboardDetailReqState;
+  ProcessState? dashboardRevenueReqState;
+  ProcessState? dashboardAppRatioReqState;
+  DirectSaleDataResponse? directSaleDetailData;
+  DashboardDetailDataResponse? dashboardDetailData;
+  DirectSaleRevenueDataResponse? directSaleRevenueData;
+  DtSaleAppRatioDataResponse? directSaleAppRatioData;
+  DetailChartDeclinedBreakDownDataResponse? detailChartDeclinedBreakDownData;
+  DetailChartApprovalRatioDataResponse? detailChartAppRatioData;
 
   DashboardState({
     this.filterPayload,
@@ -77,6 +89,15 @@ class DashboardState {
     this.coverageHealthDataReqState = ProcessState.none,
     this.refundRatioData,
     this.refundRatioReqState = ProcessState.none,
+    this.dashboardDetailReqState = ProcessState.none,
+    this.dashboardDetailData,
+    this.directSaleDetailData,
+    this.directSaleRevenueData,
+    this.directSaleAppRatioData,
+    this.detailChartAppRatioData,
+    this.detailChartDeclinedBreakDownData,
+    this.dashboardAppRatioReqState = ProcessState.none,
+    this.dashboardRevenueReqState = ProcessState.none
   });
 
   DashboardState copyWith({
@@ -113,6 +134,15 @@ class DashboardState {
     ProcessState? chargeBackSummaryReqState,
     RefundRatioDataResponse? refundRatioData,
     ProcessState? refundRatioReqState,
+    ProcessState? dashboardDetailReqState,
+    DirectSaleDataResponse? directSaleDetailData,
+    DashboardDetailDataResponse? dashboardDetailData,
+    DirectSaleRevenueDataResponse? directSaleRevenueData,
+    DtSaleAppRatioDataResponse? directSaleAppRatioData,
+    DetailChartDeclinedBreakDownDataResponse? detailChartDeclinedBreakDownData,
+    DetailChartApprovalRatioDataResponse? detailChartAppRatioData,
+    ProcessState? dashboardAppRatioReqState,
+    ProcessState? dashboardRevenueReqState
   }) {
     return DashboardState(
       filterPayload: filterPayload ?? this.filterPayload,
@@ -163,6 +193,15 @@ class DashboardState {
           coverageHealthDataReqState ?? this.coverageHealthDataReqState,
       refundRatioData: refundRatioData ?? this.refundRatioData,
       refundRatioReqState: refundRatioReqState ?? this.refundRatioReqState,
+      dashboardDetailReqState: dashboardDetailReqState ?? this.dashboardDetailReqState,
+      directSaleDetailData: directSaleDetailData ?? this.directSaleDetailData,
+      dashboardDetailData: dashboardDetailData ?? this.dashboardDetailData,
+      directSaleAppRatioData: directSaleAppRatioData ?? this.directSaleAppRatioData,
+      directSaleRevenueData: directSaleRevenueData ?? this.directSaleRevenueData,
+      detailChartDeclinedBreakDownData: detailChartDeclinedBreakDownData ?? this.detailChartDeclinedBreakDownData,
+      detailChartAppRatioData: detailChartAppRatioData ?? this.detailChartAppRatioData,
+        dashboardRevenueReqState: dashboardRevenueReqState ?? this.dashboardRevenueReqState,
+        dashboardAppRatioReqState: dashboardAppRatioReqState ?? this.dashboardAppRatioReqState
     );
   }
 }

@@ -670,16 +670,18 @@ class DashBoardCubit extends Cubit<DashboardState> {
       emit(state.copyWith(lifeTimeReqState: ProcessState.failure));
     }
   }
+
   void getSalesRevenuesData(BuildContext context) async {
     try {
       emit(state.copyWith(totalSalesRevenueReqState: ProcessState.loading));
 
       final res =
-      await _apiService.getSalesRevenueData(state.filterPayload?.toJson());
+          await _apiService.getSalesRevenueData(state.filterPayload?.toJson());
 
       _tokenRefreshAttempts = 0; // Reset counter on success
       emit(state.copyWith(
-          totalSalesRevenueReqState: ProcessState.success, totalSalesRevenueData: res));
+          totalSalesRevenueReqState: ProcessState.success,
+          totalSalesRevenueData: res));
     } on ApiFailure catch (e) {
       if (e.code == 401) {
         if (_tokenRefreshAttempts >= 2) {
@@ -717,16 +719,18 @@ class DashBoardCubit extends Cubit<DashboardState> {
       emit(state.copyWith(totalSalesRevenueReqState: ProcessState.failure));
     }
   }
+
   void getNetSubscribersData(BuildContext context) async {
     try {
       emit(state.copyWith(netSubscribersReqState: ProcessState.loading));
 
       final res =
-      await _apiService.getNetSubscriberData(state.filterPayload?.toJson());
+          await _apiService.getNetSubscriberData(state.filterPayload?.toJson());
 
       _tokenRefreshAttempts = 0; // Reset counter on success
       emit(state.copyWith(
-          netSubscribersReqState: ProcessState.success, netSubscribersData: res));
+          netSubscribersReqState: ProcessState.success,
+          netSubscribersData: res));
     } on ApiFailure catch (e) {
       if (e.code == 401) {
         if (_tokenRefreshAttempts >= 2) {
@@ -742,7 +746,8 @@ class DashBoardCubit extends Cubit<DashboardState> {
             await getAuthCubit(context)?.refreshToken(context) ?? false;
 
         if (isTokenRefreshed) {
-          return getNetSubscribersData(context); // Retry fetching data after refresh
+          return getNetSubscribersData(
+              context); // Retry fetching data after refresh
         } else {
           CustomToast.show(
               context: context,
@@ -766,5 +771,317 @@ class DashBoardCubit extends Cubit<DashboardState> {
   }
   logout() {
     emit(DashboardState());
+  }
+
+  void getDirectSaleDetailData(BuildContext context) async {
+    try {
+      emit(state.copyWith(dashboardDetailReqState: ProcessState.loading));
+
+      final res = await _apiService
+          .getDirectSaleDetailData(state.filterPayload?.toJson());
+      _tokenRefreshAttempts = 0; // Reset counter on success
+      emit(state.copyWith(
+          dashboardDetailReqState: ProcessState.success,
+          directSaleDetailData: res));
+    } on ApiFailure catch (e) {
+      if (e.code == 401) {
+        if (_tokenRefreshAttempts >= 2) {
+          CustomToast.show(
+              context: context,
+              message: "Session Expired",
+              status: ToastStatus.failure);
+          emit(state.copyWith(dashboardDetailReqState: ProcessState.failure));
+          return;
+        }
+        _tokenRefreshAttempts++;
+        final isTokenRefreshed =
+            await getAuthCubit(context)?.refreshToken(context) ?? false;
+
+        if (isTokenRefreshed) {
+          return getDirectSaleDetailData(
+              context); // Retry fetching data after refresh
+        } else {
+          CustomToast.show(
+              context: context,
+              message: "Session Expired",
+              status: ToastStatus.failure);
+          emit(state.copyWith(dashboardDetailReqState: ProcessState.failure));
+        }
+      } else {
+        CustomToast.show(
+            context: context,
+            message: e.message.toString(),
+            status: ToastStatus.failure);
+        emit(state.copyWith(dashboardDetailReqState: ProcessState.failure));
+      }
+    } catch (e) {
+      debugLog("Direct Sale api:  ${e.toString()}");
+      CustomToast.show(
+          context: context, message: e.toString(), status: ToastStatus.failure);
+      emit(state.copyWith(dashboardDetailReqState: ProcessState.failure));
+    }
+  }
+
+  void getDashboardDetailData(BuildContext context, DashboardData fromWhere) async {
+    try {
+      emit(state.copyWith(dashboardDetailReqState: ProcessState.loading));
+
+      final res = fromWhere == DashboardData.initialSubscription
+          ? await _apiService
+              .getInitialSubscriptionDetailData(state.filterPayload?.toJson())
+          : fromWhere == DashboardData.recurringSubscription
+              ? await _apiService.getRecurringSubscriptionDetailData(
+                  state.filterPayload?.toJson())
+              : await _apiService.getSubscriptionSalvageDetailData(
+                  state.filterPayload?.toJson());
+      _tokenRefreshAttempts = 0; // Reset counter on success
+      emit(state.copyWith(
+          dashboardDetailReqState: ProcessState.success,
+          dashboardDetailData: res));
+    } on ApiFailure catch (e) {
+      if (e.code == 401) {
+        if (_tokenRefreshAttempts >= 2) {
+          CustomToast.show(
+              context: context,
+              message: "Session Expired",
+              status: ToastStatus.failure);
+          emit(state.copyWith(dashboardDetailReqState: ProcessState.failure));
+          return;
+        }
+        _tokenRefreshAttempts++;
+        final isTokenRefreshed =
+            await getAuthCubit(context)?.refreshToken(context) ?? false;
+
+        if (isTokenRefreshed) {
+          return getDashboardDetailData(
+              context, fromWhere); // Retry fetching data after refresh
+        } else {
+          CustomToast.show(
+              context: context,
+              message: "Session Expired",
+              status: ToastStatus.failure);
+          emit(state.copyWith(dashboardDetailReqState: ProcessState.failure));
+        }
+      } else {
+        CustomToast.show(
+            context: context,
+            message: e.message.toString(),
+            status: ToastStatus.failure);
+        emit(state.copyWith(dashboardDetailReqState: ProcessState.failure));
+      }
+    } catch (e) {
+      debugLog("$fromWhere api:  ${e.toString()}");
+      CustomToast.show(
+          context: context, message: e.toString(), status: ToastStatus.failure);
+      emit(state.copyWith(dashboardDetailReqState: ProcessState.failure));
+    }
+  }
+
+  void getDirectSaleRevenueData(BuildContext context) async{
+    try {
+      emit(state.copyWith(dashboardRevenueReqState: ProcessState.loading));
+
+      final res = await _apiService
+          .getDirectSaleRevenueData(state.filterPayload?.toJson());
+      _tokenRefreshAttempts = 0; // Reset counter on success
+      emit(state.copyWith(
+          dashboardRevenueReqState: ProcessState.success,
+          directSaleRevenueData: res));
+    }on ApiFailure catch (e) {
+      if (e.code == 401) {
+        if (_tokenRefreshAttempts >= 2) {
+          CustomToast.show(
+              context: context,
+              message: "Session Expired",
+              status: ToastStatus.failure);
+          emit(state.copyWith(dashboardRevenueReqState: ProcessState.failure));
+          return;
+        }
+        _tokenRefreshAttempts++;
+        final isTokenRefreshed =
+            await getAuthCubit(context)?.refreshToken(context) ?? false;
+
+        if (isTokenRefreshed) {
+          return getDirectSaleRevenueData(
+              context); // Retry fetching data after refresh
+        } else {
+          CustomToast.show(
+              context: context,
+              message: "Session Expired",
+              status: ToastStatus.failure);
+          emit(state.copyWith(dashboardRevenueReqState: ProcessState.failure));
+        }
+      } else {
+        CustomToast.show(
+            context: context,
+            message: e.message.toString(),
+            status: ToastStatus.failure);
+        emit(state.copyWith(dashboardRevenueReqState: ProcessState.failure));
+      }
+    } catch (e) {
+      debugLog("Direct Sale Revenue api:  ${e.toString()}");
+      CustomToast.show(
+          context: context, message: e.toString(), status: ToastStatus.failure);
+      emit(state.copyWith(dashboardRevenueReqState: ProcessState.failure));
+    }
+  }
+
+  void getDirectSaleApprovalRatio(BuildContext context) async{
+    try {
+      emit(state.copyWith(dashboardAppRatioReqState: ProcessState.loading));
+
+      final res = await _apiService
+          .getDirectSaleApprovalRatioData(state.filterPayload?.toJson());
+      _tokenRefreshAttempts = 0; // Reset counter on success
+      emit(state.copyWith(
+          dashboardDetailReqState: ProcessState.success,
+          directSaleAppRatioData: res));
+    }on ApiFailure catch (e) {
+      if (e.code == 401) {
+        if (_tokenRefreshAttempts >= 2) {
+          CustomToast.show(
+              context: context,
+              message: "Session Expired",
+              status: ToastStatus.failure);
+          emit(state.copyWith(dashboardAppRatioReqState: ProcessState.failure));
+          return;
+        }
+        _tokenRefreshAttempts++;
+        final isTokenRefreshed =
+            await getAuthCubit(context)?.refreshToken(context) ?? false;
+
+        if (isTokenRefreshed) {
+          return getDirectSaleApprovalRatio(
+              context); // Retry fetching data after refresh
+        } else {
+          CustomToast.show(
+              context: context,
+              message: "Session Expired",
+              status: ToastStatus.failure);
+          emit(state.copyWith(dashboardAppRatioReqState: ProcessState.failure));
+        }
+      } else {
+        CustomToast.show(
+            context: context,
+            message: e.message.toString(),
+            status: ToastStatus.failure);
+        emit(state.copyWith(dashboardAppRatioReqState: ProcessState.failure));
+      }
+    } catch (e) {
+      debugLog("Direct Sale Approval api:  ${e.toString()}");
+      CustomToast.show(
+          context: context, message: e.toString(), status: ToastStatus.failure);
+      emit(state.copyWith(dashboardAppRatioReqState: ProcessState.failure));
+    }
+  }
+
+  void getDetailChartBreakdownData(BuildContext context, DashboardData fromWhere) async{
+    try {
+      emit(state.copyWith(dashboardRevenueReqState: ProcessState.loading));
+
+      final res = fromWhere == DashboardData.initialSubscription
+          ? await _apiService
+          .getInitialSubscriptionDeclinedBreakdown(state.filterPayload?.toJson())
+          : fromWhere == DashboardData.recurringSubscription
+          ? await _apiService.getRecurringSubscriptionDeclinedBreakdown(
+          state.filterPayload?.toJson())
+          : await _apiService.getSubscriptionSalvageDeclinedBreakdown(
+          state.filterPayload?.toJson());
+      _tokenRefreshAttempts = 0; // Reset counter on success
+      emit(state.copyWith(
+          dashboardRevenueReqState: ProcessState.success,
+          detailChartDeclinedBreakDownData: res));
+    } on ApiFailure catch (e) {
+      if (e.code == 401) {
+        if (_tokenRefreshAttempts >= 2) {
+          CustomToast.show(
+              context: context,
+              message: "Session Expired",
+              status: ToastStatus.failure);
+          emit(state.copyWith(dashboardRevenueReqState: ProcessState.failure));
+          return;
+        }
+        _tokenRefreshAttempts++;
+        final isTokenRefreshed =
+            await getAuthCubit(context)?.refreshToken(context) ?? false;
+
+        if (isTokenRefreshed) {
+          return getDetailChartBreakdownData(
+              context, fromWhere); // Retry fetching data after refresh
+        } else {
+          CustomToast.show(
+              context: context,
+              message: "Session Expired",
+              status: ToastStatus.failure);
+          emit(state.copyWith(dashboardRevenueReqState: ProcessState.failure));
+        }
+      } else {
+        CustomToast.show(
+            context: context,
+            message: e.message.toString(),
+            status: ToastStatus.failure);
+        emit(state.copyWith(dashboardRevenueReqState: ProcessState.failure));
+      }
+    } catch (e) {
+      debugLog("$fromWhere api:  ${e.toString()}");
+      CustomToast.show(
+          context: context, message: e.toString(), status: ToastStatus.failure);
+      emit(state.copyWith(dashboardRevenueReqState: ProcessState.failure));
+    }
+  }
+
+  void getDetailChartApprovalRatioData(BuildContext context, DashboardData fromWhere) async{
+    try {
+      emit(state.copyWith(dashboardAppRatioReqState: ProcessState.loading));
+
+      final res = fromWhere == DashboardData.initialSubscription
+          ? await _apiService
+          .getInitialSubscriptionApprovalRatio(state.filterPayload?.toJson())
+          : fromWhere == DashboardData.recurringSubscription
+          ? await _apiService.getRecurringSubscriptionApprovalRatio(
+          state.filterPayload?.toJson())
+          : await _apiService.getSubscriptionSalvageApprovalRatio(
+          state.filterPayload?.toJson());
+      _tokenRefreshAttempts = 0; // Reset counter on success
+      emit(state.copyWith(
+          dashboardAppRatioReqState: ProcessState.success,
+          detailChartAppRatioData: res));
+    } on ApiFailure catch (e) {
+      if (e.code == 401) {
+        if (_tokenRefreshAttempts >= 2) {
+          CustomToast.show(
+              context: context,
+              message: "Session Expired",
+              status: ToastStatus.failure);
+          emit(state.copyWith(dashboardAppRatioReqState: ProcessState.failure));
+          return;
+        }
+        _tokenRefreshAttempts++;
+        final isTokenRefreshed =
+            await getAuthCubit(context)?.refreshToken(context) ?? false;
+
+        if (isTokenRefreshed) {
+          return getDetailChartApprovalRatioData(
+              context, fromWhere); // Retry fetching data after refresh
+        } else {
+          CustomToast.show(
+              context: context,
+              message: "Session Expired",
+              status: ToastStatus.failure);
+          emit(state.copyWith(dashboardAppRatioReqState: ProcessState.failure));
+        }
+      } else {
+        CustomToast.show(
+            context: context,
+            message: e.message.toString(),
+            status: ToastStatus.failure);
+        emit(state.copyWith(dashboardAppRatioReqState: ProcessState.failure));
+      }
+    } catch (e) {
+      debugLog("$fromWhere api:  ${e.toString()}");
+      CustomToast.show(
+          context: context, message: e.toString(), status: ToastStatus.failure);
+      emit(state.copyWith(dashboardAppRatioReqState: ProcessState.failure));
+    }
   }
 }

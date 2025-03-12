@@ -38,16 +38,18 @@ class _FilterComponentState extends State<FilterComponent> {
 
 
   void handleSelection(String key) {
-    if (key == "custom") {
-      // _selectDateRange();
-    } else {
-      setState(() {
-        selectedCustomRange = null;
-        selectedKey = key;
-        selectedRange = _getDateRange(key);
-      });
+    if(selectedKey!=key) {
+      if (key == "custom") {
+        // _selectDateRange();
+      } else {
+        setState(() {
+          selectedCustomRange = null;
+          selectedKey = key;
+          selectedRange = _getDateRange(key);
+        });
 
-      widget.onSelectionChange?.call(key, range: selectedRange);
+        widget.onSelectionChange?.call(key, range: selectedRange);
+      }
     }
   }
 
@@ -149,7 +151,7 @@ class _FilterComponentState extends State<FilterComponent> {
         return DateTimeRange(start: firstDayLastMonth, end: lastDayLastMonth);
       case "last12Months":
         final firstDay = DateTime(now.year, now.month - 12, 1);
-        final lastDay = DateTime(now.year, now.month - 1, 0);
+        final lastDay = DateTime(now.year, now.month - 0, 0);
         return DateTimeRange(start: firstDay, end: lastDay);
       case "lastYear":
         final firstDayLastYear = DateTime(now.year - 1, 1, 1);

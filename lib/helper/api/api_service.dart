@@ -1,9 +1,14 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:phoenix/helper/enum_helper.dart';
 import 'package:phoenix/helper/preference_helper.dart';
 import 'package:phoenix/models/dashboard/chargeback_summary_model.dart';
 import 'package:phoenix/models/dashboard/coverage_health_data_model.dart';
+import 'package:phoenix/models/dashboard/dashboard_detail_data_model.dart';
 import 'package:phoenix/models/dashboard/dashboard_overview_model.dart';
+import 'package:phoenix/models/dashboard/detail_chart_data_model.dart';
+import 'package:phoenix/models/dashboard/direct_sale_data_model.dart';
 import 'package:phoenix/models/dashboard/net_subscribers_model.dart';
 import 'package:phoenix/models/dashboard/refund_ratio_data_model.dart';
 import 'package:phoenix/models/dashboard/sales_revenue_data_model.dart';
@@ -285,6 +290,162 @@ class ApiService {
           method: Method.get, token: token ?? "");
       return NotificationListResponse.fromJson(response);
     } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<DirectSaleDataResponse> getDirectSaleDetailData(body) async{
+    var token = PreferenceHelper.getAccessToken();
+
+    try{
+      final response = await _apiHelper.makeReq(
+        ApiConstants.getDirectSaleDetail, body,
+        method: Method.post, token: token ?? "");
+      return DirectSaleDataResponse.fromJson(response);
+    } catch(e){
+      rethrow;
+    }
+  }
+
+  Future<DashboardDetailDataResponse> getInitialSubscriptionDetailData(body) async{
+    var token = PreferenceHelper.getAccessToken();
+
+    try{
+      final response = await _apiHelper.makeReq(
+        ApiConstants.getInitialSubscriptionDetails, body,
+        method: Method.post, token: token ?? "");
+      return DashboardDetailDataResponse.fromJson(response);
+    }  catch(e){
+      rethrow;
+    }
+  }
+
+  Future<DashboardDetailDataResponse> getRecurringSubscriptionDetailData(body) async{
+    var token = PreferenceHelper.getAccessToken();
+
+    try{
+      final response = await _apiHelper.makeReq(
+          ApiConstants.getRecurringSubscriptionDetails, body,
+          method: Method.post, token: token ?? "");
+      return DashboardDetailDataResponse.fromJson(response);
+    }  catch(e){
+      rethrow;
+    }
+  }
+
+  Future<DashboardDetailDataResponse> getSubscriptionSalvageDetailData(body) async{
+    var token = PreferenceHelper.getAccessToken();
+
+    try{
+      final response = await _apiHelper.makeReq(
+          ApiConstants.getSubscriptionSalvageDetails, body,
+          method: Method.post, token: token ?? "");
+      return DashboardDetailDataResponse.fromJson(response);
+    }  catch(e){
+      rethrow;
+    }
+  }
+
+  Future<DirectSaleRevenueDataResponse> getDirectSaleRevenueData(body) async{
+    var token = PreferenceHelper.getAccessToken();
+
+    try{
+      final response = await _apiHelper.makeReq(
+        ApiConstants.getDirectSalesRevenue, body,
+        method: Method.post, token: token ?? "");
+      return DirectSaleRevenueDataResponse.fromJson(response);
+    }catch(e){
+      rethrow;
+    }
+  }
+
+  Future<DtSaleAppRatioDataResponse> getDirectSaleApprovalRatioData(body) async{
+    var token = PreferenceHelper.getAccessToken();
+
+    try{
+      final response = await _apiHelper.makeReq(
+          ApiConstants.getDirectSaleUniqueApprovalRatio, body,
+          method: Method.post, token: token ?? "");
+      return DtSaleAppRatioDataResponse.fromJson(response);
+    }catch(e){
+      rethrow;
+    }
+  }
+
+  Future<DetailChartDeclinedBreakDownDataResponse> getInitialSubscriptionDeclinedBreakdown(body) async{
+    var token = PreferenceHelper.getAccessToken();
+
+    try{
+      final response = await _apiHelper.makeReq(
+          ApiConstants.getInitialSubscriptionDeclinedBreakdown, body,
+          method: Method.post, token: token ?? "");
+      return DetailChartDeclinedBreakDownDataResponse.fromJson(response);
+    }catch(e){
+      rethrow;
+    }
+  }
+
+  Future<DetailChartDeclinedBreakDownDataResponse> getRecurringSubscriptionDeclinedBreakdown(body) async{
+    var token = PreferenceHelper.getAccessToken();
+
+    try{
+      final response = await _apiHelper.makeReq(
+          ApiConstants.getRecurringSubscriptionDeclinedBreakdown, body,
+          method: Method.post, token: token ?? "");
+      return DetailChartDeclinedBreakDownDataResponse.fromJson(response);
+    }catch(e){
+      rethrow;
+    }
+  }
+
+  Future<DetailChartDeclinedBreakDownDataResponse> getSubscriptionSalvageDeclinedBreakdown(body) async{
+    var token = PreferenceHelper.getAccessToken();
+
+    try{
+      final response = await _apiHelper.makeReq(
+          ApiConstants.getSubscriptionSalvageDeclinedBreakdown, body,
+          method: Method.post, token: token ?? "");
+      return DetailChartDeclinedBreakDownDataResponse.fromJson(response);
+    }catch(e){
+      rethrow;
+    }
+  }
+
+  Future<DetailChartApprovalRatioDataResponse> getInitialSubscriptionApprovalRatio(body) async{
+    var token = PreferenceHelper.getAccessToken();
+
+    try{
+      final response = await _apiHelper.makeReq(
+          ApiConstants.getInitialSubscriptionApprovalRatio, body,
+          method: Method.post, token: token ?? "");
+      return DetailChartApprovalRatioDataResponse.fromJson(response);
+    }catch(e){
+      rethrow;
+    }
+  }
+
+  Future<DetailChartApprovalRatioDataResponse> getRecurringSubscriptionApprovalRatio(body) async{
+    var token = PreferenceHelper.getAccessToken();
+
+    try{
+      final response = await _apiHelper.makeReq(
+          ApiConstants.getRecurringSubscriptionApprovalRatio, body,
+          method: Method.post, token: token ?? "");
+      return DetailChartApprovalRatioDataResponse.fromJson(response);
+    }catch(e){
+      rethrow;
+    }
+  }
+
+  Future<DetailChartApprovalRatioDataResponse> getSubscriptionSalvageApprovalRatio(body) async{
+    var token = PreferenceHelper.getAccessToken();
+
+    try{
+      final response = await _apiHelper.makeReq(
+          ApiConstants.getSubscriptionSalvageApprovalRatio, body,
+          method: Method.post, token: token ?? "");
+      return DetailChartApprovalRatioDataResponse.fromJson(response);
+    }catch(e){
       rethrow;
     }
   }

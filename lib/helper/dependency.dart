@@ -28,13 +28,26 @@ String getSubtitle(double approvedOrders, double approvalPercentage) {
   return '${formatNumber(approvedOrders)}/${approvalPercentage.toStringAsFixed(1)}%'; // Show both if none are 0
 }
 
+String checkNullable(num value){
+  if(value == 0){
+    return '-';
+  }
+  return "${value.toStringAsFixed(1)}%";
+}
+
 String formatNumber(num number, {String locale = 'en_US'}) {
+  if(number==0){
+    return '-';
+  }
   final formatter = NumberFormat.decimalPattern(locale);
   return formatter.format(number);
 }
 
 /// Formats a number as currency (USD)
 String formatCurrency(double value) {
+  if(value==0){
+    return '-';
+  }
   final format = NumberFormat.currency(locale: 'en_US', symbol: '\$');
   return format.format(value);
 }
@@ -63,6 +76,8 @@ double percentage(
       ? result.roundToDouble()
       : double.parse(result.toStringAsFixed(toFixed));
 }
+
+
 
 class IdValueItem {
   String? id;

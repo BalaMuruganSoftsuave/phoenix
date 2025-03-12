@@ -1,6 +1,8 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:phoenix/cubit/dashboard/dashboard_cubit.dart';
 import 'package:phoenix/cubit/dashboard/dashboard_state.dart';
 import 'package:phoenix/generated/assets.dart';
 import 'package:phoenix/helper/dependency.dart';
@@ -29,13 +31,16 @@ class DashBoardFirstDataWidget extends StatelessWidget {
         image: Assets.imagesDirectSale,
         isLoading: state.directSaleReqState == ProcessState.loading,
         onPress: () {
+       context.read<DashBoardCubit>().getDirectSaleDetailData(context);
+       context.read<DashBoardCubit>().getDirectSaleRevenueData(context);
+       context.read<DashBoardCubit>().getDirectSaleApprovalRatio(context);
 
           openScreen(salesRevenueDetails,
               args: LinkedHashMap.from({
                 "isDirectSale": true,
                 "image": Assets.imagesDirectSale,
                 "title": "Direct Sale",
-                "color": Color(0xFFF90182)
+                "color": Color(0xFFF90182),
               }));
         },
       ),
@@ -53,7 +58,10 @@ class DashBoardFirstDataWidget extends StatelessWidget {
           image: Assets.imagesInitialSubscription,
           isLoading: state.initialSubscriptionReqState == ProcessState.loading,
           onPress: () {
-            openScreen(salesRevenueDetails,
+            context.read<DashBoardCubit>().getDashboardDetailData(context, DashboardData.initialSubscription);
+            context.read<DashBoardCubit>().getDetailChartBreakdownData(context, DashboardData.initialSubscription);
+            context.read<DashBoardCubit>().getDetailChartApprovalRatioData(context, DashboardData.initialSubscription);
+              openScreen(salesRevenueDetails,
                 args: LinkedHashMap.from({
                   "isDirectSale": false,
                   "image": Assets.imagesInitialSubscription,
@@ -76,6 +84,9 @@ class DashBoardFirstDataWidget extends StatelessWidget {
           isLoading:
               state.recurringSubscriptionReqState == ProcessState.loading,
           onPress: () {
+            context.read<DashBoardCubit>().getDashboardDetailData(context, DashboardData.recurringSubscription);
+            context.read<DashBoardCubit>().getDetailChartBreakdownData(context, DashboardData.recurringSubscription);
+            context.read<DashBoardCubit>().getDetailChartApprovalRatioData(context, DashboardData.recurringSubscription);
             openScreen(salesRevenueDetails,
                 args: LinkedHashMap.from({
                   "isDirectSale": false,
@@ -99,6 +110,9 @@ class DashBoardFirstDataWidget extends StatelessWidget {
           image: Assets.imagesSubscriptionSalvage,
           isLoading: state.subscriptionSalvageReqState == ProcessState.loading,
           onPress: () {
+            context.read<DashBoardCubit>().getDashboardDetailData(context, DashboardData.subSalvage);
+            context.read<DashBoardCubit>().getDetailChartBreakdownData(context, DashboardData.subSalvage);
+            context.read<DashBoardCubit>().getDetailChartApprovalRatioData(context, DashboardData.subSalvage);
             openScreen(salesRevenueDetails,
                 args: LinkedHashMap.from({
                   "isDirectSale": false,

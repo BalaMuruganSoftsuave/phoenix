@@ -27,13 +27,16 @@ class Assets {
   static const String dashboardChargebackSummaryModel = 'lib/models/dashboard/chargeback_summary_model.dart';
   static const String dashboardCoverageHealthDataModel = 'lib/models/dashboard/coverage_health_data_model.dart';
   static const String dashboardDashboardCubit = 'lib/cubit/dashboard/dashboard_cubit.dart';
+  static const String dashboardDashboardDetailDataModel = 'lib/models/dashboard/dashboard_detail_data_model.dart';
+  static const String dashboardDashboardDetailsScreen = 'lib/screens/dashboard/dashboard_details_screen.dart';
   static const String dashboardDashboardOverviewModel = 'lib/models/dashboard/dashboard_overview_model.dart';
   static const String dashboardDashboardScreen = 'lib/screens/dashboard/dashboard_screen.dart';
   static const String dashboardDashboardState = 'lib/cubit/dashboard/dashboard_state.dart';
+  static const String dashboardDetailChartDataModel = 'lib/models/dashboard/detail_chart_data_model.dart';
+  static const String dashboardDirectSaleDataModel = 'lib/models/dashboard/direct_sale_data_model.dart';
   static const String dashboardNetSubscribersModel = 'lib/models/dashboard/net_subscribers_model.dart';
   static const String dashboardRefundRatioDataModel = 'lib/models/dashboard/refund_ratio_data_model.dart';
   static const String dashboardSalesRevenueDataModel = 'lib/models/dashboard/sales_revenue_data_model.dart';
-  static const String dashboardSalesRevenueDetails = 'lib/screens/dashboard/sales_revenue_details.dart';
   static const String dashboardTransactionDataWidget = 'lib/screens/dashboard/transaction_data_widget.dart';
   static const String generatedAssets = 'lib/generated/assets.dart';
   static const String helperColorHelper = 'lib/helper/color_helper.dart';
