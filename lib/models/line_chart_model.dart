@@ -61,6 +61,7 @@ class SubscriptionData {
 class LineChartModel {
   final List<SalesData>? salesData;
   final List<SubscriptionData>? subscriptionData; // New dataset
+  final List<String> ranges; // 🔹 New field to store ranges
 
   final Map<String, List<FlSpot>> dataPoints;
   final Map<String, Color> lineColors;
@@ -68,6 +69,7 @@ class LineChartModel {
   LineChartModel({
      this.salesData,
     this.subscriptionData,
+    required this.ranges, // 🔹 Add required range list
 
     required this.dataPoints,
     this.lineColors = const {},
@@ -82,6 +84,7 @@ class LineChartModel {
       'Salvage Sale': [],
 
     };
+    List<String> ranges = []; // 🔹 Store range values
 
     for (int i = 0; i < salesData.length; i++) {
       points['Direct Sale']?.add(FlSpot(i.toDouble(), salesData[i].directSale??0));
@@ -89,6 +92,7 @@ class LineChartModel {
       points['Initial Sale']?.add(FlSpot(i.toDouble(), salesData[i].initialSale??0));
       points['Recurring Sale']?.add(FlSpot(i.toDouble(), salesData[i].recurringSale??0));
       points['Salvage Sale']?.add(FlSpot(i.toDouble(), salesData[i].salvageSale??0));
+      ranges.add(salesData[i].range ?? "N/A"); // 🔹 Collect ranges
 
     }
 
@@ -101,7 +105,7 @@ class LineChartModel {
 
     };
 
-    return LineChartModel(salesData: salesData, dataPoints: points, lineColors: colors);
+    return LineChartModel(salesData: salesData, dataPoints: points, lineColors: colors,      ranges: ranges);
   }
 
   /// Create model for Subscription Data
@@ -111,11 +115,15 @@ class LineChartModel {
       'Cancelled Subscriptions': [],
       'Net Subscriptions': []
     };
+    List<String> ranges = []; // 🔹 Store range values
 
     for (int i = 0; i < subscriptionData.length; i++) {
       points['New Subscriptions']?.add(FlSpot(i.toDouble(), subscriptionData[i].newSubscriptions?.toDouble()??0));
       points['Cancelled Subscriptions']?.add(FlSpot(i.toDouble(), subscriptionData[i].cancelledSubscriptions?.toDouble()??0));
       points['Net Subscriptions']?.add(FlSpot(i.toDouble(), subscriptionData[i].netSubscriptions?.toDouble()??0));
+
+      ranges.add(subscriptionData[i].range ?? "N/A"); // 🔹 Collect ranges
+
     }
 
     return LineChartModel(
@@ -126,6 +134,8 @@ class LineChartModel {
         'Cancelled Subscriptions': AppColors.seaBlue,
         'Net Subscriptions': AppColors.pink,
       },
+      ranges: ranges, // 🔹 Pass collected ranges
+
     );
   }
 }

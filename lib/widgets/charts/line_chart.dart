@@ -343,7 +343,6 @@ class SalesRevenueChart extends StatelessWidget {
       minY = spots.map((spot) => spot.y).reduce((a, b) => a < b ? a : b);
       maxY = spots.map((spot) => spot.y).reduce((a, b) => a > b ? a : b);
 
-      print(minY);
       minY=(minY > 0)? 0:minY;
       maxY = (maxY * 1.1).ceilToDouble(); // Add 10% padding at the top
     }
@@ -453,62 +452,90 @@ class SalesRevenueChart extends StatelessWidget {
     );
   }
 
-  LineTouchData lineTouchData1() {
-    return LineTouchData(
-      handleBuiltInTouches: true,
-      touchTooltipData: LineTouchTooltipData(
-        tooltipRoundedRadius: 10,
-        maxContentWidth: 300,
-        tooltipBorder: BorderSide(
-          color: Colors.white, // Border color
-          width: 0.5, // Thin border
-        ),
-        tooltipPadding: const EdgeInsets.symmetric(
-            horizontal: 16, vertical: 8), // Wider padding
-        tooltipMargin: 12, // Adds extra margin for spacing
-        fitInsideHorizontally: true,
-        fitInsideVertically: true,
-        getTooltipColor: (LineBarSpot spot) => AppColors.darkBg2,
-        getTooltipItems: (List<LineBarSpot> touchedSpots) {
-          return touchedSpots.map((spot) {
-            Color? color = spot.bar.color; // Get the color of the line
-            String? lineName =
-                chartModel.dataPoints.keys.elementAtOrNull(spot.barIndex);
+   LineTouchData lineTouchData1() {
+     return LineTouchData(
+       handleBuiltInTouches: true,
+       touchTooltipData: LineTouchTooltipData(
+         tooltipRoundedRadius: 10,
+         maxContentWidth: 300,
+         tooltipBorder: BorderSide(
+           color: Colors.white, // Border color
+           width: 0.5, // Thin border
+         ),
+         tooltipPadding: const EdgeInsets.symmetric(
+             horizontal: 16, vertical: 8), // Wider padding
+         tooltipMargin: 12, // Adds extra margin for spacing
+         fitInsideHorizontally: true,
+         fitInsideVertically: true,
+         getTooltipColor: (LineBarSpot spot) => AppColors.darkBg2,
+         getTooltipItems: (List<LineBarSpot> touchedSpots) {
+           if (touchedSpots.isEmpty) return [];
 
-            return LineTooltipItem(
-              '', // Empty main text to use only children
-              TextStyle(
-                  fontSize: 12,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold),
-              textAlign: TextAlign.start,
+           // Find the last index for range determination
+           int lastIndex = -1;
+           for (var spot in touchedSpots) {
+             if (spot.spotIndex > lastIndex) {
+               lastIndex = spot.spotIndex;
+             }
+           }
 
-              children: [
-                TextSpan(
-                  text: '$lineName : ', // Label with extra spaces (thin spaces)
-                  style: const TextStyle(
-                    fontSize: 12,
-                    color: Colors.white, // White label
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                TextSpan(
-                  text:
-                      '\$${spot.y.toStringAsFixed(2)}', // Invisible zero-width space
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: color, // Change this to any color
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            );
-          }).toList();
-        },
-      ),
-    );
-  }
-}
+           // Get the range text once
+           String range = "N/A";
+           if (lastIndex >= 0 && lastIndex < chartModel.ranges.length) {
+             range = chartModel.ranges[lastIndex];
+           }
+
+           // Create tooltip items with range included in the last one
+           List<LineTooltipItem> tooltipItems = touchedSpots.map((spot) {
+             Color? color = spot.bar.color; // Get the color of the line
+             String? lineName =
+             chartModel.dataPoints.keys.elementAtOrNull(spot.barIndex);
+
+             bool isLastSpot = spot == touchedSpots.last;
+
+             return LineTooltipItem(
+               '', // Empty main text to use only children
+               TextStyle(
+                   fontSize: 12,
+                   color: Colors.white,
+                   fontWeight: FontWeight.bold),
+               textAlign: TextAlign.start,
+               children: [
+                 TextSpan(
+                   text: '$lineName : ', // Label with extra spaces
+                   style: const TextStyle(
+                     fontSize: 12,
+                     color: Colors.white, // White label
+                     fontWeight: FontWeight.bold,
+                   ),
+                 ),
+                 TextSpan(
+                   text: '\$${spot.y.toStringAsFixed(2)}',
+                   style: TextStyle(
+                     fontSize: 12,
+                     color: color, // Color from the line
+                     fontWeight: FontWeight.bold,
+                   ),
+                 ),
+                 // Only add the range to the last tooltip item
+                 if (isLastSpot)
+                   TextSpan(
+                     text: '\n\n$range',
+                     style: const TextStyle(
+                       fontSize: 14,
+                       color: AppColors.subText,
+                       fontWeight: FontWeight.bold,
+                     ),
+                   ),
+               ],
+             );
+           }).toList();
+
+           return tooltipItems;
+         },
+       ),
+     );
+   }}
 
 // class LegendWidget extends StatelessWidget {
 //   final Color color;
