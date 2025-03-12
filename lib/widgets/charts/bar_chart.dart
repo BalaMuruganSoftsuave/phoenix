@@ -138,10 +138,7 @@ class BarChartWidget extends StatelessWidget {
                   barTouchData: BarTouchData(
                       enabled: true,
                       handleBuiltInTouches: true,
-
-
                       touchTooltipData: BarTouchTooltipData(
-                        // tooltipBgColor: Colors.black87,
                         tooltipBorder: BorderSide(
                           color: Colors.white, // Border color
                           width: 0.5, // Thin border
@@ -193,7 +190,7 @@ class BarChartWidget extends StatelessWidget {
                             textSpans.add(
                               TextSpan(
                                 text:
-                                    '(${percentage.toStringAsFixed(1)}%)\n',
+                                '(${percentage.toStringAsFixed(1)}%)\n',
                                 style: TextStyle(
                                     fontSize: 12,
                                     color: Colors.grey[300],
@@ -201,6 +198,23 @@ class BarChartWidget extends StatelessWidget {
                               ),
                             );
                           });
+
+                          // Get the range for this group index
+                          String range = "N/A";
+                          if (groupIndex >= 0 && groupIndex < data.range.length) {
+                            range = data.range;
+                          }
+
+                          // Add an extra line break and then the range at the bottom
+                          textSpans.add(
+                            TextSpan(
+                              text: '\n$range',
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  color: AppColors.subText,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          );
 
                           return BarTooltipItem(
                             textAlign: TextAlign.start,
@@ -210,7 +224,7 @@ class BarChartWidget extends StatelessWidget {
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold),
                             children:
-                                textSpans, // Show all values in a single tooltip
+                            textSpans, // Show all values in a single tooltip
                           );
                         },
                       )),
