@@ -65,6 +65,9 @@ class PieChartFilterWidgetState extends State<PieChartFilterWidget> {
 
     return DropdownButton<String>(
       value: selectedFilter,
+      elevation: 5,
+      underline: SizedBox(), // Removes default underline
+
       dropdownColor: AppColors.darkBg2,
       style: TextStyle(color: AppColors.text),
       icon: const Icon(Icons.arrow_drop_down, color: Colors.white),
@@ -119,14 +122,14 @@ class PieChartFilterWidgetState extends State<PieChartFilterWidget> {
   Color _getChargebackColor(String chargebackType) {
     switch (chargebackType) {
       case "Chargeback":
-        return Colors.blue;
+        return AppColors.seaBlue;
       case "RDR":
-        return Colors.purple;
+        return AppColors.purple;
       case "Ethoca":
-        return Colors.orange;
+        return AppColors.orange;
       case "CDRN":
       default:
-        return Colors.green;
+        return AppColors.successGreen;
     }
   }
 
@@ -155,8 +158,8 @@ class PieChartFilterWidgetState extends State<PieChartFilterWidget> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,// or Column based on layout preference
       children: chargebackTotals.entries.map((entry) {
-        double percentage = total > 0 ? (entry.value / total * 100) : 0;
-        return LegendWidget(color: AppColors.purple, text: entry.key, amount: total);
+        double percentage = total > 0 ? double.parse((entry.value / total * 100).toStringAsFixed(2)) : 0.0;
+        return LegendWidget(color:_getChargebackColor(entry.key) , text: entry.key, amount: entry.value,percent:percentage);
       }).toList(),
     );
   }
@@ -179,18 +182,20 @@ class PieChartFilterWidgetState extends State<PieChartFilterWidget> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            translate(widget.title),
-            textAlign: TextAlign.start, // Ensures text itself aligns left
-            style: getTextTheme().titleSmall?.copyWith(
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-              fontSize: Responsive.fontSize(context, 4.8),
-            ),
-          ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              Expanded(
+                child: Text(
+                  translate(widget.title),
+                  textAlign: TextAlign.start, // Ensures text itself aligns left
+                  style: getTextTheme().titleSmall?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    fontSize: Responsive.fontSize(context, 4.8),
+                  ),
+                ),
+              ),
               _buildDropdownFilter(),
             ],
           ),
@@ -248,12 +253,12 @@ class LegendWidget extends StatelessWidget {
   final Color color;
   final String text;
   final int amount; // API value
-
+  final double percent;
   const LegendWidget({
     super.key,
     required this.color,
     required this.text,
-    required this.amount,
+    required this.amount, required this.percent,
   });
 
   @override
@@ -282,7 +287,7 @@ class LegendWidget extends StatelessWidget {
         ),
         const SizedBox(height: 2),
         Text(
-          '\$${amount.toStringAsFixed(2)}', // Example: $500
+          '\$${amount.toStringAsFixed(2)}($percent)', // Example: $500
           style: getTextTheme().labelSmall?.copyWith(
             fontSize: Responsive.fontSize(getCtx()!, 3),
             color: AppColors.text,

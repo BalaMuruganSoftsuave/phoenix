@@ -11,8 +11,8 @@ class Assets {
   static const String bottomNavigationWidgetGbutton = 'lib/widgets/bottom_navigation_widget/gbutton.dart';
   static const String bottomNavigationWidgetGnav = 'lib/widgets/bottom_navigation_widget/gnav.dart';
   static const String chartsPieChart = 'lib/widgets/charts/pieChart.dart';
-  static const String chartsRefundRatioChart = 'lib/widgets/charts/refund_ratio_chart.dart';
-  static const String chartsSalesRevenueChart = 'lib/widgets/charts/sales_revenue_chart.dart';
+  static const String chartsRefundRatioChart = 'lib/widgets/charts/bar_chart.dart';
+  static const String chartsSalesRevenueChart = 'lib/widgets/charts/line_chart.dart';
   static const String chartsToolTipWidget = 'lib/widgets/charts/tool_tip_widget.dart';
   static const String customCalendarWidgetCalendarDatesWidget = 'lib/widgets/custom_calendar_widget/calendar_dates_widget.dart';
   static const String customCalendarWidgetCalendarWidget = 'lib/widgets/custom_calendar_widget/calendar_widget.dart';

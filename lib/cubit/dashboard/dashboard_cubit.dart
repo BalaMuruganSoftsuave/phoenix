@@ -43,6 +43,8 @@ class DashBoardCubit extends Cubit<DashboardState> {
     getRefundsData(context);
     getChargeBacksData(context);
     getLifeTimeData(context);
+    getSalesRevenuesData(context);
+    getNetSubscribersData(context);
   }
 
   void getPermissionsData(BuildContext context) async {
@@ -693,7 +695,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
             await getAuthCubit(context)?.refreshToken(context) ?? false;
 
         if (isTokenRefreshed) {
-          return getLifeTimeData(context); // Retry fetching data after refresh
+          return getSalesRevenuesData(context); // Retry fetching data after refresh
         } else {
           CustomToast.show(
               context: context,

@@ -12,8 +12,9 @@ import 'package:phoenix/models/bar_chart_model.dart';
 import 'package:phoenix/models/line_chart_model.dart';
 import 'package:phoenix/widgets/card_data_widget.dart';
 import 'package:phoenix/widgets/charts/pieChart.dart';
-import 'package:phoenix/widgets/charts/refund_ratio_chart.dart';
-import 'package:phoenix/widgets/charts/sales_revenue_chart.dart';
+import 'package:phoenix/widgets/charts/bar_chart.dart';
+import 'package:phoenix/widgets/charts/line_chart.dart';
+import 'package:phoenix/widgets/container_widget.dart';
 import 'package:phoenix/widgets/gap/widgets/gap.dart';
 
 class SalesRevenueDetails extends StatelessWidget {
@@ -234,18 +235,15 @@ class SalesRevenueDetails extends StatelessWidget {
                       ),
                     ]),
                         Gap(10),
-                        isDirectSale ? SizedBox(
-                            height: 450,
-                            child: SalesRevenueChart(title:"Sales Revenue",areaMap: true,chartModel: chartModel)
-                        )
-                        :SizedBox(
-                            height: 350,
-                            child: BarChartWidget(chartData: processedData, barRadius: 50, barSpace:-1, title: TextHelper.uniqueApprovalRatio,)
+                        isDirectSale ?
+                            ContainerWidget(height: 60,widget: SalesRevenueChart(areaMap: true,chartModel: chartModel))
+
+                        :ContainerWidget(
+                            widget: BarChartWidget(chartData: processedData, barRadius: 50, barSpace:-1,)
                         ),
                         Gap(20),
-                        isDirectSale ? SizedBox(
-                            height: 350,
-                            child: BarChartWidget(chartData: processedData, barRadius: 10, barSpace:-1, title: TextHelper.directSaleRefundRatio,)
+                        isDirectSale ? ContainerWidget(
+                            widget: BarChartWidget(chartData: processedData, barRadius: 10, barSpace:-1,)
                         )
                          :
                         SizedBox(

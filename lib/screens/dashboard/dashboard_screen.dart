@@ -13,8 +13,9 @@ import 'package:phoenix/models/bar_chart_model.dart';
 import 'package:phoenix/models/line_chart_model.dart';
 import 'package:phoenix/screens/dashboard/transaction_data_widget.dart';
 import 'package:phoenix/widgets/charts/pieChart.dart';
-import 'package:phoenix/widgets/charts/refund_ratio_chart.dart';
-import 'package:phoenix/widgets/charts/sales_revenue_chart.dart';
+import 'package:phoenix/widgets/charts/bar_chart.dart';
+import 'package:phoenix/widgets/charts/line_chart.dart';
+import 'package:phoenix/widgets/container_widget.dart';
 import 'package:phoenix/widgets/filter_by_day_widget.dart';
 import 'package:phoenix/widgets/loader.dart';
 import 'package:phoenix/widgets/profile_menu_button.dart';
@@ -25,137 +26,84 @@ import 'charge_back_summary_widget.dart';
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
 
-  var data = {
-    "Result": [
-      {
-        "Range": "02/25 12AM",
-        "DirectSale": 2910.12,
-        "UpsellSale": 0,
-        "InitialSale": 519.82,
-        "RecurringSale": 2515.31,
-        "SalvageSale": 179.95
-      },
-      {
-        "Range": "02/25 1AM",
-        "DirectSale": 2007.04,
-        "UpsellSale": 0,
-        "InitialSale": 559.8,
-        "RecurringSale": 6470.95,
-        "SalvageSale": 39.99
-      },
-      {
-        "Range": "02/25 2AM",
-        "DirectSale": 1937.92,
-        "UpsellSale": 0,
-        "InitialSale": 276.92,
-        "RecurringSale": 834.76,
-        "SalvageSale": 39.99
-      },
-      {
-        "Range": "02/25 3AM",
-        "DirectSale": 1321.69,
-        "UpsellSale": 0,
-        "InitialSale": 159.95,
-        "RecurringSale": 1045.72,
-        "SalvageSale": 0
-      },
-      {
-        "Range": "02/25 4AM",
-        "DirectSale": 898.74,
-        "UpsellSale": 0,
-        "InitialSale": 219.92,
-        "RecurringSale": 1125.74,
-        "SalvageSale": 39.99
-      },
-      {
-        "Range": "02/25 5AM",
-        "DirectSale": 2709.01,
-        "UpsellSale": 0,
-        "InitialSale": 119.96,
-        "RecurringSale": 991.77,
-        "SalvageSale": 0
-      },
-      {
-        "Range": "02/25 6AM",
-        "DirectSale": 1392.53,
-        "UpsellSale": 0,
-        "InitialSale": 179.94,
-        "RecurringSale": 888.8,
-        "SalvageSale": 0
-      },
-      {
-        "Range": "02/25 7AM",
-        "DirectSale": 3030.47,
-        "UpsellSale": 0,
-        "InitialSale": 369.88,
-        "RecurringSale": 1409.67,
-        "SalvageSale": 0
-      },
-      {
-        "Range": "02/25 8AM",
-        "DirectSale": 3848.41,
-        "UpsellSale": 0,
-        "InitialSale": 376.88,
-        "RecurringSale": 2412.33,
-        "SalvageSale": 0
-      },
-      {
-        "Range": "02/25 9AM",
-        "DirectSale": 5688.34,
-        "UpsellSale": 0,
-        "InitialSale": 649.79,
-        "RecurringSale": 3080.19,
-        "SalvageSale": 119.97
-      },
-      {
-        "Range": "02/25 10AM",
-        "DirectSale": 4488.93,
-        "UpsellSale": 0,
-        "InitialSale": 699.77,
-        "RecurringSale": 2929.34,
-        "SalvageSale": 0
-      },
-      {
-        "Range": "02/25 11AM",
-        "DirectSale": 1974.32,
-        "UpsellSale": 0,
-        "InitialSale": 179.94,
-        "RecurringSale": 1048.72,
-        "SalvageSale": 0
-      }
-    ]
-  };
+
   List<Map<String, dynamic>> rawData = [
-    {"Void": 906.71, "Range": "02/27", "Refund": 15466.63, "Revenue": 80499.81},
     {
-      "Void": 1139.62,
-      "Range": "02/28",
-      "Refund": 13808.83,
-      "Revenue": 69587.33
-    },
-    {"Void": 299.9, "Range": "03/01", "Refund": 9251, "Revenue": 151689.47},
-    {"Void": 546.83, "Range": "03/02", "Refund": 4311.04, "Revenue": 100401.48},
-    {
-      "Void": 1543.51,
-      "Range": "03/03",
-      "Refund": 13382.84,
-      "Revenue": 155845.19
+      "Void": 5188.27,
+      "Range": "Jan 24",
+      "Refund": 19381.51,
+      "Revenue": 186087.95
     },
     {
-      "Void": 1179.61,
-      "Range": "03/04",
-      "Refund": 15055.92,
-      "Revenue": 130411.92
+      "Void": 5758.08,
+      "Range": "Feb 24",
+      "Refund": 21555.89,
+      "Revenue": 197502.24
     },
-    {"Void": 59.98, "Range": "03/05", "Refund": 1529.51, "Revenue": 21793.1}
+    {
+      "Void": 6067.98,
+      "Range": "Mar 24",
+      "Refund": 25356.15,
+      "Revenue": 266304.43
+    },
+    {
+      "Void": 6223.94,
+      "Range": "Apr 24",
+      "Refund": 23356.5,
+      "Revenue": 275686.93
+    },
+    {
+      "Void": 5597.13,
+      "Range": "May 24",
+      "Refund": 24267.05,
+      "Revenue": 359478.23
+    },
+    {
+      "Void": 9574.82,
+      "Range": "Jun 24",
+      "Refund": 28925.51,
+      "Revenue": 523418.7
+    },
+    {
+      "Void": 9856.73,
+      "Range": "Jul 24",
+      "Refund": 36955.39,
+      "Revenue": 529075.94
+    },
+    {
+      "Void": 8263.26,
+      "Range": "Aug 24",
+      "Refund": 51161.51,
+      "Revenue": 797178.43
+    },
+    {
+      "Void": 8307.45,
+      "Range": "Sep 24",
+      "Refund": 91153.21,
+      "Revenue": 1285172.21
+    },
+    {
+      "Void": 15564.12,
+      "Range": "Oct 24",
+      "Refund": 170985.57,
+      "Revenue": 1397348.35
+    },
+    {
+      "Void": 17594.55,
+      "Range": "Nov 24",
+      "Refund": 150770.05,
+      "Revenue": 1907791.82
+    },
+    {
+      "Void": 27908.08,
+      "Range": "Dec 24",
+      "Refund": 241363.89,
+      "Revenue": 4137703.72
+    }
   ];
 
   @override
   Widget build(BuildContext context) {
-    List<SalesData> salesDataList = (data["Result"] as List)
-        .map((item) => SalesData.fromJson(item))
-        .toList();
-    LineChartModel chartModel = LineChartModel.fromSalesData(salesDataList);
     List<ChartData> processedData = processData(rawData);
 
     return Scaffold(
@@ -242,51 +190,51 @@ class HomeScreen extends StatelessWidget {
                                 ChargebackSummary(),
                                 SizedBox(height: 30),
                                 // Second Container Inside Column
+                                ContainerWidget(
+                                  height: 62,
+                                  title: "Sales Revenue",
+                                  widget: SalesRevenueChart(
+                                      areaMap: true,
+                                      chartModel: getSalesData(
+                                          state.totalSalesRevenueData?.result ??
+                                              [])),
+                                  childWidget: Icon(Icons.add),
+                                ),
 
-                                SizedBox(
-                                    height: 450,
-                                    child: SalesRevenueChart(
-                                        title: "Sales Revenue",
-                                        areaMap: true,
-                                        chartModel: chartModel)),
                                 SizedBox(height: 20),
-
-                                SizedBox(
-                                    height: 450,
-                                    child: SalesRevenueChart(
-                                        title: "Net Subscribers",
+                                ContainerWidget(
+                                  height: 60,
+                                    title: "Net Subscribers",
+                                    widget: SalesRevenueChart(
                                         areaMap: false,
-                                        chartModel: chartModel)),
+                                        chartModel: getNetSubData(state.netSubscribersData?.result??[]))),
+
                                 SizedBox(height: 20),
-                                SizedBox(
-                                  height: 500,
-                                  child: PieChartFilterWidget(
-                                    title: "Coverage Health",
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 20,
-                                ),
 
                                 SizedBox(
-                                    height: 350,
-                                    child: BarChartWidget(
+                                    height: Responsive.screenH(context, 55),
+                                    child: PieChartFilterWidget(
+                                        title: "Coverage Health")),
+
+                                SizedBox(height: 20),
+
+                                ContainerWidget(
+                                    title: TextHelper.directSaleRefundRatio,
+                                    widget: BarChartWidget(
                                       chartData: processedData,
                                       barRadius: 3,
                                       barSpace: -1,
-                                      title: TextHelper.directSaleRefundRatio,
                                     )),
-                                SizedBox(height: 20),
 
-                                SizedBox(
-                                    height: 350,
-                                    child: BarChartWidget(
+                                SizedBox(height: 20),
+                                ContainerWidget(
+                                    title: TextHelper.directSaleRefundRatio,
+                                    widget: BarChartWidget(
                                       chartData: processedData,
                                       barRadius: 30,
                                       barSpace: -30,
-                                      title: TextHelper.directSaleRefundRatio,
                                       showBackDraw: true,
-                                    )),
+                                    ))
                               ],
                             ),
                           ),
@@ -302,5 +250,14 @@ class HomeScreen extends StatelessWidget {
 
   String getSubtitle(int approvedOrders, double approvalPercentage) {
     return '$approvedOrders orders - ${approvalPercentage.toStringAsFixed(1)}% approval';
+  }
+
+  getSalesData(List<SalesData> data) {
+    return LineChartModel.fromSalesData(data);
+
+  }
+
+  getNetSubData(List<SubscriptionData> data) {
+    return LineChartModel.fromSubscriptions(data);
   }
 }

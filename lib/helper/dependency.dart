@@ -72,13 +72,13 @@ class IdValueItem {
 }
 
 List<IdValueItem> weekDays = [
-  IdValueItem(id: "1", name: "Sun"),
-  IdValueItem(id: "2", name: "Mon"),
-  IdValueItem(id: "3", name: "Tue"),
-  IdValueItem(id: "4", name: "Wed"),
-  IdValueItem(id: "5", name: "Thu"),
-  IdValueItem(id: "6", name: "Fri"),
-  IdValueItem(id: "7", name: "Sat"),
+  IdValueItem(id: "Sunday", name: "Sun"),
+  IdValueItem(id: "Monday", name: "Mon"),
+  IdValueItem(id: "Tuesday", name: "Tue"),
+  IdValueItem(id: "Wednesday", name: "Wed"),
+  IdValueItem(id: "Thursday", name: "Thu"),
+  IdValueItem(id: "Friday", name: "Fri"),
+  IdValueItem(id: "Saturday", name: "Sat"),
 ];
 
 List<IdValueItem> notificationConfigurationItem = [
@@ -159,6 +159,9 @@ AdjustedDates adjustDates(String start, String end) {
   //   'adjustedEndDate': formatDate(adjustedEndDate),
   //   'monthRange': monthRange,
   // };
+
+
+
 }
 String timeAgo(String dateString) {
   DateTime dateTime = DateTime.parse(dateString).toLocal();
@@ -187,6 +190,51 @@ getUserName(){
  return PreferenceHelper.getUserName();
 }
 
+
+
+
+List<Map<String, dynamic>> sortTimeRanges({
+  required List<Map<String, dynamic>>? data,
+  required String timeKey, // The key containing time (e.g., "Range")
+}) {
+  if (data == null || data.isEmpty) return [];
+
+  // Function to check if the time part exists in the "Range" string
+  bool hasValidTime(String range) {
+    List<String> parts = range.split(" ");
+    return parts.length >= 2 && RegExp(r'\d{1,2}(AM|PM)').hasMatch(parts[1]);
+  }
+
+  // Check if all entries are missing valid time parts
+  bool allMissingTimes = data.every((entry) => !hasValidTime(entry[timeKey]));
+
+  // If all are missing valid times, return the original data
+  if (allMissingTimes) return data;
+
+  // Convert time to 24-hour format for sorting
+  int parseTime(String range) {
+    if (!hasValidTime(range)) return -1; // Invalid format
+    List<String> parts = range.split(" ");
+    String time = parts[1];
+    int hour = int.parse(time.replaceAll(RegExp(r'[^0-9]'), ''));
+    bool isPM = time.contains("PM");
+
+    if (isPM && hour != 12) hour += 12;
+    if (!isPM && hour == 12) hour = 0;
+
+    return hour;
+  }
+
+  // Sort the data without modifying its structure
+  List<Map<String, dynamic>> sortedResults = List.from(data);
+  sortedResults.sort((a, b) {
+    int timeA = parseTime(a[timeKey]);
+    int timeB = parseTime(b[timeKey]);
+    return timeA.compareTo(timeB);
+  });
+
+  return sortedResults;
+}
 logout(){
 
 }

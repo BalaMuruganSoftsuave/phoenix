@@ -4,7 +4,7 @@
 // import 'package:phoenix/models/line_chart_model.dart';
 //
 // import '../widgets/card_data_widget.dart';
-// import '../widgets/charts/sales_revenue_chart.dart';
+// import '../widgets/charts/line_chart.dart';
 //
 // class DashboardScreen extends StatelessWidget {
 //    DashboardScreen({super.key});
