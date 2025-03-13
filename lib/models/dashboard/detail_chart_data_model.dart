@@ -68,8 +68,9 @@ class DetailChartApprovalRatioDataResponse {
 
 class DetailChartApprovalRatioDataResult {
   String? range;
-  int? totalOrders;
-  int? approvedOrders;
+  num? totalOrders;
+  num? approvedOrders;
+  num? cancelledOrders;
 
   DetailChartApprovalRatioDataResult({this.range, this.totalOrders, this.approvedOrders});
 
@@ -85,6 +86,20 @@ class DetailChartApprovalRatioDataResult {
     data['Range'] = range;
     data['TotalOrders'] = totalOrders;
     data['ApprovedOrders'] = approvedOrders;
+    return data;
+  }
+  Map<String, dynamic> toChartJson() {
+    var declinedOrders = (totalOrders??0) - (approvedOrders??0);
+    var approvedPercentage = (totalOrders??0) > 0
+        ? ((approvedOrders??0) / (totalOrders??0)) * 100
+        : 0;
+    var declinedPercentage = (totalOrders??0) > 0
+        ? ((declinedOrders??0) / (totalOrders??0)) * 100
+        : 0;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['Range'] = range;
+    data['Approved'] = approvedPercentage;
+    data['Declined'] = declinedPercentage;
     return data;
   }
 }

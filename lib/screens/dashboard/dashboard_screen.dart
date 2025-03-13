@@ -1,31 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:phoenix/cubit/dashboard/dashboard_cubit.dart';
 import 'package:phoenix/cubit/dashboard/dashboard_state.dart';
-import 'package:phoenix/generated/assets.dart';
 import 'package:phoenix/helper/color_helper.dart';
-import 'package:phoenix/helper/dialog_helper.dart';
 import 'package:phoenix/helper/enum_helper.dart';
 import 'package:phoenix/helper/responsive_helper.dart';
 import 'package:phoenix/helper/text_helper.dart';
+import 'package:phoenix/helper/utils.dart';
 import 'package:phoenix/models/bar_chart_model.dart';
+import 'package:phoenix/models/dashboard/refund_ratio_data_model.dart';
 import 'package:phoenix/models/line_chart_model.dart';
 import 'package:phoenix/screens/dashboard/transaction_data_widget.dart';
-import 'package:phoenix/widgets/charts/pieChart.dart';
 import 'package:phoenix/widgets/charts/bar_chart.dart';
 import 'package:phoenix/widgets/charts/line_chart.dart';
+import 'package:phoenix/widgets/charts/pieChart.dart';
 import 'package:phoenix/widgets/container_widget.dart';
 import 'package:phoenix/widgets/filter_by_day_widget.dart';
 import 'package:phoenix/widgets/loader.dart';
-import 'package:phoenix/widgets/profile_menu_button.dart';
 import 'package:phoenix/widgets/storefilter/phoenix_dropDown_Screen.dart';
 
 import 'charge_back_summary_widget.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
-
 
   List<Map<String, dynamic>> rawData = [
     {
@@ -187,54 +184,102 @@ class HomeScreen extends StatelessWidget {
                                 LifeTimeDataWidget(
                                   state: state,
                                 ),
-                                ChargebackSummary(),
+
                                 SizedBox(height: 30),
                                 // Second Container Inside Column
                                 ContainerWidget(
                                   height: 62,
                                   title: "Sales Revenue",
-                                  widget: SalesRevenueChart(
-                                      areaMap: true,
-                                      chartModel: getSalesData(
-                                          state.totalSalesRevenueData?.result ??
-                                              [])),
+                                  widget: state.totalSalesRevenueReqState ==
+                                          ProcessState.loading
+                                      ? Loader()
+                                      : (state.totalSalesRevenueData?.result ??
+                                                  [])
+                                              .isEmpty
+                                          ? NoDataWidget()
+                                          : SalesRevenueChart(
+                                              areaMap: true,
+                                              chartModel: getSalesData(state
+                                                      .totalSalesRevenueData
+                                                      ?.result ??
+                                                  [])),
                                   childWidget: Icon(Icons.add),
                                 ),
 
                                 SizedBox(height: 20),
                                 ContainerWidget(
-                                  height: 60,
+                                    height: 60,
                                     title: "Net Subscribers",
-                                    widget: SalesRevenueChart(
-                                        areaMap: false,
-                                        chartModel: getNetSubData(state.netSubscribersData?.result??[]))),
+                                    widget: state.netSubscribersReqState ==
+                                            ProcessState.loading
+                                        ? Loader()
+                                        : (state.netSubscribersData?.result ??
+                                                    [])
+                                                .isEmpty
+                                            ? NoDataWidget()
+                                            : SalesRevenueChart(
+                                                areaMap: false,
+                                                chartModel: getNetSubData(state
+                                                        .netSubscribersData
+                                                        ?.result ??
+                                                    []))),
 
                                 SizedBox(height: 20),
 
-                                SizedBox(
-                                    height: Responsive.screenH(context, 55),
-                                    child: PieChartFilterWidget(
-                                        title: "Coverage Health")),
-
+                                PieChartFilterWidget(
+                                    isLoading:
+                                        state.coverageHealthDataReqState ==
+                                            ProcessState.loading,
+                                    transactions:
+                                        state.coverageHealthDataData?.result ??
+                                            [],
+                                    title: "Coverage Health"),
+                                SizedBox(height: 30),
+                                ChargebackSummary(),
                                 SizedBox(height: 20),
 
                                 ContainerWidget(
                                     title: TextHelper.directSaleRefundRatio,
-                                    widget: BarChartWidget(
-                                      chartData: processedData,
-                                      barRadius: 3,
-                                      barSpace: -1,
-                                    )),
+                                    widget: state.refundRatioReqState ==
+                                            ProcessState.loading
+                                        ? Loader()
+                                        : (state.refundRatioData?.result
+                                                        ?.straightData ??
+                                                    [])
+                                                .isEmpty
+                                            ? NoDataWidget()
+                                            : BarChartWidget(
+                                                chartData: getRefundData(state
+                                                        .refundRatioData
+                                                        ?.result
+                                                        ?.straightData ??
+                                                    []),
+                                                barRadius: 3,
+                                                barSpace: -1,
+                                              )),
 
                                 SizedBox(height: 20),
                                 ContainerWidget(
-                                    title: TextHelper.directSaleRefundRatio,
-                                    widget: BarChartWidget(
-                                      chartData: processedData,
-                                      barRadius: 30,
-                                      barSpace: -30,
-                                      showBackDraw: true,
-                                    ))
+                                    title: TextHelper.subscriptionRefundRatio,
+                                    widget: state.refundRatioReqState ==
+                                            ProcessState.loading
+                                        ? Loader()
+                                        : (state.refundRatioData?.result
+                                                        ?.subscriptionData ??
+                                                    [])
+                                                .isEmpty
+                                            ? NoDataWidget()
+                                            : BarChartWidget(
+                                                chartData: getRefundData(state
+                                                        .refundRatioData
+                                                        ?.result
+                                                        ?.subscriptionData ??
+                                                    []),
+                                                barRadius: 30,
+                                                barSpace: -30,
+                                                showBackDraw: true,
+                                                width: 70,
+                                              ))
                               ],
                             ),
                           ),
@@ -254,10 +299,31 @@ class HomeScreen extends StatelessWidget {
 
   getSalesData(List<SalesData> data) {
     return LineChartModel.fromSalesData(data);
-
   }
 
   getNetSubData(List<SubscriptionData> data) {
     return LineChartModel.fromSubscriptions(data);
+  }
+
+  getRefundData(List<RefundRatioData> data) {
+    List<Map<String, dynamic>> data1 =
+        data.map((e) => e.toJson()).toList() ?? [];
+    return processData(data1);
+  }
+}
+
+class NoDataWidget extends StatelessWidget {
+  const NoDataWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Text(
+        "No Data on this period",
+        style: getTextTheme().bodyMedium?.copyWith(
+            fontSize: Responsive.fontSize(context, 4),
+            color: AppColors.subText),
+      ),
+    );
   }
 }

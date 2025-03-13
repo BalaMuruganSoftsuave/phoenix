@@ -25,11 +25,15 @@ class Result {
   Result.fromJson(Map<String, dynamic> json) {
     if (json['StraightData'] != null) {
       straightData = <RefundRatioData>[];
-      json['StraightData'].forEach((v) { straightData!.add(RefundRatioData.fromJson(v)); });
+      json['StraightData'].forEach((v) {
+        straightData!.add(RefundRatioData.fromJson(v));
+      });
     }
     if (json['SubscriptionData'] != null) {
       subscriptionData = <RefundRatioData>[];
-      json['SubscriptionData'].forEach((v) { subscriptionData!.add(RefundRatioData.fromJson(v)); });
+      json['SubscriptionData'].forEach((v) {
+        subscriptionData!.add(RefundRatioData.fromJson(v));
+      });
     }
   }
 
@@ -39,17 +43,18 @@ class Result {
       data['StraightData'] = straightData!.map((v) => v.toJson()).toList();
     }
     if (subscriptionData != null) {
-      data['SubscriptionData'] = subscriptionData!.map((v) => v.toJson()).toList();
+      data['SubscriptionData'] =
+          subscriptionData!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class RefundRatioData {
-  double? voidData;
+  num? voidData;
   String? range;
-  double? refund;
-  double? revenue;
+  num? refund;
+  num? revenue;
 
   RefundRatioData({this.voidData, this.range, this.refund, this.revenue});
 

@@ -23,10 +23,10 @@ class DirectSaleDataResponse {
 
 class DirectSaleDataResult {
   String? label;
-  int? approvedOrders;
-  double? averageOrderValue;
-  double? approvalPercentage;
-  double? abandonCartRatio;
+  num? approvedOrders;
+  num? averageOrderValue;
+  num? approvalPercentage;
+  num? abandonCartRatio;
 
   DirectSaleDataResult(
       {this.label,
@@ -80,10 +80,10 @@ class DashboardDetailDataResponse {
 
 class DashboardDetailDataResult {
   String? label;
-  double? approvedOrders;
-  double? declinedOrders;
-  double? cancelledSubscriptions;
-  double? approvalPercentage;
+  num? approvedOrders;
+  num? declinedOrders;
+  num? cancelledSubscriptions;
+  num? approvalPercentage;
 
   DashboardDetailDataResult(
       {this.label,

@@ -8,6 +8,7 @@ import 'package:phoenix/helper/color_helper.dart';
 const Color voidColor = AppColors.purple;
 const Color revenueColor = AppColors.pink;
 const Color refundColor = AppColors.seaBlue;
+const Color approved = AppColors.successGreen;
 
 // Data model to convert raw values into percentages
 class ChartData {

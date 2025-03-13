@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phoenix/cubit/auth/auth_cubit.dart';
 import 'package:phoenix/helper/preference_helper.dart';
 import 'package:phoenix/models/dashboard/additional_models.dart';
+import 'package:phoenix/models/filter_payload_model.dart';
 
 import '../cubit/dashboard/dashboard_cubit.dart';
 import 'nav_observer.dart';
@@ -28,15 +29,15 @@ String getSubtitle(double approvedOrders, double approvalPercentage) {
   return '${formatNumber(approvedOrders)}/${approvalPercentage.toStringAsFixed(1)}%'; // Show both if none are 0
 }
 
-String checkNullable(num value){
-  if(value == 0){
+String checkNullable(num value) {
+  if (value == 0) {
     return '-';
   }
   return "${value.toStringAsFixed(1)}%";
 }
 
 String formatNumber(num number, {String locale = 'en_US'}) {
-  if(number==0){
+  if (number == 0) {
     return '-';
   }
   final formatter = NumberFormat.decimalPattern(locale);
@@ -45,7 +46,7 @@ String formatNumber(num number, {String locale = 'en_US'}) {
 
 /// Formats a number as currency (USD)
 String formatCurrency(double value) {
-  if(value==0){
+  if (value == 0) {
     return '-';
   }
   final format = NumberFormat.currency(locale: 'en_US', symbol: '\$');
@@ -77,8 +78,6 @@ double percentage(
       : double.parse(result.toStringAsFixed(toFixed));
 }
 
-
-
 class IdValueItem {
   String? id;
   String? name;
@@ -101,7 +100,6 @@ List<IdValueItem> notificationConfigurationItem = [
   IdValueItem(id: "1", name: "Daily"),
   IdValueItem(id: "2", name: "Weekly"),
 ];
-
 
 String getGroupBy(dynamic start, dynamic end) {
   // Ensure inputs are valid DateTime objects
@@ -174,10 +172,8 @@ AdjustedDates adjustDates(String start, String end) {
   //   'adjustedEndDate': formatDate(adjustedEndDate),
   //   'monthRange': monthRange,
   // };
-
-
-
 }
+
 String timeAgo(String dateString) {
   DateTime dateTime = DateTime.parse(dateString).toLocal();
   Duration difference = DateTime.now().difference(dateTime);
@@ -201,12 +197,10 @@ String timeAgo(String dateString) {
     return '$years year${years > 1 ? 's' : ''} ago';
   }
 }
-getUserName(){
- return PreferenceHelper.getUserName();
+
+getUserName() {
+  return PreferenceHelper.getUserName();
 }
-
-
-
 
 List<Map<String, dynamic>> sortTimeRanges({
   required List<Map<String, dynamic>>? data,
@@ -250,6 +244,44 @@ List<Map<String, dynamic>> sortTimeRanges({
 
   return sortedResults;
 }
-logout(){
 
+FilterPayload adjustStartEndDateRefund(String startDate, String endDate) {
+  DateTime start = DateTime.parse(startDate);
+  DateTime end = DateTime.parse(endDate);
+  DateTime today = DateTime.now();
+
+  // Calculate the difference in days between start and end
+  int diffDays = end.difference(start).inDays.abs();
+
+  // If the difference is less than 7 days, set start date to 7 days before the end date
+  if (diffDays < 7) {
+    end = end;
+    start = end.subtract(const Duration(days: 6));
+  }
+
+  // Determine the groupBy value based on the difference in days
+  String groupByValue;
+  if (diffDays <= 30) {
+    groupByValue = 'day';
+  } else if (diffDays <= 210) {
+    groupByValue = 'week';
+  } else {
+    groupByValue = 'month';
+  }
+
+  // Format the dates as "YYYY-MM-DD"
+  String formatDate(DateTime date) => date.toIso8601String().split('T')[0];
+
+  return FilterPayload(
+      startDate: formatDate(start),
+      endDate: formatDate(end),
+      groupBy: groupByValue);
+}
+
+logout() {}
+List<Color> generateRandomColors(int length) {
+  return List<Color>.generate(length, (i) {
+    final hue = (i * 360) / length;
+    return HSLColor.fromAHSL(1.0, hue, 0.7, 0.5).toColor();
+  });
 }

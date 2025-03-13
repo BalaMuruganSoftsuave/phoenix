@@ -10,10 +10,10 @@ class Assets {
   static const String bottomNavigationWidgetButton = 'lib/widgets/bottom_navigation_widget/button.dart';
   static const String bottomNavigationWidgetGbutton = 'lib/widgets/bottom_navigation_widget/gbutton.dart';
   static const String bottomNavigationWidgetGnav = 'lib/widgets/bottom_navigation_widget/gnav.dart';
+  static const String chartsBarChart = 'lib/widgets/charts/bar_chart.dart';
+  static const String chartsLegendWidget = 'lib/widgets/charts/legend_widget.dart';
+  static const String chartsLineChart = 'lib/screens/charts/line_chart.dart';
   static const String chartsPieChart = 'lib/widgets/charts/pieChart.dart';
-  static const String chartsRefundRatioChart = 'lib/widgets/charts/bar_chart.dart';
-  static const String chartsSalesRevenueChart = 'lib/widgets/charts/line_chart.dart';
-  static const String chartsToolTipWidget = 'lib/widgets/charts/tool_tip_widget.dart';
   static const String customCalendarWidgetCalendarDatesWidget = 'lib/widgets/custom_calendar_widget/calendar_dates_widget.dart';
   static const String customCalendarWidgetCalendarWidget = 'lib/widgets/custom_calendar_widget/calendar_widget.dart';
   static const String customCalendarWidgetCalenderWidgetModal = 'lib/widgets/custom_calendar_widget/calender_widget_modal.dart';
@@ -39,6 +39,7 @@ class Assets {
   static const String dashboardSalesRevenueDataModel = 'lib/models/dashboard/sales_revenue_data_model.dart';
   static const String dashboardTransactionDataWidget = 'lib/screens/dashboard/transaction_data_widget.dart';
   static const String generatedAssets = 'lib/generated/assets.dart';
+  static const String helperChartHelper = 'lib/helper/chart_helper.dart';
   static const String helperColorHelper = 'lib/helper/color_helper.dart';
   static const String helperDependency = 'lib/helper/dependency.dart';
   static const String helperDialogHelper = 'lib/helper/dialog_helper.dart';
@@ -115,6 +116,8 @@ class Assets {
   static const String storefilterPheniox = 'lib/widgets/storefilter/pheniox.dart';
   static const String storefilterPhoenixDropDownScreen = 'lib/widgets/storefilter/phoenix_dropDown_Screen.dart';
   static const String widgetsCardDataWidget = 'lib/widgets/card_data_widget.dart';
+  static const String widgetsChartsLineChart = 'lib/widgets/charts/line_chart.dart';
+  static const String widgetsContainerWidget = 'lib/widgets/container_widget.dart';
   static const String widgetsFilterByDayWidget = 'lib/widgets/filter_by_day_widget.dart';
   static const String widgetsGap = 'lib/widgets/gap/widgets/gap.dart';
   static const String widgetsGlowingCard = 'lib/widgets/glowing_card.dart';

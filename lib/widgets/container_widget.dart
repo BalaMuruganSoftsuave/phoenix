@@ -21,7 +21,6 @@ class ContainerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: Responsive.screenH(context,height?? 50 ),
       padding: EdgeInsets.all(Responsive.padding(context, 3)),
       decoration: BoxDecoration(
         color: AppColors.darkBg2,

@@ -24,64 +24,50 @@ class Loader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return Stack(
-      children: [
-        // Blurred background overlay
-        Positioned.fill(
-          child: Container(
-            color: Colors.black.withValues(alpha: 0.5),
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
-              child: Container(),
+    return Center(
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+            SvgPicture.asset(
+              Assets.imagesPhoenixBird,
+              width: 30,
+              height: 30,
+            ),
+          const SizedBox(height: 16),
+          // Gradient CircularProgressIndicator
+          SizedBox(
+            width: 50,
+            height: 50,
+            child: CircularProgressIndicator(
+              strokeWidth: 2,
+              valueColor: const AlwaysStoppedAnimation<Color>(
+                Colors.transparent, // Hide the default color
+              ),
+              backgroundColor: Colors.transparent,
             ),
           ),
-        ),
-        Center(
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-                SvgPicture.asset(
-                  Assets.imagesPhoenixBird,
-                  width: 30,
-                  height: 30,
-                ),
-              const SizedBox(height: 16),
-              // Gradient CircularProgressIndicator
-              SizedBox(
-                width: 50,
-                height: 50,
-                child: CircularProgressIndicator(
-                  strokeWidth: 2,
-                  valueColor: const AlwaysStoppedAnimation<Color>(
-                    Colors.transparent, // Hide the default color
-                  ),
-                  backgroundColor: Colors.transparent,
-                ),
+          ShaderMask(
+            shaderCallback: (Rect bounds) {
+              return const LinearGradient(
+                colors: [
+                  Color(0xFFF0B351), // Start color
+                  Color(0xFFFF5ACD), // End color
+                ],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ).createShader(bounds);
+            },
+            child: SizedBox(
+              width: 50,
+              height: 50,
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
               ),
-              ShaderMask(
-                shaderCallback: (Rect bounds) {
-                  return const LinearGradient(
-                    colors: [
-                      Color(0xFFF0B351), // Start color
-                      Color(0xFFFF5ACD), // End color
-                    ],
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                  ).createShader(bounds);
-                },
-                child: SizedBox(
-                  width: 50,
-                  height: 50,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2,
-                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                  ),
-                ),
-              ),
-            ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

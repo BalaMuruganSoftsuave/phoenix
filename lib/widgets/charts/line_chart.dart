@@ -4,6 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:phoenix/models/line_chart_model.dart';
+import 'package:phoenix/widgets/charts/legend_widget.dart';
 import 'dart:core';
 import '../../helper/color_helper.dart';
 import '../../helper/dependency.dart';
@@ -12,10 +13,11 @@ import '../../helper/responsive_helper.dart';
 import '../../helper/utils.dart';
 
 class SalesRevenueChart extends StatelessWidget {
-   SalesRevenueChart(
-      {super.key, this.areaMap = false, required this.chartModel });
+   const SalesRevenueChart(
+      {super.key, this.areaMap = false, required this.chartModel ,this.isDetailScreen = false,});
 
   final bool areaMap;
+  final bool isDetailScreen;
   final LineChartModel chartModel;
   List<FlSpot> smoothData(List<FlSpot> originalSpots, int windowSize) {
     List<FlSpot> modifiedSpots = List.from(originalSpots);
@@ -44,13 +46,12 @@ class SalesRevenueChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final totalSales = _calculateTotalSales(); // Calculate totals for legend
+    final totalSales = isDetailScreen?_calculateDirectSales():_calculateTotalSales(); // Calculate totals for legend
     final totalSubs = _calculateTotalSubscriptions(chartModel.subscriptionData);
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-
 
         SizedBox(
           height: 250,
@@ -72,108 +73,121 @@ class SalesRevenueChart extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 10),
-        Center(
-          child: areaMap
-              ? Wrap(
-            alignment: WrapAlignment.start, // Align items from the start
-            spacing: 10, // Horizontal spacing between items
-            runSpacing: 10, // Vertical spacing between wrapped rowstween wrapped rows
-                children: [
-                  LegendWidget(
-                      color: AppColors.pink,
-                      text: 'Direct',
-                      amount: totalSales['Direct Sale'] ?? 0),
-
-                  // Vertical Divider
-                  Container(
-                    width: 1, // Divider thickness
-                    height: 60, // Adjust height as needed
-                    color: AppColors.lines, // Adjust color as needed
-                    margin: EdgeInsets.symmetric(
-                        horizontal: 10), // Space around divider
-                  ),
-
-                  LegendWidget(
-                      color: AppColors.successGreen,
-                      text: 'Upsell',
-                      amount: totalSales['Upsell Sale'] ?? 0),
-
-                  Container(
-                    width: 1,
-                    height: 60,
-                    color: AppColors.lines,
-                    margin: EdgeInsets.symmetric(horizontal: 10),
-                  ),
-
-                  LegendWidget(
-                      color: AppColors.seaBlue,
-                      text: 'Initial',
-                      amount: totalSales['Initial Sale'] ?? 0),
-                  Container(
-                    width: 1,
-                    height: 60,
-                    color: AppColors.lines,
-                    margin: EdgeInsets.symmetric(horizontal: 10),
-                  ),
-
-                  LegendWidget(
-                      color: AppColors.purple,
-                      text: 'Recurring',
-                      amount: totalSales['Recurring Sale'] ?? 0),
-                  Container(
-                    width: 1,
-                    height: 60,
-                    color: AppColors.lines,
-                    margin: EdgeInsets.symmetric(horizontal: 10),
-                  ),
-
-                  LegendWidget(
-                      color: AppColors.orange,
-                      text: 'Salvage',
-                      amount: totalSales['Salvage Sale'] ?? 0),
+        isDetailScreen? Wrap(
+          alignment: WrapAlignment.start, // Align items from the start
+          spacing: 10, // Horizontal spacing between items
+          runSpacing: 10, // Vertical spacing between wrapped rowstween wrapped rows
+          children: [
+            LegendWidget(
+                color: AppColors.pink,
+                text: 'Direct',
+                subText: formatCurrency(totalSales['Direct Sale'] ?? 0).toString()),
 
 
 
-                ],
-              )
-              : Wrap(
-                alignment: WrapAlignment.start, // Align items from the start
-                spacing: 10, // Horizontal spacing between items
-                runSpacing: 10,
-                children: [
-                  LegendWidget(
-                      color: AppColors.pink,
-                      text: 'Net Subscribers',
-                      amount: totalSubs['netSubscriptions'] ?? 0),
 
-                  // Vertical Divider
-                  Container(
-                    width: 1, // Divider thickness
-                    height: 60, // Adjust height as needed
-                    color: AppColors.lines, // Adjust color as needed
-                    margin: EdgeInsets.symmetric(
-                        horizontal: 10), // Space around divider
-                  ),
+          ],
+        ):areaMap
+            ? Wrap(
+          alignment: WrapAlignment.start, // Align items from the start
+          spacing: 10, // Horizontal spacing between items
+          runSpacing: 10, // Vertical spacing between wrapped rowstween wrapped rows
+              children: [
+                LegendWidget(
+                    color: AppColors.pink,
+                    text: 'Direct',
+                    subText: formatCurrency(totalSales['Direct Sale'] ?? 0).toString()),
 
-                  LegendWidget(
-                      color: AppColors.successGreen,
-                      text: 'New Subscribers',
-                      amount: totalSubs['newSubscriptions'] ?? 0),
+                // Vertical Divider
+                Container(
+                  width: 1, // Divider thickness
+                  height: 60, // Adjust height as needed
+                  color: AppColors.lines, // Adjust color as needed
+                  margin: EdgeInsets.symmetric(
+                      horizontal: 10), // Space around divider
+                ),
 
-                  Container(
-                    width: 1,
-                    height: 60,
-                    color: AppColors.lines,
-                    margin: EdgeInsets.symmetric(horizontal: 10),
-                  ),
+                LegendWidget(
+                    color: AppColors.successGreen,
+                    text: 'Upsell',
+                    subText: formatCurrency(totalSales['Upsell Sale'] ?? 0).toString()),
 
-                  LegendWidget(
-                      color: AppColors.seaBlue,
-                      text: 'Cancelled Subscribers',
-                      amount: totalSubs['cancelledSubscriptions'] ?? 0),
-                ],
-              ),
-        )
+                Container(
+                  width: 1,
+                  height: 60,
+                  color: AppColors.lines,
+                  margin: EdgeInsets.symmetric(horizontal: 10),
+                ),
+
+                LegendWidget(
+                    color: AppColors.seaBlue,
+                    text: 'Initial',
+                    subText: formatCurrency(totalSales['Initial Sale'] ?? 0).toString()),
+                Container(
+                  width: 1,
+                  height: 60,
+                  color: AppColors.lines,
+                  margin: EdgeInsets.symmetric(horizontal: 10),
+                ),
+
+                LegendWidget(
+                    color: AppColors.purple,
+                    text: 'Recurring',
+                    subText: formatCurrency(totalSales['Recurring Sale'] ?? 0).toString()),
+
+                Container(
+                  width: 1,
+                  height: 60,
+                  color: AppColors.lines,
+                  margin: EdgeInsets.symmetric(horizontal: 10),
+                ),
+
+                LegendWidget(
+                    color: AppColors.orange,
+                    text: 'Salvage',
+                    subText: formatCurrency(totalSales['Salvage Sale'] ?? 0).toString()),
+
+              ],
+            )
+            : Wrap(
+              alignment: WrapAlignment.start, // Align items from the start
+              spacing: 10, // Horizontal spacing between items
+              runSpacing: 10,
+              children: [
+                LegendWidget(
+                    color: AppColors.pink,
+                    text: 'Net Subscribers',
+            subText: ( totalSubs['netSubscriptions'] ?? 0).toString()),
+
+
+                // Vertical Divider
+                Container(
+                  width: 1, // Divider thickness
+                  height: 60, // Adjust height as needed
+                  color: AppColors.lines, // Adjust color as needed
+                  margin: EdgeInsets.symmetric(
+                      horizontal: 10), // Space around divider
+                ),
+
+                LegendWidget(
+                    color: AppColors.successGreen,
+                    text: 'New Subscribers',
+                    subText: (totalSubs['newSubscriptions'] ?? 0).toString()),
+
+
+                Container(
+                  width: 1,
+                  height: 60,
+                  color: AppColors.lines,
+                  margin: EdgeInsets.symmetric(horizontal: 10),
+                ),
+
+                LegendWidget(
+                    color: AppColors.seaBlue,
+                    text: 'Cancelled Subscribers',
+                    subText: (totalSubs['cancelledSubscriptions'] ?? 0).toString()),
+              ],
+            )
       ],
     );
   }
@@ -214,6 +228,17 @@ class SalesRevenueChart extends StatelessWidget {
 
     return totals;
   }
+   Map<String, double> _calculateDirectSales() {
+     final totals = <String, double>{
+       "Direct Sale": 0,
+     };
+
+     for (var entry in chartModel.directData ?? []) {
+       totals["Direct Sale"] = (totals["Direct Sale"] ?? 0) + entry.directSale;
+     }
+
+     return totals;
+   }
 
   Map<String, double> _calculateTotalSubscriptions(
       List<SubscriptionData>? subscriptionData) {
@@ -301,9 +326,7 @@ class SalesRevenueChart extends StatelessWidget {
             show: true,
             getDotPainter: (spot, percent, barData, index) {
               // Show dots only at every 5th point
-              return index % 5 == 0
-                  ? FlDotCirclePainter(radius: 3, color: Colors.blue)
-                  : FlDotCirclePainter(radius: 0, color: Colors.transparent);
+              return  FlDotCirclePainter(radius: 0, color: Colors.transparent);
             },
           ),
           curveSmoothness: 0.4,
@@ -322,7 +345,7 @@ class SalesRevenueChart extends StatelessWidget {
                 chartModel.lineColors[entry.key]!
                     .withValues(alpha: 1), // Start with some opacity
                 // chartModel.lineColors[entry.key]!.withOpacity(0.1), // Fully transparent at the bottom
-                Colors.white.withValues(alpha: 0.2)
+                AppColors.darkBg2
               ],
             ),
           ),
@@ -403,11 +426,11 @@ class SalesRevenueChart extends StatelessWidget {
         sideTitles: SideTitles(
           showTitles: true,
           reservedSize: 20,
-          getTitlesWidget: (value, meta) {
-            int index = value.toInt();
+            getTitlesWidget: (value, meta) {
+              int index = value.toInt();
 
             // Get actual data length safely
-            int dataLength = areaMap
+            int dataLength =isDetailScreen?     (chartModel.directData?.length ?? 0): areaMap
                 ? (chartModel.salesData?.length ?? 0)
                 : (chartModel.subscriptionData?.length ?? 0);
             // Subtract 1 safely, ensuring we don't have negative values
@@ -419,28 +442,29 @@ class SalesRevenueChart extends StatelessWidget {
             }
 
             // Ensure first and last labels are always shown, and show every 3rd label
-            if (index == 0 || index == lastIndex || index % 3 == 0) {
+            if (index == 0 || index == lastIndex || index % 4 == 0) {
               // Only try to access data if we're sure the index is valid
               String? range;
               if (areaMap && chartModel.salesData != null && index < chartModel.salesData!.length) {
-                range = chartModel.salesData![index].range;
+                range = chartModel.salesData?[index].range;
               } else if (!areaMap && chartModel.subscriptionData != null && index < chartModel.subscriptionData!.length) {
-                range = chartModel.subscriptionData![index].range;
+                range = chartModel.subscriptionData?[index].range;
+              }else if (isDetailScreen && chartModel.directData != null && index < (chartModel.directData?.length??0)) {
+                range = chartModel.directData?[index].range;
               } else {
                 range = "";
               }
 
-              formatRange(range);
+                return Text(
+                  formatRange(range),
+                  style: const TextStyle(fontSize: 10, color: Colors.white),
+                  textAlign: TextAlign.center,
+                );
+              }
 
-              return Text(
-                formatRange(range),
-                style: const TextStyle(fontSize: 10, color: Colors.white),
-                textAlign: TextAlign.center,
-              );
+              return Container(); // Hide other labels
             }
 
-            return Container(); // Hide other labels
-          },
         ),
       ),
       topTitles: AxisTitles(
@@ -585,61 +609,61 @@ class SalesRevenueChart extends StatelessWidget {
 //     );
 //   }
 // }
-class LegendWidget extends StatelessWidget {
-  final Color color;
-  final String text;
-  final double amount;
-
-  const LegendWidget({
-    super.key,
-    required this.color,
-    required this.text,
-    required this.amount,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return ConstrainedBox(
-      constraints: BoxConstraints(
-        maxWidth: Responsive.boxW(context, 40), // Set a reasonable width limit to prevent overflow
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              CircleAvatar(
-                radius: 6, // Small dot
-                backgroundColor: color,
-              ),
-              const SizedBox(width: 4),
-              Flexible(
-                child: Text(
-                  text,
-                  style: getTextTheme().labelSmall?.copyWith(
-                    fontSize: Responsive.fontSize(getCtx()!, 3),
-                    color: AppColors.text,
-                    fontWeight: FontHelper.semiBold,
-                  ),
-                  overflow: TextOverflow.ellipsis, // Prevents overflow
-                  softWrap: false, // Ensures it stays on one line
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 4),
-          Text(
-            '\$${amount.toStringAsFixed(2)}',
-            style: getTextTheme().labelSmall?.copyWith(
-              fontSize: Responsive.fontSize(getCtx()!, 3),
-              color: AppColors.text,
-              fontWeight: FontHelper.semiBold,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
+// class LegendWidget extends StatelessWidget {
+//   final Color color;
+//   final String text;
+//   final double amount;
+//
+//   const LegendWidget({
+//     super.key,
+//     required this.color,
+//     required this.text,
+//     required this.amount,
+//   });
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return ConstrainedBox(
+//       constraints: BoxConstraints(
+//         maxWidth: Responsive.boxW(context, 40), // Set a reasonable width limit to prevent overflow
+//       ),
+//       child: Column(
+//         mainAxisSize: MainAxisSize.min,
+//         crossAxisAlignment: CrossAxisAlignment.center,
+//         children: [
+//           Row(
+//             mainAxisSize: MainAxisSize.min,
+//             children: [
+//               CircleAvatar(
+//                 radius: 6, // Small dot
+//                 backgroundColor: color,
+//               ),
+//               const SizedBox(width: 4),
+//               Flexible(
+//                 child: Text(
+//                   text,
+//                   style: getTextTheme().labelSmall?.copyWith(
+//                     fontSize: Responsive.fontSize(getCtx()!, 3),
+//                     color: AppColors.text,
+//                     fontWeight: FontHelper.semiBold,
+//                   ),
+//                   overflow: TextOverflow.ellipsis, // Prevents overflow
+//                   softWrap: false, // Ensures it stays on one line
+//                 ),
+//               ),
+//             ],
+//           ),
+//           const SizedBox(height: 4),
+//           Text(
+//             '\$${amount.toStringAsFixed(2)}',
+//             style: getTextTheme().labelSmall?.copyWith(
+//               fontSize: Responsive.fontSize(getCtx()!, 3),
+//               color: AppColors.text,
+//               fontWeight: FontHelper.semiBold,
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }

@@ -13,7 +13,7 @@ class Responsive {
 
   // Font size based on screen width
   static double fontSize(BuildContext context, double percent) {
-    return screenW(context, percent) *(DeviceType.isMobile(context)?1:1.1);
+    return screenW(context, percent) *(DeviceType.isMobile(context)?1.1:1);
   }
 
   // Padding based on screen width

@@ -1,13 +1,16 @@
+import 'package:fl_chart/fl_chart.dart';
+import 'package:phoenix/models/line_chart_model.dart';
+
 class DirectSaleRevenueDataResponse {
-  List<DirectSaleDataResult>? result;
+  List<DirectSaleDetailDataResult>? result;
 
   DirectSaleRevenueDataResponse({this.result});
 
   DirectSaleRevenueDataResponse.fromJson(Map<String, dynamic> json) {
     if (json['Result'] != null) {
-      result = <DirectSaleDataResult>[];
+      result = <DirectSaleDetailDataResult>[];
       json['Result'].forEach((v) {
-        result!.add( DirectSaleDataResult.fromJson(v));
+        result!.add( DirectSaleDetailDataResult.fromJson(v));
       });
     }
   }
@@ -19,15 +22,17 @@ class DirectSaleRevenueDataResponse {
     }
     return data;
   }
+
+
 }
 
-class DirectSaleDataResult {
+class DirectSaleDetailDataResult {
   String? range;
-  double? directSale;
+  num? directSale;
 
-  DirectSaleDataResult({this.range, this.directSale});
+  DirectSaleDetailDataResult({this.range, this.directSale});
 
-  DirectSaleDataResult.fromJson(Map<String, dynamic> json) {
+  DirectSaleDetailDataResult.fromJson(Map<String, dynamic> json) {
     range = json['Range'];
     directSale = json['DirectSale'];
   }
@@ -93,6 +98,13 @@ class DtSaleAppRatioDataResult {
     data['DeclinedCount'] = declinedCount;
     data['ApprovedPercentage'] = approvedPercentage;
     data['DeclinedPercentage'] = declinedPercentage;
+    return data;
+  }
+  Map<String, dynamic> toChartJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['Approved'] = approvedPercentage;
+    data['Range'] = range;
+    data['Declined'] = declinedPercentage;
     return data;
   }
 }

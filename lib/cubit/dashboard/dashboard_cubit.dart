@@ -5,6 +5,9 @@ import 'package:phoenix/helper/api/api_service.dart';
 import 'package:phoenix/helper/dependency.dart';
 import 'package:phoenix/helper/dialog_helper.dart';
 import 'package:phoenix/helper/enum_helper.dart';
+import 'package:phoenix/models/dashboard/chargeback_summary_model.dart';
+import 'package:phoenix/models/dashboard/coverage_health_data_model.dart';
+import 'package:phoenix/models/dashboard/refund_ratio_data_model.dart';
 import 'package:phoenix/models/filter_payload_model.dart';
 import 'package:phoenix/widgets/filter_by_day_widget.dart';
 
@@ -45,6 +48,9 @@ class DashBoardCubit extends Cubit<DashboardState> {
     getLifeTimeData(context);
     getSalesRevenuesData(context);
     getNetSubscribersData(context);
+    getCoverageHealthData(context);
+    getChargeBackSummaryData(context);
+    getRefundRatioData(context);
   }
 
   void getPermissionsData(BuildContext context) async {
@@ -769,10 +775,168 @@ class DashBoardCubit extends Cubit<DashboardState> {
       emit(state.copyWith(netSubscribersReqState: ProcessState.failure));
     }
   }
-  logout() {
-    emit(DashboardState());
+  void getChargeBackSummaryData(BuildContext context) async {
+    try {
+      emit(state.copyWith(chargeBackSummaryReqState: ProcessState.loading));
+
+      final res =
+      await _apiService.getChargebackSummaryData(state.filterPayload?.toJson());
+
+      _tokenRefreshAttempts = 0; // Reset counter on success
+      emit(state.copyWith(
+          chargeBackSummaryReqState: ProcessState.success,
+          chargeBackSummaryData: res));
+    } on ApiFailure catch (e) {
+      if (e.code == 401) {
+        if (_tokenRefreshAttempts >= 2) {
+          CustomToast.show(
+              context: context,
+              message: "Session Expired",
+              status: ToastStatus.failure);
+          emit(state.copyWith(  chargeBackSummaryReqState: ProcessState.success,
+              chargeBackSummaryData: ChargeBackSummaryDataResponse()));
+          return;
+        }
+        _tokenRefreshAttempts++;
+        final isTokenRefreshed =
+            await getAuthCubit(context)?.refreshToken(context) ?? false;
+
+        if (isTokenRefreshed) {
+          return getChargeBackSummaryData(
+              context); // Rery fetching data after refresh
+        } else {
+          // CustomToast.show(
+          //     context: context,
+          //     message: "Session Expired",
+          //     status: ToastStatus.failure);
+          emit(state.copyWith(  chargeBackSummaryReqState: ProcessState.success,
+              chargeBackSummaryData: ChargeBackSummaryDataResponse()));        }
+      } else {
+        CustomToast.show(
+            context: context,
+            message: e.message.toString(),
+            status: ToastStatus.failure);
+        emit(state.copyWith(  chargeBackSummaryReqState: ProcessState.success,
+            chargeBackSummaryData: ChargeBackSummaryDataResponse()));      }
+    } catch (e) {
+      debugLog("chargeback summary api:  ${e.toString()}");
+      CustomToast.show(
+          context: context, message: e.toString(), status: ToastStatus.failure);
+      emit(state.copyWith(  chargeBackSummaryReqState: ProcessState.success,
+          chargeBackSummaryData: ChargeBackSummaryDataResponse()));    }
+  }
+  void getCoverageHealthData(BuildContext context) async {
+    try {
+      emit(state.copyWith(coverageHealthDataReqState: ProcessState.loading));
+
+      final res =
+      await _apiService.getCoverageHealthData(state.filterPayload?.toJson());
+
+      _tokenRefreshAttempts = 0; // Reset counter on success
+      emit(state.copyWith(
+          coverageHealthDataReqState: ProcessState.success,
+          coverageHealthDataData: res));
+    } on ApiFailure catch (e) {
+      if (e.code == 401) {
+        if (_tokenRefreshAttempts >= 2) {
+          CustomToast.show(
+              context: context,
+              message: "Session Expired",
+              status: ToastStatus.failure);
+          emit(state.copyWith(coverageHealthDataReqState: ProcessState.failure,coverageHealthDataData: CoverageHealthDataResponse()));
+          return;
+        }
+        _tokenRefreshAttempts++;
+        final isTokenRefreshed =
+            await getAuthCubit(context)?.refreshToken(context) ?? false;
+
+        if (isTokenRefreshed) {
+          return getCoverageHealthData(
+              context); // Retry fetching data after refresh
+        } else {
+          // CustomToast.show(
+          //     context: context,
+          //     message: "Session Expired",
+          //     status: ToastStatus.failure);
+          emit(state.copyWith(coverageHealthDataReqState: ProcessState.failure,coverageHealthDataData: CoverageHealthDataResponse()));
+        }
+      } else {
+        CustomToast.show(
+            context: context,
+            message: e.message.toString(),
+            status: ToastStatus.failure);
+        emit(state.copyWith(coverageHealthDataReqState: ProcessState.failure,coverageHealthDataData: CoverageHealthDataResponse()));
+      }
+    } catch (e) {
+      debugLog("coverageHealthDataReqState api:  ${e.toString()}");
+      CustomToast.show(
+          context: context, message: e.toString(), status: ToastStatus.failure);
+      emit(state.copyWith(coverageHealthDataReqState: ProcessState.failure,coverageHealthDataData: CoverageHealthDataResponse()));
+    }
+  }
+  void getRefundRatioData(BuildContext context) async {
+    var adjustDates=adjustStartEndDateRefund(state.filterPayload?.startDate??"", state.filterPayload?.endDate??"");
+    var newPayload = state.filterPayload != null
+        ? FilterPayload(
+      startDate: adjustDates.startDate,
+      endDate: adjustDates.endDate,
+      // Copy other properties from the existing filterPayload
+      clientIds: state.filterPayload!.clientIds,
+      storeIds: state.filterPayload!.storeIds,
+      groupBy: adjustDates.groupBy,
+      // Add more properties as needed
+    )
+        : null;
+    try {
+      emit(state.copyWith(refundRatioReqState: ProcessState.loading));
+
+      final res =
+      await _apiService.getRefundRatioData(newPayload?.toJson());
+
+      _tokenRefreshAttempts = 0; // Reset counter on success
+      emit(state.copyWith(
+          refundRatioReqState: ProcessState.success,
+          refundRatioData: res));
+    } on ApiFailure catch (e) {
+      if (e.code == 401) {
+        if (_tokenRefreshAttempts >= 2) {
+          CustomToast.show(
+              context: context,
+              message: "Session Expired",
+              status: ToastStatus.failure);
+          emit(state.copyWith(refundRatioReqState: ProcessState.failure,refundRatioData: RefundRatioDataResponse()));
+          return;
+        }
+        _tokenRefreshAttempts++;
+        final isTokenRefreshed =
+            await getAuthCubit(context)?.refreshToken(context) ?? false;
+
+        if (isTokenRefreshed) {
+          return getRefundRatioData(
+              context); // Retry fetching data after refresh
+        } else {
+          // CustomToast.show(
+          //     context: context,
+          //     message: "Session Expired",
+          //     status: ToastStatus.failure);
+          emit(state.copyWith(refundRatioReqState: ProcessState.failure,refundRatioData: RefundRatioDataResponse()));
+        }
+      } else {
+        CustomToast.show(
+            context: context,
+            message: e.message.toString(),
+            status: ToastStatus.failure);
+        emit(state.copyWith(refundRatioReqState: ProcessState.failure,refundRatioData: RefundRatioDataResponse()));
+      }
+    } catch (e) {
+      debugLog("RefundRatioData api:  ${e.toString()}");
+      CustomToast.show(
+          context: context, message: e.toString(), status: ToastStatus.failure);
+      emit(state.copyWith(refundRatioReqState: ProcessState.failure,refundRatioData: RefundRatioDataResponse()));
+    }
   }
 
+  ///Detail Screen api
   void getDirectSaleDetailData(BuildContext context) async {
     try {
       emit(state.copyWith(dashboardDetailReqState: ProcessState.loading));
@@ -905,10 +1069,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
           return getDirectSaleRevenueData(
               context); // Retry fetching data after refresh
         } else {
-          CustomToast.show(
-              context: context,
-              message: "Session Expired",
-              status: ToastStatus.failure);
+
           emit(state.copyWith(dashboardRevenueReqState: ProcessState.failure));
         }
       } else {
@@ -934,7 +1095,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
           .getDirectSaleApprovalRatioData(state.filterPayload?.toJson());
       _tokenRefreshAttempts = 0; // Reset counter on success
       emit(state.copyWith(
-          dashboardDetailReqState: ProcessState.success,
+          dashboardAppRatioReqState: ProcessState.success,
           directSaleAppRatioData: res));
     }on ApiFailure catch (e) {
       if (e.code == 401) {

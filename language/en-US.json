@@ -27,5 +27,6 @@
   "notificationSchedule": "Notification Schedule",
   "notification": "Notification",
   "subscriptionCount":"Subscription Count",
-  "subscriptionAmount":"Subscription Amount"
+  "subscriptionAmount":"Subscription Amount",
+  "subscriptionRefundRatio": "Subscription Refund Ratio"
 }

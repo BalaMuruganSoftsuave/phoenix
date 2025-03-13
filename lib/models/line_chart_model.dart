@@ -2,6 +2,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 import '../helper/color_helper.dart';
+import 'dashboard/direct_sale_data_model.dart';
 
 class SalesData {
   final String? range;
@@ -11,18 +12,23 @@ class SalesData {
   final double? recurringSale;
   final double? salvageSale;
 
-
   SalesData({
-     this.range,
-     this.directSale,
-     this.upsellSale,
-     this.initialSale,
-     this.recurringSale,
-     this.salvageSale,
-
+    this.range,
+    this.directSale,
+    this.upsellSale,
+    this.initialSale,
+    this.recurringSale,
+    this.salvageSale,
   });
 
-  factory SalesData.fromJson(Map<String, dynamic> json) {
+  factory SalesData.fromJson(Map<String, dynamic> json,
+      {bool isDirectOnly = false}) {
+    if (isDirectOnly) {
+      return SalesData(
+        range: json['Range'],
+        directSale: (json['DirectSale'] ?? 0).toDouble(),
+      );
+    }
     return SalesData(
       range: json['Range'],
       directSale: (json['DirectSale'] ?? 0).toDouble(),
@@ -30,10 +36,27 @@ class SalesData {
       initialSale: (json['InitialSale'] ?? 0).toDouble(),
       recurringSale: (json['RecurringSale'] ?? 0).toDouble(),
       salvageSale: (json['SalvageSale'] ?? 0).toDouble(),
-
     );
   }
+  List<SalesData> filterSalesData(List<SalesData> data) {
+    return data.map((item) =>
+        SalesData(
+          range: item.range,
+          directSale: item.directSale,
+        )).toList();
+  }
+  List<SalesData> removeEmptySalesData(List<SalesData> data) {
+    return data.where((item) {
+      // Keep the item only if at least one sale value is non-null and greater than zero
+      return (item.directSale ?? 0) > 0 ||
+          (item.upsellSale ?? 0) > 0 ||
+          (item.initialSale ?? 0) > 0 ||
+          (item.recurringSale ?? 0) > 0 ||
+          (item.salvageSale ?? 0) > 0;
+    }).toList();
+  }
 }
+
 class SubscriptionData {
   final String? range;
   final int? newSubscriptions;
@@ -41,10 +64,10 @@ class SubscriptionData {
   final int? netSubscriptions;
 
   SubscriptionData({
-     this.range,
-     this.newSubscriptions,
-     this.cancelledSubscriptions,
-     this.netSubscriptions,
+    this.range,
+    this.newSubscriptions,
+    this.cancelledSubscriptions,
+    this.netSubscriptions,
   });
 
   factory SubscriptionData.fromJson(Map<String, dynamic> json) {
@@ -57,17 +80,18 @@ class SubscriptionData {
   }
 }
 
-
 class LineChartModel {
   final List<SalesData>? salesData;
+  final List<DirectSaleDetailDataResult>? directData;
   final List<SubscriptionData>? subscriptionData; // New dataset
   final List<String> ranges; // 🔹 New field to store ranges
 
   final Map<String, List<FlSpot>> dataPoints;
   final Map<String, Color> lineColors;
 
-  LineChartModel({
-     this.salesData,
+  LineChartModel( {
+    this.directData,
+    this.salesData,
     this.subscriptionData,
     required this.ranges, // 🔹 Add required range list
 
@@ -82,18 +106,21 @@ class LineChartModel {
       'Initial Sale': [],
       'Recurring Sale': [],
       'Salvage Sale': [],
-
     };
     List<String> ranges = []; // 🔹 Store range values
 
     for (int i = 0; i < salesData.length; i++) {
-      points['Direct Sale']?.add(FlSpot(i.toDouble(), salesData[i].directSale??0));
-      points['Upsell Sale']?.add(FlSpot(i.toDouble(), salesData[i].upsellSale??0));
-      points['Initial Sale']?.add(FlSpot(i.toDouble(), salesData[i].initialSale??0));
-      points['Recurring Sale']?.add(FlSpot(i.toDouble(), salesData[i].recurringSale??0));
-      points['Salvage Sale']?.add(FlSpot(i.toDouble(), salesData[i].salvageSale??0));
+      points['Direct Sale']
+          ?.add(FlSpot(i.toDouble(), salesData[i].directSale ?? 0));
+      points['Upsell Sale']
+          ?.add(FlSpot(i.toDouble(), salesData[i].upsellSale ?? 0));
+      points['Initial Sale']
+          ?.add(FlSpot(i.toDouble(), salesData[i].initialSale ?? 0));
+      points['Recurring Sale']
+          ?.add(FlSpot(i.toDouble(), salesData[i].recurringSale ?? 0));
+      points['Salvage Sale']
+          ?.add(FlSpot(i.toDouble(), salesData[i].salvageSale ?? 0));
       ranges.add(salesData[i].range ?? "N/A"); // 🔹 Collect ranges
-
     }
 
     Map<String, Color> colors = {
@@ -102,14 +129,40 @@ class LineChartModel {
       'Initial Sale': AppColors.seaBlue,
       'Recurring Sale': AppColors.purple,
       'Salvage Sale': AppColors.orange,
-
     };
 
-    return LineChartModel(salesData: salesData, dataPoints: points, lineColors: colors,      ranges: ranges);
+    return LineChartModel(
+        salesData: salesData,
+        dataPoints: points,
+        lineColors: colors,
+        ranges: ranges);
+  }
+  static LineChartModel fromDirectSalesData(List<DirectSaleDetailDataResult> salesData) {
+    Map<String, List<FlSpot>> points = {
+      'Direct Sale': [],
+    };
+    List<String> ranges = []; // 🔹 Store range values
+
+    for (int i = 0; i < salesData.length; i++) {
+      points['Direct Sale']
+          ?.add(FlSpot(i.toDouble(), double.parse((salesData[i].directSale ?? 0).toString())));
+      ranges.add(salesData[i].range ?? "N/A"); // 🔹 Collect ranges
+    }
+
+    Map<String, Color> colors = {
+      'Direct Sale': AppColors.pink,
+    };
+
+    return LineChartModel(
+        directData: salesData,
+        dataPoints: points,
+        lineColors: colors,
+        ranges: ranges);
   }
 
   /// Create model for Subscription Data
-  static LineChartModel fromSubscriptions(List<SubscriptionData> subscriptionData) {
+  static LineChartModel fromSubscriptions(
+      List<SubscriptionData> subscriptionData) {
     Map<String, List<FlSpot>> points = {
       'New Subscriptions': [],
       'Cancelled Subscriptions': [],
@@ -118,12 +171,14 @@ class LineChartModel {
     List<String> ranges = []; // 🔹 Store range values
 
     for (int i = 0; i < subscriptionData.length; i++) {
-      points['New Subscriptions']?.add(FlSpot(i.toDouble(), subscriptionData[i].newSubscriptions?.toDouble()??0));
-      points['Cancelled Subscriptions']?.add(FlSpot(i.toDouble(), subscriptionData[i].cancelledSubscriptions?.toDouble()??0));
-      points['Net Subscriptions']?.add(FlSpot(i.toDouble(), subscriptionData[i].netSubscriptions?.toDouble()??0));
+      points['New Subscriptions']?.add(FlSpot(
+          i.toDouble(), subscriptionData[i].newSubscriptions?.toDouble() ?? 0));
+      points['Cancelled Subscriptions']?.add(FlSpot(i.toDouble(),
+          subscriptionData[i].cancelledSubscriptions?.toDouble() ?? 0));
+      points['Net Subscriptions']?.add(FlSpot(
+          i.toDouble(), subscriptionData[i].netSubscriptions?.toDouble() ?? 0));
 
       ranges.add(subscriptionData[i].range ?? "N/A"); // 🔹 Collect ranges
-
     }
 
     return LineChartModel(
@@ -135,8 +190,6 @@ class LineChartModel {
         'Net Subscriptions': AppColors.pink,
       },
       ranges: ranges, // 🔹 Pass collected ranges
-
     );
   }
 }
-
