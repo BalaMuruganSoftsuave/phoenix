@@ -13,9 +13,11 @@ void showLogoutDialog(context, VoidCallback onConfirm) {
     barrierDismissible: false,
     builder: (BuildContext context) {
       return AlertDialog(
+        elevation: 5,
         backgroundColor: AppColors.darkBg2,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(Responsive.padding(context, 10)),
+          side: BorderSide(color: AppColors.text)
         ),
         title: Text(
           translate(TextHelper.logout),

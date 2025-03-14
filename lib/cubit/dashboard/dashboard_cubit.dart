@@ -1307,4 +1307,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
       emit(state.copyWith(dashboardAppRatioReqState: ProcessState.failure));
     }
   }
+  logout(){
+    emit(DashboardState());
+}
 }

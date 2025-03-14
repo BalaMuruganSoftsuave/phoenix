@@ -22,86 +22,12 @@ import 'package:phoenix/widgets/storefilter/phoenix_dropDown_Screen.dart';
 import 'charge_back_summary_widget.dart';
 
 class HomeScreen extends StatelessWidget {
-  HomeScreen({super.key});
+  const HomeScreen({super.key});
 
-  List<Map<String, dynamic>> rawData = [
-    {
-      "Void": 5188.27,
-      "Range": "Jan 24",
-      "Refund": 19381.51,
-      "Revenue": 186087.95
-    },
-    {
-      "Void": 5758.08,
-      "Range": "Feb 24",
-      "Refund": 21555.89,
-      "Revenue": 197502.24
-    },
-    {
-      "Void": 6067.98,
-      "Range": "Mar 24",
-      "Refund": 25356.15,
-      "Revenue": 266304.43
-    },
-    {
-      "Void": 6223.94,
-      "Range": "Apr 24",
-      "Refund": 23356.5,
-      "Revenue": 275686.93
-    },
-    {
-      "Void": 5597.13,
-      "Range": "May 24",
-      "Refund": 24267.05,
-      "Revenue": 359478.23
-    },
-    {
-      "Void": 9574.82,
-      "Range": "Jun 24",
-      "Refund": 28925.51,
-      "Revenue": 523418.7
-    },
-    {
-      "Void": 9856.73,
-      "Range": "Jul 24",
-      "Refund": 36955.39,
-      "Revenue": 529075.94
-    },
-    {
-      "Void": 8263.26,
-      "Range": "Aug 24",
-      "Refund": 51161.51,
-      "Revenue": 797178.43
-    },
-    {
-      "Void": 8307.45,
-      "Range": "Sep 24",
-      "Refund": 91153.21,
-      "Revenue": 1285172.21
-    },
-    {
-      "Void": 15564.12,
-      "Range": "Oct 24",
-      "Refund": 170985.57,
-      "Revenue": 1397348.35
-    },
-    {
-      "Void": 17594.55,
-      "Range": "Nov 24",
-      "Refund": 150770.05,
-      "Revenue": 1907791.82
-    },
-    {
-      "Void": 27908.08,
-      "Range": "Dec 24",
-      "Refund": 241363.89,
-      "Revenue": 4137703.72
-    }
-  ];
+
 
   @override
   Widget build(BuildContext context) {
-    List<ChartData> processedData = processData(rawData);
 
     return Scaffold(
       backgroundColor: Color(0xFF0B111A),

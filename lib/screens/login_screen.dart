@@ -14,12 +14,20 @@ import 'package:phoenix/helper/utils.dart';
 import 'package:phoenix/widgets/gradient_button.dart';
 import 'package:phoenix/widgets/text_field_widget.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   LoginScreen({super.key});
 
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController userNameController = TextEditingController();
+
   final TextEditingController passwordController = TextEditingController();
+
 final GlobalKey<FormState> _formKey= GlobalKey();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -156,10 +156,10 @@ class TransactionDataWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var title=adjustDates(state.filterPayload?.startDate??"", state.filterPayload?.endDate??"");
+
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: Responsive.padding(context, 2)),
-      child: RenderSection(title: title.monthRange, cards: [
+      child: RenderSection(title: getTitle(), cards: [
         CardData(
           circleBgColor: Color(0xFFC237F3),
           title: 'Total Transactions',
@@ -206,6 +206,14 @@ class TransactionDataWidget extends StatelessWidget {
         ),
       ]),
     );
+  }
+
+  getTitle() {
+    if(state.filterPayload?.endDate!=null&&state.filterPayload?.endDate!=null) {
+      return adjustDates(state.filterPayload?.startDate??"", state.filterPayload?.endDate??"").monthRange;
+    }else{
+      return "";
+    }
   }
 }
 

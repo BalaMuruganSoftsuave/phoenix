@@ -15,6 +15,7 @@ class CustomTextFormField extends StatefulWidget {
   final Widget? suffixIcon;
   final bool autoFocus;
   final String? errorMessage;
+  final FocusNode? focusNode;
 
   const CustomTextFormField({
     super.key,
@@ -30,22 +31,47 @@ class CustomTextFormField extends StatefulWidget {
     this.suffixIcon,
     this.autoFocus = false,
     this.errorMessage,
+    this.focusNode,
   });
 
   @override
-  CommonTextFormFieldState createState() => CommonTextFormFieldState();
+  State<CustomTextFormField> createState() => _CustomTextFormFieldState();
 }
 
-class CommonTextFormFieldState extends State<CustomTextFormField> {
+class _CustomTextFormFieldState extends State<CustomTextFormField> {
+  late FocusNode _internalFocusNode;
   bool _isObscured = true;
+  bool _shouldDisposeFocusNode = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // If no external focus node is provided, create one
+    if (widget.focusNode == null) {
+      _internalFocusNode = FocusNode();
+      _shouldDisposeFocusNode = true;
+    } else {
+      _internalFocusNode = widget.focusNode!;
+    }
+  }
+
+  @override
+  void dispose() {
+    if (_shouldDisposeFocusNode) {
+      _internalFocusNode.dispose();
+    }
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      focusNode: _internalFocusNode,
       style: getTextTheme().displayMedium?.copyWith(
-            color: Colors.white,
-            fontSize: 16,
-          ),
+        color: Colors.white,
+        fontSize: 16,
+      ),
       cursorColor: Colors.white,
       controller: widget.controller,
       obscureText: widget.isPassword ? _isObscured : false,
@@ -63,21 +89,20 @@ class CommonTextFormFieldState extends State<CustomTextFormField> {
         prefixIcon: widget.prefixIcon,
         suffixIcon: widget.isPassword
             ? GestureDetector(
-                onTap: () {
-                  setState(() {
-                    _isObscured = !_isObscured;
-                  });
-                },
-                child: Icon(
-                  _isObscured ? Icons.visibility : Icons.visibility_off,
-                  color: Colors.grey,
-                ),
-              )
+          onTap: () {
+            setState(() {
+              _isObscured = !_isObscured;
+            });
+          },
+          child: Icon(
+            _isObscured ? Icons.visibility : Icons.visibility_off,
+            color: Colors.grey,
+          ),
+        )
             : widget.suffixIcon,
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide:
-              const BorderSide(color: AppColors.subText),
+          borderSide: const BorderSide(color: AppColors.subText),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
@@ -86,12 +111,10 @@ class CommonTextFormFieldState extends State<CustomTextFormField> {
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
           borderSide:
-              const BorderSide(color: AppColors.notificationCardBackground),
+          const BorderSide(color: AppColors.notificationCardBackground),
         ),
         disabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(
-            100,
-          ),
+          borderRadius: BorderRadius.circular(10),
           borderSide: const BorderSide(color: Colors.grey),
         ),
         errorStyle: getTextTheme().displayMedium?.copyWith(color: Colors.red),

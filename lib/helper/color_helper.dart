@@ -24,6 +24,7 @@ class AppColors {
   static const Color textEnabledBorder = Color(0x33aed033);
 
   static const Color schedule = Color(0x40A3AED0);
+  static const Color placeholderText = Color(0xff776b72);
 
 
 }

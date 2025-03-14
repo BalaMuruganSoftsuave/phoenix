@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phoenix/cubit/auth/auth_cubit.dart';
+import 'package:phoenix/cubit/notification/notification_cubit.dart';
 import 'package:phoenix/helper/color_helper.dart';
 import 'package:phoenix/helper/preference_helper.dart';
 import 'package:phoenix/models/dashboard/additional_models.dart';
@@ -18,6 +19,8 @@ AuthCubit? getAuthCubit([BuildContext? context]) =>
 
 DashBoardCubit? getDashBoardCubit([BuildContext? context]) =>
     getCtx(context)?.read<DashBoardCubit>();
+ NotificationCubit? getNotificationCubit([BuildContext? context]) =>
+    getCtx(context)?.read<NotificationCubit>();
 
 String getSubtitle(double approvedOrders, double approvalPercentage) {
   if (approvedOrders == 0) {
@@ -279,7 +282,9 @@ FilterPayload adjustStartEndDateRefund(String startDate, String endDate) {
       groupBy: groupByValue);
 }
 
-logout() {}
+logout() {
+  PreferenceHelper.clearPreferences();
+}
 
 List<Color> generateRandomColors(int length) {
   return List<Color>.generate(length, (i) {
@@ -409,3 +414,4 @@ var colors = [
   AppColors.purple,
 
 ];
+

@@ -231,52 +231,64 @@ class _SingleSelectionDropDownState extends State<SingleSelectionDropDown> {
   OverlayEntry _overlayEntryBuilder() {
     return OverlayEntry(
       builder: (context) {
-        return Positioned(
-          // left: buttonPosition.dx-40,
-          // top: buttonPosition.dy + buttonSize.height,
-          width: MediaQuery.sizeOf(context).width*0.4,
-          child: CompositedTransformFollower(
-            link: link,
-            followerAnchor: Alignment.topRight,
-            targetAnchor: Alignment.bottomRight,
-            child: Material(
-              elevation: 5,
-              borderRadius: BorderRadius.circular(8),
-              child: Container(
-                constraints: BoxConstraints(
-                  maxHeight: widget.maxHeight ?? 200,
-                ),
-                child: ListView.builder(
-                  padding:
-                  const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  itemCount: _filteredItems.length,
-                  itemBuilder: (context, index) {
-                    final item = _filteredItems[index];
-                    return InkWell(
-                      onTap: () {
-                        setState(() {
-                          selectedKey = item.id;
-                        });
-                        widget.onSelection(item);
-                        closeMenu();
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 12),
-                        child: Text(
-                          item.name,
-                          style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black,
+        return Stack(
+
+          children: [
+            Positioned.fill(
+              child: GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                onTap: closeMenu,
+                child: Container(color: Colors.transparent),
+              ),
+            ),
+            Positioned(
+              // left: buttonPosition.dx-40,
+              // top: buttonPosition.dy + buttonSize.height,
+              width: MediaQuery.sizeOf(context).width*0.4,
+              child: CompositedTransformFollower(
+                link: link,
+                followerAnchor: Alignment.topRight,
+                targetAnchor: Alignment.bottomRight,
+                child: Material(
+                  elevation: 5,
+                  borderRadius: BorderRadius.circular(8),
+                  child: Container(
+                    constraints: BoxConstraints(
+                      maxHeight: widget.maxHeight ?? 200,
+                    ),
+                    child: ListView.builder(
+                      padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                      itemCount: _filteredItems.length,
+                      itemBuilder: (context, index) {
+                        final item = _filteredItems[index];
+                        return InkWell(
+                          onTap: () {
+                            setState(() {
+                              selectedKey = item.id;
+                            });
+                            widget.onSelection(item);
+                            closeMenu();
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 12),
+                            child: Text(
+                              item.name,
+                              style: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.black,
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    );
-                  },
+                        );
+                      },
+                    ),
+                  ),
                 ),
               ),
             ),
-          ),
+          ],
         );
       },
     );

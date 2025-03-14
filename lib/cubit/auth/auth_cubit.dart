@@ -17,11 +17,13 @@ class AuthCubit extends Cubit<AuthState> {
   login(context, String userName, String password) async {
     try {
       emit(state.copyWith(authState: ProcessState.loading));
-      LoginResponse? res = await _apiService.login(userName, password);
+      var fcm=PreferenceHelper.getFcm();
+      LoginResponse? res = await _apiService.login(userName, password,fcm: fcm);
       await PreferenceHelper.saveInitialLogin();
       await PreferenceHelper.saveAccessToken(res?.accessToken ?? "");
       await PreferenceHelper.saveRefreshToken(res?.refreshToken ?? "");
       await PreferenceHelper.saveUserName(res?.name ?? "");
+
       emit(state.copyWith(authState: ProcessState.success));
     } on ApiFailure catch (e) {
       CustomToast.show(

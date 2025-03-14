@@ -19,8 +19,8 @@ Future<void> main() async {
   await PreferenceHelper.init();
   await EasyLocalization.ensureInitialized();
 
-  // await FirebaseHelper.initializeFirebase();
-  // await FirebaseHelper.getFCMToken();
+  await FirebaseHelper.initializeFirebase();
+  await FirebaseHelper.getFCMToken();
   runApp(
     EasyLocalization(
         supportedLocales: [

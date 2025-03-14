@@ -6,6 +6,7 @@ class PreferenceHelper {
   static const String _accessToken = "accessToken";
   static const String _refreshToken = "refreshToken";
   static const String _userName = "userName";
+  static const String _fcm = "fcm";
 
   /// Initialize SharedPreferences (Ensure this is called in `main.dart`)
   static Future<void> init() async {
@@ -54,5 +55,14 @@ class PreferenceHelper {
   /// Retrieves Refresh Token
   static String? getUserName() {
     return _sharedPref?.getString(_userName);
+  }
+  /// Saves Refresh Token
+  static Future<void> saveFcm(String value) async {
+    await _sharedPref?.setString(_fcm, value);
+  }
+
+  /// Retrieves Refresh Token
+  static String? getFcm() {
+    return _sharedPref?.getString(_fcm);
   }
 }

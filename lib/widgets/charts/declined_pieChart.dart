@@ -1,6 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:phoenix/models/dashboard/detail_chart_data_model.dart';
+import 'package:phoenix/widgets/custom_single_selection_dropdown.dart';
 import 'package:phoenix/widgets/loader.dart';
 
 import '../../helper/color_helper.dart';
@@ -103,26 +104,21 @@ class _PieChartWidgetState extends State<PieChartWidget> {
 
   // ✅ Dropdown Filter
   Widget _buildDropdown() {
-    return DropdownButton<String>(
-      value: selectedFilter,
+    return SingleSelectionDropDown(
+      maxHeight: 100,
+      initiallySelectedKey: selectedFilter,
       items: ["All", "Cancelled"].map((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(
-            value,
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: Responsive.fontSize(context, 4),
-            ),
-          ),
+        return CustomDataItems(
+          id: value,
+          name: value,
         );
       }).toList(),
-      onChanged: (value) {
+      onSelection: (value) {
         setState(() {
-          selectedFilter = value!;
+          selectedFilter = value.id??"";
         });
       },
-      dropdownColor: AppColors.darkBg2,
+      // dropdownColor: AppColors.darkBg2,
     );
   }
 

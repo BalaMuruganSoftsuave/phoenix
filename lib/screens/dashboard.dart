@@ -10,6 +10,7 @@ import 'package:phoenix/helper/dependency.dart';
 import 'package:phoenix/helper/dialog_helper.dart';
 import 'package:phoenix/helper/enum_helper.dart';
 import 'package:phoenix/helper/font_helper.dart';
+import 'package:phoenix/helper/nav_helper.dart';
 import 'package:phoenix/helper/responsive_helper.dart';
 import 'package:phoenix/helper/utils.dart';
 import 'package:phoenix/screens/dashboard/dashboard_screen.dart';
@@ -34,7 +35,7 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard> {
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
-  TextStyle(fontSize: 30, fontWeight: FontWeight.w600);
+      TextStyle(fontSize: 30, fontWeight: FontWeight.w600);
   static final List<Widget> _widgetOptions = <Widget>[
     HomeScreen(),
     NotificationScreen(),
@@ -66,7 +67,11 @@ class _DashboardState extends State<Dashboard> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.darkBg,
-      appBar:       PreferredSize(preferredSize: Size(double.infinity, Responsive.boxH(context, 8),),
+      appBar: PreferredSize(
+        preferredSize: Size(
+          double.infinity,
+          Responsive.boxH(context, 8),
+        ),
         child: AppBar(
           backgroundColor: AppColors.darkBg,
           centerTitle: false,
@@ -79,13 +84,16 @@ class _DashboardState extends State<Dashboard> {
             ProfilePopupMenu(
               userName: getUserName(),
               onLogout: () {
-                CustomToast.show(
-                    context: context,
-                    message: "Please Select any option",
-                    status: ToastStatus.failure,
-                    isTop: true);
-                // showLogoutDialog(context, () {});
-                // debugPrint("User logged out");
+                showLogoutDialog(context, () {
+                  back();
+                  CustomToast.show(
+                      context: context,
+                      message: "Logout SuccessFully",
+                      status: ToastStatus.success);
+                  logout();
+                  openScreen(loginScreen, requiresAsInitial: true);
+                });
+                debugPrint("User logged out");
               },
             )
           ],
@@ -148,19 +156,22 @@ class _DashboardState extends State<Dashboard> {
                 setState(() {
                   _selectedIndex = index;
                 });
-                context.read<NotificationCubit>().getNotificationConfiguration(context);
+                context
+                    .read<NotificationCubit>()
+                    .getNotificationConfiguration(context);
               },
             ),
             IconButton(
                 onPressed: () {
-                  CustomToast.show(
-                      context: context,
-                      message: "message",
-                      status: ToastStatus.failure);
-                  // showLogoutDialog(context, () {
-                  //   Navigator.of(context).pop(); // Close the dialog
-                  //   // Add your logout logic here
-                  // });
+                  showLogoutDialog(context, () {
+                    back();
+                    CustomToast.show(
+                        context: context,
+                        message: "Logout SuccessFully",
+                        status: ToastStatus.success);
+                    logout();
+                    openScreen(loginScreen, requiresAsInitial: true);
+                  });
                 },
                 icon: Icon(
                   Icons.logout,
