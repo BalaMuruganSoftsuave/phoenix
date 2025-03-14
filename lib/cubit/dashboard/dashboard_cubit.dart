@@ -23,9 +23,9 @@ class DashBoardCubit extends Cubit<DashboardState> {
 
   void updateFilter(context,
       {String? startDate,
-        String? endDate,
-        List<int>? clientList,
-        List<int>? storeList}) async {
+      String? endDate,
+      List<int>? clientList,
+      List<int>? storeList}) async {
     if (startDate != null && endDate != null) {
       state.filterPayload ??= FilterPayload();
       var groupBy = getGroupBy(startDate, endDate);
@@ -39,6 +39,10 @@ class DashBoardCubit extends Cubit<DashboardState> {
       state.filterPayload?.storeIds = storeList;
     }
     emit(state.copyWith(filterPayload: state.filterPayload));
+    refresh(context);
+  }
+
+  refresh(context) {
     getDirectSaleData(context);
     getInitialSubscriptionData(context);
     getRecurringSubscription(context);
@@ -106,7 +110,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
         }
         _tokenRefreshAttempts++;
         final isTokenRefreshed = await getAuthCubit(getCtx(context)!)
-            ?.refreshToken(getCtx(context)!) ??
+                ?.refreshToken(getCtx(context)!) ??
             false;
 
         if (isTokenRefreshed) {
@@ -141,7 +145,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
       emit(state.copyWith(directSaleReqState: ProcessState.loading));
 
       final res =
-      await _apiService.getDirectSaleData(state.filterPayload?.toJson());
+          await _apiService.getDirectSaleData(state.filterPayload?.toJson());
 
       _tokenRefreshAttempts = 0; // Reset counter on success
       emit(state.copyWith(
@@ -158,7 +162,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
         }
         _tokenRefreshAttempts++;
         final isTokenRefreshed = await getAuthCubit(getCtx(context)!)
-            ?.refreshToken(getCtx(context)!) ??
+                ?.refreshToken(getCtx(context)!) ??
             false;
 
         if (isTokenRefreshed) {
@@ -245,7 +249,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
       emit(state.copyWith(recurringSubscriptionReqState: ProcessState.loading));
 
       final res =
-      await _apiService.getRecurringData(state.filterPayload?.toJson());
+          await _apiService.getRecurringData(state.filterPayload?.toJson());
 
       _tokenRefreshAttempts = 0; // Reset counter on success
       emit(state.copyWith(
@@ -350,7 +354,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
       emit(state.copyWith(upsellReqState: ProcessState.loading));
 
       final res =
-      await _apiService.getUpsellData(state.filterPayload?.toJson());
+          await _apiService.getUpsellData(state.filterPayload?.toJson());
 
       _tokenRefreshAttempts = 0; // Reset counter on success
       emit(state.copyWith(
@@ -449,20 +453,20 @@ class DashBoardCubit extends Cubit<DashboardState> {
     // Create a new payload object with updated dates
     var newPayload = state.filterPayload != null
         ? FilterPayload(
-      startDate: dates.adjustedStartDate,
-      endDate: dates.adjustedEndDate,
-      // Copy other properties from the existing filterPayload
-      clientIds: state.filterPayload!.clientIds,
-      storeIds: state.filterPayload!.storeIds,
-      groupBy: state.filterPayload!.groupBy,
-      // Add more properties as needed
-    )
+            startDate: dates.adjustedStartDate,
+            endDate: dates.adjustedEndDate,
+            // Copy other properties from the existing filterPayload
+            clientIds: state.filterPayload!.clientIds,
+            storeIds: state.filterPayload!.storeIds,
+            groupBy: state.filterPayload!.groupBy,
+            // Add more properties as needed
+          )
         : null;
     try {
       emit(state.copyWith(totalTransactionReqState: ProcessState.loading));
 
       final res =
-      await _apiService.getTotalTransactionsData(newPayload?.toJson());
+          await _apiService.getTotalTransactionsData(newPayload?.toJson());
 
       _tokenRefreshAttempts = 0; // Reset counter on success
       emit(state.copyWith(
@@ -513,20 +517,20 @@ class DashBoardCubit extends Cubit<DashboardState> {
     // Create a new payload object with updated dates
     var newPayload = state.filterPayload != null
         ? FilterPayload(
-      startDate: dates.adjustedStartDate,
-      endDate: dates.adjustedEndDate,
-      // Copy other properties from the existing filterPayload
-      clientIds: state.filterPayload!.clientIds,
-      storeIds: state.filterPayload!.storeIds,
-      groupBy: state.filterPayload!.groupBy,
-      // Add more properties as needed
-    )
+            startDate: dates.adjustedStartDate,
+            endDate: dates.adjustedEndDate,
+            // Copy other properties from the existing filterPayload
+            clientIds: state.filterPayload!.clientIds,
+            storeIds: state.filterPayload!.storeIds,
+            groupBy: state.filterPayload!.groupBy,
+            // Add more properties as needed
+          )
         : null;
     try {
       emit(state.copyWith(refundsReqState: ProcessState.loading));
 
       final res =
-      await _apiService.getRefundTransactionsData(newPayload?.toJson());
+          await _apiService.getRefundTransactionsData(newPayload?.toJson());
 
       _tokenRefreshAttempts = 0; // Reset counter on success
       emit(state.copyWith(
@@ -575,20 +579,20 @@ class DashBoardCubit extends Cubit<DashboardState> {
     // Create a new payload object with updated dates
     var newPayload = state.filterPayload != null
         ? FilterPayload(
-      startDate: dates.adjustedStartDate,
-      endDate: dates.adjustedEndDate,
-      // Copy other properties from the existing filterPayload
-      clientIds: state.filterPayload!.clientIds,
-      storeIds: state.filterPayload!.storeIds,
-      groupBy: state.filterPayload!.groupBy,
-      // Add more properties as needed
-    )
+            startDate: dates.adjustedStartDate,
+            endDate: dates.adjustedEndDate,
+            // Copy other properties from the existing filterPayload
+            clientIds: state.filterPayload!.clientIds,
+            storeIds: state.filterPayload!.storeIds,
+            groupBy: state.filterPayload!.groupBy,
+            // Add more properties as needed
+          )
         : null;
     try {
       emit(state.copyWith(chargeBacksReqState: ProcessState.loading));
 
       final res =
-      await _apiService.getChargebackTransactionsData(newPayload?.toJson());
+          await _apiService.getChargebackTransactionsData(newPayload?.toJson());
 
       _tokenRefreshAttempts = 0; // Reset counter on success
       emit(state.copyWith(
@@ -637,7 +641,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
       emit(state.copyWith(lifeTimeReqState: ProcessState.loading));
 
       final res =
-      await _apiService.getLifeTimeData(state.filterPayload?.toJson());
+          await _apiService.getLifeTimeData(state.filterPayload?.toJson());
 
       _tokenRefreshAttempts = 0; // Reset counter on success
       emit(state.copyWith(
@@ -682,14 +686,16 @@ class DashBoardCubit extends Cubit<DashboardState> {
 
   void getSalesRevenuesData(BuildContext context) async {
     try {
-      emit(state.copyWith(totalSalesRevenueReqState: ProcessState.loading,  totalSalesRevenueData: SalesRevenueDataResponse(result: []),
+      emit(state.copyWith(
+        totalSalesRevenueReqState: ProcessState.loading,
+        totalSalesRevenueData: SalesRevenueDataResponse(result: []),
       ));
 
       final res =
-      await _apiService.getSalesRevenueData(state.filterPayload?.toJson());
+          await _apiService.getSalesRevenueData(state.filterPayload?.toJson());
 
       _tokenRefreshAttempts = 0; // Reset counter on success
-      if(state.filterPayload?.groupBy=="hour") {
+      if (state.filterPayload?.groupBy == "hour") {
         var data = generateSlots<Map<String, dynamic>>(
           start: state.filterPayload?.startDate ?? "",
           end: state.filterPayload?.endDate ?? "",
@@ -711,7 +717,9 @@ class DashBoardCubit extends Cubit<DashboardState> {
       }
       emit(state.copyWith(
           totalSalesRevenueReqState: ProcessState.success,
-          totalSalesRevenueData:   state.filterPayload?.groupBy=="hour"?state.totalSalesRevenueData:res));
+          totalSalesRevenueData: state.filterPayload?.groupBy == "hour"
+              ? state.totalSalesRevenueData
+              : res));
     } on ApiFailure catch (e) {
       if (e.code == 401) {
         if (_tokenRefreshAttempts >= 2) {
@@ -753,13 +761,15 @@ class DashBoardCubit extends Cubit<DashboardState> {
 
   void getNetSubscribersData(BuildContext context) async {
     try {
-      emit(state.copyWith(netSubscribersReqState: ProcessState.loading,netSubscribersData: NetSubscribersDataResponse(result: [])));
+      emit(state.copyWith(
+          netSubscribersReqState: ProcessState.loading,
+          netSubscribersData: NetSubscribersDataResponse(result: [])));
 
       final res =
-      await _apiService.getNetSubscriberData(state.filterPayload?.toJson());
+          await _apiService.getNetSubscriberData(state.filterPayload?.toJson());
 
       _tokenRefreshAttempts = 0; // Reset counter on success
-      if(state.filterPayload?.groupBy=="hour") {
+      if (state.filterPayload?.groupBy == "hour") {
         var data = generateSlots<Map<String, dynamic>>(
           start: state.filterPayload?.startDate ?? "",
           end: state.filterPayload?.endDate ?? "",
@@ -779,7 +789,9 @@ class DashBoardCubit extends Cubit<DashboardState> {
       }
       emit(state.copyWith(
           netSubscribersReqState: ProcessState.success,
-          netSubscribersData: state.filterPayload?.groupBy=="hour"?state.netSubscribersData:res));
+          netSubscribersData: state.filterPayload?.groupBy == "hour"
+              ? state.netSubscribersData
+              : res));
     } on ApiFailure catch (e) {
       if (e.code == 401) {
         if (_tokenRefreshAttempts >= 2) {
@@ -823,8 +835,8 @@ class DashBoardCubit extends Cubit<DashboardState> {
     try {
       emit(state.copyWith(chargeBackSummaryReqState: ProcessState.loading));
 
-      final res =
-      await _apiService.getChargebackSummaryData(state.filterPayload?.toJson());
+      final res = await _apiService
+          .getChargebackSummaryData(state.filterPayload?.toJson());
 
       _tokenRefreshAttempts = 0; // Reset counter on success
       emit(state.copyWith(
@@ -837,7 +849,8 @@ class DashBoardCubit extends Cubit<DashboardState> {
               context: context,
               message: "Session Expired",
               status: ToastStatus.failure);
-          emit(state.copyWith(chargeBackSummaryReqState: ProcessState.success,
+          emit(state.copyWith(
+              chargeBackSummaryReqState: ProcessState.success,
               chargeBackSummaryData: ChargeBackSummaryDataResponse()));
           return;
         }
@@ -853,7 +866,8 @@ class DashBoardCubit extends Cubit<DashboardState> {
           //     context: context,
           //     message: "Session Expired",
           //     status: ToastStatus.failure);
-          emit(state.copyWith(chargeBackSummaryReqState: ProcessState.success,
+          emit(state.copyWith(
+              chargeBackSummaryReqState: ProcessState.success,
               chargeBackSummaryData: ChargeBackSummaryDataResponse()));
         }
       } else {
@@ -861,14 +875,16 @@ class DashBoardCubit extends Cubit<DashboardState> {
             context: context,
             message: e.message.toString(),
             status: ToastStatus.failure);
-        emit(state.copyWith(chargeBackSummaryReqState: ProcessState.success,
+        emit(state.copyWith(
+            chargeBackSummaryReqState: ProcessState.success,
             chargeBackSummaryData: ChargeBackSummaryDataResponse()));
       }
     } catch (e) {
       debugLog("chargeback summary api:  ${e.toString()}");
       CustomToast.show(
           context: context, message: e.toString(), status: ToastStatus.failure);
-      emit(state.copyWith(chargeBackSummaryReqState: ProcessState.success,
+      emit(state.copyWith(
+          chargeBackSummaryReqState: ProcessState.success,
           chargeBackSummaryData: ChargeBackSummaryDataResponse()));
     }
   }
@@ -877,8 +893,8 @@ class DashBoardCubit extends Cubit<DashboardState> {
     try {
       emit(state.copyWith(coverageHealthDataReqState: ProcessState.loading));
 
-      final res =
-      await _apiService.getCoverageHealthData(state.filterPayload?.toJson());
+      final res = await _apiService
+          .getCoverageHealthData(state.filterPayload?.toJson());
 
       _tokenRefreshAttempts = 0; // Reset counter on success
       emit(state.copyWith(
@@ -891,7 +907,8 @@ class DashBoardCubit extends Cubit<DashboardState> {
               context: context,
               message: "Session Expired",
               status: ToastStatus.failure);
-          emit(state.copyWith(coverageHealthDataReqState: ProcessState.failure,
+          emit(state.copyWith(
+              coverageHealthDataReqState: ProcessState.failure,
               coverageHealthDataData: CoverageHealthDataResponse()));
           return;
         }
@@ -907,7 +924,8 @@ class DashBoardCubit extends Cubit<DashboardState> {
           //     context: context,
           //     message: "Session Expired",
           //     status: ToastStatus.failure);
-          emit(state.copyWith(coverageHealthDataReqState: ProcessState.failure,
+          emit(state.copyWith(
+              coverageHealthDataReqState: ProcessState.failure,
               coverageHealthDataData: CoverageHealthDataResponse()));
         }
       } else {
@@ -915,14 +933,16 @@ class DashBoardCubit extends Cubit<DashboardState> {
             context: context,
             message: e.message.toString(),
             status: ToastStatus.failure);
-        emit(state.copyWith(coverageHealthDataReqState: ProcessState.failure,
+        emit(state.copyWith(
+            coverageHealthDataReqState: ProcessState.failure,
             coverageHealthDataData: CoverageHealthDataResponse()));
       }
     } catch (e) {
       debugLog("coverageHealthDataReqState api:  ${e.toString()}");
       CustomToast.show(
           context: context, message: e.toString(), status: ToastStatus.failure);
-      emit(state.copyWith(coverageHealthDataReqState: ProcessState.failure,
+      emit(state.copyWith(
+          coverageHealthDataReqState: ProcessState.failure,
           coverageHealthDataData: CoverageHealthDataResponse()));
     }
   }
@@ -933,25 +953,23 @@ class DashBoardCubit extends Cubit<DashboardState> {
         state.filterPayload?.endDate ?? "");
     var newPayload = state.filterPayload != null
         ? FilterPayload(
-      startDate: adjustDates.startDate,
-      endDate: adjustDates.endDate,
-      // Copy other properties from the existing filterPayload
-      clientIds: state.filterPayload!.clientIds,
-      storeIds: state.filterPayload!.storeIds,
-      groupBy: adjustDates.groupBy,
-      // Add more properties as needed
-    )
+            startDate: adjustDates.startDate,
+            endDate: adjustDates.endDate,
+            // Copy other properties from the existing filterPayload
+            clientIds: state.filterPayload!.clientIds,
+            storeIds: state.filterPayload!.storeIds,
+            groupBy: adjustDates.groupBy,
+            // Add more properties as needed
+          )
         : null;
     try {
       emit(state.copyWith(refundRatioReqState: ProcessState.loading));
 
-      final res =
-      await _apiService.getRefundRatioData(newPayload?.toJson());
+      final res = await _apiService.getRefundRatioData(newPayload?.toJson());
 
       _tokenRefreshAttempts = 0; // Reset counter on success
       emit(state.copyWith(
-          refundRatioReqState: ProcessState.success,
-          refundRatioData: res));
+          refundRatioReqState: ProcessState.success, refundRatioData: res));
     } on ApiFailure catch (e) {
       if (e.code == 401) {
         if (_tokenRefreshAttempts >= 2) {
@@ -959,7 +977,8 @@ class DashBoardCubit extends Cubit<DashboardState> {
               context: context,
               message: "Session Expired",
               status: ToastStatus.failure);
-          emit(state.copyWith(refundRatioReqState: ProcessState.failure,
+          emit(state.copyWith(
+              refundRatioReqState: ProcessState.failure,
               refundRatioData: RefundRatioDataResponse()));
           return;
         }
@@ -975,7 +994,8 @@ class DashBoardCubit extends Cubit<DashboardState> {
           //     context: context,
           //     message: "Session Expired",
           //     status: ToastStatus.failure);
-          emit(state.copyWith(refundRatioReqState: ProcessState.failure,
+          emit(state.copyWith(
+              refundRatioReqState: ProcessState.failure,
               refundRatioData: RefundRatioDataResponse()));
         }
       } else {
@@ -983,14 +1003,16 @@ class DashBoardCubit extends Cubit<DashboardState> {
             context: context,
             message: e.message.toString(),
             status: ToastStatus.failure);
-        emit(state.copyWith(refundRatioReqState: ProcessState.failure,
+        emit(state.copyWith(
+            refundRatioReqState: ProcessState.failure,
             refundRatioData: RefundRatioDataResponse()));
       }
     } catch (e) {
       debugLog("RefundRatioData api:  ${e.toString()}");
       CustomToast.show(
           context: context, message: e.toString(), status: ToastStatus.failure);
-      emit(state.copyWith(refundRatioReqState: ProcessState.failure,
+      emit(state.copyWith(
+          refundRatioReqState: ProcessState.failure,
           refundRatioData: RefundRatioDataResponse()));
     }
   }
@@ -1045,19 +1067,19 @@ class DashBoardCubit extends Cubit<DashboardState> {
     }
   }
 
-  void getDashboardDetailData(BuildContext context,
-      DashboardData fromWhere) async {
+  void getDashboardDetailData(
+      BuildContext context, DashboardData fromWhere) async {
     try {
       emit(state.copyWith(dashboardDetailReqState: ProcessState.loading));
 
       final res = fromWhere == DashboardData.initialSubscription
           ? await _apiService
-          .getInitialSubscriptionDetailData(state.filterPayload?.toJson())
+              .getInitialSubscriptionDetailData(state.filterPayload?.toJson())
           : fromWhere == DashboardData.recurringSubscription
-          ? await _apiService.getRecurringSubscriptionDetailData(
-          state.filterPayload?.toJson())
-          : await _apiService.getSubscriptionSalvageDetailData(
-          state.filterPayload?.toJson());
+              ? await _apiService.getRecurringSubscriptionDetailData(
+                  state.filterPayload?.toJson())
+              : await _apiService.getSubscriptionSalvageDetailData(
+                  state.filterPayload?.toJson());
       _tokenRefreshAttempts = 0; // Reset counter on success
       emit(state.copyWith(
           dashboardDetailReqState: ProcessState.success,
@@ -1195,20 +1217,19 @@ class DashBoardCubit extends Cubit<DashboardState> {
     }
   }
 
-  void getDetailChartBreakdownData(BuildContext context,
-      DashboardData fromWhere) async {
+  void getDetailChartBreakdownData(
+      BuildContext context, DashboardData fromWhere) async {
     try {
       emit(state.copyWith(dashboardRevenueReqState: ProcessState.loading));
 
       final res = fromWhere == DashboardData.initialSubscription
-          ? await _apiService
-          .getInitialSubscriptionDeclinedBreakdown(
-          state.filterPayload?.toJson())
+          ? await _apiService.getInitialSubscriptionDeclinedBreakdown(
+              state.filterPayload?.toJson())
           : fromWhere == DashboardData.recurringSubscription
-          ? await _apiService.getRecurringSubscriptionDeclinedBreakdown(
-          state.filterPayload?.toJson())
-          : await _apiService.getSubscriptionSalvageDeclinedBreakdown(
-          state.filterPayload?.toJson());
+              ? await _apiService.getRecurringSubscriptionDeclinedBreakdown(
+                  state.filterPayload?.toJson())
+              : await _apiService.getSubscriptionSalvageDeclinedBreakdown(
+                  state.filterPayload?.toJson());
       _tokenRefreshAttempts = 0; // Reset counter on success
       emit(state.copyWith(
           dashboardRevenueReqState: ProcessState.success,
@@ -1252,19 +1273,19 @@ class DashBoardCubit extends Cubit<DashboardState> {
     }
   }
 
-  void getDetailChartApprovalRatioData(BuildContext context,
-      DashboardData fromWhere) async {
+  void getDetailChartApprovalRatioData(
+      BuildContext context, DashboardData fromWhere) async {
     try {
       emit(state.copyWith(dashboardAppRatioReqState: ProcessState.loading));
 
       final res = fromWhere == DashboardData.initialSubscription
-          ? await _apiService
-          .getInitialSubscriptionApprovalRatio(state.filterPayload?.toJson())
+          ? await _apiService.getInitialSubscriptionApprovalRatio(
+              state.filterPayload?.toJson())
           : fromWhere == DashboardData.recurringSubscription
-          ? await _apiService.getRecurringSubscriptionApprovalRatio(
-          state.filterPayload?.toJson())
-          : await _apiService.getSubscriptionSalvageApprovalRatio(
-          state.filterPayload?.toJson());
+              ? await _apiService.getRecurringSubscriptionApprovalRatio(
+                  state.filterPayload?.toJson())
+              : await _apiService.getSubscriptionSalvageApprovalRatio(
+                  state.filterPayload?.toJson());
       _tokenRefreshAttempts = 0; // Reset counter on success
       emit(state.copyWith(
           dashboardAppRatioReqState: ProcessState.success,
@@ -1307,7 +1328,8 @@ class DashBoardCubit extends Cubit<DashboardState> {
       emit(state.copyWith(dashboardAppRatioReqState: ProcessState.failure));
     }
   }
-  logout(){
+
+  logout() {
     emit(DashboardState());
-}
+  }
 }

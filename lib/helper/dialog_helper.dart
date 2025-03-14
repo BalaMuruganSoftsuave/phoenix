@@ -57,7 +57,7 @@ void showLogoutDialog(context, VoidCallback onConfirm) {
               ElevatedButton(
                 onPressed: onConfirm,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.red,
+                  backgroundColor: AppColors.pink,
                   shape: RoundedRectangleBorder(
                     borderRadius:
                         BorderRadius.circular(Responsive.padding(context, 2)),

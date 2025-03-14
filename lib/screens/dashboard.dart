@@ -39,18 +39,6 @@ class _DashboardState extends State<Dashboard> {
   static final List<Widget> _widgetOptions = <Widget>[
     HomeScreen(),
     NotificationScreen(),
-    // const Text(
-    //   'Notification',
-    //   style: optionStyle,
-    // ),
-    // const Text(
-    //   'Search',
-    //   style: optionStyle,
-    // ),
-    // const Text(
-    //   'Profile',
-    //   style: optionStyle,
-    // ),
   ];
 
   @override

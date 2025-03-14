@@ -24,11 +24,8 @@ import 'charge_back_summary_widget.dart';
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
-
-
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: Color(0xFF0B111A),
       body: SafeArea(
@@ -97,116 +94,128 @@ class HomeScreen extends StatelessWidget {
                         child: Padding(
                           padding: EdgeInsets.symmetric(
                               horizontal: Responsive.padding(context, 2)),
-                          child: SingleChildScrollView(
-                            // Allows entire screen to scroll
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                DashBoardFirstDataWidget(state: state),
-                                TransactionDataWidget(
-                                  state: state,
-                                ),
-                                SizedBox(height: 30),
-                                LifeTimeDataWidget(
-                                  state: state,
-                                ),
+                          child: RefreshIndicator(
+                            color: Colors.pink,
+                            onRefresh: () async {
+                              try {
+                                await context.read<DashBoardCubit>().refresh(context);
+                              } catch (e) {
+                                debugPrint("Refresh failed: $e");
+                              }
+                              return Future.delayed(Duration(seconds: 1));
+                            },
+                            child: SingleChildScrollView(
+                              // Allows entire screen to scroll
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  DashBoardFirstDataWidget(state: state),
+                                  TransactionDataWidget(
+                                    state: state,
+                                  ),
+                                  SizedBox(height: 30),
+                                  LifeTimeDataWidget(
+                                    state: state,
+                                  ),
 
-                                SizedBox(height: 30),
-                                // Second Container Inside Column
-                                ContainerWidget(
-                                  height: 62,
-                                  title: "Sales Revenue",
-                                  widget: state.totalSalesRevenueReqState ==
-                                          ProcessState.loading
-                                      ? Loader()
-                                      : (state.totalSalesRevenueData?.result ??
-                                                  [])
-                                              .isEmpty
-                                          ? NoDataWidget()
-                                          : SalesRevenueChart(
-                                              areaMap: true,
-                                              chartModel: getSalesData(state
-                                                      .totalSalesRevenueData
-                                                      ?.result ??
-                                                  [])),
-                                  childWidget: Icon(Icons.add),
-                                ),
-
-                                SizedBox(height: 20),
-                                ContainerWidget(
-                                    height: 60,
-                                    title: "Net Subscribers",
-                                    widget: state.netSubscribersReqState ==
+                                  SizedBox(height: 30),
+                                  // Second Container Inside Column
+                                  ContainerWidget(
+                                    height: 62,
+                                    title: "Sales Revenue",
+                                    widget: state.totalSalesRevenueReqState ==
                                             ProcessState.loading
                                         ? Loader()
-                                        : (state.netSubscribersData?.result ??
+                                        : (state.totalSalesRevenueData
+                                                        ?.result ??
                                                     [])
                                                 .isEmpty
                                             ? NoDataWidget()
                                             : SalesRevenueChart(
-                                                areaMap: false,
-                                                chartModel: getNetSubData(state
-                                                        .netSubscribersData
+                                                areaMap: true,
+                                                chartModel: getSalesData(state
+                                                        .totalSalesRevenueData
                                                         ?.result ??
-                                                    []))),
+                                                    [])),
+                                    childWidget: Icon(Icons.add),
+                                  ),
 
-                                SizedBox(height: 20),
+                                  SizedBox(height: 20),
+                                  ContainerWidget(
+                                      height: 60,
+                                      title: "Net Subscribers",
+                                      widget: state.netSubscribersReqState ==
+                                              ProcessState.loading
+                                          ? Loader()
+                                          : (state.netSubscribersData?.result ??
+                                                      [])
+                                                  .isEmpty
+                                              ? NoDataWidget()
+                                              : SalesRevenueChart(
+                                                  areaMap: false,
+                                                  chartModel: getNetSubData(
+                                                      state.netSubscribersData
+                                                              ?.result ??
+                                                          []))),
 
-                                PieChartFilterWidget(
-                                    isLoading:
-                                        state.coverageHealthDataReqState ==
-                                            ProcessState.loading,
-                                    transactions:
-                                        state.coverageHealthDataData?.result ??
-                                            [],
-                                    title: "Coverage Health"),
-                                SizedBox(height: 30),
-                                ChargebackSummary(),
-                                SizedBox(height: 20),
+                                  SizedBox(height: 20),
 
-                                ContainerWidget(
-                                    title: TextHelper.directSaleRefundRatio,
-                                    widget: state.refundRatioReqState ==
-                                            ProcessState.loading
-                                        ? Loader()
-                                        : (state.refundRatioData?.result
-                                                        ?.straightData ??
-                                                    [])
-                                                .isEmpty
-                                            ? NoDataWidget()
-                                            : BarChartWidget(
-                                                chartData: getRefundData(state
-                                                        .refundRatioData
-                                                        ?.result
-                                                        ?.straightData ??
-                                                    []),
-                                                barRadius: 3,
-                                                barSpace: -1,
-                                              )),
+                                  PieChartFilterWidget(
+                                      isLoading:
+                                          state.coverageHealthDataReqState ==
+                                              ProcessState.loading,
+                                      transactions: state
+                                              .coverageHealthDataData?.result ??
+                                          [],
+                                      title: "Coverage Health"),
+                                  SizedBox(height: 30),
+                                  ChargebackSummary(),
+                                  SizedBox(height: 20),
 
-                                SizedBox(height: 20),
-                                ContainerWidget(
-                                    title: TextHelper.subscriptionRefundRatio,
-                                    widget: state.refundRatioReqState ==
-                                            ProcessState.loading
-                                        ? Loader()
-                                        : (state.refundRatioData?.result
-                                                        ?.subscriptionData ??
-                                                    [])
-                                                .isEmpty
-                                            ? NoDataWidget()
-                                            : BarChartWidget(
-                                                chartData: getRefundData(state
-                                                        .refundRatioData
-                                                        ?.result
-                                                        ?.subscriptionData ??
-                                                    []),
-                                                barRadius: 30,
-                                                barSpace: -30,
-                                                showBackDraw: true,
-                                                width: 70,
-                                              ))
-                              ],
+                                  ContainerWidget(
+                                      title: TextHelper.directSaleRefundRatio,
+                                      widget: state.refundRatioReqState ==
+                                              ProcessState.loading
+                                          ? Loader()
+                                          : (state.refundRatioData?.result
+                                                          ?.straightData ??
+                                                      [])
+                                                  .isEmpty
+                                              ? NoDataWidget()
+                                              : BarChartWidget(
+                                                  chartData: getRefundData(state
+                                                          .refundRatioData
+                                                          ?.result
+                                                          ?.straightData ??
+                                                      []),
+                                                  barRadius: 3,
+                                                  barSpace: -1,
+                                                )),
+
+                                  SizedBox(height: 20),
+                                  ContainerWidget(
+                                      title: TextHelper.subscriptionRefundRatio,
+                                      widget: state.refundRatioReqState ==
+                                              ProcessState.loading
+                                          ? Loader()
+                                          : (state.refundRatioData?.result
+                                                          ?.subscriptionData ??
+                                                      [])
+                                                  .isEmpty
+                                              ? NoDataWidget()
+                                              : BarChartWidget(
+                                                  chartData: getRefundData(state
+                                                          .refundRatioData
+                                                          ?.result
+                                                          ?.subscriptionData ??
+                                                      []),
+                                                  barRadius: 30,
+                                                  barSpace: -30,
+                                                  showBackDraw: true,
+                                                  width: 70,
+                                                ))
+                                ],
+                              ),
                             ),
                           ),
                         ),
