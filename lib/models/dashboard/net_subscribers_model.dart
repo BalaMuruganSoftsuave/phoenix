@@ -20,9 +20,9 @@ class NetSubscribersDataResponse {
     }
   }
 
-  // Map<String, dynamic> toJson() {
-  //   return {
-  //     'Result': result?.map((v) => v.toJson()).toList(),
-  //   };
-  // }
+  Map<String, dynamic> toJson() {
+    return {
+      'Result': result?.map((v) => v.toJson()).toList(),
+    };
+  }
 }

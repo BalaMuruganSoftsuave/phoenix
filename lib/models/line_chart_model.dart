@@ -38,13 +38,27 @@ class SalesData {
       salvageSale: (json['SalvageSale'] ?? 0).toDouble(),
     );
   }
-  List<SalesData> filterSalesData(List<SalesData> data) {
-    return data.map((item) =>
-        SalesData(
-          range: item.range,
-          directSale: item.directSale,
-        )).toList();
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['Range'] = range;
+    data['DirectSale'] = directSale;
+    data['UpsellSale'] = upsellSale;
+    data['InitialSale'] = initialSale;
+    data['RecurringSale'] = recurringSale;
+    data['SalvageSale'] = salvageSale;
+    return data;
   }
+
+  List<SalesData> filterSalesData(List<SalesData> data) {
+    return data
+        .map((item) => SalesData(
+              range: item.range,
+              directSale: item.directSale,
+            ))
+        .toList();
+  }
+
   List<SalesData> removeEmptySalesData(List<SalesData> data) {
     return data.where((item) {
       // Keep the item only if at least one sale value is non-null and greater than zero
@@ -78,6 +92,14 @@ class SubscriptionData {
       netSubscriptions: json['NetSubscriptions'],
     );
   }
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['Range'] = range;
+    data['NewSubscriptions'] = newSubscriptions;
+    data['CancelledSubscriptions'] = cancelledSubscriptions;
+    data['NetSubscriptions'] = netSubscriptions;
+    return data;
+  }
 }
 
 class LineChartModel {
@@ -89,7 +111,7 @@ class LineChartModel {
   final Map<String, List<FlSpot>> dataPoints;
   final Map<String, Color> lineColors;
 
-  LineChartModel( {
+  LineChartModel({
     this.directData,
     this.salesData,
     this.subscriptionData,
@@ -137,15 +159,17 @@ class LineChartModel {
         lineColors: colors,
         ranges: ranges);
   }
-  static LineChartModel fromDirectSalesData(List<DirectSaleDetailDataResult> salesData) {
+
+  static LineChartModel fromDirectSalesData(
+      List<DirectSaleDetailDataResult> salesData) {
     Map<String, List<FlSpot>> points = {
       'Direct Sale': [],
     };
     List<String> ranges = []; // 🔹 Store range values
 
     for (int i = 0; i < salesData.length; i++) {
-      points['Direct Sale']
-          ?.add(FlSpot(i.toDouble(), double.parse((salesData[i].directSale ?? 0).toString())));
+      points['Direct Sale']?.add(FlSpot(i.toDouble(),
+          double.parse((salesData[i].directSale ?? 0).toString())));
       ranges.add(salesData[i].range ?? "N/A"); // 🔹 Collect ranges
     }
 

@@ -11,6 +11,7 @@ class Assets {
   static const String bottomNavigationWidgetGbutton = 'lib/widgets/bottom_navigation_widget/gbutton.dart';
   static const String bottomNavigationWidgetGnav = 'lib/widgets/bottom_navigation_widget/gnav.dart';
   static const String chartsBarChart = 'lib/widgets/charts/bar_chart.dart';
+  static const String chartsDeclinedPieChart = 'lib/widgets/charts/declined_pieChart.dart';
   static const String chartsLegendWidget = 'lib/widgets/charts/legend_widget.dart';
   static const String chartsLineChart = 'lib/screens/charts/line_chart.dart';
   static const String chartsPieChart = 'lib/widgets/charts/pieChart.dart';
@@ -118,6 +119,7 @@ class Assets {
   static const String widgetsCardDataWidget = 'lib/widgets/card_data_widget.dart';
   static const String widgetsChartsLineChart = 'lib/widgets/charts/line_chart.dart';
   static const String widgetsContainerWidget = 'lib/widgets/container_widget.dart';
+  static const String widgetsCustomSingleSelectionDropdown = 'lib/widgets/custom_single_selection_dropdown.dart';
   static const String widgetsFilterByDayWidget = 'lib/widgets/filter_by_day_widget.dart';
   static const String widgetsGap = 'lib/widgets/gap/widgets/gap.dart';
   static const String widgetsGlowingCard = 'lib/widgets/glowing_card.dart';

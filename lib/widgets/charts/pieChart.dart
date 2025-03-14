@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:phoenix/helper/dependency.dart';
 import 'package:phoenix/models/dashboard/coverage_health_data_model.dart';
 import 'package:phoenix/screens/dashboard/dashboard_screen.dart';
+import 'package:phoenix/widgets/custom_single_selection_dropdown.dart';
 import 'package:phoenix/widgets/loader.dart';
 
 import '../../helper/color_helper.dart';
@@ -74,7 +75,17 @@ class PieChartFilterWidgetState extends State<PieChartFilterWidget> {
       "All",
       ...{...widget.transactions.map((t) => t.cardType ?? "")}
     ];
-
+    return SingleSelectionDropDown(
+        initiallySelectedKey: "All",
+        items: cardTypes.map<CustomDataItems>((String value) {
+          return CustomDataItems(
+              id: value, name: value.toString().toTitleCase());
+        }).toList(),
+        onSelection: (newValue) {
+          if (newValue.id != null) {
+            _filterData(newValue.id ?? "");
+          }
+        });
     return DropdownButton<String>(
       value: selectedFilter,
       elevation: 5,
@@ -108,7 +119,7 @@ class PieChartFilterWidgetState extends State<PieChartFilterWidget> {
       return PieChartSectionData(
         value: count.toDouble(),
         title: '',
-        color: _getChargebackColor(chargebackType),
+        color: colors[index],
         radius: radius.toDouble(),
       );
     });
@@ -173,18 +184,23 @@ class PieChartFilterWidgetState extends State<PieChartFilterWidget> {
   }
 
   Widget _buildChargebackLegend(Map<String, int> chargebackTotals, int total) {
+    List<MapEntry<String, int>> entries = chargebackTotals.entries.toList();
+
     return Wrap(
       runSpacing: 10,
       spacing: 10,
-      // or Column based on layout preference
-      children: chargebackTotals.entries.map((entry) {
+      children: entries.map((entry) {
         double percentage = total > 0
             ? double.parse((entry.value / total * 100).toStringAsFixed(2))
             : 0.0;
+
+        // Get index of entry
+        int index = entries.indexOf(entry);
+
         return LegendWidget(
-          color: _getChargebackColor(entry.key),
+          color: colors[index % colors.length], // Use index for color cycling
           text: entry.key,
-          subText: '${formatCurrency(entry.value.toDouble())}$percentage',
+          subText: '${formatCurrency(entry.value.toDouble())} ($percentage%)',
         );
       }).toList(),
     );

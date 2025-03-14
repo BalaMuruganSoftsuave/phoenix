@@ -326,7 +326,7 @@ class SalesRevenueChart extends StatelessWidget {
             show: true,
             getDotPainter: (spot, percent, barData, index) {
               // Show dots only at every 5th point
-              return  FlDotCirclePainter(radius: 0, color: Colors.transparent);
+              return  FlDotCirclePainter(radius: 2, color: Colors.white);
             },
           ),
           curveSmoothness: 0.4,
@@ -334,7 +334,7 @@ class SalesRevenueChart extends StatelessWidget {
           spots: entry.value,
           isCurved: true,
           color: chartModel.lineColors[entry.key],
-          barWidth: 3,
+          barWidth: 4,
           isStrokeCapRound: true,
           belowBarData: BarAreaData(
             show: areaMap,
@@ -343,9 +343,9 @@ class SalesRevenueChart extends StatelessWidget {
               end: Alignment.bottomCenter, // Fades downwards
               colors: [
                 chartModel.lineColors[entry.key]!
-                    .withValues(alpha: 1), // Start with some opacity
+                    .withValues(alpha: 0.8), // Start with some opacity
                 // chartModel.lineColors[entry.key]!.withOpacity(0.1), // Fully transparent at the bottom
-                AppColors.darkBg2
+                AppColors.darkBg2.withValues(alpha: 0.0)
               ],
             ),
           ),
@@ -426,45 +426,70 @@ class SalesRevenueChart extends StatelessWidget {
         sideTitles: SideTitles(
           showTitles: true,
           reservedSize: 20,
+            interval: 1,
             getTitlesWidget: (value, meta) {
+              // Process only whole integer values
+              if (value % 1 != 0) return Container();
+
               int index = value.toInt();
 
-            // Get actual data length safely
-            int dataLength =isDetailScreen?     (chartModel.directData?.length ?? 0): areaMap
-                ? (chartModel.salesData?.length ?? 0)
-                : (chartModel.subscriptionData?.length ?? 0);
-            // Subtract 1 safely, ensuring we don't have negative values
-            int lastIndex = dataLength > 0 ? dataLength - 1 : 0;
-
-            // Double-check the index is within bounds
-            if (index < 0 || index >= dataLength) {
-              return Container(); // Return an empty widget if out of bounds
-            }
-
-            // Ensure first and last labels are always shown, and show every 3rd label
-            if (index == 0 || index == lastIndex || index % 4 == 0) {
-              // Only try to access data if we're sure the index is valid
-              String? range;
-              if (areaMap && chartModel.salesData != null && index < chartModel.salesData!.length) {
-                range = chartModel.salesData?[index].range;
-              } else if (!areaMap && chartModel.subscriptionData != null && index < chartModel.subscriptionData!.length) {
-                range = chartModel.subscriptionData?[index].range;
-              }else if (isDetailScreen && chartModel.directData != null && index < (chartModel.directData?.length??0)) {
-                range = chartModel.directData?[index].range;
-              } else {
-                range = "";
+              // Get actual data length safely
+              int dataLength = isDetailScreen
+                  ? (chartModel.directData?.length ?? 0)
+                  : areaMap
+                  ? (chartModel.salesData?.length ?? 0)
+                  : (chartModel.subscriptionData?.length ?? 0);
+print(dataLength);
+              // Ensure index is within bounds
+              if (index < 0 || index >= dataLength) {
+                return Container(); // Return an empty widget if out of bounds
               }
+
+              int lastIndex = dataLength > 0 ? dataLength - 1 : 0;
+
+              if (dataLength < 5) {
+                // Show all labels if length is less than 5
+                String? range;
+                if (areaMap && chartModel.salesData != null && index < chartModel.salesData!.length) {
+                  range = chartModel.salesData?[index].range;
+                } else if (!areaMap && chartModel.subscriptionData != null && index < chartModel.subscriptionData!.length) {
+                  range = chartModel.subscriptionData?[index].range;
+                } else if (isDetailScreen && chartModel.directData != null && index < (chartModel.directData?.length ?? 0)) {
+                  range = chartModel.directData?[index].range;
+                } else {
+                  range = "";
+                }
 
                 return Text(
                   formatRange(range),
                   style: const TextStyle(fontSize: 10, color: Colors.white),
                   textAlign: TextAlign.center,
                 );
+              } else {
+                // If data length is greater than or equal to 5, show only 4 labels (first, last, and two equally spaced)
+                int step = (dataLength / 4).round(); // Dynamic step for 4 labels
+                if (index == 0 || index == lastIndex || index % step == 0) {
+                  String? range;
+                  if (areaMap && chartModel.salesData != null && index < chartModel.salesData!.length) {
+                    range = chartModel.salesData?[index].range;
+                  } else if (!areaMap && chartModel.subscriptionData != null && index < chartModel.subscriptionData!.length) {
+                    range = chartModel.subscriptionData?[index].range;
+                  } else if (isDetailScreen && chartModel.directData != null && index < (chartModel.directData?.length ?? 0)) {
+                    range = chartModel.directData?[index].range;
+                  } else {
+                    range = "";
+                  }
+
+                  return Text(
+                    formatRange(range),
+                    style: const TextStyle(fontSize: 10, color: Colors.white),
+                    textAlign: TextAlign.center,
+                  );
+                }
               }
 
               return Container(); // Hide other labels
             }
-
         ),
       ),
       topTitles: AxisTitles(

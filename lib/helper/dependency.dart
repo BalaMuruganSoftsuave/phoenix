@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phoenix/cubit/auth/auth_cubit.dart';
+import 'package:phoenix/helper/color_helper.dart';
 import 'package:phoenix/helper/preference_helper.dart';
 import 'package:phoenix/models/dashboard/additional_models.dart';
 import 'package:phoenix/models/filter_payload_model.dart';
@@ -279,9 +280,132 @@ FilterPayload adjustStartEndDateRefund(String startDate, String endDate) {
 }
 
 logout() {}
+
 List<Color> generateRandomColors(int length) {
   return List<Color>.generate(length, (i) {
     final hue = (i * 360) / length;
     return HSLColor.fromAHSL(1.0, hue, 0.7, 0.5).toColor();
   });
 }
+
+List<T> generateDateSlots<T>({
+  required String start,
+  required String end,
+  required T defaultValues,
+  required String groupBy, // "hour" | "day" | "week" | "month"
+}) {
+  DateTime startDate = DateTime.parse(start);
+  DateTime endDate = DateTime.parse(end);
+  List<T> slots = [];
+  DateTime current = startDate;
+
+  while (current.isBefore(endDate) || current.isAtSameMomentAs(endDate)) {
+    String formattedRange = '';
+
+    switch (groupBy) {
+      case 'hour':
+        formattedRange = DateFormat('hh a').format(current); // e.g., "12 AM"
+        break;
+      case 'day':
+        formattedRange = DateFormat('MM/dd').format(current); // e.g., "12/04"
+        break;
+      case 'week':
+        formattedRange = DateFormat('MMM d').format(current); // e.g., "Dec 4"
+        break;
+      case 'month':
+        formattedRange = DateFormat('MMMM yyyy').format(current); // e.g., "December 2024"
+        break;
+    }
+
+    // Add slot with default values
+    slots.add({...defaultValues as Map<String, dynamic>, 'Range': formattedRange} as T);
+
+    // Increment based on grouping type
+    switch (groupBy) {
+      case 'hour':
+        current = current.add(const Duration(hours: 1));
+        break;
+      case 'day':
+        current = current.add(const Duration(days: 1));
+        break;
+      case 'week':
+        current = current.add(const Duration(days: 7));
+        break;
+      case 'month':
+        current = DateTime(current.year, current.month + 1, current.day);
+        break;
+    }
+  }
+
+  return slots;
+}
+List<T> generateSlots<T>({
+  required String start,
+  required String end,
+  required List<T> existingData,
+  required T defaultValues,
+  required String groupBy, // "hour" or "day"
+  required String Function(T) getRange,
+}) {
+  DateTime startDate = DateTime.parse(start);
+  DateTime endDate = DateTime.parse(end);
+
+  if (endDate.year == DateTime.now().year &&
+      endDate.month == DateTime.now().month &&
+      endDate.day == DateTime.now().day) {
+    // If end date is today, set to current time
+    var now = DateTime.now().hour;
+    endDate = DateTime(
+        endDate.year, endDate.month, endDate.day, now < 20 ? now + 3 : now, 59);
+  } else {
+    // If end date is a different day, set to 11:59 PM
+    endDate = DateTime(endDate.year, endDate.month, endDate.day, 23, 59);
+  }
+
+  List<T> slots = [];
+  DateTime current = startDate;
+
+  // Create a map of existing data for quick lookup
+  Map<String, T> dataMap = {
+    for (var data in existingData) getRange(data): data
+  };
+
+  while (current.isBefore(endDate) || current.isAtSameMomentAs(endDate)) {
+    String range = groupBy == 'hour'
+        ? '${current.month.toString().padLeft(2, '0')}/${current.day.toString().padLeft(2, '0')} '
+            '${current.hour == 0 ? 12 : current.hour > 12 ? current.hour - 12 : current.hour}'
+            '${current.hour < 12 ? 'AM' : 'PM'}':
+        // : '${current.month.toString().padLeft(2, '0')}/${current.day.toString().padLeft(2, '0')}';
+     groupBy == 'day'?  DateFormat('MM/dd').format(current):
+     groupBy == 'week'?  DateFormat('MMM d').format(current):
+     DateFormat('MMMM yyyy').format(current) ;
+
+
+    if (dataMap.containsKey(range)) {
+      // Add existing data
+      slots.add(dataMap[range]!);
+    } else {
+      // Add default values if not available
+      slots
+          .add({...defaultValues as Map<String, dynamic>, 'Range': range} as T);
+    }
+
+    // Increment based on grouping type
+    current = groupBy == 'hour' ? current.add(const Duration(hours: 1)):
+    current = groupBy =='day'? current.add(const Duration(days: 1)):
+    current=groupBy=='week'? current.add(const Duration(days: 7)) :
+    current = DateTime(current.year, current.month + 1, current.day);
+
+  }
+
+  return slots;
+}
+
+var colors = [
+  AppColors.orange,
+  AppColors.secUi,
+  AppColors.successGreen,
+  AppColors.pink,
+  AppColors.purple,
+
+];

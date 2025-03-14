@@ -29,7 +29,7 @@ class CoverageHealthDataResult {
   CoverageHealthDataResult({this.cardType, this.chargeBackType, this.approvedTransactions});
 
   CoverageHealthDataResult.fromJson(Map<String, dynamic> json) {
-    cardType = json['CardType'];
+    cardType = json['CardType']!=null? json['CardType'].toString().toLowerCase(): json['CardType'];
     chargeBackType = json['ChargeBackType'];
     approvedTransactions = json['ApprovedTransactions'];
   }

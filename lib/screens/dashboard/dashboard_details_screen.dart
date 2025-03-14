@@ -19,8 +19,8 @@ import 'package:phoenix/models/dashboard/direct_sale_data_model.dart';
 import 'package:phoenix/models/line_chart_model.dart';
 import 'package:phoenix/widgets/card_data_widget.dart';
 import 'package:phoenix/widgets/charts/bar_chart.dart';
+import 'package:phoenix/widgets/charts/declined_pieChart.dart';
 import 'package:phoenix/widgets/charts/line_chart.dart';
-import 'package:phoenix/widgets/charts/pieChart.dart';
 import 'package:phoenix/widgets/container_widget.dart';
 import 'package:phoenix/widgets/gap/widgets/gap.dart';
 import 'package:phoenix/widgets/loader.dart';
@@ -251,66 +251,71 @@ class DashboardDetailsScreen extends StatelessWidget {
                           ? ContainerWidget(
                               height: 60,
                               title: "Sales Revenue",
-                              widget:state.dashboardAppRatioReqState ==
-                                  ProcessState.loading
+                              widget: state.dashboardAppRatioReqState ==
+                                      ProcessState.loading
                                   ? Loader()
-                                  : (state.directSaleRevenueData?.result
-                                  ??
-                                  [])
-                                  .isEmpty
-                                  ? NoDataWidget()
-                                  : SalesRevenueChart(
-                                areaMap: true,
-                                chartModel: getDirectSaleData(
-                                    state.directSaleRevenueData?.result ?? []),
-                                isDetailScreen: true,
-                              ),
+                                  : (state.directSaleRevenueData?.result ?? [])
+                                          .isEmpty
+                                      ? NoDataWidget()
+                                      : SalesRevenueChart(
+                                          areaMap: true,
+                                          chartModel: getDirectSaleData(state
+                                                  .directSaleRevenueData
+                                                  ?.result ??
+                                              []),
+                                          isDetailScreen: true,
+                                        ),
                             )
-                          :ContainerWidget(
-                          title: TextHelper.uniqueApprovalRatio,
-                          widget: state.dashboardAppRatioReqState ==
-                              ProcessState.loading
-                              ? Loader()
-                              : (state.detailChartAppRatioData?.result
-                              ??
-                              [])
-                              .isEmpty
-                              ? NoDataWidget()
-                              : BarChartWidget(
-                            chartData: getApprovalRatioData(
-                                state.detailChartAppRatioData?.result ?? []),
-                            barRadius: 20,
-                            barSpace: -10,
-                            showAllRods: true,
-                            width: 85,
-                            isLegendRequired: false,
-                          )),
+                          : ContainerWidget(
+                              title: TextHelper.uniqueApprovalRatio,
+                              widget: state.dashboardAppRatioReqState ==
+                                      ProcessState.loading
+                                  ? Loader()
+                                  : (state.detailChartAppRatioData?.result ??
+                                              [])
+                                          .isEmpty
+                                      ? NoDataWidget()
+                                      : BarChartWidget(
+                                          chartData: getApprovalRatioData(state
+                                                  .detailChartAppRatioData
+                                                  ?.result ??
+                                              []),
+                                          barRadius: 20,
+                                          barSpace: -10,
+                                          showAllRods: true,
+                                          width: 120,
+                                          isLegendRequired: false,
+                                        )),
                       Gap(20),
                       isDirectSale
                           ? ContainerWidget(
                               title: TextHelper.uniqueApprovalRatio,
                               widget: state.dashboardAppRatioReqState ==
-                                  ProcessState.loading
+                                      ProcessState.loading
                                   ? Loader()
-                                  : (state.directSaleAppRatioData?.result
-                                   ??
-                                  [])
-                                  .isEmpty
-                                  ? NoDataWidget()
-                                  : BarChartWidget(
-                                chartData: getProcessData(
-                                    state.directSaleAppRatioData?.result ?? []),
-                                barRadius: 20,
-                                barSpace: -10,
-                                showAllRods: true,
-                                width: 85,
-                                isLegendRequired: false,
-                              ))
-                          : PieChartFilterWidget(
+                                  : (state.directSaleAppRatioData?.result ?? [])
+                                          .isEmpty
+                                      ? NoDataWidget()
+                                      : BarChartWidget(
+                                          chartData: getProcessData(state
+                                                  .directSaleAppRatioData
+                                                  ?.result ??
+                                              []),
+                                          barRadius: 20,
+                                          barSpace: -10,
+                                          showAllRods: true,
+                                          width: 85,
+                                          isLegendRequired: false,
+                                        ))
+                          : PieChartWidget(
                               title: "Decline Breakdown",
-                              transactions: [],
+                              data: processDetailData(state
+                                      .detailChartDeclinedBreakDownData
+                                      ?.result ??
+                                  []),
+                              isLoading: state.dashboardRevenueReqState ==
+                                  ProcessState.loading,
                             ),
-
                       Gap(20),
                     ],
                   ),
@@ -331,6 +336,20 @@ class DashboardDetailsScreen extends StatelessWidget {
     var result = data.map((e) => e.toChartJson()).toList();
     return processData(result);
   }
+
+  List<DetailChartDeclinedBreakDownDataResult> processDetailData(
+      List<DetailChartDeclinedBreakDownDataResult> data) {
+    // ✅ Directly map the data or apply any transformation if required
+    return data.map((entry) {
+      return DetailChartDeclinedBreakDownDataResult(
+        reason: entry.reason,
+        value: entry.value,
+        percentage: entry.percentage,
+        cancelled: entry.cancelled,
+      );
+    }).toList();
+  }
+
   getApprovalRatioData(List<DetailChartApprovalRatioDataResult> data) {
     var result = data.map((e) => e.toChartJson()).toList();
     return processData(result);
