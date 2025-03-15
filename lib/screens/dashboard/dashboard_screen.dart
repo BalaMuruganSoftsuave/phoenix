@@ -70,7 +70,7 @@ class HomeScreen extends StatelessWidget {
                                       startDate: formatter.format(range!.start),
                                       endDate: formatter.format(range.end));
                                   debugPrint(
-                                      "Selected: $key, Range: ${range?.start} - ${range?.end}");
+                                      "Selected: $key, Range: ${range.start} - ${range.end}");
                                 },
                               ),
                             ),
@@ -122,7 +122,7 @@ class HomeScreen extends StatelessWidget {
                                   // Second Container Inside Column
                                   ContainerWidget(
                                     height: 62,
-                                    title: "Sales Revenue",
+                                    title: TextHelper.salesRevenue,
                                     widget: state.totalSalesRevenueReqState ==
                                             ProcessState.loading
                                         ? Loader()
@@ -143,7 +143,7 @@ class HomeScreen extends StatelessWidget {
                                   SizedBox(height: 20),
                                   ContainerWidget(
                                       height: 60,
-                                      title: "Net Subscribers",
+                                      title: TextHelper.netSubscribers,
                                       widget: state.netSubscribersReqState ==
                                               ProcessState.loading
                                           ? Loader()
@@ -167,7 +167,7 @@ class HomeScreen extends StatelessWidget {
                                       transactions: state
                                               .coverageHealthDataData?.result ??
                                           [],
-                                      title: "Coverage Health"),
+                                      title: TextHelper.coverageHealth),
                                   SizedBox(height: 30),
                                   ChargebackSummary(),
                                   SizedBox(height: 20),
@@ -254,7 +254,7 @@ class NoDataWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Text(
-        "No Data on this period",
+        translate(TextHelper.noDataOnThisPeriod),
         style: getTextTheme().bodyMedium?.copyWith(
             fontSize: Responsive.fontSize(context, 4),
             color: AppColors.subText),

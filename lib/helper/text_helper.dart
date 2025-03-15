@@ -28,5 +28,18 @@ class TextHelper{
   static const String notification="Notification";
   static const String subscriptionCount="Subscription Count";
   static const String subscriptionAmount="Subscription Amount";
+  static const String chargeBackSummary="chargeBackSummary";
+  static const String totalDirectSales="totalDirectSales";
+  static const String totalApproved="totalApproved";
+  static const String totalDeclined="totalDeclined";
+  static const String averageOrderValue="averageOrderValue";
+  static const String abandonCartRatio="abandonCartRatio";
+  static const String salesRevenue="salesRevenue";
+  static const String declineBreakdown="declineBreakdown";
+  static const String approvalRatio="approvalRatio";
+  static const String netSubscribers="netSubscribers";
+  static const String coverageHealth="coverageHealth";
+  static const String noDataOnThisPeriod="noDataOnThisPeriod";
+  static const String subscribersInSalvage="subscribersInSalvage";
 
 }

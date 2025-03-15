@@ -28,5 +28,18 @@
   "notification": "Notification",
   "subscriptionCount":"Subscription Count",
   "subscriptionAmount":"Subscription Amount",
-  "subscriptionRefundRatio": "Subscription Refund Ratio"
+  "subscriptionRefundRatio": "Subscription Refund Ratio",
+  "chargeBackSummary": "Chargeback Summary",
+  "totalDirectSales": "Total Direct Sales",
+  "totalApproved":"Total Approved",
+  "totalDeclined":"Total Declined",
+  "averageOrderValue":"Average Order Value",
+  "abandonCartRatio":"Abandon Cart Ratio",
+  "salesRevenue":"Sales Revenue",
+  "declineBreakdown":"Decline Breakdown",
+  "approvalRatio": "Approval Ratio",
+  "netSubscribers":"Net Subscribers",
+  "coverageHealth":"Coverage Health",
+  "noDataOnThisPeriod":"No Data on this period",
+  "subscribersInSalvage":"Subscribers in Salvage"
 }

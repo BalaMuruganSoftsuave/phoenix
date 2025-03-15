@@ -24,7 +24,7 @@ class DashBoardFirstDataWidget extends StatelessWidget {
       CardData(
         circleBgColor: Color(0xFFF90182),
         title:
-            state.directSaleData?.result?.firstOrNull?.label ?? 'Direct Sale',
+            state.directSaleData?.result?.firstOrNull?.label ?? translate(TextHelper.directSale),
         subtitle: getSubtitle(
             state.directSaleData?.result?.firstOrNull?.approvedOrders ?? 0,
             state.directSaleData?.result?.firstOrNull?.approvalPercentage ?? 0),
@@ -47,7 +47,7 @@ class DashBoardFirstDataWidget extends StatelessWidget {
       CardData(
           circleBgColor: Color(0xFFC237F3),
           title: state.initialSubscriptionData?.result?.firstOrNull?.label ??
-              'Initial Subscription',
+              translate(TextHelper.initialSubscription),
           subtitle: getSubtitle(
               state.initialSubscriptionData?.result?.firstOrNull
                       ?.approvedOrders ??
@@ -72,7 +72,7 @@ class DashBoardFirstDataWidget extends StatelessWidget {
       CardData(
           circleBgColor: Color(0xFF05CD99),
           title: state.recurringSubscriptionData?.result?.firstOrNull?.label ??
-              'Recurring Subscription',
+              translate(TextHelper.recurringSubscription),
           subtitle: getSubtitle(
               state.recurringSubscriptionData?.result?.firstOrNull
                       ?.approvedOrders ??
@@ -98,7 +98,7 @@ class DashBoardFirstDataWidget extends StatelessWidget {
       CardData(
           circleBgColor: Color(0xFF6AD2FF),
           title: state.subscriptionSalvageData?.result?.firstOrNull?.label ??
-              'Subscription Salvage',
+              translate(TextHelper.subscribersSalvage),
           subtitle: getSubtitle(
               state.subscriptionSalvageData?.result?.firstOrNull
                       ?.approvedOrders ??
@@ -134,7 +134,7 @@ class DashBoardFirstDataWidget extends StatelessWidget {
       CardData(
         circleBgColor: Color(0xFFC237F3),
         title: state.subscriptionBillData?.result?.firstOrNull?.label ??
-            'Subscription to Bill',
+          translate(TextHelper.subscriptionBill),
         subtitle: getSubtitle(
             state.subscriptionBillData?.result?.firstOrNull?.approvedOrders ??
                 0,
@@ -162,7 +162,7 @@ class TransactionDataWidget extends StatelessWidget {
       child: RenderSection(title: getTitle(), cards: [
         CardData(
           circleBgColor: Color(0xFFC237F3),
-          title: 'Total Transactions',
+          title: translate(TextHelper.totalTransactions),
           subtitle: double.parse(
                       state.totalTransactionData?.result?.totalTransactions ??
                           "0") >
@@ -177,7 +177,7 @@ class TransactionDataWidget extends StatelessWidget {
         ),
         CardData(
           circleBgColor: Color(0xFFE84040),
-          title: 'Refunds',
+          title: translate(TextHelper.refunds),
           subtitle: getSubtitle(
             double.parse(state.refundsData?.result?.refundTotal ?? "0"),
             percentage(
@@ -191,7 +191,7 @@ class TransactionDataWidget extends StatelessWidget {
         ),
         CardData(
           circleBgColor: Color(0xFFF36337),
-          title: 'Chargebacks',
+          title: translate(TextHelper.chargebacks),
           subtitle: getSubtitle(
             double.parse(state.chargeBacksData?.result?.chargebackTotal ?? "0"),
             percentage(
@@ -228,14 +228,14 @@ class LifeTimeDataWidget extends StatelessWidget {
       child: RenderSection(title: translate(TextHelper.lifetime), cards: [
         CardData(
           circleBgColor: const Color(0xFFC237F3),
-          title: "Active Subscribers",
+          title: translate(TextHelper.activeSubscribers),
           subtitle: formatNumber(state.lifeTimeData?.result?.activeSubscriptions?? 0),
           image: Assets.imagesActiveSubscribers,
           isLoading:state.lifeTimeReqState==ProcessState.loading,
         ),
         CardData(
           circleBgColor: const Color(0xFFE84040),
-          title: "Subscribers in Salvage",
+          title: translate(TextHelper.subscribersInSalvage),
           subtitle: formatNumber(state.lifeTimeData?.result?.subscriptionInSalvage?? 0),
 
           // subtitle: formatNumber(lifeTimeData?["SubscriptionInSalvage"] ?? 0),

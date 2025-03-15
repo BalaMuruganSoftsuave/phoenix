@@ -147,9 +147,7 @@ class DashboardDetailsScreen extends StatelessWidget {
                           circleBgColor: isDirectSale
                               ? Color(0xFFC237F3)
                               : Color(0xFF05CD99),
-                          title: isDirectSale
-                              ? 'Total Direct Sales'
-                              : "Total Approved",
+                          title: translate(isDirectSale? TextHelper.totalDirectSales: TextHelper.totalApproved),
                           subtitle: isDirectSale
                               ? formatNumber(state.directSaleDetailData?.result
                                       ?.firstOrNull?.approvedOrders ??
@@ -173,9 +171,7 @@ class DashboardDetailsScreen extends StatelessWidget {
                             circleBgColor: isDirectSale
                                 ? Color(0xFF05CD99)
                                 : Color(0xFFE84040),
-                            title: isDirectSale
-                                ? 'Unique Approval Ratio'
-                                : 'Total Declined',
+                            title: translate(isDirectSale? TextHelper.uniqueApprovalRatio : TextHelper.totalDeclined),
                             subtitle: isDirectSale
                                 ? checkNullable(state
                                         .directSaleDetailData
@@ -198,9 +194,7 @@ class DashboardDetailsScreen extends StatelessWidget {
                             onPress: () {}),
                         CardData(
                           circleBgColor: Color(0xFF6AD2FF),
-                          title: isDirectSale
-                              ? 'Average Order Value'
-                              : 'Approval Ratio',
+                          title: translate(isDirectSale? TextHelper.averageOrderValue : TextHelper.approvalRatio),
                           // subtitle: formatCurrency(state.directSaleDetailData?.result?.first.averageOrderValue ?? 0.0),
                           subtitle: isDirectSale
                               ? formatCurrency(double.parse((state
@@ -224,9 +218,7 @@ class DashboardDetailsScreen extends StatelessWidget {
                         ),
                         CardData(
                           circleBgColor: Color(0xFFF36337),
-                          title: isDirectSale
-                              ? 'Abandon Cart Ratio'
-                              : 'Canceled Subscribers',
+                          title: translate(isDirectSale? TextHelper.abandonCartRatio : TextHelper.canceledSubscribers),
                           subtitle: isDirectSale
                               ? checkNullable(state.directSaleDetailData?.result
                                       ?.firstOrNull?.abandonCartRatio ??
@@ -250,7 +242,7 @@ class DashboardDetailsScreen extends StatelessWidget {
                       isDirectSale
                           ? ContainerWidget(
                               height: 60,
-                              title: "Sales Revenue",
+                              title: TextHelper.salesRevenue,
                               widget: state.dashboardAppRatioReqState ==
                                       ProcessState.loading
                                   ? Loader()
@@ -308,7 +300,7 @@ class DashboardDetailsScreen extends StatelessWidget {
                                           isLegendRequired: false,
                                         ))
                           : PieChartWidget(
-                              title: "Decline Breakdown",
+                              title: translate(TextHelper.declineBreakdown),
                               data: processDetailData(state
                                       .detailChartDeclinedBreakDownData
                                       ?.result ??
