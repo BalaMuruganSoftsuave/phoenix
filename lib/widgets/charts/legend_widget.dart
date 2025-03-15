@@ -25,12 +25,19 @@ class LegendWidget extends StatelessWidget {
       alignment: WrapAlignment.start,
 
       children: [
-        CircleAvatar(
-          radius: 6, // Small dot
-          backgroundColor: color,
+
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            CircleAvatar(
+              radius: 6, // Small dot
+              backgroundColor: color,
+            ),
+             SizedBox(height: Responsive.boxH(context, 2.3),width: Responsive.boxW(context, 2),),
+          ],
         ),
-        const SizedBox(width: 8),
-        Column(crossAxisAlignment: CrossAxisAlignment.start,
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               text, // Revenue, Refund, Void
@@ -40,7 +47,8 @@ class LegendWidget extends StatelessWidget {
                 fontWeight: FontHelper.semiBold,
               ),
             ),
-            if(subText!=null)...[Gap(8),
+            if(subText!=null)...[
+              Gap(8),
               Text(
                 subText??"", // Example: $500
                 style: getTextTheme().labelSmall?.copyWith(

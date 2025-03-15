@@ -19,30 +19,30 @@ class SalesRevenueChart extends StatelessWidget {
   final bool areaMap;
   final bool isDetailScreen;
   final LineChartModel chartModel;
-  List<FlSpot> smoothData(List<FlSpot> originalSpots, int windowSize) {
-    List<FlSpot> modifiedSpots = List.from(originalSpots);
-
-    // If there are less than 10 spots, add dummy points
-    // while (modifiedSpots.length < 10) {
-    //   double newX = modifiedSpots.last.x + 1;
-    //   double newY = modifiedSpots.last.y; // Maintain trend instead of resetting to zero
-    //   modifiedSpots.add(FlSpot(newX, newY));
-    // }
-    // if (modifiedSpots.length <= windowSize) return modifiedSpots;
-
-    List<FlSpot> smoothedSpots = [];
-    for (int i = 0; i < modifiedSpots.length - windowSize + 1; i++) {
-      double sumY = 0;
-      for (int j = 0; j < windowSize; j++) {
-        sumY += modifiedSpots[i + j].y;
-      }
-      // Choose the center X value in the window instead of offset-based
-      double midX = modifiedSpots[i + (windowSize ~/ 2)].x;
-      smoothedSpots.add(FlSpot(midX, sumY / windowSize));
-    }
-
-    return smoothedSpots;
-  }
+  // List<FlSpot> smoothData(List<FlSpot> originalSpots, int windowSize) {
+  //   List<FlSpot> modifiedSpots = List.from(originalSpots);
+  //
+  //   // If there are less than 10 spots, add dummy points
+  //   // while (modifiedSpots.length < 10) {
+  //   //   double newX = modifiedSpots.last.x + 1;
+  //   //   double newY = modifiedSpots.last.y; // Maintain trend instead of resetting to zero
+  //   //   modifiedSpots.add(FlSpot(newX, newY));
+  //   // }
+  //   // if (modifiedSpots.length <= windowSize) return modifiedSpots;
+  //
+  //   List<FlSpot> smoothedSpots = [];
+  //   for (int i = 0; i < modifiedSpots.length - windowSize + 1; i++) {
+  //     double sumY = 0;
+  //     for (int j = 0; j < windowSize; j++) {
+  //       sumY += modifiedSpots[i + j].y;
+  //     }
+  //     // Choose the center X value in the window instead of offset-based
+  //     double midX = modifiedSpots[i + (windowSize ~/ 2)].x;
+  //     smoothedSpots.add(FlSpot(midX, sumY / windowSize));
+  //   }
+  //
+  //   return smoothedSpots;
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -83,9 +83,6 @@ class SalesRevenueChart extends StatelessWidget {
                 text: 'Direct',
                 subText: formatCurrency(totalSales['Direct Sale'] ?? 0).toString()),
 
-
-
-
           ],
         ):areaMap
             ? Wrap(
@@ -93,6 +90,17 @@ class SalesRevenueChart extends StatelessWidget {
           spacing: 10, // Horizontal spacing between items
           runSpacing: 10, // Vertical spacing between wrapped rowstween wrapped rows
               children: [
+                LegendWidget(
+                    color: Colors.red,
+                    text: 'Total',
+                    subText: formatCurrency(totalSales.values.fold(0, (prev, item)=> prev+item)).toString()),
+                Container(
+                  width: 1, // Divider thickness
+                  height: 60, // Adjust height as needed
+                  color: AppColors.lines, // Adjust color as needed
+                  margin: EdgeInsets.symmetric(
+                      horizontal: 10), // Space around divider
+                ),
                 LegendWidget(
                     color: AppColors.pink,
                     text: 'Direct',
@@ -240,9 +248,9 @@ class SalesRevenueChart extends StatelessWidget {
      return totals;
    }
 
-  Map<String, double> _calculateTotalSubscriptions(
+  Map<String, num> _calculateTotalSubscriptions(
       List<SubscriptionData>? subscriptionData) {
-    final totals = <String, double>{
+    final totals = <String, num>{
       "netSubscriptions": 0,
       "newSubscriptions": 0,
       "cancelledSubscriptions": 0,
@@ -393,7 +401,7 @@ class SalesRevenueChart extends StatelessWidget {
           showTitles: true,
           maxIncluded: true,
           minIncluded: true,
-          reservedSize: 30,
+          reservedSize: Responsive.padding(getCtx()!, 10),
           getTitlesWidget: (value, meta) {
             double absMax = Math.max(minY.abs(), maxY.abs()); // Get the larger absolute value
               interval = absMax / 2;
@@ -552,29 +560,20 @@ print(dataLength);
                children: [
                  TextSpan(
                    text: '$lineName : ', // Label with extra spaces
-                   style: const TextStyle(
-                     fontSize: 12,
-                     color: Colors.white, // White label
-                     fontWeight: FontWeight.bold,
-                   ),
+                   style: getTextTheme().labelMedium?.copyWith(color: Colors.white,fontWeight: FontWeight.bold)
+
                  ),
                  TextSpan(
-                   text: '\$${spot.y.toStringAsFixed(2)}',
-                   style: TextStyle(
-                     fontSize: 12,
-                     color: color, // Color from the line
-                     fontWeight: FontWeight.bold,
-                   ),
+                   text: areaMap?'\$${spot.y.toStringAsFixed(2)}':'${spot.y.toInt()}',
+                     style: getTextTheme().labelMedium?.copyWith(color:color,fontWeight: FontWeight.bold)
+
                  ),
                  // Only add the range to the last tooltip item
                  if (isLastSpot)
                    TextSpan(
                      text: '\n\n$range',
-                     style: const TextStyle(
-                       fontSize: 14,
-                       color: AppColors.subText,
-                       fontWeight: FontWeight.bold,
-                     ),
+                     style: getTextTheme().labelLarge?.copyWith(color: AppColors.subText,fontWeight: FontWeight.bold)
+
                    ),
                ],
              );

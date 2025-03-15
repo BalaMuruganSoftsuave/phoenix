@@ -200,7 +200,7 @@ class PieChartFilterWidgetState extends State<PieChartFilterWidget> {
         return LegendWidget(
           color: colors[index % colors.length], // Use index for color cycling
           text: entry.key,
-          subText: '${formatCurrency(entry.value.toDouble())} ($percentage%)',
+          subText: '${entry.value} (${percentage % 1 == 0 ? percentage.toInt() : percentage.toStringAsFixed(2)}%)',
         );
       }).toList(),
     );
