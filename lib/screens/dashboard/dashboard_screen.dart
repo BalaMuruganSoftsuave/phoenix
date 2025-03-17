@@ -137,7 +137,19 @@ class HomeScreen extends StatelessWidget {
                                                         .totalSalesRevenueData
                                                         ?.result ??
                                                     [])),
-                                    childWidget: Icon(Icons.add),
+                                    childWidget:Container(
+                                      padding: EdgeInsets.all(2),
+
+                                      height: Responsive.boxH(context, 5),
+                                      width: Responsive.boxW(context, 35),
+                                      decoration: BoxDecoration(
+                                        color: AppColors.darkBg,
+                                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                                        border: Border.all(width:0.5,color: AppColors.white),
+                                        shape: BoxShape.rectangle
+                                      ),
+                                      child: Align(alignment:Alignment.center,child: Text("Total Revenue",textAlign: TextAlign.center,style: TextStyle(color: AppColors.white,fontSize: Responsive.fontSize(context, 3.5)),) ),
+                                    ),
                                   ),
 
                                   SizedBox(height: 20),
