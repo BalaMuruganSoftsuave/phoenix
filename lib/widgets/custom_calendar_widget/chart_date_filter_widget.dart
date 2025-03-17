@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:phoenix/helper/color_helper.dart';
+import 'package:phoenix/helper/dialog_helper.dart';
+import 'package:phoenix/helper/enum_helper.dart';
 
 import 'calendar_widget.dart';
 import 'calender_widget_modal.dart';
@@ -259,8 +261,13 @@ class _CustomDatePickerWidgetState extends State<ChartDateFilterWidget>
                             Expanded(
                               child: TextButton(
                                 onPressed: () {
-                                  widget.onChange(selectedDateRange);
-                                  closeMenu();
+                                  if(selectedDateRange.endDate!=null &&selectedDateRange.startDate!=null ) {
+                                    widget.onChange(selectedDateRange);
+                                    closeMenu();
+                                  }else{
+                                    CustomToast.show(context: context, message: "Please Select the date range", status: ToastStatus.warning);
+                                  }
+
                                 },
                                 style: TextButton.styleFrom(
                                   minimumSize: const Size(0, 50),

@@ -25,17 +25,14 @@ class LegendWidget extends StatelessWidget {
       alignment: WrapAlignment.start,
 
       children: [
-
-        Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            CircleAvatar(
-              radius: 6, // Small dot
-              backgroundColor: color,
-            ),
-             SizedBox(height: Responsive.boxH(context, 2.3),width: Responsive.boxW(context, 2),),
-          ],
+        Padding(
+          padding: const EdgeInsets.only(top: 4.0),
+          child: CircleAvatar(
+            radius: 6, // Small dot
+            backgroundColor: color,
+          ),
         ),
+        SizedBox(width: 8),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

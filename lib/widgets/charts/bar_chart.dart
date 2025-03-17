@@ -326,14 +326,17 @@ class BarChartWidget extends StatelessWidget {
             for (int i = 0; i < chartData[0].values.keys.length; i++) ...[
               Padding(
                 padding:  EdgeInsets.only(right: isLegendRequired==false?10.0:0),
-                child: LegendWidget(
-                  color: getColorForLabel(chartData[0]
-                      .values
-                      .keys
-                      .elementAt(i)), // Get corresponding color
-                  text: chartData[0].values.keys.elementAt(i),
-                  subText:isLegendRequired==false?null:
-                      '${formatCurrency(chartData.fold<double>(0, (sum, data) => sum + (data.values[chartData[0].values.keys.elementAt(i)] ?? 0)))}/${(totalPercentages[totalPercentages.keys.elementAt(i)] ?? 0).toStringAsFixed(1)}%',
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width/2.3,
+                  child: LegendWidget(
+                    color: getColorForLabel(chartData[0]
+                        .values
+                        .keys
+                        .elementAt(i)), // Get corresponding color
+                    text: chartData[0].values.keys.elementAt(i),
+                    subText:isLegendRequired==false?null:
+                        '${formatCurrency(chartData.fold<double>(0, (sum, data) => sum + (data.values[chartData[0].values.keys.elementAt(i)] ?? 0)))}/${(totalPercentages[totalPercentages.keys.elementAt(i)] ?? 0).toStringAsFixed(1)}%',
+                  ),
                 ),
               ),
 

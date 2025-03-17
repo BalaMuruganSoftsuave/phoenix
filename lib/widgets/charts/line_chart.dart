@@ -24,31 +24,6 @@ class SalesRevenueChart extends StatelessWidget {
   final bool isDetailScreen;
   final LineChartModel chartModel;
 
-  // List<FlSpot> smoothData(List<FlSpot> originalSpots, int windowSize) {
-  //   List<FlSpot> modifiedSpots = List.from(originalSpots);
-  //
-  //   // If there are less than 10 spots, add dummy points
-  //   // while (modifiedSpots.length < 10) {
-  //   //   double newX = modifiedSpots.last.x + 1;
-  //   //   double newY = modifiedSpots.last.y; // Maintain trend instead of resetting to zero
-  //   //   modifiedSpots.add(FlSpot(newX, newY));
-  //   // }
-  //   // if (modifiedSpots.length <= windowSize) return modifiedSpots;
-  //
-  //   List<FlSpot> smoothedSpots = [];
-  //   for (int i = 0; i < modifiedSpots.length - windowSize + 1; i++) {
-  //     double sumY = 0;
-  //     for (int j = 0; j < windowSize; j++) {
-  //       sumY += modifiedSpots[i + j].y;
-  //     }
-  //     // Choose the center X value in the window instead of offset-based
-  //     double midX = modifiedSpots[i + (windowSize ~/ 2)].x;
-  //     smoothedSpots.add(FlSpot(midX, sumY / windowSize));
-  //   }
-  //
-  //   return smoothedSpots;
-  // }
-
   @override
   Widget build(BuildContext context) {
     final totalSales = isDetailScreen
@@ -97,44 +72,20 @@ class SalesRevenueChart extends StatelessWidget {
               )
             : areaMap
                 ? Wrap(
-                    alignment: WrapAlignment.start,
-                    // Align items from the start
-                    spacing: 30,
-                    // Horizontal spacing between items
-                    runSpacing: 15,
-                    // Vertical spacing between wrapped rowstween wrapped rows
-                    children: [
-                      LegendWidget(
-                          color: AppColors.pink,
-                          text: 'Direct',
-                          subText:
-                              formatCurrency(totalSales['Direct Sale'] ?? 0)
-                                  .toString()),
-                      LegendWidget(
-                          color: AppColors.successGreen,
-                          text: 'Upsell',
-                          subText:
-                              formatCurrency(totalSales['Upsell Sale'] ?? 0)
-                                  .toString()),
-                      LegendWidget(
-                          color: AppColors.seaBlue,
-                          text: 'Initial',
-                          subText:
-                              formatCurrency(totalSales['Initial Sale'] ?? 0)
-                                  .toString()),
-                      LegendWidget(
-                          color: AppColors.purple,
-                          text: 'Recurring',
-                          subText:
-                              formatCurrency(totalSales['Recurring Sale'] ?? 0)
-                                  .toString()),
-                      LegendWidget(
-                          color: AppColors.orange,
-                          text: 'Salvage',
-                          subText:
-                              formatCurrency(totalSales['Salvage Sale'] ?? 0)
-                                  .toString()),
-                    ],
+                    spacing: 8,
+                    runSpacing: 8,
+                    children: totalSales.entries.map((entry) {
+                      Color color = _getLegendColor(entry.key);
+                      return SizedBox(
+                        width: (MediaQuery.of(context).size.width - 24) /
+                            2.3, // 2 items per row
+                        child: LegendWidget(
+                          color: color,
+                          text: entry.key,
+                          subText: formatCurrency(entry.value ?? 0).toString(),
+                        ),
+                      );
+                    }).toList(),
                   )
                 : Wrap(
                     alignment:
@@ -142,16 +93,25 @@ class SalesRevenueChart extends StatelessWidget {
                     spacing: 30, // Horizontal spacing between items
                     runSpacing: 15,
                     children: [
-                      LegendWidget(
-                          color: AppColors.pink,
-                          text: 'Net Subscribers',
-                          subText:
-                              (totalSubs['netSubscriptions'] ?? 0).toString()),
-                      LegendWidget(
-                          color: AppColors.successGreen,
-                          text: 'New Subscribers',
-                          subText:
-                              (totalSubs['newSubscriptions'] ?? 0).toString()),
+                      Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: LegendWidget(
+                                color: AppColors.pink,
+                                text: 'Net Subscribers',
+                                subText:
+                                    (totalSubs['netSubscriptions'] ?? 0).toString()),
+                          ),
+                          Expanded(
+                            child: LegendWidget(
+                                color: AppColors.successGreen,
+                                text: 'New Subscribers',
+                                subText:
+                                (totalSubs['newSubscriptions'] ?? 0).toString()),
+                          ),
+                        ],
+                      ),
+
                       LegendWidget(
                           color: AppColors.seaBlue,
                           text: 'Cancelled Subscribers',
@@ -161,6 +121,22 @@ class SalesRevenueChart extends StatelessWidget {
                   )
       ],
     );
+  }
+  Color _getLegendColor(String key) {
+    switch (key) {
+      case 'Direct Sale':
+        return AppColors.pink;
+      case 'Upsell Sale':
+        return AppColors.successGreen;
+      case 'Initial Sale':
+        return AppColors.seaBlue;
+      case 'Recurring Sale':
+        return AppColors.purple;
+      case 'Salvage Sale':
+        return AppColors.orange;
+      default:
+        return Colors.grey;
+    }
   }
 
   String formatRange(String? range) {

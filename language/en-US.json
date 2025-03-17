@@ -49,5 +49,10 @@
   "continue1": "CONTINUE",
   "sessionExpiredPleaseLogin":"Session Expired Please login",
   "sessionExpired": "Session Expired",
-  "updatedSuccessfully": "Updated Successfully"
+  "updatedSuccessfully": "Updated Successfully",
+  "netSubscriptions": "Net Subscriptions",
+  "newSubscriptions": "New Subscriptions",
+  "cancelledSubscriptions": "Cancelled Subscriptions"
+
+
 }
