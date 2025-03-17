@@ -212,7 +212,7 @@ class HomeScreen extends StatelessWidget {
                                                   barRadius: 30,
                                                   barSpace: -30,
                                                   showBackDraw: true,
-                                                  width: 70,
+                                                  width: Responsive.padding(context, 23),
                                                 ))
                                 ],
                               ),

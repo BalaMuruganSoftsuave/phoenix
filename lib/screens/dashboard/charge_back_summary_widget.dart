@@ -17,6 +17,12 @@ class ChargebackSummary extends StatelessWidget {
   });
 
   List formatChargebackData(List<ChargeBackSummaryDataResult> data) {
+    // Sort by totalApprovedTransactions in descending order
+    data.sort((a, b) {
+      int transactionsA = int.tryParse(a.totalApprovedTransactions ?? "0") ?? 0;
+      int transactionsB = int.tryParse(b.totalApprovedTransactions ?? "0") ?? 0;
+      return transactionsB.compareTo(transactionsA); // Descending order
+    });
     return data.expand((item) {
       String cardType = item.cardType ?? "";
       String totalApprovedTransactions =

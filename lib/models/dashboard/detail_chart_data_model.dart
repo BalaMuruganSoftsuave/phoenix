@@ -13,8 +13,8 @@ class DetailChartDeclinedBreakDownDataResponse {
     List<Map<String, dynamic>>.from(json['Result']);
 
     // ✅ Separate data for all and cancelled
-    Map<String, double> allData = {};
-    Map<String, double> cancelledData = {};
+    Map<String, int> allData = {};
+    Map<String, int> cancelledData = {};
 
     double totalAll = 0;
     double totalCancelled = 0;
@@ -22,7 +22,7 @@ class DetailChartDeclinedBreakDownDataResponse {
     for (var map in rawData) {
       String reason = map['DeclinedReason'] ?? "";
       int cancelled = map['Cancelled'] ?? 0;
-      double value = (map['DeclinedCount'] ?? 0).toDouble();
+      int value = (map['DeclinedCount'] ?? 0);
 
       if (value > 0) {
         // ✅ Sum for "All"
@@ -72,7 +72,7 @@ class DetailChartDeclinedBreakDownDataResponse {
 
 class DetailChartDeclinedBreakDownDataResult {
   final String reason;
-  final double value;
+  final int value;
   final double percentage;
   final int cancelled;
 

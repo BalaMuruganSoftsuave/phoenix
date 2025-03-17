@@ -44,12 +44,12 @@ class _PieChartWidgetState extends State<PieChartWidget> {
     }).toList();
 
     // ✅ Group data and calculate total
-    Map<String, double> chartData = {};
-    double total = 0;
+    Map<String, int> chartData = {};
+    int total = 0;
 
     for (var entry in filteredData) {
       String reason = entry.reason;
-      double value = entry.value;
+      int value = entry.value;
 
       if (value > 0) {
         chartData[reason] = (chartData[reason] ?? 0) + value;
@@ -57,7 +57,7 @@ class _PieChartWidgetState extends State<PieChartWidget> {
       }
     }
 
-    List<MapEntry<String, double>> entries =
+    List<MapEntry<String, int>> entries =
     chartData.entries.where((entry) => entry.value > 0).toList();
 
     return Container(
@@ -124,7 +124,7 @@ class _PieChartWidgetState extends State<PieChartWidget> {
   }
 
   // ✅ Generate Pie Chart
-  Widget _buildChart(List<MapEntry<String, double>> entries, double total) {
+  Widget _buildChart(List<MapEntry<String, int>> entries, int total) {
     colors = widget.data.isNotEmpty
         ? generateRandomColors(widget.data.length)
         : [];
@@ -133,10 +133,12 @@ class _PieChartWidgetState extends State<PieChartWidget> {
       alignment: Alignment.center,
       children: [
         SizedBox(
-          height: 200,
+          height: Responsive.screenH(context, 30),
           child: PieChart(
             PieChartData(
+
               pieTouchData: PieTouchData(
+
                 touchCallback: (FlTouchEvent event,
                     PieTouchResponse? pieTouchResponse) {
                   setState(() {
@@ -154,6 +156,7 @@ class _PieChartWidgetState extends State<PieChartWidget> {
                   });
                 },
               ),
+
               sections: _generatePieSections(entries, total),
               borderData: FlBorderData(show: false),
               centerSpaceRadius: 40,
@@ -176,15 +179,15 @@ class _PieChartWidgetState extends State<PieChartWidget> {
   }
 
   List<PieChartSectionData> _generatePieSections(
-      List<MapEntry<String, double>> entries, double total) {
+      List<MapEntry<String, int>> entries, int total) {
     return List.generate(entries.length, (index) {
       final isTouched = index == touchedIndex;
       final radius = isTouched ? 65 : 60;
       final entry = entries[index];
 
       return PieChartSectionData(
-        value: entry.value,
-        title: '',
+        value: entry.value.toDouble(),
+        showTitle: false,
         color: _getColor(index),
         radius: radius.toDouble(),
       );
@@ -193,10 +196,10 @@ class _PieChartWidgetState extends State<PieChartWidget> {
 
   // ✅ Tooltip for chart sections
   Widget _buildTooltip(
-      String label, double value, String percentage, Offset position) {
+      String label, int value, String percentage, Offset position) {
     return Positioned(
-      left: position.dx,
-      top: position.dy,
+      left: position.dx  ,
+      top: position.dy  , // Center vertically
       child: Container(
         padding: const EdgeInsets.all(6),
         decoration: BoxDecoration(
@@ -204,7 +207,7 @@ class _PieChartWidgetState extends State<PieChartWidget> {
           borderRadius: BorderRadius.circular(6),
         ),
         child: Text(
-          "$label\n${value.toStringAsFixed(2)} ($percentage%)",
+          "$label\n$value ($percentage%)",
           style: const TextStyle(color: Colors.white, fontSize: 12),
           textAlign: TextAlign.center,
         ),
@@ -213,8 +216,10 @@ class _PieChartWidgetState extends State<PieChartWidget> {
   }
 
   // ✅ Legend for chart data
-  Widget _buildLegend(List<MapEntry<String, double>> entries, double total) {
-    return SingleChildScrollView(
+  Widget _buildLegend(List<MapEntry<String, int>> entries, int total) {
+    entries.sort((a, b) => b.value.compareTo(a.value));
+
+  return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -256,7 +261,7 @@ class _PieChartWidgetState extends State<PieChartWidget> {
                   mainAxisAlignment: MainAxisAlignment.center, // Align to start
                   children: [
                     Text(
-                      "     ${entry.value.toStringAsFixed(2)} ",
+                      "     ${entry.value} ",
                       style: const TextStyle(
                         color: Colors.white70,
                         fontSize: 10,
