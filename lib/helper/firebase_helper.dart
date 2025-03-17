@@ -10,7 +10,7 @@ import 'package:phoenix/helper/preference_helper.dart';
 
 // Background message handler
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  print("Handling background message: ${message.messageId}");
+  debugPrint("Handling background message: ${message.messageId}");
 }
 
 class FirebaseHelper {
@@ -28,7 +28,7 @@ class FirebaseHelper {
 
     // Handle Foreground Messages
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      print("Received message in foreground: ${message.notification?.title}");
+      debugPrint("Received message in foreground: ${message.notification?.title}");
       _showNotification(message);
     });
 
@@ -57,9 +57,9 @@ class FirebaseHelper {
     );
 
     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
-      print('User granted permission');
+      debugPrint('User granted permission');
     } else {
-      print('User denied permission');
+      debugPrint('User denied permission');
     }
   }
 
@@ -67,7 +67,7 @@ class FirebaseHelper {
   static Future<String?> getFCMToken() async {
     String? token = await _firebaseMessaging.getToken();
     PreferenceHelper.saveFcm(token??"");
-    print("FCM Token: $token");
+    debugPrint("FCM Token: $token");
     return token;
   }
 
@@ -108,7 +108,7 @@ class FirebaseHelper {
 
   // Handle Notification Tap
   static void _handleNotificationTap(RemoteMessage message) {
-    print("User tapped on notification: ${message.notification?.title}");
+    debugPrint("User tapped on notification: ${message.notification?.title}");
     openScreen(dashboardScreen,args: LinkedHashMap.from({"tab":1}),requiresAsInitial: true);
     // Navigate to a specific screen or perform an action
   }

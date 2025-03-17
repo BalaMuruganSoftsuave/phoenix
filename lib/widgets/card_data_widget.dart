@@ -48,7 +48,7 @@ class RenderSection extends StatelessWidget {
         children: [
           if (title.isNotEmpty)
             Text(
-              title,
+              translate(title),
               style: getTextTheme().bodyMedium?.copyWith(color: Colors.white,fontSize: Responsive.fontSize(context, 3)),
             ),
           const SizedBox(height: 10),

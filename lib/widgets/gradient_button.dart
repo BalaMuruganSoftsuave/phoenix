@@ -33,7 +33,7 @@ class GradientButton extends StatelessWidget {
                   color: Colors.white,
                 )
               : Text(
-                  text,
+                  translate(text),
                   style: getTextTheme().bodyMedium?.copyWith(
                       color: Colors.white,
                       fontSize: 16,

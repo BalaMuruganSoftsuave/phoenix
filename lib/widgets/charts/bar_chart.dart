@@ -160,7 +160,9 @@ class BarChartWidget extends StatelessWidget {
                           // Background color for tooltip
                           getTooltipItem: (group, groupIndex, rod, rodIndex) {
                             if (groupIndex < 0 ||
-                                groupIndex >= chartData.length) return null;
+                                groupIndex >= chartData.length) {
+                              return null;
+                            }
 
                             ChartData data = chartData[groupIndex];
 

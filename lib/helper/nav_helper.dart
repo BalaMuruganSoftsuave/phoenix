@@ -1,14 +1,10 @@
 import 'dart:collection';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:phoenix/screens/dashboard.dart';
 import 'package:phoenix/screens/login_screen.dart';
 import 'package:phoenix/screens/splashscreen.dart';
-import 'package:phoenix/screens/dashboard/dashboard_screen.dart';
 import 'package:phoenix/screens/dashboard/dashboard_details_screen.dart';
-
-import 'dependency.dart';
 import 'nav_observer.dart';
 
 const String dashboardScreen='/dashboardScreen';

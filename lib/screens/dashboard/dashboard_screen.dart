@@ -242,7 +242,7 @@ class HomeScreen extends StatelessWidget {
 
   getRefundData(List<RefundRatioData> data) {
     List<Map<String, dynamic>> data1 =
-        data.map((e) => e.toJson()).toList() ?? [];
+        data.map((e) => e.toJson()).toList();
     return processData(data1);
   }
 }

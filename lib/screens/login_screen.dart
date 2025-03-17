@@ -77,7 +77,7 @@ final GlobalKey<FormState> _formKey= GlobalKey();
                                   textInputAction: TextInputAction.next,
                                   validator: (value) {
                                     if (value!.isEmpty) {
-                                      return "Please enter username";
+                                      return translate(TextHelper.pleaseEnterUsername);
                                     }
                                     return null;
                                   },
@@ -99,7 +99,7 @@ final GlobalKey<FormState> _formKey= GlobalKey();
                                   textInputAction: TextInputAction.done,
                                   validator: (value) {
                                     if (value!.isEmpty) {
-                                      return "Please enter password";
+                                      return translate(TextHelper.pleaseEnterPassword);
                                     }
                                     return null;
                                   },
@@ -133,7 +133,7 @@ final GlobalKey<FormState> _formKey= GlobalKey();
                                           .login(context, userNameController.text, passwordController.text);
                                     }
                                   },
-                                  text: "CONTINUE",
+                                  text: TextHelper.continue1,
                                 ),
                               );
                             },

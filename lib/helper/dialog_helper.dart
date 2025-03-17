@@ -115,7 +115,7 @@ class CustomToast {
           SizedBox(width: 8),
           Expanded(
             child: Text(
-              message,
+              translate(message),
               style: TextStyle(color: Colors.white),
             ),
           ),

@@ -41,5 +41,13 @@
   "netSubscribers":"Net Subscribers",
   "coverageHealth":"Coverage Health",
   "noDataOnThisPeriod":"No Data on this period",
-  "subscribersInSalvage":"Subscribers in Salvage"
+  "subscribersInSalvage":"Subscribers in Salvage",
+  "logoutSuccessfully": "Logout SuccessFully",
+  "home": "Home",
+  "pleaseEnterUsername": "Please enter username",
+  "pleaseEnterPassword": "Please enter password",
+  "continue1": "CONTINUE",
+  "sessionExpiredPleaseLogin":"Session Expired Please login",
+  "sessionExpired": "Session Expired",
+  "updatedSuccessfully": "Updated Successfully"
 }

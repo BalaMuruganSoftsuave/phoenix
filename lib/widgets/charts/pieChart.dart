@@ -11,6 +11,7 @@ import '../../helper/responsive_helper.dart';
 import '../../helper/utils.dart';
 import 'legend_widget.dart';
 
+
 class PieChartFilterWidget extends StatefulWidget {
   const PieChartFilterWidget(
       {super.key,
@@ -86,33 +87,11 @@ class PieChartFilterWidgetState extends State<PieChartFilterWidget> {
             _filterData(newValue.id ?? "");
           }
         });
-    return DropdownButton<String>(
-      value: selectedFilter,
-      elevation: 5,
-      underline: SizedBox(),
-      // Removes default underline
-
-      dropdownColor: AppColors.darkBg2,
-      style: TextStyle(color: AppColors.text),
-      icon: const Icon(Icons.arrow_drop_down, color: Colors.white),
-      onChanged: (String? newValue) {
-        if (newValue != null) {
-          _filterData(newValue);
-        }
-      },
-      items: cardTypes.map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(value, style: const TextStyle(color: Colors.white)),
-        );
-      }).toList(),
-    );
   }
 
   List<PieChartSectionData> _generatePieSections(
       List<MapEntry<String, int>> entries, int total) {
     return List.generate(entries.length, (index) {
-      String chargebackType = entries[index].key;
       int count = entries[index].value;
       final isTouched = index == touchedIndex;
       final radius = isTouched ? 65 : 60;
@@ -145,43 +124,6 @@ class PieChartFilterWidgetState extends State<PieChartFilterWidget> {
     );
   }
 
-  Color _getChargebackColor(String chargebackType) {
-    switch (chargebackType) {
-      case "Chargeback":
-        return AppColors.seaBlue;
-      case "RDR":
-        return AppColors.purple;
-      case "Ethoca":
-        return AppColors.orange;
-      case "CDRN":
-      default:
-        return AppColors.successGreen;
-    }
-  }
-
-  Widget _buildFilterButtons() {
-    List<String> cardTypes = [
-      "All",
-      ...{...widget.transactions.map((t) => t.cardType ?? "")}
-    ];
-
-    return Wrap(
-      alignment: WrapAlignment.center,
-      spacing: 8,
-      children: cardTypes.map((filter) => _filterButton(filter)).toList(),
-    );
-  }
-
-  Widget _filterButton(String filter) {
-    return ElevatedButton(
-      onPressed: () => _filterData(filter),
-      style: ElevatedButton.styleFrom(
-        backgroundColor: selectedFilter == filter ? Colors.blue : Colors.grey,
-        foregroundColor: Colors.white,
-      ),
-      child: Text(filter),
-    );
-  }
 
   Widget _buildChargebackLegend(Map<String, int> chargebackTotals, int total) {
     List<MapEntry<String, int>> entries = chargebackTotals.entries.toList();
@@ -193,10 +135,8 @@ class PieChartFilterWidgetState extends State<PieChartFilterWidget> {
         double percentage = total > 0
             ? double.parse((entry.value / total * 100).toStringAsFixed(2))
             : 0.0;
-
         // Get index of entry
         int index = entries.indexOf(entry);
-
         return LegendWidget(
           color: colors[index % colors.length], // Use index for color cycling
           text: entry.key,

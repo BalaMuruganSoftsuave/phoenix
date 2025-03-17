@@ -25,7 +25,7 @@ class DayPickerWidget extends StatelessWidget {
         return GestureDetector(
           onTap: () => onDaySelected(day.id??""),
           child: Chip(
-            label: Container(
+            label: SizedBox(
               width: 60,
               height: 20,
               child: Text(day.name??"",

@@ -12,6 +12,7 @@ import 'package:phoenix/helper/enum_helper.dart';
 import 'package:phoenix/helper/font_helper.dart';
 import 'package:phoenix/helper/nav_helper.dart';
 import 'package:phoenix/helper/responsive_helper.dart';
+import 'package:phoenix/helper/text_helper.dart';
 import 'package:phoenix/helper/utils.dart';
 import 'package:phoenix/screens/dashboard/dashboard_screen.dart';
 import 'package:phoenix/screens/notification/notification_screen.dart';
@@ -34,8 +35,7 @@ class Dashboard extends StatefulWidget {
 
 class _DashboardState extends State<Dashboard> {
   int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.w600);
+
   static final List<Widget> _widgetOptions = <Widget>[
     HomeScreen(),
     NotificationScreen(),
@@ -76,7 +76,7 @@ class _DashboardState extends State<Dashboard> {
                   back();
                   CustomToast.show(
                       context: context,
-                      message: "Logout SuccessFully",
+                      message: TextHelper.logoutSuccessfully,
                       status: ToastStatus.success);
                   logout();
                   openScreen(loginScreen, requiresAsInitial: true);
@@ -125,7 +125,7 @@ class _DashboardState extends State<Dashboard> {
                         ? ColorFilter.mode(AppColors.pink, BlendMode.srcIn)
                         : null,
                   ),
-                  text: 'Home',
+                  text: TextHelper.home,
                 ),
                 GButton(
                   leading: SvgPicture.asset(
@@ -136,7 +136,7 @@ class _DashboardState extends State<Dashboard> {
                         ? ColorFilter.mode(AppColors.pink, BlendMode.srcIn)
                         : null,
                   ),
-                  text: 'Notification',
+                  text: TextHelper.notification,
                 ),
               ],
               selectedIndex: _selectedIndex,
@@ -155,7 +155,7 @@ class _DashboardState extends State<Dashboard> {
                     back();
                     CustomToast.show(
                         context: context,
-                        message: "Logout SuccessFully",
+                        message: TextHelper.logoutSuccessfully,
                         status: ToastStatus.success);
                     logout();
                     openScreen(loginScreen, requiresAsInitial: true);

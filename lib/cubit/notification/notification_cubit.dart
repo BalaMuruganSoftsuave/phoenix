@@ -6,6 +6,7 @@ import 'package:phoenix/helper/api/api_service.dart';
 import 'package:phoenix/helper/dependency.dart';
 import 'package:phoenix/helper/dialog_helper.dart';
 import 'package:phoenix/helper/enum_helper.dart';
+import 'package:phoenix/helper/text_helper.dart';
 import 'package:phoenix/models/notification/notification_list_model.dart';
 
 class NotificationCubit extends Cubit<NotificationState> {
@@ -29,7 +30,7 @@ class NotificationCubit extends Cubit<NotificationState> {
         if (_tokenRefreshAttempts >= 2) {
           CustomToast.show(
               context: getCtx()!,
-              message: "Session Expired",
+              message: TextHelper.sessionExpired,
               status: ToastStatus.failure);
           emit(state.copyWith(getNotificationReqState: ProcessState.failure));
           return false;
@@ -67,7 +68,7 @@ class NotificationCubit extends Cubit<NotificationState> {
   Future<void> setNotificationConfiguration(BuildContext context, body) async {
     try {
       emit(state.copyWith(setNotificationReqState: ProcessState.loading));
-
+      /// ???
       final res = await _apiService.setNotificationConfiguration(body);
       _tokenRefreshAttempts = 0; // Reset counter on success
       emit(state.copyWith(
@@ -76,7 +77,7 @@ class NotificationCubit extends Cubit<NotificationState> {
       Future.delayed(Duration(seconds: 1), () {
         CustomToast.show(
             context: getCtx()!,
-            message: "Updated Successfully",
+            message: TextHelper.updatedSuccessfully,
             status: ToastStatus.success);
       });
     } on ApiFailure catch (e) {
@@ -84,7 +85,7 @@ class NotificationCubit extends Cubit<NotificationState> {
         if (_tokenRefreshAttempts >= 2) {
           CustomToast.show(
               context: getCtx()!,
-              message: "Session Expired",
+              message: TextHelper.sessionExpired,
               status: ToastStatus.failure);
           emit(state.copyWith(setNotificationReqState: ProcessState.failure));
           return;
@@ -99,7 +100,7 @@ class NotificationCubit extends Cubit<NotificationState> {
         } else {
           CustomToast.show(
               context: getCtx()!,
-              message: "Session Expired",
+              message: TextHelper.sessionExpired,
               status: ToastStatus.failure);
           emit(state.copyWith(setNotificationReqState: ProcessState.failure));
         }
@@ -147,7 +148,7 @@ class NotificationCubit extends Cubit<NotificationState> {
         } else {
           CustomToast.show(
               context: getCtx()!,
-              message: "Session Expired",
+              message: TextHelper.sessionExpired,
               status: ToastStatus.failure);
         }
       } else {

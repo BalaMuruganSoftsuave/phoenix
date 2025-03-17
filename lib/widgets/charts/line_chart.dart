@@ -1,34 +1,29 @@
-import 'dart:math' as Math ;
+import 'dart:core';
+import 'dart:math' as Math;
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:phoenix/models/line_chart_model.dart';
 import 'package:phoenix/widgets/charts/legend_widget.dart';
-import 'dart:core';
+
 import '../../helper/color_helper.dart';
 import '../../helper/dependency.dart';
-import '../../helper/font_helper.dart';
-import '../../helper/responsive_helper.dart';
-import '../../helper/utils.dart';
 
 class SalesRevenueChart extends StatelessWidget {
-   const SalesRevenueChart(
-      {super.key, this.areaMap = false, required this.chartModel ,this.isDetailScreen = false,});
+  const SalesRevenueChart({
+    super.key,
+    this.areaMap = false,
+    required this.chartModel,
+    this.isDetailScreen = false,
+  });
 
   final bool areaMap;
   final bool isDetailScreen;
   final LineChartModel chartModel;
+
   List<FlSpot> smoothData(List<FlSpot> originalSpots, int windowSize) {
     List<FlSpot> modifiedSpots = List.from(originalSpots);
-
-    // If there are less than 10 spots, add dummy points
-    // while (modifiedSpots.length < 10) {
-    //   double newX = modifiedSpots.last.x + 1;
-    //   double newY = modifiedSpots.last.y; // Maintain trend instead of resetting to zero
-    //   modifiedSpots.add(FlSpot(newX, newY));
-    // }
-    // if (modifiedSpots.length <= windowSize) return modifiedSpots;
 
     List<FlSpot> smoothedSpots = [];
     for (int i = 0; i < modifiedSpots.length - windowSize + 1; i++) {
@@ -46,13 +41,14 @@ class SalesRevenueChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final totalSales = isDetailScreen?_calculateDirectSales():_calculateTotalSales(); // Calculate totals for legend
+    final totalSales = isDetailScreen
+        ? _calculateDirectSales()
+        : _calculateTotalSales(); // Calculate totals for legend
     final totalSubs = _calculateTotalSubscriptions(chartModel.subscriptionData);
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-
         SizedBox(
           height: 250,
           child: Container(
@@ -73,137 +69,104 @@ class SalesRevenueChart extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 10),
-        isDetailScreen? Wrap(
-          alignment: WrapAlignment.start, // Align items from the start
-          spacing: 10, // Horizontal spacing between items
-          runSpacing: 10, // Vertical spacing between wrapped rowstween wrapped rows
-          children: [
-            LegendWidget(
-                color: AppColors.pink,
-                text: 'Direct',
-                subText: formatCurrency(totalSales['Direct Sale'] ?? 0).toString()),
-
-
-
-
-          ],
-        ):areaMap
+        isDetailScreen
             ? Wrap(
-          alignment: WrapAlignment.start, // Align items from the start
-          spacing: 10, // Horizontal spacing between items
-          runSpacing: 10, // Vertical spacing between wrapped rowstween wrapped rows
-              children: [
-                LegendWidget(
-                    color: AppColors.pink,
-                    text: 'Direct',
-                    subText: formatCurrency(totalSales['Direct Sale'] ?? 0).toString()),
-
-                // Vertical Divider
-                Container(
-                  width: 1, // Divider thickness
-                  height: 60, // Adjust height as needed
-                  color: AppColors.lines, // Adjust color as needed
-                  margin: EdgeInsets.symmetric(
-                      horizontal: 10), // Space around divider
-                ),
-
-                LegendWidget(
-                    color: AppColors.successGreen,
-                    text: 'Upsell',
-                    subText: formatCurrency(totalSales['Upsell Sale'] ?? 0).toString()),
-
-                Container(
-                  width: 1,
-                  height: 60,
-                  color: AppColors.lines,
-                  margin: EdgeInsets.symmetric(horizontal: 10),
-                ),
-
-                LegendWidget(
-                    color: AppColors.seaBlue,
-                    text: 'Initial',
-                    subText: formatCurrency(totalSales['Initial Sale'] ?? 0).toString()),
-                Container(
-                  width: 1,
-                  height: 60,
-                  color: AppColors.lines,
-                  margin: EdgeInsets.symmetric(horizontal: 10),
-                ),
-
-                LegendWidget(
-                    color: AppColors.purple,
-                    text: 'Recurring',
-                    subText: formatCurrency(totalSales['Recurring Sale'] ?? 0).toString()),
-
-                Container(
-                  width: 1,
-                  height: 60,
-                  color: AppColors.lines,
-                  margin: EdgeInsets.symmetric(horizontal: 10),
-                ),
-
-                LegendWidget(
-                    color: AppColors.orange,
-                    text: 'Salvage',
-                    subText: formatCurrency(totalSales['Salvage Sale'] ?? 0).toString()),
-
-              ],
-            )
-            : Wrap(
-              alignment: WrapAlignment.start, // Align items from the start
-              spacing: 10, // Horizontal spacing between items
-              runSpacing: 10,
-              children: [
-                LegendWidget(
-                    color: AppColors.pink,
-                    text: 'Net Subscribers',
-            subText: ( totalSubs['netSubscriptions'] ?? 0).toString()),
-
-
-                // Vertical Divider
-                Container(
-                  width: 1, // Divider thickness
-                  height: 60, // Adjust height as needed
-                  color: AppColors.lines, // Adjust color as needed
-                  margin: EdgeInsets.symmetric(
-                      horizontal: 10), // Space around divider
-                ),
-
-                LegendWidget(
-                    color: AppColors.successGreen,
-                    text: 'New Subscribers',
-                    subText: (totalSubs['newSubscriptions'] ?? 0).toString()),
-
-
-                Container(
-                  width: 1,
-                  height: 60,
-                  color: AppColors.lines,
-                  margin: EdgeInsets.symmetric(horizontal: 10),
-                ),
-
-                LegendWidget(
-                    color: AppColors.seaBlue,
-                    text: 'Cancelled Subscribers',
-                    subText: (totalSubs['cancelledSubscriptions'] ?? 0).toString()),
-              ],
-            )
+                alignment: WrapAlignment.start,
+                // Align items from the start
+                spacing: 10,
+                // Horizontal spacing between items
+                runSpacing: 10,
+                // Vertical spacing between wrapped rowstween wrapped rows
+                children: [
+                  LegendWidget(
+                      color: AppColors.pink,
+                      text: 'Direct',
+                      subText: formatCurrency(totalSales['Direct Sale'] ?? 0)
+                          .toString()),
+                ],
+              )
+            : areaMap
+                ? Wrap(
+                    alignment: WrapAlignment.start,
+                    // Align items from the start
+                    spacing: 30,
+                    // Horizontal spacing between items
+                    runSpacing: 15,
+                    // Vertical spacing between wrapped rowstween wrapped rows
+                    children: [
+                      LegendWidget(
+                          color: AppColors.pink,
+                          text: 'Direct',
+                          subText:
+                              formatCurrency(totalSales['Direct Sale'] ?? 0)
+                                  .toString()),
+                      LegendWidget(
+                          color: AppColors.successGreen,
+                          text: 'Upsell',
+                          subText:
+                              formatCurrency(totalSales['Upsell Sale'] ?? 0)
+                                  .toString()),
+                      LegendWidget(
+                          color: AppColors.seaBlue,
+                          text: 'Initial',
+                          subText:
+                              formatCurrency(totalSales['Initial Sale'] ?? 0)
+                                  .toString()),
+                      LegendWidget(
+                          color: AppColors.purple,
+                          text: 'Recurring',
+                          subText:
+                              formatCurrency(totalSales['Recurring Sale'] ?? 0)
+                                  .toString()),
+                      LegendWidget(
+                          color: AppColors.orange,
+                          text: 'Salvage',
+                          subText:
+                              formatCurrency(totalSales['Salvage Sale'] ?? 0)
+                                  .toString()),
+                    ],
+                  )
+                : Wrap(
+                    alignment:
+                        WrapAlignment.start, // Align items from the start
+                    spacing: 30, // Horizontal spacing between items
+                    runSpacing: 15,
+                    children: [
+                      LegendWidget(
+                          color: AppColors.pink,
+                          text: 'Net Subscribers',
+                          subText:
+                              (totalSubs['netSubscriptions'] ?? 0).toString()),
+                      LegendWidget(
+                          color: AppColors.successGreen,
+                          text: 'New Subscribers',
+                          subText:
+                              (totalSubs['newSubscriptions'] ?? 0).toString()),
+                      LegendWidget(
+                          color: AppColors.seaBlue,
+                          text: 'Cancelled Subscribers',
+                          subText: (totalSubs['cancelledSubscriptions'] ?? 0)
+                              .toString()),
+                    ],
+                  )
       ],
     );
   }
-   String formatRange(String? range) {
-     if (range == null || range.isEmpty) return "";
 
-     List<String> parts = range.split(" ");
+  String formatRange(String? range) {
+    if (range == null || range.isEmpty) return "";
 
-     // If there's a time (AM/PM), return only the time
-     if (parts.length > 1 && RegExp(r'^\d{1,2}(AM|PM|am|pm)$').hasMatch(parts.last)) {
-       return parts.last;
-     }
+    List<String> parts = range.split(" ");
 
-     // If it's just a date (e.g., "3/10", "Jan 24"), return it as is
-     return range;
-   }
+    // If there's a time (AM/PM), return only the time
+    if (parts.length > 1 &&
+        RegExp(r'^\d{1,2}(AM|PM|am|pm)$').hasMatch(parts.last)) {
+      return parts.last;
+    }
+
+    // If it's just a date (e.g., "3/10", "Jan 24"), return it as is
+    return range;
+  }
 
   /// Function to calculate total sales for each category
   Map<String, double> _calculateTotalSales() {
@@ -228,17 +191,18 @@ class SalesRevenueChart extends StatelessWidget {
 
     return totals;
   }
-   Map<String, double> _calculateDirectSales() {
-     final totals = <String, double>{
-       "Direct Sale": 0,
-     };
 
-     for (var entry in chartModel.directData ?? []) {
-       totals["Direct Sale"] = (totals["Direct Sale"] ?? 0) + entry.directSale;
-     }
+  Map<String, double> _calculateDirectSales() {
+    final totals = <String, double>{
+      "Direct Sale": 0,
+    };
 
-     return totals;
-   }
+    for (var entry in chartModel.directData ?? []) {
+      totals["Direct Sale"] = (totals["Direct Sale"] ?? 0) + entry.directSale;
+    }
+
+    return totals;
+  }
 
   Map<String, double> _calculateTotalSubscriptions(
       List<SubscriptionData>? subscriptionData) {
@@ -250,12 +214,12 @@ class SalesRevenueChart extends StatelessWidget {
 
     for (var entry in subscriptionData ?? []) {
       totals["netSubscriptions"] =
-          (totals["netSubscriptions"] ?? 0) + (entry.netSubscriptions??0);
+          (totals["netSubscriptions"] ?? 0) + (entry.netSubscriptions ?? 0);
       totals["newSubscriptions"] =
-          (totals["newSubscriptions"] ?? 0) + (entry.newSubscriptions??0);
+          (totals["newSubscriptions"] ?? 0) + (entry.newSubscriptions ?? 0);
       totals["cancelledSubscriptions"] =
           (totals["cancelledSubscriptions"] ?? 0) +
-             ( entry.cancelledSubscriptions??0);
+              (entry.cancelledSubscriptions ?? 0);
     }
 
     return totals;
@@ -267,7 +231,6 @@ class SalesRevenueChart extends StatelessWidget {
     List<FlSpot> spots = [];
     double minY = 0;
     double maxY = 0;
-
 
     for (var entry in chartModel.dataPoints.entries) {
       double xValue = double.tryParse(entry.key) ?? 0;
@@ -283,7 +246,6 @@ class SalesRevenueChart extends StatelessWidget {
       // Add some padding at the top
       maxY = (maxY * 1.1).ceilToDouble();
     }
-
 
     return LineChartData(
       minY: minY,
@@ -315,7 +277,7 @@ class SalesRevenueChart extends StatelessWidget {
           int length = spots.length;
 
           // if (length < 10) return 3; // Minimum window size
-          return (length * 0.1).round().clamp(1, length ); // 10% of data, min 3
+          return (length * 0.1).round().clamp(1, length); // 10% of data, min 3
         }
         // List<FlSpot> smoothedSpots =
         //     smoothData(entry.value, calculateWindowSize(entry.value)); // Using window size of 15
@@ -326,7 +288,7 @@ class SalesRevenueChart extends StatelessWidget {
             show: true,
             getDotPainter: (spot, percent, barData, index) {
               // Show dots only at every 5th point
-              return  FlDotCirclePainter(radius: 2, color: Colors.white);
+              return FlDotCirclePainter(radius: 2, color: Colors.white);
             },
           ),
           curveSmoothness: 0.4,
@@ -342,8 +304,8 @@ class SalesRevenueChart extends StatelessWidget {
               begin: Alignment.topCenter, // Starts from the top
               end: Alignment.bottomCenter, // Fades downwards
               colors: [
-                chartModel.lineColors[entry.key]!
-                    .withValues(alpha: 0.8), // Start with some opacity
+                chartModel.lineColors[entry.key]!.withValues(alpha: 0.8),
+                // Start with some opacity
                 // chartModel.lineColors[entry.key]!.withOpacity(0.1), // Fully transparent at the bottom
                 AppColors.darkBg2.withValues(alpha: 0.0)
               ],
@@ -366,10 +328,9 @@ class SalesRevenueChart extends StatelessWidget {
       minY = spots.map((spot) => spot.y).reduce((a, b) => a < b ? a : b);
       maxY = spots.map((spot) => spot.y).reduce((a, b) => a > b ? a : b);
 
-      minY=(minY > 0)? 0:minY;
+      minY = (minY > 0) ? 0 : minY;
       maxY = (maxY * 1.1).ceilToDouble(); // Add 10% padding at the top
     }
-
 
     String formatValue(double value) {
       if (value.abs() >= 1000000000) {
@@ -381,13 +342,13 @@ class SalesRevenueChart extends StatelessWidget {
       } else if (value.abs() >= 1000) {
         return '${(value / 1000).toStringAsFixed(1)}K'; // Thousands with 1 decimal (e.g., 1.2K, -1.2K)
       } else {
-        return NumberFormat("#,##0").format(value); // Default with commas (e.g., -950 → "-950")
+        return NumberFormat("#,##0")
+            .format(value); // Default with commas (e.g., -950 → "-950")
       }
     }
 
     double interval;
     return FlTitlesData(
-
       leftTitles: AxisTitles(
         sideTitles: SideTitles(
           showTitles: true,
@@ -395,19 +356,22 @@ class SalesRevenueChart extends StatelessWidget {
           minIncluded: true,
           reservedSize: 30,
           getTitlesWidget: (value, meta) {
-            double absMax = Math.max(minY.abs(), maxY.abs()); // Get the larger absolute value
-              interval = absMax / 2;
+            double absMax = Math.max(
+                minY.abs(), maxY.abs()); // Get the larger absolute value
+            interval = absMax / 2;
 
             List<double> valuesToShow = [
-              minY,             // Ensure minY is included
-              -absMax,          // Most negative value
-              -interval,        // Middle negative value
-              0,                // Zero
-              interval,         // Middle positive value
-              maxY              // Most positive value
+              minY, // Ensure minY is included
+              -absMax, // Most negative value
+              -interval, // Middle negative value
+              0, // Zero
+              interval, // Middle positive value
+              maxY // Most positive value
             ];
 
-            valuesToShow = valuesToShow.map((v) => double.parse(v.toStringAsFixed(1))).toList();
+            valuesToShow = valuesToShow
+                .map((v) => double.parse(v.toStringAsFixed(1)))
+                .toList();
 
             // Only show our specific values
             if (valuesToShow.contains(value)) {
@@ -420,12 +384,11 @@ class SalesRevenueChart extends StatelessWidget {
           },
           interval: Math.max((maxY - minY) / 2, 0.1),
         ),
-
       ),
       bottomTitles: AxisTitles(
         sideTitles: SideTitles(
-          showTitles: true,
-          reservedSize: 20,
+            showTitles: true,
+            reservedSize: 20,
             interval: 1,
             getTitlesWidget: (value, meta) {
               // Process only whole integer values
@@ -437,9 +400,8 @@ class SalesRevenueChart extends StatelessWidget {
               int dataLength = isDetailScreen
                   ? (chartModel.directData?.length ?? 0)
                   : areaMap
-                  ? (chartModel.salesData?.length ?? 0)
-                  : (chartModel.subscriptionData?.length ?? 0);
-print(dataLength);
+                      ? (chartModel.salesData?.length ?? 0)
+                      : (chartModel.subscriptionData?.length ?? 0);
               // Ensure index is within bounds
               if (index < 0 || index >= dataLength) {
                 return Container(); // Return an empty widget if out of bounds
@@ -450,11 +412,17 @@ print(dataLength);
               if (dataLength < 5) {
                 // Show all labels if length is less than 5
                 String? range;
-                if (areaMap && chartModel.salesData != null && index < chartModel.salesData!.length) {
+                if (areaMap &&
+                    chartModel.salesData != null &&
+                    index < chartModel.salesData!.length) {
                   range = chartModel.salesData?[index].range;
-                } else if (!areaMap && chartModel.subscriptionData != null && index < chartModel.subscriptionData!.length) {
+                } else if (!areaMap &&
+                    chartModel.subscriptionData != null &&
+                    index < chartModel.subscriptionData!.length) {
                   range = chartModel.subscriptionData?[index].range;
-                } else if (isDetailScreen && chartModel.directData != null && index < (chartModel.directData?.length ?? 0)) {
+                } else if (isDetailScreen &&
+                    chartModel.directData != null &&
+                    index < (chartModel.directData?.length ?? 0)) {
                   range = chartModel.directData?[index].range;
                 } else {
                   range = "";
@@ -467,14 +435,21 @@ print(dataLength);
                 );
               } else {
                 // If data length is greater than or equal to 5, show only 4 labels (first, last, and two equally spaced)
-                int step = (dataLength / 4).round(); // Dynamic step for 4 labels
+                int step =
+                    (dataLength / 4).round(); // Dynamic step for 4 labels
                 if (index == 0 || index == lastIndex || index % step == 0) {
                   String? range;
-                  if (areaMap && chartModel.salesData != null && index < chartModel.salesData!.length) {
+                  if (areaMap &&
+                      chartModel.salesData != null &&
+                      index < chartModel.salesData!.length) {
                     range = chartModel.salesData?[index].range;
-                  } else if (!areaMap && chartModel.subscriptionData != null && index < chartModel.subscriptionData!.length) {
+                  } else if (!areaMap &&
+                      chartModel.subscriptionData != null &&
+                      index < chartModel.subscriptionData!.length) {
                     range = chartModel.subscriptionData?[index].range;
-                  } else if (isDetailScreen && chartModel.directData != null && index < (chartModel.directData?.length ?? 0)) {
+                  } else if (isDetailScreen &&
+                      chartModel.directData != null &&
+                      index < (chartModel.directData?.length ?? 0)) {
                     range = chartModel.directData?[index].range;
                   } else {
                     range = "";
@@ -489,8 +464,7 @@ print(dataLength);
               }
 
               return Container(); // Hide other labels
-            }
-        ),
+            }),
       ),
       topTitles: AxisTitles(
         sideTitles: SideTitles(showTitles: false),
@@ -501,90 +475,92 @@ print(dataLength);
     );
   }
 
-   LineTouchData lineTouchData1() {
-     return LineTouchData(
-       handleBuiltInTouches: true,
-       touchTooltipData: LineTouchTooltipData(
-         tooltipRoundedRadius: 10,
-         maxContentWidth: 300,
-         tooltipBorder: BorderSide(
-           color: Colors.white, // Border color
-           width: 0.5, // Thin border
-         ),
-         tooltipPadding: const EdgeInsets.symmetric(
-             horizontal: 16, vertical: 8), // Wider padding
-         tooltipMargin: 12, // Adds extra margin for spacing
-         fitInsideHorizontally: true,
-         fitInsideVertically: true,
-         getTooltipColor: (LineBarSpot spot) => AppColors.darkBg2,
-         getTooltipItems: (List<LineBarSpot> touchedSpots) {
-           if (touchedSpots.isEmpty) return [];
+  LineTouchData lineTouchData1() {
+    return LineTouchData(
+      handleBuiltInTouches: true,
+      touchTooltipData: LineTouchTooltipData(
+        tooltipRoundedRadius: 10,
+        maxContentWidth: 300,
+        tooltipBorder: BorderSide(
+          color: Colors.white, // Border color
+          width: 0.5, // Thin border
+        ),
+        tooltipPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        // Wider padding
+        tooltipMargin: 12,
+        // Adds extra margin for spacing
+        fitInsideHorizontally: true,
+        fitInsideVertically: true,
+        getTooltipColor: (LineBarSpot spot) => AppColors.darkBg2,
+        getTooltipItems: (List<LineBarSpot> touchedSpots) {
+          if (touchedSpots.isEmpty) return [];
 
-           // Find the last index for range determination
-           int lastIndex = -1;
-           for (var spot in touchedSpots) {
-             if (spot.spotIndex > lastIndex) {
-               lastIndex = spot.spotIndex;
-             }
-           }
+          // Find the last index for range determination
+          int lastIndex = -1;
+          for (var spot in touchedSpots) {
+            if (spot.spotIndex > lastIndex) {
+              lastIndex = spot.spotIndex;
+            }
+          }
 
-           // Get the range text once
-           String range = "N/A";
-           if (lastIndex >= 0 && lastIndex < chartModel.ranges.length) {
-             range = chartModel.ranges[lastIndex];
-           }
+          // Get the range text once
+          String range = "N/A";
+          if (lastIndex >= 0 && lastIndex < chartModel.ranges.length) {
+            range = chartModel.ranges[lastIndex];
+          }
 
-           // Create tooltip items with range included in the last one
-           List<LineTooltipItem> tooltipItems = touchedSpots.map((spot) {
-             Color? color = spot.bar.color; // Get the color of the line
-             String? lineName =
-             chartModel.dataPoints.keys.elementAtOrNull(spot.barIndex);
+          // Create tooltip items with range included in the last one
+          List<LineTooltipItem> tooltipItems = touchedSpots.map((spot) {
+            Color? color = spot.bar.color; // Get the color of the line
+            String? lineName =
+                chartModel.dataPoints.keys.elementAtOrNull(spot.barIndex);
 
-             bool isLastSpot = spot == touchedSpots.last;
+            bool isLastSpot = spot == touchedSpots.last;
 
-             return LineTooltipItem(
-               '', // Empty main text to use only children
-               TextStyle(
-                   fontSize: 12,
-                   color: Colors.white,
-                   fontWeight: FontWeight.bold),
-               textAlign: TextAlign.start,
-               children: [
-                 TextSpan(
-                   text: '$lineName : ', // Label with extra spaces
-                   style: const TextStyle(
-                     fontSize: 12,
-                     color: Colors.white, // White label
-                     fontWeight: FontWeight.bold,
-                   ),
-                 ),
-                 TextSpan(
-                   text: '\$${spot.y.toStringAsFixed(2)}',
-                   style: TextStyle(
-                     fontSize: 12,
-                     color: color, // Color from the line
-                     fontWeight: FontWeight.bold,
-                   ),
-                 ),
-                 // Only add the range to the last tooltip item
-                 if (isLastSpot)
-                   TextSpan(
-                     text: '\n\n$range',
-                     style: const TextStyle(
-                       fontSize: 14,
-                       color: AppColors.subText,
-                       fontWeight: FontWeight.bold,
-                     ),
-                   ),
-               ],
-             );
-           }).toList();
+            return LineTooltipItem(
+              '', // Empty main text to use only children
+              TextStyle(
+                  fontSize: 12,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold),
+              textAlign: TextAlign.start,
+              children: [
+                TextSpan(
+                  text: '$lineName : ', // Label with extra spaces
+                  style: const TextStyle(
+                    fontSize: 12,
+                    color: Colors.white, // White label
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                TextSpan(
+                  text: '\$${spot.y.toStringAsFixed(2)}',
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: color, // Color from the line
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                // Only add the range to the last tooltip item
+                if (isLastSpot)
+                  TextSpan(
+                    text: '\n\n$range',
+                    style: const TextStyle(
+                      fontSize: 14,
+                      color: AppColors.subText,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+              ],
+            );
+          }).toList();
 
-           return tooltipItems;
-         },
-       ),
-     );
-   }}
+          return tooltipItems;
+        },
+      ),
+    );
+  }
+}
 
 // class LegendWidget extends StatelessWidget {
 //   final Color color;

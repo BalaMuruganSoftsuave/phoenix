@@ -138,13 +138,13 @@ class _FilterComponentState extends State<FilterComponent> {
             start: today.subtract(Duration(days: 6)), end: today);
       case "last30":
         return DateTimeRange(
-            start: today.subtract(Duration(days: 30)), end: today);
+            start: today.subtract(Duration(days: 29)), end: today);
       case "last90":
         return DateTimeRange(
-            start: today.subtract(Duration(days: 90)), end: today);
+            start: today.subtract(Duration(days: 89)), end: today);
       case "last365":
         return DateTimeRange(
-            start: today.subtract(Duration(days: 365)), end: today);
+            start: today.subtract(Duration(days: 364)), end: today);
       case "lastMonth":
         final firstDayLastMonth = DateTime(now.year, now.month - 1, 1);
         final lastDayLastMonth = DateTime(now.year, now.month, 0);

@@ -6,6 +6,7 @@ import 'package:phoenix/helper/dialog_helper.dart';
 import 'package:phoenix/helper/enum_helper.dart';
 import 'package:phoenix/helper/nav_helper.dart';
 import 'package:phoenix/helper/preference_helper.dart';
+import 'package:phoenix/helper/text_helper.dart';
 import 'package:phoenix/models/login_response_model.dart';
 
 import 'auth_state.dart';
@@ -47,7 +48,7 @@ class AuthCubit extends Cubit<AuthState> {
     } on ApiFailure catch (e) {
       CustomToast.show(
           context: getCtx(context)!,
-          message: "Session Expired Please login",
+          message: TextHelper.sessionExpiredPleaseLogin,
           status: ToastStatus.failure);
       emit(state.copyWith(authState: ProcessState.failure));
       openScreen(loginScreen);

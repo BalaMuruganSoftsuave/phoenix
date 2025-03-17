@@ -67,7 +67,6 @@ double percentage(
   int toFixed = 2,
 }) {
   if (totalValue == 0) {
-    print('Warning: Total value cannot be zero.');
     return 0;
   }
 
@@ -112,7 +111,6 @@ String getGroupBy(dynamic start, dynamic end) {
 
   // Check if the parsed dates are valid
   if (startDate == null || endDate == null) {
-    print('Invalid startDate or endDate');
     return '';
   }
 
@@ -137,7 +135,7 @@ DateTime? _parseDate(dynamic date) {
     try {
       return DateTime.parse(date);
     } catch (e) {
-      print('Error parsing date: $e');
+      debugPrint('Error parsing date: $e');
     }
   }
   return null;

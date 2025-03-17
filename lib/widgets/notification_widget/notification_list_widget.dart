@@ -57,7 +57,7 @@ class _NotificationListWidgetState extends State<NotificationListWidget> {
         _hasMoreData = false;
       }
     } catch (e) {
-      print('Error fetching notifications: $e');
+      debugPrint('Error fetching notifications: $e');
     } finally {
       setState(() {
         _isLoading = false;

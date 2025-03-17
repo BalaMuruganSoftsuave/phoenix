@@ -7,6 +7,7 @@ import 'package:phoenix/widgets/loader.dart';
 import '../../helper/color_helper.dart';
 import '../../helper/dependency.dart';
 import '../../helper/responsive_helper.dart';
+import '../../helper/utils.dart';
 
 class PieChartWidget extends StatefulWidget {
   final String title;
@@ -90,7 +91,7 @@ class _PieChartWidgetState extends State<PieChartWidget> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          title,
+          translate(title),
           style: const TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,

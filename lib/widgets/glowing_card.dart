@@ -86,7 +86,7 @@ class GlowingCard extends StatelessWidget {
                       ? ShimmerWidget(
                           height: Responsive.boxH(context, 3),
                           width: Responsive.boxW(context, 30))
-                      : Text(title,
+                      : Text(translate(title),
                           style: getTextTheme().bodyMedium?.copyWith(
                               fontSize: Responsive.fontSize(context, 3),
                               color: AppColors.subText,

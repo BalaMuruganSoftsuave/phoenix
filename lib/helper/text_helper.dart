@@ -41,5 +41,12 @@ class TextHelper{
   static const String coverageHealth="coverageHealth";
   static const String noDataOnThisPeriod="noDataOnThisPeriod";
   static const String subscribersInSalvage="subscribersInSalvage";
-
+  static const String logoutSuccessfully="logoutSuccessfully";
+  static const String home="home";
+  static const String pleaseEnterUsername="pleaseEnterUsername";
+  static const String pleaseEnterPassword="pleaseEnterPassword";
+  static const String continue1="continue1";
+  static const String sessionExpiredPleaseLogin="sessionExpiredPleaseLogin";
+  static const String sessionExpired="sessionExpired";
+  static const String updatedSuccessfully="updatedSuccessfully";
 }

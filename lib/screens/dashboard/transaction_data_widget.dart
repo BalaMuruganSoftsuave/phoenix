@@ -10,7 +10,6 @@ import 'package:phoenix/helper/enum_helper.dart';
 import 'package:phoenix/helper/nav_helper.dart';
 import 'package:phoenix/helper/responsive_helper.dart';
 import 'package:phoenix/helper/text_helper.dart';
-import 'package:phoenix/helper/utils.dart';
 import 'package:phoenix/widgets/card_data_widget.dart';
 
 class DashBoardFirstDataWidget extends StatelessWidget {
@@ -24,7 +23,7 @@ class DashBoardFirstDataWidget extends StatelessWidget {
       CardData(
         circleBgColor: Color(0xFFF90182),
         title:
-            state.directSaleData?.result?.firstOrNull?.label ?? translate(TextHelper.directSale),
+            state.directSaleData?.result?.firstOrNull?.label ?? TextHelper.directSale,
         subtitle: getSubtitle(
             state.directSaleData?.result?.firstOrNull?.approvedOrders ?? 0,
             state.directSaleData?.result?.firstOrNull?.approvalPercentage ?? 0),
@@ -39,7 +38,7 @@ class DashBoardFirstDataWidget extends StatelessWidget {
               args: LinkedHashMap.from({
                 "isDirectSale": true,
                 "image": Assets.imagesDirectSale,
-                "title": "Direct Sale",
+                "title": TextHelper.directSale,
                 "color": Color(0xFFF90182),
               }));
         },
@@ -47,7 +46,7 @@ class DashBoardFirstDataWidget extends StatelessWidget {
       CardData(
           circleBgColor: Color(0xFFC237F3),
           title: state.initialSubscriptionData?.result?.firstOrNull?.label ??
-              translate(TextHelper.initialSubscription),
+              TextHelper.initialSubscription,
           subtitle: getSubtitle(
               state.initialSubscriptionData?.result?.firstOrNull
                       ?.approvedOrders ??
@@ -65,14 +64,14 @@ class DashBoardFirstDataWidget extends StatelessWidget {
                 args: LinkedHashMap.from({
                   "isDirectSale": false,
                   "image": Assets.imagesInitialSubscription,
-                  "title": "Initial Subscription",
+                  "title": TextHelper.initialSubscription,
                   "color": Color(0xFFC237F3)
                 }));
           }),
       CardData(
           circleBgColor: Color(0xFF05CD99),
           title: state.recurringSubscriptionData?.result?.firstOrNull?.label ??
-              translate(TextHelper.recurringSubscription),
+              TextHelper.recurringSubscription,
           subtitle: getSubtitle(
               state.recurringSubscriptionData?.result?.firstOrNull
                       ?.approvedOrders ??
@@ -91,14 +90,14 @@ class DashBoardFirstDataWidget extends StatelessWidget {
                 args: LinkedHashMap.from({
                   "isDirectSale": false,
                   "image": Assets.imagesRecurringSubscription,
-                  "title": "Recurring Subscription",
+                  "title": TextHelper.recurringSubscription,
                   "color": Color(0xFF05CD99)
                 }));
           }),
       CardData(
           circleBgColor: Color(0xFF6AD2FF),
           title: state.subscriptionSalvageData?.result?.firstOrNull?.label ??
-              translate(TextHelper.subscribersSalvage),
+              TextHelper.subscribersSalvage,
           subtitle: getSubtitle(
               state.subscriptionSalvageData?.result?.firstOrNull
                       ?.approvedOrders ??
@@ -117,13 +116,13 @@ class DashBoardFirstDataWidget extends StatelessWidget {
                 args: LinkedHashMap.from({
                   "isDirectSale": false,
                   "image": Assets.imagesSubscriptionSalvage,
-                  "title": "Subscription Salvage",
+                  "title": TextHelper.subscribersSalvage,
                   "color": Color(0xFF6AD2FF)
                 }));
           }),
       CardData(
         circleBgColor: Color(0xFFF36337),
-        title: state.upsellData?.result?.firstOrNull?.label ?? 'Upsell',
+        title: state.upsellData?.result?.firstOrNull?.label ?? TextHelper.upsell,
         subtitle: getSubtitle(
             state.upsellData?.result?.firstOrNull?.approvedOrders ?? 0,
             state.upsellData?.result?.firstOrNull?.approvalPercentage ?? 0),
@@ -134,7 +133,7 @@ class DashBoardFirstDataWidget extends StatelessWidget {
       CardData(
         circleBgColor: Color(0xFFC237F3),
         title: state.subscriptionBillData?.result?.firstOrNull?.label ??
-          translate(TextHelper.subscriptionBill),
+          TextHelper.subscriptionBill,
         subtitle: getSubtitle(
             state.subscriptionBillData?.result?.firstOrNull?.approvedOrders ??
                 0,
@@ -162,7 +161,7 @@ class TransactionDataWidget extends StatelessWidget {
       child: RenderSection(title: getTitle(), cards: [
         CardData(
           circleBgColor: Color(0xFFC237F3),
-          title: translate(TextHelper.totalTransactions),
+          title: TextHelper.totalTransactions,
           subtitle: double.parse(
                       state.totalTransactionData?.result?.totalTransactions ??
                           "0") >
@@ -177,7 +176,7 @@ class TransactionDataWidget extends StatelessWidget {
         ),
         CardData(
           circleBgColor: Color(0xFFE84040),
-          title: translate(TextHelper.refunds),
+          title: TextHelper.refunds,
           subtitle: getSubtitle(
             double.parse(state.refundsData?.result?.refundTotal ?? "0"),
             percentage(
@@ -191,7 +190,7 @@ class TransactionDataWidget extends StatelessWidget {
         ),
         CardData(
           circleBgColor: Color(0xFFF36337),
-          title: translate(TextHelper.chargebacks),
+          title: TextHelper.chargebacks,
           subtitle: getSubtitle(
             double.parse(state.chargeBacksData?.result?.chargebackTotal ?? "0"),
             percentage(
@@ -225,17 +224,17 @@ class LifeTimeDataWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: Responsive.padding(context, 2)),
-      child: RenderSection(title: translate(TextHelper.lifetime), cards: [
+      child: RenderSection(title: TextHelper.lifetime, cards: [
         CardData(
           circleBgColor: const Color(0xFFC237F3),
-          title: translate(TextHelper.activeSubscribers),
+          title: TextHelper.activeSubscribers,
           subtitle: formatNumber(state.lifeTimeData?.result?.activeSubscriptions?? 0),
           image: Assets.imagesActiveSubscribers,
           isLoading:state.lifeTimeReqState==ProcessState.loading,
         ),
         CardData(
           circleBgColor: const Color(0xFFE84040),
-          title: translate(TextHelper.subscribersInSalvage),
+          title: TextHelper.subscribersInSalvage,
           subtitle: formatNumber(state.lifeTimeData?.result?.subscriptionInSalvage?? 0),
 
           // subtitle: formatNumber(lifeTimeData?["SubscriptionInSalvage"] ?? 0),
@@ -244,7 +243,7 @@ class LifeTimeDataWidget extends StatelessWidget {
         ),
         CardData(
           circleBgColor: const Color(0xFFF36337),
-          title: "Canceled Subscribers",
+          title: TextHelper.canceledSubscribers,
           subtitle: formatNumber(state.lifeTimeData?.result?.cancelledSubscriptions?? 0),
 
           // subtitle: formatNumber(lifeTimeData?["CancelledSubscriptions"] ?? 0),

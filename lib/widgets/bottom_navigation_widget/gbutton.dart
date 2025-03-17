@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show HapticFeedback;
+import 'package:phoenix/helper/utils.dart';
 
 import 'button.dart';
 import 'gnav.dart';
@@ -35,7 +36,7 @@ class GButton extends StatefulWidget {
   final double? textSize;
 
   const GButton({
-    Key? key,
+    super.key,
     this.active,
     this.haptic,
     this.backgroundColor,
@@ -64,7 +65,7 @@ class GButton extends StatefulWidget {
     this.semanticLabel,
     this.style = GnavStyle.google,
     this.textSize,
-  }) : super(key: key);
+  });
 
   @override
   _GButtonState createState() => _GButtonState();
@@ -103,7 +104,7 @@ class _GButtonState extends State<GButton> {
         iconColor: widget.iconColor,
         icon: widget.icon,
         text: Text(
-          widget.text,
+          translate(widget.text),
           style: widget.textStyle ??
               TextStyle(
                 fontWeight: FontWeight.w600,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:phoenix/helper/color_helper.dart';
 import 'package:phoenix/helper/font_helper.dart';
 import 'package:phoenix/helper/responsive_helper.dart';
+import 'package:phoenix/helper/text_helper.dart';
 import 'package:phoenix/helper/utils.dart';
 
 class ProfilePopupMenu extends StatefulWidget {
@@ -78,14 +79,21 @@ class ProfilePopupMenuState extends State<ProfilePopupMenu> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.logout, color: Colors.red, size: Responsive.padding(context, 6)),
+                          ShaderMask(shaderCallback: (bounds)=> LinearGradient(colors: [AppColors.orange, AppColors.pink], begin: Alignment.topLeft, end: Alignment.bottomRight,).createShader(bounds),child: Icon(Icons.logout, color: AppColors.white, size: Responsive.padding(context, 6))),
                           SizedBox(width: Responsive.boxW(context, 2)),
-                          Text(
-                            "Logout",
-                            style: getTextTheme().bodyMedium?.copyWith(
-                              color: AppColors.red,
-                              fontWeight: FontHelper.regular,
-                              fontSize:Responsive.fontSize(context, 4),
+                          ShaderMask(
+                            shaderCallback: (bounds) => LinearGradient(
+                              colors: [AppColors.orange, AppColors.pink],
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                            ).createShader(bounds),
+                            child: Text(
+                              translate(TextHelper.logout),
+                              style: getTextTheme().bodyMedium?.copyWith(
+                                color: Colors.white,
+                                fontWeight: FontHelper.regular,
+                                fontSize: Responsive.fontSize(context, 4),
+                              ),
                             ),
                           ),
                         ],
@@ -99,7 +107,6 @@ class ProfilePopupMenuState extends State<ProfilePopupMenu> {
         ],
       ),
     );
-
     overlayState.insert(overlayEntry!);
   }
 

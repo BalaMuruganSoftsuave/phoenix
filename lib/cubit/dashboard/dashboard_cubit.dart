@@ -5,6 +5,7 @@ import 'package:phoenix/helper/api/api_service.dart';
 import 'package:phoenix/helper/dependency.dart';
 import 'package:phoenix/helper/dialog_helper.dart';
 import 'package:phoenix/helper/enum_helper.dart';
+import 'package:phoenix/helper/text_helper.dart';
 import 'package:phoenix/models/dashboard/chargeback_summary_model.dart';
 import 'package:phoenix/models/dashboard/coverage_health_data_model.dart';
 import 'package:phoenix/models/dashboard/net_subscribers_model.dart';
@@ -103,7 +104,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
         if (_tokenRefreshAttempts >= 2) {
           CustomToast.show(
               context: getCtx(context)!,
-              message: "Session Expired",
+              message: TextHelper.sessionExpired,
               status: ToastStatus.failure);
           emit(state.copyWith(permissionReqState: ProcessState.failure));
           return;
@@ -119,7 +120,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
         } else {
           CustomToast.show(
               context: getCtx(context)!,
-              message: "Session Expired",
+              message: TextHelper.sessionExpired,
               status: ToastStatus.failure);
           emit(state.copyWith(permissionReqState: ProcessState.failure));
         }
@@ -155,7 +156,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
         if (_tokenRefreshAttempts >= 2) {
           CustomToast.show(
               context: getCtx(context)!,
-              message: "Session Expired",
+              message: TextHelper.sessionExpired,
               status: ToastStatus.failure);
           emit(state.copyWith(directSaleReqState: ProcessState.failure));
           return;
@@ -171,7 +172,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
         } else {
           CustomToast.show(
               context: getCtx(context)!,
-              message: "Session Expired",
+              message: TextHelper.sessionExpired,
               status: ToastStatus.failure);
           emit(state.copyWith(directSaleReqState: ProcessState.failure));
         }
@@ -208,7 +209,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
         if (_tokenRefreshAttempts >= 2) {
           CustomToast.show(
               context: context,
-              message: "Session Expired",
+              message: TextHelper.sessionExpired,
               status: ToastStatus.failure);
           emit(state.copyWith(
               initialSubscriptionReqState: ProcessState.failure));
@@ -224,7 +225,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
         } else {
           CustomToast.show(
               context: context,
-              message: "Session Expired",
+              message: TextHelper.sessionExpired,
               status: ToastStatus.failure);
           emit(state.copyWith(
               initialSubscriptionReqState: ProcessState.failure));
@@ -260,7 +261,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
         if (_tokenRefreshAttempts >= 2) {
           CustomToast.show(
               context: context,
-              message: "Session Expired",
+              message: TextHelper.sessionExpired,
               status: ToastStatus.failure);
           emit(state.copyWith(
               recurringSubscriptionReqState: ProcessState.failure));
@@ -276,7 +277,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
         } else {
           CustomToast.show(
               context: context,
-              message: "Session Expired",
+              message: TextHelper.sessionExpired,
               status: ToastStatus.failure);
           emit(state.copyWith(
               recurringSubscriptionReqState: ProcessState.failure));
@@ -313,7 +314,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
         if (_tokenRefreshAttempts >= 2) {
           CustomToast.show(
               context: context,
-              message: "Session Expired",
+              message: TextHelper.sessionExpired,
               status: ToastStatus.failure);
           emit(state.copyWith(
               subscriptionSalvageReqState: ProcessState.failure));
@@ -329,7 +330,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
         } else {
           CustomToast.show(
               context: context,
-              message: "Session Expired",
+              message: TextHelper.sessionExpired,
               status: ToastStatus.failure);
           emit(state.copyWith(
               subscriptionSalvageReqState: ProcessState.failure));
@@ -364,7 +365,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
         if (_tokenRefreshAttempts >= 2) {
           CustomToast.show(
               context: context,
-              message: "Session Expired",
+              message: TextHelper.sessionExpired,
               status: ToastStatus.failure);
           emit(state.copyWith(upsellReqState: ProcessState.failure));
           return;
@@ -378,7 +379,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
         } else {
           CustomToast.show(
               context: context,
-              message: "Session Expired",
+              message: TextHelper.sessionExpired,
               status: ToastStatus.failure);
           emit(state.copyWith(upsellReqState: ProcessState.failure));
         }
@@ -413,7 +414,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
         if (_tokenRefreshAttempts >= 2) {
           CustomToast.show(
               context: context,
-              message: "Session Expired",
+              message: TextHelper.sessionExpired,
               status: ToastStatus.failure);
           emit(state.copyWith(subscriptionBillReqState: ProcessState.failure));
           return;
@@ -428,7 +429,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
         } else {
           CustomToast.show(
               context: context,
-              message: "Session Expired",
+              message: TextHelper.sessionExpired,
               status: ToastStatus.failure);
           emit(state.copyWith(subscriptionBillReqState: ProcessState.failure));
         }
@@ -477,7 +478,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
         if (_tokenRefreshAttempts >= 2) {
           CustomToast.show(
               context: context,
-              message: "Session Expired",
+              message: TextHelper.sessionExpired,
               status: ToastStatus.failure);
           emit(state.copyWith(totalTransactionReqState: ProcessState.failure));
           return;
@@ -492,7 +493,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
         } else {
           CustomToast.show(
               context: context,
-              message: "Session Expired",
+              message: TextHelper.sessionExpired,
               status: ToastStatus.failure);
           emit(state.copyWith(totalTransactionReqState: ProcessState.failure));
         }
@@ -540,7 +541,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
         if (_tokenRefreshAttempts >= 2) {
           CustomToast.show(
               context: context,
-              message: "Session Expired",
+              message: TextHelper.sessionExpired,
               status: ToastStatus.failure);
           emit(state.copyWith(refundsReqState: ProcessState.failure));
           return;
@@ -554,7 +555,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
         } else {
           CustomToast.show(
               context: context,
-              message: "Session Expired",
+              message: TextHelper.sessionExpired,
               status: ToastStatus.failure);
           emit(state.copyWith(refundsReqState: ProcessState.failure));
         }
@@ -602,7 +603,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
         if (_tokenRefreshAttempts >= 2) {
           CustomToast.show(
               context: context,
-              message: "Session Expired",
+              message: TextHelper.sessionExpired,
               status: ToastStatus.failure);
           emit(state.copyWith(chargeBacksReqState: ProcessState.failure));
           return;
@@ -617,7 +618,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
         } else {
           CustomToast.show(
               context: context,
-              message: "Session Expired",
+              message: TextHelper.sessionExpired,
               status: ToastStatus.failure);
           emit(state.copyWith(chargeBacksReqState: ProcessState.failure));
         }
@@ -651,7 +652,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
         if (_tokenRefreshAttempts >= 2) {
           CustomToast.show(
               context: context,
-              message: "Session Expired",
+              message: TextHelper.sessionExpired,
               status: ToastStatus.failure);
           emit(state.copyWith(lifeTimeReqState: ProcessState.failure));
           return;
@@ -665,7 +666,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
         } else {
           CustomToast.show(
               context: context,
-              message: "Session Expired",
+              message: TextHelper.sessionExpired,
               status: ToastStatus.failure);
           emit(state.copyWith(lifeTimeReqState: ProcessState.failure));
         }
@@ -725,7 +726,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
         if (_tokenRefreshAttempts >= 2) {
           CustomToast.show(
               context: context,
-              message: "Session Expired",
+              message: TextHelper.sessionExpired,
               status: ToastStatus.failure);
           emit(state.copyWith(totalSalesRevenueReqState: ProcessState.failure));
           return;
@@ -740,7 +741,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
         } else {
           CustomToast.show(
               context: context,
-              message: "Session Expired",
+              message: TextHelper.sessionExpired,
               status: ToastStatus.failure);
           emit(state.copyWith(totalSalesRevenueReqState: ProcessState.failure));
         }
@@ -797,7 +798,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
         if (_tokenRefreshAttempts >= 2) {
           CustomToast.show(
               context: context,
-              message: "Session Expired",
+              message: TextHelper.sessionExpired,
               status: ToastStatus.failure);
           emit(state.copyWith(netSubscribersReqState: ProcessState.failure));
           return;
@@ -812,7 +813,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
         } else {
           CustomToast.show(
               context: context,
-              message: "Session Expired",
+              message: TextHelper.sessionExpired,
               status: ToastStatus.failure);
           emit(state.copyWith(netSubscribersReqState: ProcessState.failure));
         }
@@ -847,7 +848,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
         if (_tokenRefreshAttempts >= 2) {
           CustomToast.show(
               context: context,
-              message: "Session Expired",
+              message: TextHelper.sessionExpired,
               status: ToastStatus.failure);
           emit(state.copyWith(
               chargeBackSummaryReqState: ProcessState.success,
@@ -864,7 +865,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
         } else {
           // CustomToast.show(
           //     context: context,
-          //     message: "Session Expired",
+          //     message: TextHelper.sessionExpired,
           //     status: ToastStatus.failure);
           emit(state.copyWith(
               chargeBackSummaryReqState: ProcessState.success,
@@ -905,7 +906,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
         if (_tokenRefreshAttempts >= 2) {
           CustomToast.show(
               context: context,
-              message: "Session Expired",
+              message: TextHelper.sessionExpired,
               status: ToastStatus.failure);
           emit(state.copyWith(
               coverageHealthDataReqState: ProcessState.failure,
@@ -922,7 +923,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
         } else {
           // CustomToast.show(
           //     context: context,
-          //     message: "Session Expired",
+          //     message: TextHelper.sessionExpired,
           //     status: ToastStatus.failure);
           emit(state.copyWith(
               coverageHealthDataReqState: ProcessState.failure,
@@ -975,7 +976,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
         if (_tokenRefreshAttempts >= 2) {
           CustomToast.show(
               context: context,
-              message: "Session Expired",
+              message: TextHelper.sessionExpired,
               status: ToastStatus.failure);
           emit(state.copyWith(
               refundRatioReqState: ProcessState.failure,
@@ -992,7 +993,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
         } else {
           // CustomToast.show(
           //     context: context,
-          //     message: "Session Expired",
+          //     message: TextHelper.sessionExpired,
           //     status: ToastStatus.failure);
           emit(state.copyWith(
               refundRatioReqState: ProcessState.failure,
@@ -1033,7 +1034,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
         if (_tokenRefreshAttempts >= 2) {
           CustomToast.show(
               context: context,
-              message: "Session Expired",
+              message: TextHelper.sessionExpired,
               status: ToastStatus.failure);
           emit(state.copyWith(dashboardDetailReqState: ProcessState.failure));
           return;
@@ -1048,7 +1049,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
         } else {
           CustomToast.show(
               context: context,
-              message: "Session Expired",
+              message: TextHelper.sessionExpired,
               status: ToastStatus.failure);
           emit(state.copyWith(dashboardDetailReqState: ProcessState.failure));
         }
@@ -1089,7 +1090,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
         if (_tokenRefreshAttempts >= 2) {
           CustomToast.show(
               context: context,
-              message: "Session Expired",
+              message: TextHelper.sessionExpired,
               status: ToastStatus.failure);
           emit(state.copyWith(dashboardDetailReqState: ProcessState.failure));
           return;
@@ -1104,7 +1105,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
         } else {
           CustomToast.show(
               context: context,
-              message: "Session Expired",
+              message: TextHelper.sessionExpired,
               status: ToastStatus.failure);
           emit(state.copyWith(dashboardDetailReqState: ProcessState.failure));
         }
@@ -1138,7 +1139,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
         if (_tokenRefreshAttempts >= 2) {
           CustomToast.show(
               context: context,
-              message: "Session Expired",
+              message: TextHelper.sessionExpired,
               status: ToastStatus.failure);
           emit(state.copyWith(dashboardRevenueReqState: ProcessState.failure));
           return;
@@ -1183,7 +1184,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
         if (_tokenRefreshAttempts >= 2) {
           CustomToast.show(
               context: context,
-              message: "Session Expired",
+              message: TextHelper.sessionExpired,
               status: ToastStatus.failure);
           emit(state.copyWith(dashboardAppRatioReqState: ProcessState.failure));
           return;
@@ -1198,7 +1199,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
         } else {
           CustomToast.show(
               context: context,
-              message: "Session Expired",
+              message: TextHelper.sessionExpired,
               status: ToastStatus.failure);
           emit(state.copyWith(dashboardAppRatioReqState: ProcessState.failure));
         }
@@ -1239,7 +1240,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
         if (_tokenRefreshAttempts >= 2) {
           CustomToast.show(
               context: context,
-              message: "Session Expired",
+              message: TextHelper.sessionExpired,
               status: ToastStatus.failure);
           emit(state.copyWith(dashboardRevenueReqState: ProcessState.failure));
           return;
@@ -1254,7 +1255,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
         } else {
           CustomToast.show(
               context: context,
-              message: "Session Expired",
+              message: TextHelper.sessionExpired,
               status: ToastStatus.failure);
           emit(state.copyWith(dashboardRevenueReqState: ProcessState.failure));
         }
@@ -1295,7 +1296,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
         if (_tokenRefreshAttempts >= 2) {
           CustomToast.show(
               context: context,
-              message: "Session Expired",
+              message: TextHelper.sessionExpired,
               status: ToastStatus.failure);
           emit(state.copyWith(dashboardAppRatioReqState: ProcessState.failure));
           return;
@@ -1310,7 +1311,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
         } else {
           CustomToast.show(
               context: context,
-              message: "Session Expired",
+              message: TextHelper.sessionExpired,
               status: ToastStatus.failure);
           emit(state.copyWith(dashboardAppRatioReqState: ProcessState.failure));
         }

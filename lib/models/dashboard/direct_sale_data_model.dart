@@ -1,5 +1,3 @@
-import 'package:fl_chart/fl_chart.dart';
-import 'package:phoenix/models/line_chart_model.dart';
 
 class DirectSaleRevenueDataResponse {
   List<DirectSaleDetailDataResult>? result;
