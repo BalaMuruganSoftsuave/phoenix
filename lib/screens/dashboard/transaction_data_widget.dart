@@ -227,14 +227,14 @@ class LifeTimeDataWidget extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: Responsive.padding(context, 2)),
       child: RenderSection(title: translate(TextHelper.lifetime), cards: [
         CardData(
-          circleBgColor: const Color(0xFFC237F3),
+          circleBgColor: const Color(0xFF05CD99),
           title: "Active Subscribers",
           subtitle: formatNumber(state.lifeTimeData?.result?.activeSubscriptions?? 0),
           image: Assets.imagesActiveSubscribers,
           isLoading:state.lifeTimeReqState==ProcessState.loading,
         ),
         CardData(
-          circleBgColor: const Color(0xFFE84040),
+          circleBgColor: const Color(0xFF6AD2FF),
           title: "Subscribers in Salvage",
           subtitle: formatNumber(state.lifeTimeData?.result?.subscriptionInSalvage?? 0),
 
@@ -243,7 +243,7 @@ class LifeTimeDataWidget extends StatelessWidget {
           isLoading: state.lifeTimeReqState==ProcessState.loading,
         ),
         CardData(
-          circleBgColor: const Color(0xFFF36337),
+          circleBgColor: const Color(0xFFE84040),
           title: "Canceled Subscribers",
           subtitle: formatNumber(state.lifeTimeData?.result?.cancelledSubscriptions?? 0),
 

@@ -19,7 +19,28 @@ import 'dashboard_state.dart';
 class DashBoardCubit extends Cubit<DashboardState> {
   DashBoardCubit() : super(DashboardState());
   final ApiService _apiService = ApiService();
-  int _tokenRefreshAttempts = 0; // Track refresh attempts
+  int _tokenRefreshAttempts = 0;
+  int _refreshTokenForDirectSale = 0; // Track refresh attempts
+  int _refreshTokenForInitialSub = 0; // Track refresh attempts
+  int _refreshTokenForRecurringSub = 0; // Track refresh attempts
+  int _refreshTokenForSubscriptionSal = 0; // Track refresh attempts
+  int _refreshTokenForUpsellData = 0; // Track refresh attempts
+  int _refreshTokenForSubscriptionToBill = 0; // Track refresh attempts
+  int _refreshTokenForTotalTransaction = 0; // Track refresh attempts
+  int _refreshTokenForRefundData = 0; // Track refresh attempts
+  int _refreshTokenForChargeBackData = 0; // Track refresh attempts
+  int _refreshTokenForLifeTimeData = 0; // Track refresh attempts
+  int _refreshTokenForSalesRevenue = 0; // Track refresh attempts
+  int _refreshTokenForNetSubscribers = 0; // Track refresh attempts
+  int _refreshTokenForCoverageHealth = 0; // Track refresh attempts
+  int _refreshTokenForChargeBackSummary = 0; // Track refresh attempts
+  int _refreshTokenForRefundRatio = 0; // Track refresh attempts
+  int _refreshTokenForDirectSaleDetailData = 0; // Track refresh attempts
+  int _refreshTokenForDashboardDetailData = 0; // Track refresh attempts
+  int _refreshTokenForDirectSaleRevenueData = 0; // Track refresh attempts
+  int _refreshTokenForDirectSaleApprovalRatio = 0; // Track refresh attempts
+  int _refreshTokenForDetailChartBreakDown = 0; // Track refresh attempts
+  int _refreshTokenForDetailChartApprovalRatio = 0; // Track refresh attempts
 
   void updateFilter(context,
       {String? startDate,
@@ -147,12 +168,12 @@ class DashBoardCubit extends Cubit<DashboardState> {
       final res =
           await _apiService.getDirectSaleData(state.filterPayload?.toJson());
 
-      _tokenRefreshAttempts = 0; // Reset counter on success
+      _refreshTokenForDirectSale = 0; // Reset counter on success
       emit(state.copyWith(
           directSaleReqState: ProcessState.success, directSaleData: res));
     } on ApiFailure catch (e) {
       if (e.code == 401) {
-        if (_tokenRefreshAttempts >= 2) {
+        if (_refreshTokenForDirectSale >= 2) {
           CustomToast.show(
               context: getCtx(context)!,
               message: "Session Expired",
@@ -160,7 +181,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
           emit(state.copyWith(directSaleReqState: ProcessState.failure));
           return;
         }
-        _tokenRefreshAttempts++;
+        _refreshTokenForDirectSale++;
         final isTokenRefreshed = await getAuthCubit(getCtx(context)!)
                 ?.refreshToken(getCtx(context)!) ??
             false;
@@ -199,13 +220,13 @@ class DashBoardCubit extends Cubit<DashboardState> {
       final res = await _apiService
           .getInitialSubscriptionData(state.filterPayload?.toJson());
 
-      _tokenRefreshAttempts = 0; // Reset counter on success
+      _refreshTokenForInitialSub = 0; // Reset counter on success
       emit(state.copyWith(
           initialSubscriptionReqState: ProcessState.success,
           initialSubscriptionData: res));
     } on ApiFailure catch (e) {
       if (e.code == 401) {
-        if (_tokenRefreshAttempts >= 2) {
+        if (_refreshTokenForInitialSub >= 2) {
           CustomToast.show(
               context: context,
               message: "Session Expired",
@@ -214,7 +235,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
               initialSubscriptionReqState: ProcessState.failure));
           return;
         }
-        _tokenRefreshAttempts++;
+        _refreshTokenForInitialSub++;
         final isTokenRefreshed =
             await getAuthCubit(context)?.refreshToken(context) ?? false;
 
@@ -251,13 +272,13 @@ class DashBoardCubit extends Cubit<DashboardState> {
       final res =
           await _apiService.getRecurringData(state.filterPayload?.toJson());
 
-      _tokenRefreshAttempts = 0; // Reset counter on success
+      _refreshTokenForRecurringSub = 0; // Reset counter on success
       emit(state.copyWith(
           recurringSubscriptionReqState: ProcessState.success,
           recurringSubscriptionData: res));
     } on ApiFailure catch (e) {
       if (e.code == 401) {
-        if (_tokenRefreshAttempts >= 2) {
+        if (_refreshTokenForRecurringSub >= 2) {
           CustomToast.show(
               context: context,
               message: "Session Expired",
@@ -266,7 +287,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
               recurringSubscriptionReqState: ProcessState.failure));
           return;
         }
-        _tokenRefreshAttempts++;
+        _refreshTokenForRecurringSub++;
         final isTokenRefreshed =
             await getAuthCubit(context)?.refreshToken(context) ?? false;
 
@@ -304,13 +325,13 @@ class DashBoardCubit extends Cubit<DashboardState> {
       final res = await _apiService
           .getSubscriptionSalvageData(state.filterPayload?.toJson());
 
-      _tokenRefreshAttempts = 0; // Reset counter on success
+      _refreshTokenForSubscriptionSal = 0; // Reset counter on success
       emit(state.copyWith(
           subscriptionSalvageReqState: ProcessState.success,
           subscriptionSalvageData: res));
     } on ApiFailure catch (e) {
       if (e.code == 401) {
-        if (_tokenRefreshAttempts >= 2) {
+        if (_refreshTokenForSubscriptionSal >= 2) {
           CustomToast.show(
               context: context,
               message: "Session Expired",
@@ -319,7 +340,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
               subscriptionSalvageReqState: ProcessState.failure));
           return;
         }
-        _tokenRefreshAttempts++;
+        _refreshTokenForSubscriptionSal++;
         final isTokenRefreshed =
             await getAuthCubit(context)?.refreshToken(context) ?? false;
 
@@ -356,12 +377,12 @@ class DashBoardCubit extends Cubit<DashboardState> {
       final res =
           await _apiService.getUpsellData(state.filterPayload?.toJson());
 
-      _tokenRefreshAttempts = 0; // Reset counter on success
+      _refreshTokenForUpsellData = 0; // Reset counter on success
       emit(state.copyWith(
           upsellReqState: ProcessState.success, upsellData: res));
     } on ApiFailure catch (e) {
       if (e.code == 401) {
-        if (_tokenRefreshAttempts >= 2) {
+        if (_refreshTokenForUpsellData >= 2) {
           CustomToast.show(
               context: context,
               message: "Session Expired",
@@ -369,7 +390,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
           emit(state.copyWith(upsellReqState: ProcessState.failure));
           return;
         }
-        _tokenRefreshAttempts++;
+        _refreshTokenForUpsellData++;
         final isTokenRefreshed =
             await getAuthCubit(context)?.refreshToken(context) ?? false;
 
@@ -404,13 +425,13 @@ class DashBoardCubit extends Cubit<DashboardState> {
       final res = await _apiService
           .getSubscriptionBillData(state.filterPayload?.toJson());
 
-      _tokenRefreshAttempts = 0; // Reset counter on success
+      _refreshTokenForSubscriptionToBill = 0; // Reset counter on success
       emit(state.copyWith(
           subscriptionBillReqState: ProcessState.success,
           subscriptionBillData: res));
     } on ApiFailure catch (e) {
       if (e.code == 401) {
-        if (_tokenRefreshAttempts >= 2) {
+        if (_refreshTokenForSubscriptionToBill >= 2) {
           CustomToast.show(
               context: context,
               message: "Session Expired",
@@ -418,7 +439,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
           emit(state.copyWith(subscriptionBillReqState: ProcessState.failure));
           return;
         }
-        _tokenRefreshAttempts++;
+        _refreshTokenForSubscriptionToBill++;
         final isTokenRefreshed =
             await getAuthCubit(context)?.refreshToken(context) ?? false;
 
@@ -468,13 +489,13 @@ class DashBoardCubit extends Cubit<DashboardState> {
       final res =
           await _apiService.getTotalTransactionsData(newPayload?.toJson());
 
-      _tokenRefreshAttempts = 0; // Reset counter on success
+      _refreshTokenForTotalTransaction = 0; // Reset counter on success
       emit(state.copyWith(
           totalTransactionReqState: ProcessState.success,
           totalTransactionData: res));
     } on ApiFailure catch (e) {
       if (e.code == 401) {
-        if (_tokenRefreshAttempts >= 2) {
+        if (_refreshTokenForTotalTransaction >= 2) {
           CustomToast.show(
               context: context,
               message: "Session Expired",
@@ -482,7 +503,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
           emit(state.copyWith(totalTransactionReqState: ProcessState.failure));
           return;
         }
-        _tokenRefreshAttempts++;
+        _refreshTokenForTotalTransaction++;
         final isTokenRefreshed =
             await getAuthCubit(context)?.refreshToken(context) ?? false;
 
@@ -532,12 +553,12 @@ class DashBoardCubit extends Cubit<DashboardState> {
       final res =
           await _apiService.getRefundTransactionsData(newPayload?.toJson());
 
-      _tokenRefreshAttempts = 0; // Reset counter on success
+      _refreshTokenForRefundData = 0; // Reset counter on success
       emit(state.copyWith(
           refundsReqState: ProcessState.success, refundsData: res));
     } on ApiFailure catch (e) {
       if (e.code == 401) {
-        if (_tokenRefreshAttempts >= 2) {
+        if (_refreshTokenForRefundData >= 2) {
           CustomToast.show(
               context: context,
               message: "Session Expired",
@@ -545,7 +566,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
           emit(state.copyWith(refundsReqState: ProcessState.failure));
           return;
         }
-        _tokenRefreshAttempts++;
+        _refreshTokenForRefundData++;
         final isTokenRefreshed =
             await getAuthCubit(context)?.refreshToken(context) ?? false;
 
@@ -594,12 +615,12 @@ class DashBoardCubit extends Cubit<DashboardState> {
       final res =
           await _apiService.getChargebackTransactionsData(newPayload?.toJson());
 
-      _tokenRefreshAttempts = 0; // Reset counter on success
+      _refreshTokenForChargeBackData = 0; // Reset counter on success
       emit(state.copyWith(
           chargeBacksReqState: ProcessState.success, chargeBacksData: res));
     } on ApiFailure catch (e) {
       if (e.code == 401) {
-        if (_tokenRefreshAttempts >= 2) {
+        if (_refreshTokenForChargeBackData >= 2) {
           CustomToast.show(
               context: context,
               message: "Session Expired",
@@ -607,7 +628,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
           emit(state.copyWith(chargeBacksReqState: ProcessState.failure));
           return;
         }
-        _tokenRefreshAttempts++;
+        _refreshTokenForChargeBackData++;
         final isTokenRefreshed =
             await getAuthCubit(context)?.refreshToken(context) ?? false;
 
@@ -643,12 +664,12 @@ class DashBoardCubit extends Cubit<DashboardState> {
       final res =
           await _apiService.getLifeTimeData(state.filterPayload?.toJson());
 
-      _tokenRefreshAttempts = 0; // Reset counter on success
+      _refreshTokenForLifeTimeData = 0; // Reset counter on success
       emit(state.copyWith(
           lifeTimeReqState: ProcessState.success, lifeTimeData: res));
     } on ApiFailure catch (e) {
       if (e.code == 401) {
-        if (_tokenRefreshAttempts >= 2) {
+        if (_refreshTokenForLifeTimeData >= 2) {
           CustomToast.show(
               context: context,
               message: "Session Expired",
@@ -656,7 +677,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
           emit(state.copyWith(lifeTimeReqState: ProcessState.failure));
           return;
         }
-        _tokenRefreshAttempts++;
+        _refreshTokenForLifeTimeData++;
         final isTokenRefreshed =
             await getAuthCubit(context)?.refreshToken(context) ?? false;
 
@@ -694,8 +715,8 @@ class DashBoardCubit extends Cubit<DashboardState> {
       final res =
           await _apiService.getSalesRevenueData(state.filterPayload?.toJson());
 
-      _tokenRefreshAttempts = 0; // Reset counter on success
-      if (state.filterPayload?.groupBy == "hour") {
+      _refreshTokenForSalesRevenue = 0; // Reset counter on success
+      if(state.filterPayload?.groupBy=="hour") {
         var data = generateSlots<Map<String, dynamic>>(
           start: state.filterPayload?.startDate ?? "",
           end: state.filterPayload?.endDate ?? "",
@@ -722,7 +743,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
               : res));
     } on ApiFailure catch (e) {
       if (e.code == 401) {
-        if (_tokenRefreshAttempts >= 2) {
+        if (_refreshTokenForSalesRevenue >= 2) {
           CustomToast.show(
               context: context,
               message: "Session Expired",
@@ -730,7 +751,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
           emit(state.copyWith(totalSalesRevenueReqState: ProcessState.failure));
           return;
         }
-        _tokenRefreshAttempts++;
+        _refreshTokenForSalesRevenue++;
         final isTokenRefreshed =
             await getAuthCubit(context)?.refreshToken(context) ?? false;
 
@@ -768,8 +789,8 @@ class DashBoardCubit extends Cubit<DashboardState> {
       final res =
           await _apiService.getNetSubscriberData(state.filterPayload?.toJson());
 
-      _tokenRefreshAttempts = 0; // Reset counter on success
-      if (state.filterPayload?.groupBy == "hour") {
+      _refreshTokenForNetSubscribers = 0; // Reset counter on success
+      if(state.filterPayload?.groupBy=="hour") {
         var data = generateSlots<Map<String, dynamic>>(
           start: state.filterPayload?.startDate ?? "",
           end: state.filterPayload?.endDate ?? "",
@@ -794,7 +815,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
               : res));
     } on ApiFailure catch (e) {
       if (e.code == 401) {
-        if (_tokenRefreshAttempts >= 2) {
+        if (_refreshTokenForNetSubscribers >= 2) {
           CustomToast.show(
               context: context,
               message: "Session Expired",
@@ -802,7 +823,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
           emit(state.copyWith(netSubscribersReqState: ProcessState.failure));
           return;
         }
-        _tokenRefreshAttempts++;
+        _refreshTokenForNetSubscribers++;
         final isTokenRefreshed =
             await getAuthCubit(context)?.refreshToken(context) ?? false;
 
@@ -838,13 +859,13 @@ class DashBoardCubit extends Cubit<DashboardState> {
       final res = await _apiService
           .getChargebackSummaryData(state.filterPayload?.toJson());
 
-      _tokenRefreshAttempts = 0; // Reset counter on success
+      _refreshTokenForCoverageHealth = 0; // Reset counter on success
       emit(state.copyWith(
           chargeBackSummaryReqState: ProcessState.success,
           chargeBackSummaryData: res));
     } on ApiFailure catch (e) {
       if (e.code == 401) {
-        if (_tokenRefreshAttempts >= 2) {
+        if (_refreshTokenForCoverageHealth >= 2) {
           CustomToast.show(
               context: context,
               message: "Session Expired",
@@ -854,7 +875,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
               chargeBackSummaryData: ChargeBackSummaryDataResponse()));
           return;
         }
-        _tokenRefreshAttempts++;
+        _refreshTokenForCoverageHealth++;
         final isTokenRefreshed =
             await getAuthCubit(context)?.refreshToken(context) ?? false;
 
@@ -896,13 +917,13 @@ class DashBoardCubit extends Cubit<DashboardState> {
       final res = await _apiService
           .getCoverageHealthData(state.filterPayload?.toJson());
 
-      _tokenRefreshAttempts = 0; // Reset counter on success
+      _refreshTokenForChargeBackSummary = 0; // Reset counter on success
       emit(state.copyWith(
           coverageHealthDataReqState: ProcessState.success,
           coverageHealthDataData: res));
     } on ApiFailure catch (e) {
       if (e.code == 401) {
-        if (_tokenRefreshAttempts >= 2) {
+        if (_refreshTokenForChargeBackSummary >= 2) {
           CustomToast.show(
               context: context,
               message: "Session Expired",
@@ -912,7 +933,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
               coverageHealthDataData: CoverageHealthDataResponse()));
           return;
         }
-        _tokenRefreshAttempts++;
+        _refreshTokenForChargeBackSummary++;
         final isTokenRefreshed =
             await getAuthCubit(context)?.refreshToken(context) ?? false;
 
@@ -967,12 +988,12 @@ class DashBoardCubit extends Cubit<DashboardState> {
 
       final res = await _apiService.getRefundRatioData(newPayload?.toJson());
 
-      _tokenRefreshAttempts = 0; // Reset counter on success
+      _refreshTokenForRefundRatio = 0; // Reset counter on success
       emit(state.copyWith(
           refundRatioReqState: ProcessState.success, refundRatioData: res));
     } on ApiFailure catch (e) {
       if (e.code == 401) {
-        if (_tokenRefreshAttempts >= 2) {
+        if (_refreshTokenForRefundRatio >= 2) {
           CustomToast.show(
               context: context,
               message: "Session Expired",
@@ -982,7 +1003,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
               refundRatioData: RefundRatioDataResponse()));
           return;
         }
-        _tokenRefreshAttempts++;
+        _refreshTokenForRefundRatio++;
         final isTokenRefreshed =
             await getAuthCubit(context)?.refreshToken(context) ?? false;
 
@@ -1024,13 +1045,13 @@ class DashBoardCubit extends Cubit<DashboardState> {
 
       final res = await _apiService
           .getDirectSaleDetailData(state.filterPayload?.toJson());
-      _tokenRefreshAttempts = 0; // Reset counter on success
+      _refreshTokenForDirectSaleDetailData = 0; // Reset counter on success
       emit(state.copyWith(
           dashboardDetailReqState: ProcessState.success,
           directSaleDetailData: res));
     } on ApiFailure catch (e) {
       if (e.code == 401) {
-        if (_tokenRefreshAttempts >= 2) {
+        if (_refreshTokenForDirectSaleDetailData >= 2) {
           CustomToast.show(
               context: context,
               message: "Session Expired",
@@ -1038,7 +1059,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
           emit(state.copyWith(dashboardDetailReqState: ProcessState.failure));
           return;
         }
-        _tokenRefreshAttempts++;
+        _refreshTokenForDirectSaleDetailData++;
         final isTokenRefreshed =
             await getAuthCubit(context)?.refreshToken(context) ?? false;
 
@@ -1067,8 +1088,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
     }
   }
 
-  void getDashboardDetailData(
-      BuildContext context, DashboardData fromWhere) async {
+  void getDashboardDetailData(BuildContext context, DashboardData fromWhere) async {
     try {
       emit(state.copyWith(dashboardDetailReqState: ProcessState.loading));
 
@@ -1076,17 +1096,17 @@ class DashBoardCubit extends Cubit<DashboardState> {
           ? await _apiService
               .getInitialSubscriptionDetailData(state.filterPayload?.toJson())
           : fromWhere == DashboardData.recurringSubscription
-              ? await _apiService.getRecurringSubscriptionDetailData(
-                  state.filterPayload?.toJson())
-              : await _apiService.getSubscriptionSalvageDetailData(
-                  state.filterPayload?.toJson());
-      _tokenRefreshAttempts = 0; // Reset counter on success
+          ? await _apiService.getRecurringSubscriptionDetailData(
+          state.filterPayload?.toJson())
+          : await _apiService.getSubscriptionSalvageDetailData(
+          state.filterPayload?.toJson());
+      _refreshTokenForDashboardDetailData = 0; // Reset counter on success
       emit(state.copyWith(
           dashboardDetailReqState: ProcessState.success,
           dashboardDetailData: res));
     } on ApiFailure catch (e) {
       if (e.code == 401) {
-        if (_tokenRefreshAttempts >= 2) {
+        if (_refreshTokenForDashboardDetailData >= 2) {
           CustomToast.show(
               context: context,
               message: "Session Expired",
@@ -1094,7 +1114,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
           emit(state.copyWith(dashboardDetailReqState: ProcessState.failure));
           return;
         }
-        _tokenRefreshAttempts++;
+        _refreshTokenForDashboardDetailData++;
         final isTokenRefreshed =
             await getAuthCubit(context)?.refreshToken(context) ?? false;
 
@@ -1129,13 +1149,13 @@ class DashBoardCubit extends Cubit<DashboardState> {
 
       final res = await _apiService
           .getDirectSaleRevenueData(state.filterPayload?.toJson());
-      _tokenRefreshAttempts = 0; // Reset counter on success
+      _refreshTokenForDirectSaleRevenueData = 0; // Reset counter on success
       emit(state.copyWith(
           dashboardRevenueReqState: ProcessState.success,
           directSaleRevenueData: res));
     } on ApiFailure catch (e) {
       if (e.code == 401) {
-        if (_tokenRefreshAttempts >= 2) {
+        if (_refreshTokenForDirectSaleRevenueData >= 2) {
           CustomToast.show(
               context: context,
               message: "Session Expired",
@@ -1143,7 +1163,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
           emit(state.copyWith(dashboardRevenueReqState: ProcessState.failure));
           return;
         }
-        _tokenRefreshAttempts++;
+        _refreshTokenForDirectSaleRevenueData++;
         final isTokenRefreshed =
             await getAuthCubit(context)?.refreshToken(context) ?? false;
 
@@ -1174,13 +1194,13 @@ class DashBoardCubit extends Cubit<DashboardState> {
 
       final res = await _apiService
           .getDirectSaleApprovalRatioData(state.filterPayload?.toJson());
-      _tokenRefreshAttempts = 0; // Reset counter on success
+      _refreshTokenForDirectSaleApprovalRatio = 0; // Reset counter on success
       emit(state.copyWith(
           dashboardAppRatioReqState: ProcessState.success,
           directSaleAppRatioData: res));
     } on ApiFailure catch (e) {
       if (e.code == 401) {
-        if (_tokenRefreshAttempts >= 2) {
+        if (_refreshTokenForDirectSaleApprovalRatio >= 2) {
           CustomToast.show(
               context: context,
               message: "Session Expired",
@@ -1188,7 +1208,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
           emit(state.copyWith(dashboardAppRatioReqState: ProcessState.failure));
           return;
         }
-        _tokenRefreshAttempts++;
+        _refreshTokenForDirectSaleApprovalRatio++;
         final isTokenRefreshed =
             await getAuthCubit(context)?.refreshToken(context) ?? false;
 
@@ -1217,8 +1237,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
     }
   }
 
-  void getDetailChartBreakdownData(
-      BuildContext context, DashboardData fromWhere) async {
+  void getDetailChartBreakdownData(BuildContext context, DashboardData fromWhere) async {
     try {
       emit(state.copyWith(dashboardRevenueReqState: ProcessState.loading));
 
@@ -1226,17 +1245,17 @@ class DashBoardCubit extends Cubit<DashboardState> {
           ? await _apiService.getInitialSubscriptionDeclinedBreakdown(
               state.filterPayload?.toJson())
           : fromWhere == DashboardData.recurringSubscription
-              ? await _apiService.getRecurringSubscriptionDeclinedBreakdown(
-                  state.filterPayload?.toJson())
-              : await _apiService.getSubscriptionSalvageDeclinedBreakdown(
-                  state.filterPayload?.toJson());
-      _tokenRefreshAttempts = 0; // Reset counter on success
+          ? await _apiService.getRecurringSubscriptionDeclinedBreakdown(
+          state.filterPayload?.toJson())
+          : await _apiService.getSubscriptionSalvageDeclinedBreakdown(
+          state.filterPayload?.toJson());
+      _refreshTokenForDetailChartBreakDown = 0; // Reset counter on success
       emit(state.copyWith(
           dashboardRevenueReqState: ProcessState.success,
           detailChartDeclinedBreakDownData: res));
     } on ApiFailure catch (e) {
       if (e.code == 401) {
-        if (_tokenRefreshAttempts >= 2) {
+        if (_refreshTokenForDetailChartBreakDown >= 2) {
           CustomToast.show(
               context: context,
               message: "Session Expired",
@@ -1244,7 +1263,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
           emit(state.copyWith(dashboardRevenueReqState: ProcessState.failure));
           return;
         }
-        _tokenRefreshAttempts++;
+        _refreshTokenForDetailChartBreakDown++;
         final isTokenRefreshed =
             await getAuthCubit(context)?.refreshToken(context) ?? false;
 
@@ -1273,8 +1292,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
     }
   }
 
-  void getDetailChartApprovalRatioData(
-      BuildContext context, DashboardData fromWhere) async {
+  void getDetailChartApprovalRatioData(BuildContext context, DashboardData fromWhere) async {
     try {
       emit(state.copyWith(dashboardAppRatioReqState: ProcessState.loading));
 
@@ -1282,17 +1300,17 @@ class DashBoardCubit extends Cubit<DashboardState> {
           ? await _apiService.getInitialSubscriptionApprovalRatio(
               state.filterPayload?.toJson())
           : fromWhere == DashboardData.recurringSubscription
-              ? await _apiService.getRecurringSubscriptionApprovalRatio(
-                  state.filterPayload?.toJson())
-              : await _apiService.getSubscriptionSalvageApprovalRatio(
-                  state.filterPayload?.toJson());
-      _tokenRefreshAttempts = 0; // Reset counter on success
+          ? await _apiService.getRecurringSubscriptionApprovalRatio(
+          state.filterPayload?.toJson())
+          : await _apiService.getSubscriptionSalvageApprovalRatio(
+          state.filterPayload?.toJson());
+      _refreshTokenForDetailChartApprovalRatio = 0; // Reset counter on success
       emit(state.copyWith(
           dashboardAppRatioReqState: ProcessState.success,
           detailChartAppRatioData: res));
     } on ApiFailure catch (e) {
       if (e.code == 401) {
-        if (_tokenRefreshAttempts >= 2) {
+        if (_refreshTokenForDetailChartApprovalRatio >= 2) {
           CustomToast.show(
               context: context,
               message: "Session Expired",
@@ -1300,7 +1318,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
           emit(state.copyWith(dashboardAppRatioReqState: ProcessState.failure));
           return;
         }
-        _tokenRefreshAttempts++;
+        _refreshTokenForDetailChartApprovalRatio++;
         final isTokenRefreshed =
             await getAuthCubit(context)?.refreshToken(context) ?? false;
 
