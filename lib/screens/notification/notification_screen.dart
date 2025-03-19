@@ -10,6 +10,7 @@ import 'package:phoenix/helper/dialog_helper.dart';
 import 'package:phoenix/helper/enum_helper.dart';
 import 'package:phoenix/helper/responsive_helper.dart';
 import 'package:phoenix/helper/text_helper.dart';
+import 'package:phoenix/helper/utils.dart';
 import 'package:phoenix/widgets/loader.dart';
 import 'package:phoenix/widgets/notification_widget/notification_list_widget.dart';
 import 'package:phoenix/widgets/notification_widget/notification_settings_widget.dart';
@@ -37,9 +38,9 @@ class NotificationScreen extends StatelessWidget {
                   Expanded(
                     child: Text(
                       TextHelper.notification,
-                      style: TextStyle(
+                      style: getTextTheme().bodyMedium?.copyWith(
                         fontWeight: FontWeight.bold,
-                        fontSize: 24,
+                        fontSize: 20,
                         color: AppColors.white,
                       ),
                     ),

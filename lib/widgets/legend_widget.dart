@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:phoenix/helper/utils.dart';
 
 class LegendWidget extends StatelessWidget {
   const LegendWidget({
@@ -25,7 +26,7 @@ class LegendWidget extends StatelessWidget {
         const SizedBox(width: 6),
         Text(
           name,
-          style: const TextStyle(
+          style:  getTextTheme().bodyMedium?.copyWith(
             color: Color(0xff757391),
             fontSize: 12,
           ),

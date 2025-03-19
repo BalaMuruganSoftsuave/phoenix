@@ -117,7 +117,7 @@ class PieChartFilterWidgetState extends State<PieChartFilterWidget> {
         ),
         child: Text(
           "$chargebackType\n$count ($percentage%)",
-          style: TextStyle(color: Colors.white, fontSize: 12),
+          style: getTextTheme().bodyMedium?.copyWith(color: Colors.white, fontSize: 12),
           textAlign: TextAlign.center,
         ),
       ),
@@ -137,10 +137,13 @@ class PieChartFilterWidgetState extends State<PieChartFilterWidget> {
             : 0.0;
         // Get index of entry
         int index = entries.indexOf(entry);
-        return LegendWidget(
-          color: colors[index % colors.length], // Use index for color cycling
-          text: entry.key,
-          subText: '${entry.value} (${percentage % 1 == 0 ? percentage.toInt() : percentage.toStringAsFixed(2)}%)',
+        return SizedBox(
+          width: MediaQuery.sizeOf(context).width/2.5,
+          child: LegendWidget(
+            color: colors[index % colors.length], // Use index for color cycling
+            text: entry.key,
+            subText: '${entry.value} (${percentage % 1 == 0 ? percentage.toInt() : percentage.toStringAsFixed(2)}%)',
+          ),
         );
       }).toList(),
     );

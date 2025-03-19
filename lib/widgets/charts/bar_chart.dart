@@ -176,7 +176,7 @@ class BarChartWidget extends StatelessWidget {
                               textSpans.add(
                                 TextSpan(
                                   text: '$label: ',
-                                  style: TextStyle(
+                                  style: getTextTheme().bodyMedium?.copyWith(
                                       fontSize: 12,
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold),
@@ -186,7 +186,7 @@ class BarChartWidget extends StatelessWidget {
                                 textSpans.add(
                                 TextSpan(
                                   text: '\$${value.toStringAsFixed(2)} ',
-                                  style: TextStyle(
+                                  style: getTextTheme().bodyMedium?.copyWith(
                                       fontSize: 12,
                                       color: color,
                                       fontWeight: FontWeight.bold),
@@ -194,8 +194,8 @@ class BarChartWidget extends StatelessWidget {
                               );
                                 textSpans.add(
                                   TextSpan(
-                                    text: '(${percentage.toStringAsFixed(1)}%)\n',
-                                    style: TextStyle(
+                                    text: '(${percentage.toStringAsFixed(2)}%)\n',
+                                    style: getTextTheme().bodyMedium?.copyWith(
                                         fontSize: 12,
                                         color: Colors.grey[300],
                                         fontWeight: FontWeight.bold),
@@ -206,7 +206,7 @@ class BarChartWidget extends StatelessWidget {
                                 textSpans.add(
                                   TextSpan(
                                     text: '${percentage.toStringAsFixed(1)}%\n',
-                                    style: TextStyle(
+                                    style: getTextTheme().bodyMedium?.copyWith(
                                         fontSize: 12,
                                         color: color,
                                         fontWeight: FontWeight.bold),
@@ -225,7 +225,7 @@ class BarChartWidget extends StatelessWidget {
                             textSpans.add(
                               TextSpan(
                                 text: '\n$range',
-                                style: TextStyle(
+                                style: getTextTheme().bodyMedium?.copyWith(
                                     fontSize: 14,
                                     color: AppColors.subText,
                                     fontWeight: FontWeight.bold),
@@ -235,7 +235,7 @@ class BarChartWidget extends StatelessWidget {
                             return BarTooltipItem(
                               textAlign: TextAlign.start,
                               '', // Empty title
-                              TextStyle(
+                              getTextTheme().bodyMedium!.copyWith(
                                   fontSize: 12,
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold),

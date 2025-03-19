@@ -5,7 +5,7 @@ import 'package:phoenix/helper/responsive_helper.dart';
 import 'package:phoenix/helper/utils.dart';
 
 class ContainerWidget extends StatelessWidget {
-  final String? subTitle;
+  final Widget? subTitle;
   final Widget widget;
   final Widget? childWidget;
   final String? title;
@@ -49,15 +49,8 @@ class ContainerWidget extends StatelessWidget {
           ),
           SizedBox(height: Responsive.padding(context, 2)), // Spacing
 
-          if (subTitle != null && subTitle!.isNotEmpty)
-            Text(
-              translate(subTitle!),
-              style: getTextTheme().titleSmall?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: Colors.white70,
-                fontSize: Responsive.fontSize(context, 4.5),
-              ),
-            ),
+          if (subTitle != null )
+           subTitle??Container(),
           SizedBox(height: Responsive.padding(context, 5)), // Spacing
 
           // Main Content Widget

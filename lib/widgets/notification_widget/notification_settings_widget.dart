@@ -78,7 +78,7 @@ class _NotificationSettingsWidgetState
                 children: [
                   Text(
                     TextHelper.notificationSchedule,
-                    style: TextStyle(
+                    style: getTextTheme().bodyMedium?.copyWith(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                         color: AppColors.white),
@@ -132,7 +132,7 @@ class _NotificationSettingsWidgetState
                     ),
                     Text(TextHelper.selectTheDay,
                         style:
-                            TextStyle(color: AppColors.seaBlue, fontSize: 16)),
+                        getTextTheme().bodyMedium?.copyWith(color: AppColors.seaBlue, fontSize: 16)),
                   ],
                 ),
                 SizedBox(height: 20),
@@ -159,7 +159,7 @@ class _NotificationSettingsWidgetState
                     ),
                     Expanded(
                       child: Text(TextHelper.selectTheTime,
-                          style: TextStyle(
+                          style: getTextTheme().bodyMedium?.copyWith(
                               color: AppColors.seaBlue, fontSize: 16)),
                     ),
                     Expanded(
@@ -273,7 +273,7 @@ class _NotificationSettingsWidgetState
                             ),
                           )
                         : Text(TextHelper.save,
-                            style: TextStyle(
+                            style: getTextTheme().bodyMedium?.copyWith(
                                 color: AppColors.white, fontSize: 16)),
                   ),
                 ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:phoenix/helper/utils.dart';
 
 class SingleSelectionDropDown extends StatefulWidget {
   const SingleSelectionDropDown({
@@ -177,7 +178,7 @@ class _SingleSelectionDropDownState extends State<SingleSelectionDropDown> {
                   RichText(
                     text: TextSpan(
                       text: selectedKey == null ? widget.hitText ?? '' : '',
-                      style: const TextStyle(
+                      style:  getTextTheme().bodyMedium?.copyWith(
                         fontSize: 16,
                         fontWeight: FontWeight.w400,
                         color: Color(0xFFA3AED0),
@@ -190,7 +191,7 @@ class _SingleSelectionDropDownState extends State<SingleSelectionDropDown> {
                                   (e) => e.id == selectedKey,
                               orElse: () => CustomDataItems(id: '', name: ''))
                               .name,
-                          style: const TextStyle(
+                          style:  getTextTheme().bodyMedium?.copyWith(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
                             color: Colors.white,
@@ -212,7 +213,7 @@ class _SingleSelectionDropDownState extends State<SingleSelectionDropDown> {
             padding: const EdgeInsets.only(top: 8, left: 16),
             child: Text(
               widget.errorText!,
-              style: const TextStyle(
+              style:  getTextTheme().bodyMedium?.copyWith(
                 fontSize: 12,
                 fontWeight: FontWeight.w400,
                 color: Colors.red,
@@ -269,7 +270,7 @@ class _SingleSelectionDropDownState extends State<SingleSelectionDropDown> {
                             padding: const EdgeInsets.symmetric(vertical: 12),
                             child: Text(
                               item.name,
-                              style: const TextStyle(
+                              style: getTextTheme().bodyMedium?.copyWith(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w400,
                                 color: Colors.black,

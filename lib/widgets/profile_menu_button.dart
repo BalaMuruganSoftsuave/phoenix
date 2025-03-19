@@ -33,14 +33,16 @@ class ProfilePopupMenuState extends State<ProfilePopupMenu> {
           // This captures taps outside the popup
           Positioned.fill(
             child: GestureDetector(
-              behavior: HitTestBehavior.translucent, // Captures taps outside
-              onTap: hidePopup, // Close the popup when tapped outside
+              behavior: HitTestBehavior.translucent,
+              // Captures taps outside
+              onTap: hidePopup,
+              // Close the popup when tapped outside
               child: Container(),
             ),
           ),
           Positioned(
             top: position.dy + Responsive.boxW(context, 15),
-            right:Responsive.boxW(context,8),
+            right: Responsive.boxW(context, 8),
             child: Material(
               color: Colors.transparent,
               child: Container(
@@ -48,8 +50,11 @@ class ProfilePopupMenuState extends State<ProfilePopupMenu> {
                 width:Responsive.boxW(context, 40),
                 decoration: BoxDecoration(
                   color: Color(0xFF141E2D),
-                  borderRadius: BorderRadius.circular(Responsive.boxW(context, 2),),
-                  border: Border.all(color: Color(0xFFA3AED0).withValues(alpha: 0.4)),
+                  borderRadius: BorderRadius.circular(
+                    Responsive.boxW(context, 2),
+                  ),
+                  border: Border.all(
+                      color: Color(0xFFA3AED0).withValues(alpha: 0.4)),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black.withValues(alpha: 0.2),
@@ -65,10 +70,10 @@ class ProfilePopupMenuState extends State<ProfilePopupMenu> {
                     Text(
                       widget.userName,
                       style: getTextTheme().bodyMedium?.copyWith(
-                        color: AppColors.subText,
-                        fontWeight: FontHelper.regular,
-                        fontSize :Responsive.fontSize(context, 4),
-                      ),
+                            color: AppColors.white,
+                            fontWeight: FontHelper.regular,
+                            fontSize: Responsive.fontSize(context, 4),
+                          ),
                     ),
                     Divider(color: Color(0xFFA3AED0).withValues(alpha: 0.4)),
                     GestureDetector(
@@ -79,7 +84,15 @@ class ProfilePopupMenuState extends State<ProfilePopupMenu> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          ShaderMask(shaderCallback: (bounds)=> LinearGradient(colors: [AppColors.orange, AppColors.pink], begin: Alignment.topLeft, end: Alignment.bottomRight,).createShader(bounds),child: Icon(Icons.logout, color: AppColors.white, size: Responsive.padding(context, 6))),
+                          ShaderMask(
+                              shaderCallback: (bounds) => LinearGradient(
+                                    colors: [AppColors.orange, AppColors.pink],
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
+                                  ).createShader(bounds),
+                              child: Icon(Icons.logout,
+                                  color: AppColors.white,
+                                  size: Responsive.padding(context, 6))),
                           SizedBox(width: Responsive.boxW(context, 2)),
                           ShaderMask(
                             shaderCallback: (bounds) => LinearGradient(
@@ -90,10 +103,10 @@ class ProfilePopupMenuState extends State<ProfilePopupMenu> {
                             child: Text(
                               translate(TextHelper.logout),
                               style: getTextTheme().bodyMedium?.copyWith(
-                                color: Colors.white,
-                                fontWeight: FontHelper.regular,
-                                fontSize: Responsive.fontSize(context, 4),
-                              ),
+                                    color: Colors.white,
+                                    fontWeight: FontHelper.regular,
+                                    fontSize: Responsive.fontSize(context, 4),
+                                  ),
                             ),
                           ),
                         ],
@@ -109,7 +122,6 @@ class ProfilePopupMenuState extends State<ProfilePopupMenu> {
     );
     overlayState.insert(overlayEntry!);
   }
-
 
   void hidePopup() {
     overlayEntry?.remove();

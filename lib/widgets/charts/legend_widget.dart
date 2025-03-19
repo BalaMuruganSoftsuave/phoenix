@@ -11,19 +11,17 @@ class LegendWidget extends StatelessWidget {
   final String text;
   final String? subText;
 
-
   const LegendWidget({
     super.key,
     required this.color,
     required this.text,
-     this.subText,
+    this.subText,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Wrap(
-      alignment: WrapAlignment.start,
-
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
           padding: const EdgeInsets.only(top: 4.0),
@@ -39,22 +37,22 @@ class LegendWidget extends StatelessWidget {
             Text(
               text, // Revenue, Refund, Void
               style: getTextTheme().labelSmall?.copyWith(
-                fontSize: Responsive.fontSize(getCtx()!, 3),
-                color: AppColors.text,
-                fontWeight: FontHelper.semiBold,
-              ),
+                    fontSize: Responsive.fontSize(getCtx()!, 3),
+                    color: AppColors.text,
+                    fontWeight: FontHelper.semiBold,
+                  ),
             ),
-            if(subText!=null)...[
+            if (subText != null) ...[
               Gap(8),
               Text(
-                subText??"", // Example: $500
+                subText ?? "", // Example: $500
                 style: getTextTheme().labelSmall?.copyWith(
-                  fontSize: Responsive.fontSize(getCtx()!, 3),
-                  color: AppColors.white,
-                  fontWeight: FontHelper.semiBold,
-                ),
-              ),],
-
+                      fontSize: Responsive.fontSize(getCtx()!, 3),
+                      color: AppColors.white,
+                      fontWeight: FontHelper.semiBold,
+                    ),
+              ),
+            ],
           ],
         ),
       ],

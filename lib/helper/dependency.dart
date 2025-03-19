@@ -7,6 +7,7 @@ import 'package:phoenix/helper/color_helper.dart';
 import 'package:phoenix/helper/preference_helper.dart';
 import 'package:phoenix/models/dashboard/additional_models.dart';
 import 'package:phoenix/models/filter_payload_model.dart';
+import 'package:phoenix/models/line_chart_model.dart';
 
 import '../cubit/dashboard/dashboard_cubit.dart';
 import 'nav_observer.dart';
@@ -19,7 +20,8 @@ AuthCubit? getAuthCubit([BuildContext? context]) =>
 
 DashBoardCubit? getDashBoardCubit([BuildContext? context]) =>
     getCtx(context)?.read<DashBoardCubit>();
- NotificationCubit? getNotificationCubit([BuildContext? context]) =>
+
+NotificationCubit? getNotificationCubit([BuildContext? context]) =>
     getCtx(context)?.read<NotificationCubit>();
 
 String getSubtitle(double approvedOrders, double approvalPercentage) {
@@ -248,18 +250,19 @@ List<Map<String, dynamic>> sortTimeRanges({
 }
 
 FilterPayload adjustStartEndDateRefund(String startDate, String endDate) {
-  DateTime start = DateTime.parse(startDate);
-  DateTime end = DateTime.parse(endDate);
-  DateTime today = DateTime.now();
+  print("startDate:$startDate");
+  print("endDate:$endDate");
 
-  // Calculate the difference in days between start and end
+  // Use DateTime.utc to prevent timezone shifts
+  DateTime start = DateTime.parse(startDate).toUtc();
+  DateTime end = DateTime.parse(endDate).toUtc();
+
   int diffDays = end.difference(start).inDays.abs();
-
-  // If the difference is less than 7 days, set start date to 7 days before the end date
+  // If the difference is less than 7 days, adjust start date
   if (diffDays < 7) {
-    end = end;
     start = end.subtract(const Duration(days: 6));
   }
+  print("modified start:$start");
 
   // Determine the groupBy value based on the difference in days
   String groupByValue;
@@ -275,9 +278,10 @@ FilterPayload adjustStartEndDateRefund(String startDate, String endDate) {
   String formatDate(DateTime date) => date.toIso8601String().split('T')[0];
 
   return FilterPayload(
-      startDate: formatDate(start),
-      endDate: formatDate(end),
-      groupBy: groupByValue);
+    startDate: formatDate(start),
+    endDate: formatDate(end),
+    groupBy: groupByValue,
+  );
 }
 
 logout() {
@@ -316,12 +320,16 @@ List<T> generateDateSlots<T>({
         formattedRange = DateFormat('MMM d').format(current); // e.g., "Dec 4"
         break;
       case 'month':
-        formattedRange = DateFormat('MMMM yyyy').format(current); // e.g., "December 2024"
+        formattedRange =
+            DateFormat('MMMM yyyy').format(current); // e.g., "December 2024"
         break;
     }
 
     // Add slot with default values
-    slots.add({...defaultValues as Map<String, dynamic>, 'Range': formattedRange} as T);
+    slots.add({
+      ...defaultValues as Map<String, dynamic>,
+      'Range': formattedRange
+    } as T);
 
     // Increment based on grouping type
     switch (groupBy) {
@@ -342,6 +350,7 @@ List<T> generateDateSlots<T>({
 
   return slots;
 }
+
 List<T> generateSlots<T>({
   required String start,
   required String end,
@@ -356,7 +365,7 @@ List<T> generateSlots<T>({
   if (endDate.year == DateTime.now().year &&
       endDate.month == DateTime.now().month &&
       endDate.day == DateTime.now().day) {
-    // If end date is today, set to current time
+    // If end date is today, set to current time + buffer
     var now = DateTime.now().hour;
     endDate = DateTime(
         endDate.year, endDate.month, endDate.day, now < 20 ? now + 3 : now, 59);
@@ -365,7 +374,7 @@ List<T> generateSlots<T>({
     endDate = DateTime(endDate.year, endDate.month, endDate.day, 23, 59);
   }
 
-  List<T> slots = [];
+  List<T> slots = [...existingData]; // Keep existing data intact
   DateTime current = startDate;
 
   // Create a map of existing data for quick lookup
@@ -373,33 +382,32 @@ List<T> generateSlots<T>({
     for (var data in existingData) getRange(data): data
   };
 
-  while (current.isBefore(endDate) || current.isAtSameMomentAs(endDate)) {
+  do {
     String range = groupBy == 'hour'
         ? '${current.month.toString().padLeft(2, '0')}/${current.day.toString().padLeft(2, '0')} '
             '${current.hour == 0 ? 12 : current.hour > 12 ? current.hour - 12 : current.hour}'
-            '${current.hour < 12 ? 'AM' : 'PM'}':
-        // : '${current.month.toString().padLeft(2, '0')}/${current.day.toString().padLeft(2, '0')}';
-     groupBy == 'day'?  DateFormat('MM/dd').format(current):
-     groupBy == 'week'?  DateFormat('MMM d').format(current):
-     DateFormat('MMMM yyyy').format(current) ;
+            '${current.hour < 12 ? 'AM' : 'PM'}'
+        : groupBy == 'day'
+            ? DateFormat('MM/dd').format(current)
+            : groupBy == 'week'
+                ? DateFormat('MMM d').format(current)
+                : DateFormat('MMMM yyyy').format(current);
 
-
-    if (dataMap.containsKey(range)) {
-      // Add existing data
-      slots.add(dataMap[range]!);
-    } else {
-      // Add default values if not available
+    if (!dataMap.containsKey(range)) {
+      // Only add missing slots; existing data stays unchanged
       slots
           .add({...defaultValues as Map<String, dynamic>, 'Range': range} as T);
     }
 
     // Increment based on grouping type
-    current = groupBy == 'hour' ? current.add(const Duration(hours: 1)):
-    current = groupBy =='day'? current.add(const Duration(days: 1)):
-    current=groupBy=='week'? current.add(const Duration(days: 7)) :
-    current = DateTime(current.year, current.month + 1, current.day);
-
-  }
+    current = groupBy == 'hour'
+        ? current.add(const Duration(hours: 1))
+        : groupBy == 'day'
+            ? current.add(const Duration(days: 1))
+            : groupBy == 'week'
+                ? current.add(const Duration(days: 7))
+                : DateTime(current.year, current.month + 1, current.day);
+  } while (current.isBefore(endDate) || current.isAtSameMomentAs(endDate));
 
   return slots;
 }
@@ -410,6 +418,20 @@ var colors = [
   AppColors.successGreen,
   AppColors.pink,
   AppColors.purple,
-
 ];
 
+List<SubscriptionData> sortSubscriptionsData(List<SubscriptionData> data) {
+  data.sort((a, b) {
+    DateTime dateA = _parsedDate(a.range ?? "");
+    DateTime dateB = _parsedDate(b.range ?? "");
+    return dateA.compareTo(dateB);
+  });
+  return data; // Return the sorted list
+}
+
+DateTime _parsedDate(String range) {
+  List<String> parts = range.split('/');
+  int month = int.parse(parts[0]);
+  int day = int.parse(parts[1]);
+  return DateTime(DateTime.now().year, month, day);
+}

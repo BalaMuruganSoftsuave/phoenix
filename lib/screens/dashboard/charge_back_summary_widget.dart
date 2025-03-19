@@ -6,6 +6,7 @@ import 'package:phoenix/helper/color_helper.dart';
 import 'package:phoenix/helper/dependency.dart';
 import 'package:phoenix/helper/enum_helper.dart';
 import 'package:phoenix/helper/text_helper.dart';
+import 'package:phoenix/helper/utils.dart';
 import 'package:phoenix/models/dashboard/chargeback_summary_model.dart';
 import 'package:phoenix/screens/dashboard/dashboard_screen.dart';
 import 'package:phoenix/widgets/container_widget.dart';
@@ -94,12 +95,12 @@ class ChargebackSummary extends StatelessWidget {
                                   children: [
                                     Expanded(
                                       child: Text(item["key"] ?? "",
-                                          style: TextStyle(
+                                          style: getTextTheme().bodyMedium?.copyWith(
                                               fontSize: 14,
                                               color: Colors.white)),
                                     ),
                                     Text((item["value"] ?? "").toString(),
-                                        style: TextStyle(
+                                        style: getTextTheme().bodyMedium?.copyWith(
                                             fontSize: 14, color: Colors.white)),
                                   ],
                                 ),

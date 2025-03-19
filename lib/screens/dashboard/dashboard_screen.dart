@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phoenix/cubit/dashboard/dashboard_cubit.dart';
 import 'package:phoenix/cubit/dashboard/dashboard_state.dart';
 import 'package:phoenix/helper/color_helper.dart';
+import 'package:phoenix/helper/dependency.dart';
 import 'package:phoenix/helper/enum_helper.dart';
 import 'package:phoenix/helper/responsive_helper.dart';
 import 'package:phoenix/helper/text_helper.dart';
@@ -35,28 +36,6 @@ class HomeScreen extends StatelessWidget {
                 ? Center(child: Loader())
                 : Column(
                     children: [
-                      // SizedBox(
-                      //   height: Responsive.boxH(context, 10),
-                      //   child: AppBar(
-                      //     backgroundColor: AppColors.darkBg,
-                      //     centerTitle: false,
-                      //     title: SvgPicture.asset(
-                      //       Assets.imagesPhoenixLogo,
-                      //       width: Responsive.boxW(context, 15),
-                      //       height: Responsive.boxH(context, 5),
-                      //     ),
-                      //     actions: [
-                      //       ProfilePopupMenu(
-                      //         userName: "John Doe",
-                      //         onLogout: () {
-                      //           showLogoutDialog(context, () {});
-                      //           debugPrint("User logged out");
-                      //           // Implement logout functionality here
-                      //         },
-                      //       )
-                      //     ],
-                      //   ),
-                      // ),
                       SizedBox(
                         height: 80,
                         child: Row(
@@ -64,6 +43,32 @@ class HomeScreen extends StatelessWidget {
                             Expanded(
                               flex: 4,
                               child: FilterComponent(
+                                isDisabled: (state.directSaleReqState ==
+                                        ProcessState.loading ||
+                                    state.initialSubscriptionReqState ==
+                                        ProcessState.loading ||
+                                    state.recurringSubscriptionReqState ==
+                                        ProcessState.loading ||
+                                    state.subscriptionSalvageReqState ==
+                                        ProcessState.loading ||
+                                    state.upsellReqState ==
+                                        ProcessState.loading ||
+                                    state.subscriptionBillReqState ==
+                                        ProcessState.loading ||
+                                    state.totalTransactionReqState ==
+                                        ProcessState.loading ||
+                                    state.refundsReqState ==
+                                        ProcessState.loading ||
+                                    state.chargeBacksReqState ==
+                                        ProcessState.loading ||
+                                    state.totalSalesRevenueReqState ==
+                                        ProcessState.loading ||
+                                    state.netSubscribersReqState ==
+                                        ProcessState.loading ||
+                                    state.chargeBackSummaryReqState ==
+                                        ProcessState.loading ||
+                                    state.coverageHealthDataReqState ==
+                                        ProcessState.loading),
                                 onSelectionChange: (key, {range}) {
                                   context.read<DashBoardCubit>().updateFilter(
                                       context,
@@ -77,6 +82,32 @@ class HomeScreen extends StatelessWidget {
                             Expanded(
                                 flex: 1,
                                 child: ClientStoreFilterWidget(
+                                  isDisabled: (state.directSaleReqState ==
+                                          ProcessState.loading ||
+                                      state.initialSubscriptionReqState ==
+                                          ProcessState.loading ||
+                                      state.recurringSubscriptionReqState ==
+                                          ProcessState.loading ||
+                                      state.subscriptionSalvageReqState ==
+                                          ProcessState.loading ||
+                                      state.upsellReqState ==
+                                          ProcessState.loading ||
+                                      state.subscriptionBillReqState ==
+                                          ProcessState.loading ||
+                                      state.totalTransactionReqState ==
+                                          ProcessState.loading ||
+                                      state.refundsReqState ==
+                                          ProcessState.loading ||
+                                      state.chargeBacksReqState ==
+                                          ProcessState.loading ||
+                                      state.totalSalesRevenueReqState ==
+                                          ProcessState.loading ||
+                                      state.netSubscribersReqState ==
+                                          ProcessState.loading ||
+                                      state.chargeBackSummaryReqState ==
+                                          ProcessState.loading ||
+                                      state.coverageHealthDataReqState ==
+                                          ProcessState.loading),
                                   state: state,
                                   onChanged: (clientIDs, storeIDs) {
                                     context.read<DashBoardCubit>().updateFilter(
@@ -98,7 +129,9 @@ class HomeScreen extends StatelessWidget {
                             color: Colors.pink,
                             onRefresh: () async {
                               try {
-                                await context.read<DashBoardCubit>().refresh(context);
+                                await context
+                                    .read<DashBoardCubit>()
+                                    .refresh(context);
                               } catch (e) {
                                 debugPrint("Refresh failed: $e");
                               }
@@ -114,8 +147,12 @@ class HomeScreen extends StatelessWidget {
                                     state: state,
                                   ),
                                   SizedBox(height: 30),
-                                  LifeTimeDataWidget(
-                                    state: state,
+                                  Visibility(
+                                    visible: state.lifeTimeReqState ==
+                                        ProcessState.success,
+                                    child: LifeTimeDataWidget(
+                                      state: state,
+                                    ),
                                   ),
 
                                   SizedBox(height: 30),
@@ -123,6 +160,33 @@ class HomeScreen extends StatelessWidget {
                                   ContainerWidget(
                                     height: 62,
                                     title: TextHelper.salesRevenue,
+                                    subTitle: Visibility(
+                                      visible: state.totalSalesRevenueReqState==ProcessState.success,
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            "Total : ",
+                                            style: getTextTheme()
+                                                .bodyMedium
+                                                ?.copyWith(
+                                                    color: AppColors.grey,
+                                                    fontWeight: FontWeight.w600),
+                                          ),
+                                          Text(
+                                            formatCurrency(calculateTotalSum(state
+                                                        .totalSalesRevenueData
+                                                        ?.result ??
+                                                    []))
+                                                .toString(),
+                                            style: getTextTheme()
+                                                .bodyMedium
+                                                ?.copyWith(
+                                                    color: AppColors.white,
+                                                    fontWeight: FontWeight.w600),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                     widget: state.totalSalesRevenueReqState ==
                                             ProcessState.loading
                                         ? Loader()
@@ -137,18 +201,28 @@ class HomeScreen extends StatelessWidget {
                                                         .totalSalesRevenueData
                                                         ?.result ??
                                                     [])),
-                                    childWidget:Container(
+                                    childWidget: Container(
                                       padding: EdgeInsets.all(2),
-
                                       height: Responsive.boxH(context, 5),
                                       width: Responsive.boxW(context, 35),
                                       decoration: BoxDecoration(
-                                        color: AppColors.darkBg,
-                                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                                        border: Border.all(width:0.5,color: AppColors.white),
-                                        shape: BoxShape.rectangle
-                                      ),
-                                      child: Align(alignment:Alignment.center,child: Text("Total Revenue",textAlign: TextAlign.center,style: TextStyle(color: AppColors.white,fontSize: Responsive.fontSize(context, 3.5)),) ),
+                                          color: AppColors.darkBg,
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10)),
+                                          border: Border.all(
+                                              width: 0.5,
+                                              color: AppColors.white),
+                                          shape: BoxShape.rectangle),
+                                      child: Align(
+                                          alignment: Alignment.center,
+                                          child: Text(
+                                            "Total Revenue",
+                                            textAlign: TextAlign.center,
+                                            style: getTextTheme().bodyMedium?.copyWith(
+                                                color: AppColors.white,
+                                                fontSize: Responsive.fontSize(
+                                                    context, 3.5)),
+                                          )),
                                     ),
                                   ),
 
@@ -183,49 +257,53 @@ class HomeScreen extends StatelessWidget {
                                   SizedBox(height: 30),
                                   ChargebackSummary(),
                                   SizedBox(height: 20),
-
-                                  ContainerWidget(
-                                      title: TextHelper.directSaleRefundRatio,
-                                      widget: state.refundRatioReqState ==
-                                              ProcessState.loading
-                                          ? Loader()
-                                          : (state.refundRatioData?.result
-                                                          ?.straightData ??
-                                                      [])
-                                                  .isEmpty
-                                              ? NoDataWidget()
-                                              : BarChartWidget(
-                                                  chartData: getRefundData(state
-                                                          .refundRatioData
-                                                          ?.result
-                                                          ?.straightData ??
-                                                      []),
-                                                  barRadius: 3,
-                                                  barSpace: -1,
-                                                )),
-
-                                  SizedBox(height: 20),
-                                  ContainerWidget(
-                                      title: TextHelper.subscriptionRefundRatio,
-                                      widget: state.refundRatioReqState ==
-                                              ProcessState.loading
-                                          ? Loader()
-                                          : (state.refundRatioData?.result
-                                                          ?.subscriptionData ??
-                                                      [])
-                                                  .isEmpty
-                                              ? NoDataWidget()
-                                              : BarChartWidget(
-                                                  chartData: getRefundData(state
-                                                          .refundRatioData
-                                                          ?.result
-                                                          ?.subscriptionData ??
-                                                      []),
-                                                  barRadius: 30,
-                                                  barSpace: -30,
-                                                  showBackDraw: true,
-                                                  width: Responsive.padding(context, 23),
-                                                ))
+                                  if (state.refundRatioReqState ==
+                                      ProcessState.success) ...[
+                                    ContainerWidget(
+                                        title: TextHelper.directSaleRefundRatio,
+                                        widget: state.refundRatioReqState ==
+                                                ProcessState.loading
+                                            ? Loader()
+                                            : (state.refundRatioData?.result
+                                                            ?.straightData ??
+                                                        [])
+                                                    .isEmpty
+                                                ? NoDataWidget()
+                                                : BarChartWidget(
+                                                    chartData: getRefundData(
+                                                        state
+                                                                .refundRatioData
+                                                                ?.result
+                                                                ?.straightData ??
+                                                            []),
+                                                    barRadius: 3,
+                                                    barSpace: -1,
+                                                  )),
+                                    SizedBox(height: 20),
+                                    ContainerWidget(
+                                        title:
+                                            TextHelper.subscriptionRefundRatio,
+                                        widget: state.refundRatioReqState ==
+                                                ProcessState.loading
+                                            ? Loader()
+                                            : (state.refundRatioData?.result
+                                                            ?.subscriptionData ??
+                                                        [])
+                                                    .isEmpty
+                                                ? NoDataWidget()
+                                                : BarChartWidget(
+                                                    chartData: getRefundData(state
+                                                            .refundRatioData
+                                                            ?.result
+                                                            ?.subscriptionData ??
+                                                        []),
+                                                    barRadius: 30,
+                                                    barSpace: -30,
+                                                    showBackDraw: true,
+                                                    width: Responsive.padding(
+                                                        context, 23),
+                                                  ))
+                                  ],
                                 ],
                               ),
                             ),
@@ -253,9 +331,20 @@ class HomeScreen extends StatelessWidget {
   }
 
   getRefundData(List<RefundRatioData> data) {
-    List<Map<String, dynamic>> data1 =
-        data.map((e) => e.toJson()).toList();
+    List<Map<String, dynamic>> data1 = data.map((e) => e.toJson()).toList();
     return processData(data1);
+  }
+
+  double calculateTotalSum(List<SalesData> data) {
+    return data.fold(
+        0,
+        (total, entry) =>
+            total +
+            (entry.directSale ?? 0) +
+            (entry.upsellSale ?? 0) +
+            (entry.initialSale ?? 0) +
+            (entry.recurringSale ?? 0) +
+            (entry.salvageSale ?? 0));
   }
 }
 

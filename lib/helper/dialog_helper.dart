@@ -116,7 +116,7 @@ class CustomToast {
           Expanded(
             child: Text(
               translate(message),
-              style: TextStyle(color: Colors.white),
+              style: getTextTheme().bodyMedium?.copyWith(color: Colors.white),
             ),
           ),
         ],

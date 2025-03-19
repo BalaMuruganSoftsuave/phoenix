@@ -92,7 +92,7 @@ class _PieChartWidgetState extends State<PieChartWidget> {
       children: [
         Text(
           translate(title),
-          style: const TextStyle(
+          style:  getTextTheme().bodyMedium?.copyWith(
             fontSize: 16,
             fontWeight: FontWeight.bold,
             color: Colors.white,
@@ -208,7 +208,7 @@ class _PieChartWidgetState extends State<PieChartWidget> {
         ),
         child: Text(
           "$label\n$value ($percentage%)",
-          style: const TextStyle(color: Colors.white, fontSize: 12),
+          style:  getTextTheme().bodyMedium?.copyWith(color: Colors.white, fontSize: 12),
           textAlign: TextAlign.center,
         ),
       ),

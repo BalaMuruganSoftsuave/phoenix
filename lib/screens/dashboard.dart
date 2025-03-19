@@ -51,6 +51,7 @@ class _DashboardState extends State<Dashboard> {
     });
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -144,9 +145,11 @@ class _DashboardState extends State<Dashboard> {
                 setState(() {
                   _selectedIndex = index;
                 });
-                context
-                    .read<NotificationCubit>()
-                    .getNotificationConfiguration(context);
+                if(index==1) {
+                  context
+                      .read<NotificationCubit>()
+                      .getNotificationConfiguration(context);
+                }
               },
             ),
             IconButton(

@@ -142,7 +142,7 @@ class LineChartModel {
           ?.add(FlSpot(i.toDouble(), salesData[i].recurringSale ?? 0));
       points['Salvage Sale']
           ?.add(FlSpot(i.toDouble(), salesData[i].salvageSale ?? 0));
-      ranges.add(salesData[i].range ?? "N/A"); // 🔹 Collect ranges
+      ranges.add(salesData[i].range ?? "N/A");
     }
 
     Map<String, Color> colors = {

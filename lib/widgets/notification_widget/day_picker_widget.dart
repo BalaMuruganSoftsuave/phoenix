@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:phoenix/helper/color_helper.dart';
 import 'package:phoenix/helper/dependency.dart';
+import 'package:phoenix/helper/utils.dart';
 
 
 class DayPickerWidget extends StatelessWidget {
@@ -30,7 +31,7 @@ class DayPickerWidget extends StatelessWidget {
               height: 20,
               child: Text(day.name??"",
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: getTextTheme().bodyMedium?.copyWith(
                 color: isSelected ? Colors.white : AppColors.text,
                 fontWeight: FontWeight.bold,
               ),

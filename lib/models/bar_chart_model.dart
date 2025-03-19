@@ -38,7 +38,7 @@ List<ChartData> processData(List<Map<String, dynamic>> data) {
 
     // Calculate percentages
     Map<String, double> percentages = {
-      for (var key in keys) key: total > 0 ? (values[key]! / total) * 100 : 0,
+      for (var key in keys) key: total > 0 ?double.parse(((values[key]! / total) * 100).toStringAsFixed(2)): 0.0,
     };
     return ChartData(range: range, values: values, percentages: percentages);
   }).toList();

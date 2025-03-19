@@ -305,9 +305,12 @@ class _MultiSelectionDropDownState extends State<MultiSelectionDropDown> {
                             child: TextField(
                               controller: _searchController,
                               autofocus: true,
+                              cursorColor: Colors.pink,
+                              style:  getTextTheme().bodyMedium,
                               decoration: InputDecoration(
                                 contentPadding: EdgeInsets.zero,
                                 hintText: "Search...",
+                                hintStyle: getTextTheme().bodyMedium,
                                 prefixIcon: Padding(
                                   padding: EdgeInsets.symmetric(vertical: 8),
                                   child: Icon(Icons.search),
@@ -315,6 +318,18 @@ class _MultiSelectionDropDownState extends State<MultiSelectionDropDown> {
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(50),
                                   borderSide: const BorderSide(color: Colors.grey),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(50),
+                                  borderSide: const BorderSide(color:AppColors.pink),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(50),
+                                  borderSide: const BorderSide(color:AppColors.grey2),
+                                ),
+                                disabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(50),
+                                  borderSide: const BorderSide(color:AppColors.grey2),
                                 ),
                               ),
                               onChanged: (value) {

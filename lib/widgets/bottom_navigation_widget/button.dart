@@ -1,6 +1,7 @@
 import 'dart:math' show pow;
 
 import 'package:flutter/material.dart';
+import 'package:phoenix/helper/utils.dart';
 
 import 'gnav.dart';
 
@@ -196,7 +197,7 @@ class _ButtonState extends State<Button> with TickerProviderStateMixin {
                           padding: EdgeInsets.only(top: widget.gap!),
                           child: Text(
                             widget.text!.data!,
-                            style: TextStyle(
+                            style: getTextTheme().bodyMedium?.copyWith(
                               color: colorTweenAnimation.value,
                               fontSize: widget.textSize ?? 16,
                             ),

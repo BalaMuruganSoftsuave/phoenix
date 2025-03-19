@@ -5,6 +5,7 @@ import 'package:phoenix/helper/color_helper.dart';
 import 'package:phoenix/helper/dependency.dart';
 import 'package:phoenix/helper/utils.dart';
 import 'package:phoenix/models/notification/notification_list_model.dart';
+import 'package:phoenix/widgets/gap/widgets/gap.dart';
 
 class NotificationListWidget extends StatefulWidget {
   const NotificationListWidget({super.key});
@@ -14,7 +15,7 @@ class NotificationListWidget extends StatefulWidget {
 }
 
 class _NotificationListWidgetState extends State<NotificationListWidget> {
-  List<NotificationListResult> _notifications = [];
+  final List<NotificationListResult> _notifications = [];
   int _page = 0;
   bool _isLoading = false;
   bool _hasMoreData = true;
@@ -191,7 +192,7 @@ class _NotificationListWidgetState extends State<NotificationListWidget> {
         decoration: BoxDecoration(
           color: AppColors.darkBg2,
           border: Border.all(color: AppColors.subText.withValues(alpha: 0.5)),
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(12),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -200,51 +201,64 @@ class _NotificationListWidgetState extends State<NotificationListWidget> {
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const Icon(Icons.circle, color: Colors.green, size: 10),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: Text(
-                    notification.title ?? "",
-                    style: getTextTheme().bodyMedium?.copyWith(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
+
+                Flexible(
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 13.0),
+                    child: Row(crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 8.0),
+                          child: const Icon(Icons.circle, color: Colors.green, size: 10),
                         ),
+                        const SizedBox(width: 10),
+                        Flexible(
+                          child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                notification.title ?? "",
+                                style: getTextTheme().bodyMedium?.copyWith(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.white,
+                                    ),
+                              ),
+                              Gap(8),
+                              Text(
+                                notification.body ?? "",
+                                style: getTextTheme()
+                                    .bodyMedium
+                                    ?.copyWith(fontSize: 12, color: Colors.white),
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-                Text(
-                  timeAgo(notification.createdAt ?? ""),
-                  style: getTextTheme()
-                      .bodyMedium
-                      ?.copyWith(color: AppColors.grey, fontSize: 11),
+                Row(
+                  children: [
+                    Text(
+                      timeAgo(notification.createdAt ?? ""),
+                      style: getTextTheme()
+                          .bodyMedium
+                          ?.copyWith(color: AppColors.grey, fontSize: 11),
+                    ),
+                    Icon(
+                      isExpanded
+                          ? Icons.keyboard_arrow_up
+                          : Icons.keyboard_arrow_down,
+                      size: 28,
+                      color: Colors.grey,
+                    ),
+                  ],
                 ),
-                IconButton(
-                  icon: Icon(
-                    isExpanded
-                        ? Icons.keyboard_arrow_up
-                        : Icons.keyboard_arrow_down,
-                    size: 28,
-                    color: Colors.grey,
-                  ),
-                  onPressed: () => _toggleExpand(index),
-                ),
+
               ],
             ),
 
-            // Description
-            Row(crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(width: 20),
-                Expanded(
-                  child: Text(
-                    notification.body ?? "",
-                    style: getTextTheme()
-                        .bodyMedium
-                        ?.copyWith(fontSize: 12, color: Colors.white),
-                  ),
-                ),
-              ],
-            ),
+
 if(!isExpanded)
 SizedBox(height: 10,),
             // Expanded content
@@ -309,7 +323,7 @@ class SmallContainerWidget extends StatelessWidget {
             text1,
             style: getTextTheme()
                 .bodyMedium
-                ?.copyWith(color: Colors.grey, fontSize: 12),
+                ?.copyWith(color: AppColors.text, fontSize: 12,fontWeight: FontWeight.w600),
           ),
           Text(
             text2,

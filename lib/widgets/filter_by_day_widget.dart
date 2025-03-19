@@ -7,12 +7,15 @@ import 'package:phoenix/helper/utils.dart';
 
 import '../helper/theme_helper.dart';
 import 'custom_calendar_widget/chart_date_filter_widget.dart';
+
 DateFormat formatter = DateFormat('yyyy-MM-dd');
 
 class FilterComponent extends StatefulWidget {
   final Function(String, {DateTimeRange? range})? onSelectionChange;
+  final bool? isDisabled;
 
-  const FilterComponent({super.key, this.onSelectionChange});
+  const FilterComponent(
+      {super.key, this.onSelectionChange, this.isDisabled = false});
 
   @override
   State<FilterComponent> createState() => _FilterComponentState();
@@ -36,9 +39,8 @@ class _FilterComponentState extends State<FilterComponent> {
   DateTimeRange? selectedRange;
   DateTimeRange? selectedCustomRange;
 
-
   void handleSelection(String key) {
-    if(selectedKey!=key) {
+    if (selectedKey != key) {
       if (key == "custom") {
         // _selectDateRange();
       } else {
@@ -91,9 +93,12 @@ class _FilterComponentState extends State<FilterComponent> {
                 ),
 
                 textTheme: TextTheme(
-                  bodyMedium: TextStyle(color: Colors.white), // Date text color
-                  bodySmall:
-                      TextStyle(color: Colors.white), // Labels text color
+                  bodyMedium: getTextTheme()
+                      .bodyMedium
+                      ?.copyWith(color: Colors.white), // Date text color
+                  bodySmall: getTextTheme()
+                      .bodyMedium
+                      ?.copyWith(color: Colors.white), // Labels text color
                 ),
                 textButtonTheme: TextButtonThemeData(
                   style: TextButton.styleFrom(
@@ -144,7 +149,7 @@ class _FilterComponentState extends State<FilterComponent> {
             start: today.subtract(Duration(days: 89)), end: today);
       case "last365":
         return DateTimeRange(
-            start: today.subtract(Duration(days: 364)), end: today);
+            start: today.subtract(Duration(days: 365)), end: today);
       case "lastMonth":
         final firstDayLastMonth = DateTime(now.year, now.month - 1, 1);
         final lastDayLastMonth = DateTime(now.year, now.month, 0);
@@ -176,7 +181,9 @@ class _FilterComponentState extends State<FilterComponent> {
           children: ranges.map((item) {
             bool isSelected = selectedKey == item["key"];
             return GestureDetector(
-                onTap: () => handleSelection(item["key"]!),
+                onTap: () => widget.isDisabled == true
+                    ? null
+                    : handleSelection(item["key"]!),
                 child: (item["key"] != "custom")
                     ? Container(
                         margin: EdgeInsets.symmetric(horizontal: 5),
@@ -192,13 +199,15 @@ class _FilterComponentState extends State<FilterComponent> {
                         ),
                         child: Text(
                           item["label"]!,
-                          style: TextStyle(
-                            color:
-                                isSelected ? Colors.white : Color(0xFFA3AED0),
-                            fontWeight: FontWeight.w600,
-                          ),
+                          style: getTextTheme().bodyMedium?.copyWith(
+                                color: isSelected
+                                    ? Colors.white
+                                    : Color(0xFFA3AED0),
+                                fontWeight: FontWeight.w600,
+                              ),
                         ))
                     : ChartDateFilterWidget(
+                        isDisabled: widget.isDisabled,
                         dateBackgroundColor: AppColors.darkBg,
                         weekRowTextColor: AppColors.white,
                         containerColor: AppColors.darkBg,
@@ -251,8 +260,10 @@ class _FilterComponentState extends State<FilterComponent> {
                             child: selectedCustomRange != null
                                 ? Text(
                                     "${formatter.format(selectedCustomRange!.start)} to ${formatter.format(selectedCustomRange!.end)}",
-                            style: getTextTheme().bodyMedium?.copyWith(color: AppColors.white),
-                            )
+                                    style: getTextTheme()
+                                        .bodyMedium
+                                        ?.copyWith(color: AppColors.white),
+                                  )
                                 : Icon(
                                     Icons.calendar_today_sharp,
                                     color: AppColors.subText,

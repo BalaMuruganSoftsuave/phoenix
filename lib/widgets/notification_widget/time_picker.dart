@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:phoenix/helper/utils.dart';
 
 class CustomTimePicker extends StatefulWidget {
   final Function(String) onTimeChanged;
@@ -74,7 +75,7 @@ class _CustomTimePickerState extends State<CustomTimePicker> {
             children: List.generate(12, (index) {
               return Center(
                   child: Text('${index + 1}:00',
-                      style: TextStyle(fontSize: 20, color: Colors.white)));
+                      style: getTextTheme().bodyMedium?.copyWith(fontSize: 20, color: Colors.white)));
             }),
           ),
         ),
@@ -93,13 +94,13 @@ class _CustomTimePickerState extends State<CustomTimePicker> {
               });
               widget.onTimeChanged(getFormattedTime());
             },
-            children: const [
+            children:  [
               Center(
                   child: Text('AM',
-                      style: TextStyle(fontSize: 20, color: Colors.white))),
+                      style: getTextTheme().bodyMedium?.copyWith(fontSize: 20, color: Colors.white))),
               Center(
                   child: Text('PM',
-                      style: TextStyle(fontSize: 20, color: Colors.white))),
+                      style: getTextTheme().bodyMedium?.copyWith(fontSize: 20, color: Colors.white))),
             ],
           ),
         ),

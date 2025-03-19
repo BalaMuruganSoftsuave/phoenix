@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:phoenix/helper/color_helper.dart';
+import 'package:phoenix/helper/utils.dart';
 
 class SmallContainerWidget extends StatefulWidget {
   final String text1;
@@ -24,10 +25,10 @@ class _SmallContainerWidgetState extends State<SmallContainerWidget> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(widget.text1, style: TextStyle(color: AppColors.subText, fontSize: 13)),
+            Text(widget.text1, style: getTextTheme().bodyMedium?.copyWith(color: AppColors.subText, fontSize: 13)),
             Text(
               widget.text2,
-              style: TextStyle(
+              style: getTextTheme().bodyMedium?.copyWith(
                   color: AppColors.white, fontWeight: FontWeight.bold),
             ),
           ],

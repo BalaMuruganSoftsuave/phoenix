@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:phoenix/helper/color_helper.dart';
+import 'package:phoenix/helper/utils.dart';
 
 class RadioButtonWidget extends StatelessWidget {
   final int value;
@@ -12,7 +13,7 @@ class RadioButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RadioListTile<int>(
-      title: Text(text, style: TextStyle(color: AppColors.white)),
+      title: Text(text, style: getTextTheme().bodyMedium?.copyWith(color: AppColors.white)),
       value: value,
       groupValue: selectedValue,
       activeColor: AppColors.pink,

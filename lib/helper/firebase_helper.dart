@@ -7,6 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:phoenix/firebase_options.dart';
 import 'package:phoenix/helper/nav_helper.dart';
 import 'package:phoenix/helper/preference_helper.dart';
+import 'package:phoenix/screens/dashboard.dart';
+
+import 'nav_observer.dart';
 
 // Background message handler
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -77,7 +80,7 @@ class FirebaseHelper {
     AndroidInitializationSettings('@mipmap/ic_launcher');
 
     final InitializationSettings initializationSettings = InitializationSettings(
-      android: androidInitializationSettings,
+      android: androidInitializationSettings,iOS: DarwinInitializationSettings()
     );
 
     _flutterLocalNotificationsPlugin.initialize(initializationSettings);
@@ -96,7 +99,8 @@ class FirebaseHelper {
       sound: RawResourceAndroidNotificationSound("notification")
     );
 
-    const NotificationDetails details = NotificationDetails(android: androidDetails);
+    const iOSNotificationDetails=DarwinNotificationDetails(sound: "notification.caf");
+    const NotificationDetails details = NotificationDetails(android: androidDetails,iOS: iOSNotificationDetails);
 
     await _flutterLocalNotificationsPlugin.show(
       0, // Notification ID
@@ -109,7 +113,13 @@ class FirebaseHelper {
   // Handle Notification Tap
   static void _handleNotificationTap(RemoteMessage message) {
     debugPrint("User tapped on notification: ${message.notification?.title}");
-    openScreen(dashboardScreen,args: LinkedHashMap.from({"tab":1}),requiresAsInitial: true);
+    var initialLogin= PreferenceHelper.getInitialLogin();
+    if(initialLogin) {
+      NavObserver.navKey.currentState?.pushReplacement(
+        MaterialPageRoute(
+            builder: (_) => Dashboard(LinkedHashMap.from({"tab": 1}))),
+      );
+    }
     // Navigate to a specific screen or perform an action
   }
 }

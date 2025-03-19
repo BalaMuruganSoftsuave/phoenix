@@ -69,10 +69,10 @@ class DtSaleAppRatioDataResponse {
 
 class DtSaleAppRatioDataResult {
   String? range;
-  int? approvedCount;
-  int? declinedCount;
-  double? approvedPercentage;
-  double? declinedPercentage;
+  num? approvedCount;
+  num? declinedCount;
+  num? approvedPercentage;
+  num? declinedPercentage;
 
   DtSaleAppRatioDataResult(
       {this.range,

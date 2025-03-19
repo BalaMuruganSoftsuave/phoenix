@@ -51,6 +51,7 @@ class ChartDateFilterWidget extends StatefulWidget {
   final Widget? child;
   final TextStyle? buttonTextStyle;
   final TextStyle? labelTextStyle;
+  final bool? isDisabled;
 
   const ChartDateFilterWidget({
     required this.onChange,
@@ -75,7 +76,7 @@ class ChartDateFilterWidget extends StatefulWidget {
     this.buttonTextStyle,
     this.labelTextStyle,
     this.applyCancelButtonColor,
-    this.dividerColor,
+    this.dividerColor, this.isDisabled=false,
   });
 
   @override
@@ -121,7 +122,7 @@ class _CustomDatePickerWidgetState extends State<ChartDateFilterWidget>
       link: link,
       child: InkWell(
         key: _key,
-        onTap: () {
+        onTap:widget.isDisabled==true?null :() {
           if (isMenuOpen.value) {
             closeMenu();
           } else {

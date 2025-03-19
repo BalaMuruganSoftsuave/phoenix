@@ -14,8 +14,9 @@ import 'custom_multi_selection_dropdown.dart';
 class ClientStoreFilterWidget extends StatefulWidget {
   final DashboardState state;
   final Function(List<int>, List<int>) onChanged;
+  final bool? isDisabled;
 
-  const ClientStoreFilterWidget({super.key, required this.onChanged, required this.state});
+  const ClientStoreFilterWidget({super.key, required this.onChanged, required this.state, this.isDisabled=false});
 
   @override
   _ClientStoreFilterWidgetState createState() =>
@@ -89,7 +90,7 @@ class _ClientStoreFilterWidgetState extends State<ClientStoreFilterWidget> {
   Widget build(BuildContext context) {
     return InkWell(
       key: _buttonKey,
-      onTap: () {
+      onTap: widget.isDisabled==true?null:() {
         if (_overlayEntry == null) {
           _showOverlay(context);
         } else {

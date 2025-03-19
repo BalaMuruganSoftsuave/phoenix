@@ -93,25 +93,25 @@ class SalesRevenueChart extends StatelessWidget {
                     spacing: 30, // Horizontal spacing between items
                     runSpacing: 15,
                     children: [
-                      Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Expanded(
                             child: LegendWidget(
                                 color: AppColors.pink,
                                 text: 'Net Subscribers',
-                                subText:
-                                    (totalSubs['netSubscriptions'] ?? 0).toString()),
+                                subText: (totalSubs['netSubscriptions'] ?? 0)
+                                    .toString()),
                           ),
                           Expanded(
                             child: LegendWidget(
                                 color: AppColors.successGreen,
                                 text: 'New Subscribers',
-                                subText:
-                                (totalSubs['newSubscriptions'] ?? 0).toString()),
+                                subText: (totalSubs['newSubscriptions'] ?? 0)
+                                    .toString()),
                           ),
                         ],
                       ),
-
                       LegendWidget(
                           color: AppColors.seaBlue,
                           text: 'Cancelled Subscribers',
@@ -122,6 +122,7 @@ class SalesRevenueChart extends StatelessWidget {
       ],
     );
   }
+
   Color _getLegendColor(String key) {
     switch (key) {
       case 'Direct Sale':
@@ -241,7 +242,7 @@ class SalesRevenueChart extends StatelessWidget {
         show: true,
         drawHorizontalLine: true,
         drawVerticalLine: false,
-        horizontalInterval: Math.max((maxY - minY) / 2, 1),
+        horizontalInterval: Math.max((maxY - minY) / 3, 1),
         getDrawingHorizontalLine: (value) {
           return FlLine(
             color: AppColors.lines,
@@ -363,7 +364,7 @@ class SalesRevenueChart extends StatelessWidget {
             if (valuesToShow.contains(value)) {
               return Text(
                 formatValue(value),
-                style: const TextStyle(fontSize: 10, color: Colors.white),
+                style:  getTextTheme().bodyMedium?.copyWith(fontSize: 10, color: Colors.white),
               );
             }
             return Container(); // Hide other values
@@ -416,13 +417,13 @@ class SalesRevenueChart extends StatelessWidget {
 
                 return Text(
                   formatRange(range),
-                  style: const TextStyle(fontSize: 10, color: Colors.white),
+                  style: getTextTheme().bodyMedium?.copyWith(fontSize: 10, color: Colors.white),
                   textAlign: TextAlign.center,
                 );
               } else {
                 // If data length is greater than or equal to 5, show only 4 labels (first, last, and two equally spaced)
                 int step =
-                    (dataLength / 4).round(); // Dynamic step for 4 labels
+                    (dataLength / 3).round(); // Dynamic step for 4 labels
                 if (index == 0 || index == lastIndex || index % step == 0) {
                   String? range;
                   if (areaMap &&
@@ -443,7 +444,7 @@ class SalesRevenueChart extends StatelessWidget {
 
                   return Text(
                     formatRange(range),
-                    style: const TextStyle(fontSize: 10, color: Colors.white),
+                    style: getTextTheme().bodyMedium?.copyWith(fontSize: 10, color: Colors.white),
                     textAlign: TextAlign.center,
                   );
                 }
@@ -505,7 +506,7 @@ class SalesRevenueChart extends StatelessWidget {
 
             return LineTooltipItem(
               '', // Empty main text to use only children
-              TextStyle(
+              getTextTheme().bodyMedium!.copyWith(
                   fontSize: 12,
                   color: Colors.white,
                   fontWeight: FontWeight.bold),
