@@ -235,7 +235,7 @@ class _StoreSelectionWidgetState extends State<StoreSelectionWidget> {
   updateStoreList(List<int> selectedClientID,BuildContext context) {
     storesList.clear();
     if (selectedClientID.any((item) => item == -1) && storesList.isEmpty) {
-      storesList.add(StoreData(storeId: -1, storeName: "Select All"));
+      // storesList.add(StoreData(storeId: -1, storeName: "Select All"));
       widget.storeList.forEach((clientId, stores) {
         storesList.addAll(stores);
       });
@@ -243,7 +243,7 @@ class _StoreSelectionWidgetState extends State<StoreSelectionWidget> {
       if (!storesList
               .contains(StoreData(storeId: -1, storeName: "Select All")) &&
           selectedClientID.isNotEmpty) {
-        storesList.add(StoreData(storeId: -1, storeName: "Select All"));
+        // storesList.add(StoreData(storeId: -1, storeName: "Select All"));
       }
       var stores=context.read<DashBoardCubit>().state.permissions?.storesList;
       for (var item in selectedClientID) {

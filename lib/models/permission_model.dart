@@ -7,13 +7,39 @@ class PermissionResponse {
   PermissionResponse({this.permissions, this.clientsList, this.storesList, this.isMaster});
 
   factory PermissionResponse.fromJson(Map<String, dynamic> json) {
+    // Helper to add "Select All" to a list
+    List<T> addSelectAll<T>(List<T> list, T Function() createSelectAll) {
+      if (list.isNotEmpty) {
+        list.insert(0, createSelectAll());
+      }
+      return list;
+    }
+
     return PermissionResponse(
-      permissions: json['Permissions'] != null ? Permissions.fromJson(json['Permissions']) : null,
-      clientsList: (json['ClientsList'] as List?)?.map((v) => ClientsList.fromJson(v)).toList(),
-      storesList: json['StoresList'] != null
-          ? (json['StoresList'] as Map<String, dynamic>).map(
-              (key, value) => MapEntry(key, (value as List).map((e) => StoreData.fromJson(e)).toList()))
-          : null,
+      permissions: json['Permissions'] == null
+          ? null
+          : Permissions.fromJson(json['Permissions']),
+
+      // Add "Select All" for clientsList
+      clientsList: addSelectAll(
+          (json['ClientsList'] as List?)
+              ?.map((v) => ClientsList.fromJson(v))
+              .toList() ?? [],
+              () => ClientsList(clientId: -1, clientName: "Select All")
+      ),
+
+      // Add "Select All" for storesList
+      storesList: (json['StoresList'] as Map<String, dynamic>?)
+          ?.map((key, value) => MapEntry(
+          key,
+          addSelectAll(
+              (value as List)
+                  .map((e) => StoreData.fromJson(e))
+                  .toList(),
+                  () => StoreData(storeId: -1, storeName: "Select All")
+          )
+      )),
+
       isMaster: json['IsMaster'] as bool?,
     );
   }
