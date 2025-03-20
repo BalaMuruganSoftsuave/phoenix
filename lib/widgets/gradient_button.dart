@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:phoenix/helper/responsive_helper.dart';
 import 'package:phoenix/helper/utils.dart';
 
 class GradientButton extends StatelessWidget {
@@ -18,14 +19,14 @@ class GradientButton extends StatelessWidget {
       onTap: isLoading ? null : onPressed,
       child: Container(
         width: double.infinity,
-        padding: const EdgeInsets.symmetric(vertical: 14),
+        padding:  EdgeInsets.symmetric(vertical:  Responsive.screenH(context, 2)),
         decoration: BoxDecoration(
           gradient: const LinearGradient(
             colors: [Color(0xFFF0B351), Color(0xFFFF5EC8)],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
-          borderRadius: BorderRadius.circular(30),
+          borderRadius: BorderRadius.circular( Responsive.screenH(context, 4)),
         ),
         child: Center(
           child: isLoading
@@ -36,7 +37,7 @@ class GradientButton extends StatelessWidget {
                   translate(text),
                   style: getTextTheme().bodyMedium?.copyWith(
                       color: Colors.white,
-                      fontSize: 16,
+                      fontSize: Responsive.fontSize(context, 4),
                       fontWeight: FontWeight.bold),
                 ),
         ),

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:phoenix/helper/responsive_helper.dart';
 import 'package:phoenix/helper/utils.dart';
 
 class CustomTimePicker extends StatefulWidget {
@@ -59,8 +60,8 @@ class _CustomTimePickerState extends State<CustomTimePicker> {
       children: [
         // Hour Picker
         SizedBox(
-          width: 100,
-          height: 100,
+          width: Responsive.screenW(context, 15),
+          height: Responsive.screenW(context, 30),
           child: CupertinoPicker(
             useMagnifier: true,
             scrollController:
@@ -75,15 +76,15 @@ class _CustomTimePickerState extends State<CustomTimePicker> {
             children: List.generate(12, (index) {
               return Center(
                   child: Text('${index + 1}:00',
-                      style: getTextTheme().bodyMedium?.copyWith(fontSize: 20, color: Colors.white)));
+                      style: getTextTheme().bodyMedium?.copyWith(fontSize: Responsive.fontSize(context, 4), color: Colors.white)));
             }),
           ),
         ),
         SizedBox(width: 10),
         // AM/PM Picker
         SizedBox(
-          width: 80,
-          height: 100,
+          width: Responsive.screenW(context, 15),
+          height: Responsive.screenW(context, 30),
           child: CupertinoPicker(
             scrollController:
                 FixedExtentScrollController(initialItem: isAm ? 0 : 1),
@@ -97,10 +98,10 @@ class _CustomTimePickerState extends State<CustomTimePicker> {
             children:  [
               Center(
                   child: Text('AM',
-                      style: getTextTheme().bodyMedium?.copyWith(fontSize: 20, color: Colors.white))),
+                      style: getTextTheme().bodyMedium?.copyWith(fontSize: Responsive.fontSize(context, 4), color: Colors.white))),
               Center(
                   child: Text('PM',
-                      style: getTextTheme().bodyMedium?.copyWith(fontSize: 20, color: Colors.white))),
+                      style: getTextTheme().bodyMedium?.copyWith(fontSize:Responsive.fontSize(context, 4), color: Colors.white))),
             ],
           ),
         ),

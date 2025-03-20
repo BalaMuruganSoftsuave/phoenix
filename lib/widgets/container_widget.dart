@@ -40,7 +40,7 @@ class ContainerWidget extends StatelessWidget {
                   style: getTextTheme().titleSmall?.copyWith(
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
-                    fontSize: Responsive.fontSize(context, 4.8),
+                    fontSize: Responsive.fontSize(context, 4),
                   ),
                 ),
               ),

@@ -15,8 +15,9 @@ void showLogoutDialog(context, VoidCallback onConfirm) {
       return AlertDialog(
         elevation: 5,
         backgroundColor: AppColors.darkBg2,
+
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(Responsive.padding(context, 10)),
+          borderRadius: BorderRadius.circular(Responsive.boxW(context, DeviceType.isMobile(context)?10:5 )),
           side: BorderSide(color: AppColors.text)
         ),
         title: Text(
@@ -45,7 +46,7 @@ void showLogoutDialog(context, VoidCallback onConfirm) {
                   ),
                   padding: EdgeInsets.symmetric(
                     horizontal: Responsive.boxW(context, 5),
-                    vertical: Responsive.boxH(context, 2),
+                    vertical: Responsive.boxH(context, 1.5),
                   ),
                 ),
                 child: Text(
@@ -64,7 +65,7 @@ void showLogoutDialog(context, VoidCallback onConfirm) {
                   ),
                   padding: EdgeInsets.symmetric(
                     horizontal: Responsive.boxW(context, 5),
-                    vertical: Responsive.boxH(context, 2),
+                    vertical: Responsive.boxH(context, 1.5),
                   ),
                 ),
                 child: Text(

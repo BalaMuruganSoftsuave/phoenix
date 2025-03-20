@@ -40,7 +40,7 @@ class NotificationScreen extends StatelessWidget {
                       TextHelper.notification,
                       style: getTextTheme().bodyMedium?.copyWith(
                         fontWeight: FontWeight.bold,
-                        fontSize: 20,
+                      fontSize: Responsive.fontSize(context, 4),
                         color: AppColors.white,
                       ),
                     ),
@@ -57,17 +57,36 @@ class NotificationScreen extends StatelessWidget {
                           isDismissible: false,
                           context: context,
                           isScrollControlled: true,
+                          constraints: BoxConstraints(
+                            maxWidth: DeviceType.isTablet(context)
+                                ? MediaQuery.of(context).size.width
+                                : MediaQuery.of(context).size.width * 0.9,
+                          ),
+
                           shape: const RoundedRectangleBorder(
                             borderRadius: BorderRadius.vertical(
                                 top: Radius.circular(20)),
                           ),
                           backgroundColor: AppColors.darkBg2,
-                          builder: (context) =>
-                          const NotificationSettingsModal(),
+                          builder: (context) {
+                            return StatefulBuilder(
+                              builder: (context, setState) {
+                                return NotificationSettingsModal(); // Manage focus state internally
+                              },
+                            );
+                          },
                         );
                       }
                     },
-                    icon: Icon(Icons.settings, color: AppColors.subText),
+                    icon: Container(
+                      padding: EdgeInsets.all(Responsive.screenW(context, 2)),
+                        decoration: BoxDecoration(
+                          color: AppColors.darkBg2,
+                          borderRadius: BorderRadius.circular(Responsive.screenW(context, 2)),
+
+                        ),
+
+                        child: Icon(Icons.settings, color: AppColors.subText)),
                   ),
                 ],
               ),

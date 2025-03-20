@@ -161,7 +161,9 @@ class HomeScreen extends StatelessWidget {
                                     height: 62,
                                     title: TextHelper.salesRevenue,
                                     subTitle: Visibility(
-                                      visible: state.totalSalesRevenueReqState==ProcessState.success,
+                                      visible:
+                                          state.totalSalesRevenueReqState ==
+                                              ProcessState.success,
                                       child: Row(
                                         children: [
                                           Text(
@@ -170,19 +172,21 @@ class HomeScreen extends StatelessWidget {
                                                 .bodyMedium
                                                 ?.copyWith(
                                                     color: AppColors.grey,
-                                                    fontWeight: FontWeight.w600),
+                                                    fontWeight:
+                                                        FontWeight.w600),
                                           ),
                                           Text(
-                                            formatCurrency(calculateTotalSum(state
-                                                        .totalSalesRevenueData
-                                                        ?.result ??
-                                                    []))
+                                            formatCurrency(calculateTotalSum(
+                                                    state.totalSalesRevenueData
+                                                            ?.result ??
+                                                        []))
                                                 .toString(),
                                             style: getTextTheme()
                                                 .bodyMedium
                                                 ?.copyWith(
                                                     color: AppColors.white,
-                                                    fontWeight: FontWeight.w600),
+                                                    fontWeight:
+                                                        FontWeight.w600),
                                           ),
                                         ],
                                       ),
@@ -218,10 +222,13 @@ class HomeScreen extends StatelessWidget {
                                           child: Text(
                                             "Total Revenue",
                                             textAlign: TextAlign.center,
-                                            style: getTextTheme().bodyMedium?.copyWith(
-                                                color: AppColors.white,
-                                                fontSize: Responsive.fontSize(
-                                                    context, 3.5)),
+                                            style: getTextTheme()
+                                                .bodyMedium
+                                                ?.copyWith(
+                                                    color: AppColors.white,
+                                                    fontSize:
+                                                        Responsive.fontSize(
+                                                            context, 3.5)),
                                           )),
                                     ),
                                   ),
@@ -278,6 +285,17 @@ class HomeScreen extends StatelessWidget {
                                                             []),
                                                     barRadius: 3,
                                                     barSpace: -1,
+                                                    barWidth:
+                                                        DeviceType.isMobile(
+                                                                context)
+                                                            ? 30
+                                                            : 50,
+                                                    width: Responsive.screenW(
+                                                        context,
+                                                        !DeviceType.isMobile(
+                                                                context)
+                                                            ? 25
+                                                            : 30),
                                                   )),
                                     SizedBox(height: 20),
                                     ContainerWidget(
@@ -298,10 +316,23 @@ class HomeScreen extends StatelessWidget {
                                                             ?.subscriptionData ??
                                                         []),
                                                     barRadius: 30,
-                                                    barSpace: -30,
+                                                    barSpace:
+                                                        DeviceType.isMobile(
+                                                                context)
+                                                            ? -30
+                                                            : -50,
+                                                    barWidth:
+                                                        DeviceType.isMobile(
+                                                                context)
+                                                            ? 30
+                                                            : 50,
                                                     showBackDraw: true,
-                                                    width: Responsive.padding(
-                                                        context, 23),
+                                                    width: Responsive.screenW(
+                                                        context,
+                                                        !DeviceType.isMobile(
+                                                                context)
+                                                            ? 20
+                                                            : 25),
                                                   ))
                                   ],
                                 ],
@@ -317,6 +348,7 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
+
 
   String getSubtitle(int approvedOrders, double approvalPercentage) {
     return '$approvedOrders orders - ${approvalPercentage.toStringAsFixed(1)}% approval';

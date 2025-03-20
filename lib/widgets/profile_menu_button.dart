@@ -41,13 +41,16 @@ class ProfilePopupMenuState extends State<ProfilePopupMenu> {
             ),
           ),
           Positioned(
-            top: position.dy + Responsive.boxW(context, 15),
+            top: position.dy + Responsive.boxH(context, 8),
             right: Responsive.boxW(context, 8),
             child: Material(
               color: Colors.transparent,
               child: Container(
-                padding: EdgeInsets.symmetric(vertical: Responsive.boxH(context, 2), horizontal: Responsive.boxW(context, 5),),
-                width:Responsive.boxW(context, 40),
+                padding: EdgeInsets.symmetric(
+                  vertical: Responsive.boxH(context, 2),
+                  horizontal: Responsive.boxW(context, 5),
+                ),
+                width: Responsive.boxW(context, 40),
                 decoration: BoxDecoration(
                   color: Color(0xFF141E2D),
                   borderRadius: BorderRadius.circular(
@@ -140,7 +143,7 @@ class ProfilePopupMenuState extends State<ProfilePopupMenu> {
       },
       icon: Icon(
         Icons.account_circle,
-        size: Responsive.boxW(context, 10),
+        size: Responsive.boxW(context, DeviceType.isMobile(context) ? 10 : 6),
         color: Color(0xFFA3AED0), // subText color
       ),
     );

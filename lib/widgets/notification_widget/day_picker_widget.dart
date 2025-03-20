@@ -17,34 +17,33 @@ class DayPickerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Wrap(
-      spacing: 20,
-      runSpacing: 5,
-      children: weekDays.map((day) {
-        bool isSelected = selectedDay == day.id;
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 0),
+      child: Wrap(
+        spacing: 20,
+        runSpacing: 5,
+        children: weekDays.map((day) {
+          bool isSelected = selectedDay == day.id;
 
-        return GestureDetector(
-          onTap: () => onDaySelected(day.id??""),
-          child: Chip(
-            label: SizedBox(
-              width: 60,
-              height: 20,
-              child: Text(day.name??"",
+          return GestureDetector(
+            onTap: () => onDaySelected(day.id??""),
+            child: Chip(
+              label: Text(day.name??"",
               textAlign: TextAlign.center,
               style: getTextTheme().bodyMedium?.copyWith(
                 color: isSelected ? Colors.white : AppColors.text,
                 fontWeight: FontWeight.bold,
               ),
+                          ),
+              backgroundColor: isSelected ? AppColors.pink : AppColors.backgroundGrey,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+                side: isSelected ? BorderSide(color: AppColors.pink) : BorderSide(color: AppColors.borderColor),
+              ),
             ),
-            ),
-            backgroundColor: isSelected ? AppColors.pink : AppColors.backgroundGrey,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-              side: isSelected ? BorderSide(color: AppColors.pink) : BorderSide(color: AppColors.borderColor),
-            ),
-          ),
-        );
-      }).toList(),
+          );
+        }).toList(),
+      ),
     );
   }
 }

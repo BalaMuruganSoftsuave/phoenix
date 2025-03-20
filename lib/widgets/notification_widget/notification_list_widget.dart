@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phoenix/cubit/notification/notification_cubit.dart';
 import 'package:phoenix/helper/color_helper.dart';
 import 'package:phoenix/helper/dependency.dart';
+import 'package:phoenix/helper/responsive_helper.dart';
 import 'package:phoenix/helper/utils.dart';
 import 'package:phoenix/models/notification/notification_list_model.dart';
 import 'package:phoenix/widgets/gap/widgets/gap.dart';
@@ -146,7 +147,7 @@ class _NotificationListWidgetState extends State<NotificationListWidget> {
                 child: Text(
                   header,
                   style: getTextTheme().bodyLarge?.copyWith(
-                      fontSize: 16,
+                      fontSize: Responsive.fontSize(context, 4),
                       fontWeight: FontWeight.bold,
                       color: AppColors.subText),
                 ),
@@ -211,14 +212,14 @@ class _NotificationListWidgetState extends State<NotificationListWidget> {
                           padding: const EdgeInsets.only(top: 8.0),
                           child: const Icon(Icons.circle, color: Colors.green, size: 10),
                         ),
-                        const SizedBox(width: 10),
+                     Gap(Responsive.screenW(context,1.5)),
                         Flexible(
                           child: Column(crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
                                 notification.title ?? "",
                                 style: getTextTheme().bodyMedium?.copyWith(
-                                      fontSize: 14,
+                                  fontSize: Responsive.fontSize(context, 3.5),
                                       fontWeight: FontWeight.w600,
                                       color: Colors.white,
                                     ),
@@ -228,7 +229,7 @@ class _NotificationListWidgetState extends State<NotificationListWidget> {
                                 notification.body ?? "",
                                 style: getTextTheme()
                                     .bodyMedium
-                                    ?.copyWith(fontSize: 12, color: Colors.white),
+                                    ?.copyWith(fontSize: Responsive.fontSize(context, 3), color: Colors.white),
                               )
                             ],
                           ),
@@ -243,7 +244,7 @@ class _NotificationListWidgetState extends State<NotificationListWidget> {
                       timeAgo(notification.createdAt ?? ""),
                       style: getTextTheme()
                           .bodyMedium
-                          ?.copyWith(color: AppColors.grey, fontSize: 11),
+                          ?.copyWith(color: AppColors.grey, fontSize: Responsive.fontSize(context, 2.6),),
                     ),
                     Icon(
                       isExpanded
@@ -310,7 +311,7 @@ class SmallContainerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(10),
+      padding:  EdgeInsets.all(Responsive.padding(context, 2)),
       decoration: BoxDecoration(
         color: AppColors.darkBg2.withValues(alpha: 0.4),
         borderRadius: BorderRadius.circular(10),
@@ -323,13 +324,13 @@ class SmallContainerWidget extends StatelessWidget {
             text1,
             style: getTextTheme()
                 .bodyMedium
-                ?.copyWith(color: AppColors.text, fontSize: 12,fontWeight: FontWeight.w600),
+                ?.copyWith(color: AppColors.text, fontSize: Responsive.fontSize(context, 3),fontWeight: FontWeight.w600),
           ),
           Text(
             text2,
             style: getTextTheme()
                 .bodyMedium
-                ?.copyWith(color: Colors.white, fontSize: 14),
+                ?.copyWith(color: Colors.white, fontSize: Responsive.fontSize(context, 3),),
           ),
         ],
       ),

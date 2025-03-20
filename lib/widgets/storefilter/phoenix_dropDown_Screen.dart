@@ -5,6 +5,7 @@ import 'package:phoenix/cubit/dashboard/dashboard_state.dart';
 
 import 'package:phoenix/helper/color_helper.dart';
 import 'package:phoenix/helper/font_helper.dart';
+import 'package:phoenix/helper/responsive_helper.dart';
 import 'package:phoenix/helper/utils.dart';
 import 'package:phoenix/models/permission_model.dart';
 import 'package:phoenix/screens/dashboard.dart';
@@ -98,10 +99,12 @@ class _ClientStoreFilterWidgetState extends State<ClientStoreFilterWidget> {
         }
       },
       child: Container(
-          padding: EdgeInsets.symmetric(vertical: 8, horizontal: 5),
+          margin: EdgeInsets.symmetric(horizontal: Responsive.screenW(context, 1)),
+          padding:
+          EdgeInsets.symmetric(vertical: Responsive.screenH(context, 1), horizontal: Responsive.screenW(context, 3)),
           decoration: BoxDecoration(
             color: Color(0xFF141E2D),
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular( Responsive.screenW(context, 4)),
             border: Border.all(color: Color(0xFFA3AED0).withValues(alpha: 0.4)),
           ),
           child: Icon(
@@ -194,7 +197,7 @@ class _StoreSelectionWidgetState extends State<StoreSelectionWidget> {
                 items: storesList
                     .map((i) => CustomDropDownMenuItem(
                         id: i.storeId!, name: i.storeName!))
-                    .toList(),
+                    .toSet().toList(),
                 onSelection: (selectedItems) {
                   selectedStoreID.clear();
                   for (var i in selectedItems) {
@@ -235,7 +238,7 @@ class _StoreSelectionWidgetState extends State<StoreSelectionWidget> {
   updateStoreList(List<int> selectedClientID,BuildContext context) {
     storesList.clear();
     if (selectedClientID.any((item) => item == -1) && storesList.isEmpty) {
-      // storesList.add(StoreData(storeId: -1, storeName: "Select All"));
+      storesList.add(StoreData(storeId: -1, storeName: "Select All"));
       widget.storeList.forEach((clientId, stores) {
         storesList.addAll(stores);
       });
@@ -243,7 +246,7 @@ class _StoreSelectionWidgetState extends State<StoreSelectionWidget> {
       if (!storesList
               .contains(StoreData(storeId: -1, storeName: "Select All")) &&
           selectedClientID.isNotEmpty) {
-        // storesList.add(StoreData(storeId: -1, storeName: "Select All"));
+        storesList.add(StoreData(storeId: -1, storeName: "Select All"));
       }
       var stores=context.read<DashBoardCubit>().state.permissions?.storesList;
       for (var item in selectedClientID) {

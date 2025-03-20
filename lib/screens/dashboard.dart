@@ -62,6 +62,7 @@ class _DashboardState extends State<Dashboard> {
           Responsive.boxH(context, 8),
         ),
         child: AppBar(
+          scrolledUnderElevation: 0, // Disable shadow on scroll
           backgroundColor: AppColors.darkBg,
           centerTitle: false,
           title: SvgPicture.asset(

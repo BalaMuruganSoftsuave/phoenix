@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:phoenix/helper/responsive_helper.dart';
 import 'package:phoenix/helper/utils.dart';
 
 class SingleSelectionDropDown extends StatefulWidget {
@@ -153,18 +154,21 @@ class _SingleSelectionDropDownState extends State<SingleSelectionDropDown> {
             onTap: widget.readOnly
                 ? null
                 : () {
-              if (widget.onTap != null) {
-                widget.onTap!();
-              }
-              _handleTap(context);
-            },
+                    if (widget.onTap != null) {
+                      widget.onTap!();
+                    }
+                    _handleTap(context);
+                  },
             child: Container(
               key: _key,
-              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
+              padding: EdgeInsets.symmetric(
+                vertical: Responsive.screenH(context, 1.5),
+                horizontal: Responsive.screenW(context, 3),
+              ),
               decoration: BoxDecoration(
                 color: widget.isEnabled
                     ? Color(0xFF0B111A)
-                    : Colors.grey.withOpacity(0.5),
+                    : Colors.grey.withValues(alpha: 0.5),
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(
                   color: (widget.showError && _hasInteracted)
@@ -178,31 +182,31 @@ class _SingleSelectionDropDownState extends State<SingleSelectionDropDown> {
                   RichText(
                     text: TextSpan(
                       text: selectedKey == null ? widget.hitText ?? '' : '',
-                      style:  getTextTheme().bodyMedium?.copyWith(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
-                        color: Color(0xFFA3AED0),
-                      ),
+                      style: getTextTheme().bodyMedium?.copyWith(
+                            fontSize: Responsive.fontSize(context, 3),
+                            fontWeight: FontWeight.w400,
+                            color: Color(0xFFA3AED0),
+                          ),
                       children: selectedKey != null
                           ? [
-                        TextSpan(
-                          text: widget.items
-                              .firstWhere(
-                                  (e) => e.id == selectedKey,
-                              orElse: () => CustomDataItems(id: '', name: ''))
-                              .name,
-                          style:  getTextTheme().bodyMedium?.copyWith(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white,
-                          ),
-                        )
-                      ]
+                              TextSpan(
+                                text: widget.items
+                                    .firstWhere((e) => e.id == selectedKey,
+                                        orElse: () =>
+                                            CustomDataItems(id: '', name: ''))
+                                    .name,
+                                style: getTextTheme().bodyMedium?.copyWith(
+                                      fontSize: Responsive.fontSize(context, 3),
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.white,
+                                    ),
+                              )
+                            ]
                           : [],
                     ),
                   ),
                   const Icon(Icons.keyboard_arrow_down_rounded,
-                      size: 30, color: Color(0xFFA3AED0)),
+                      color: Color(0xFFA3AED0)),
                 ],
               ),
             ),
@@ -213,11 +217,11 @@ class _SingleSelectionDropDownState extends State<SingleSelectionDropDown> {
             padding: const EdgeInsets.only(top: 8, left: 16),
             child: Text(
               widget.errorText!,
-              style:  getTextTheme().bodyMedium?.copyWith(
-                fontSize: 12,
-                fontWeight: FontWeight.w400,
-                color: Colors.red,
-              ),
+              style: getTextTheme().bodyMedium?.copyWith(
+                    fontSize: Responsive.fontSize(context, 3),
+                    fontWeight: FontWeight.w400,
+                    color: Colors.red,
+                  ),
             ),
           ),
       ],
@@ -228,7 +232,6 @@ class _SingleSelectionDropDownState extends State<SingleSelectionDropDown> {
     return OverlayEntry(
       builder: (context) {
         return Stack(
-
           children: [
             Positioned.fill(
               child: GestureDetector(
@@ -240,7 +243,7 @@ class _SingleSelectionDropDownState extends State<SingleSelectionDropDown> {
             Positioned(
               // left: buttonPosition.dx-40,
               // top: buttonPosition.dy + buttonSize.height,
-              width: MediaQuery.sizeOf(context).width*0.4,
+              width: MediaQuery.sizeOf(context).width * 0.4,
               child: CompositedTransformFollower(
                 link: link,
                 followerAnchor: Alignment.topRight,
@@ -253,30 +256,41 @@ class _SingleSelectionDropDownState extends State<SingleSelectionDropDown> {
                       maxHeight: widget.maxHeight ?? 200,
                     ),
                     child: ListView.builder(
-                      padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                      padding: EdgeInsets.symmetric(
+                        vertical: Responsive.screenH(context, 1.5),
+                        horizontal: Responsive.screenW(context, 3),
+                      ),
                       itemCount: _filteredItems.length,
                       itemBuilder: (context, index) {
                         final item = _filteredItems[index];
-                        return InkWell(
-                          onTap: () {
-                            setState(() {
-                              selectedKey = item.id;
-                            });
-                            widget.onSelection(item);
-                            closeMenu();
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 12),
-                            child: Text(
-                              item.name,
-                              style: getTextTheme().bodyMedium?.copyWith(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.black,
+                        return  Column(
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                setState(() {
+                                  selectedKey = item.id;
+                                });
+                                widget.onSelection(item);
+                                closeMenu();
+                              },
+                              child: SizedBox(
+                                width: double.infinity,
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 12),
+                                  child: Text(
+                                    item.name,
+                                    textAlign: TextAlign.center,
+                                    style: getTextTheme().bodyMedium?.copyWith(
+                                          fontSize: Responsive.fontSize(context, 3),
+                                          fontWeight: FontWeight.w400,
+                                          color: Colors.black,
+                                        ),
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
+                            Divider()
+                          ],
                         );
                       },
                     ),
@@ -290,7 +304,6 @@ class _SingleSelectionDropDownState extends State<SingleSelectionDropDown> {
     );
   }
 }
-
 
 class CustomDataItems {
   String? id;

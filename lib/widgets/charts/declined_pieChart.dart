@@ -1,10 +1,13 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:phoenix/helper/color_helper.dart';
 import 'package:phoenix/models/dashboard/detail_chart_data_model.dart';
+import 'package:phoenix/widgets/charts/legend_widget.dart';
+import 'package:phoenix/widgets/container_widget.dart';
 import 'package:phoenix/widgets/custom_single_selection_dropdown.dart';
+import 'package:phoenix/widgets/legend_widget.dart';
 import 'package:phoenix/widgets/loader.dart';
 
-import '../../helper/color_helper.dart';
 import '../../helper/dependency.dart';
 import '../../helper/responsive_helper.dart';
 import '../../helper/utils.dart';
@@ -35,7 +38,7 @@ class _PieChartWidgetState extends State<PieChartWidget> {
   Widget build(BuildContext context) {
     // ✅ Separate All and Cancelled Data
     List<DetailChartDeclinedBreakDownDataResult> filteredData =
-    widget.data.where((entry) {
+        widget.data.where((entry) {
       if (selectedFilter == "Cancelled") {
         return entry.cancelled == 1;
       } else {
@@ -58,29 +61,23 @@ class _PieChartWidgetState extends State<PieChartWidget> {
     }
 
     List<MapEntry<String, int>> entries =
-    chartData.entries.where((entry) => entry.value > 0).toList();
+        chartData.entries.where((entry) => entry.value > 0).toList();
 
-    return Container(
-      padding: EdgeInsets.all(Responsive.padding(context, 3)),
-      decoration: BoxDecoration(
-        color: AppColors.darkBg2,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.grey2),
-      ),
-      child: Column(
+    return ContainerWidget(
+      title: widget.title,
+      childWidget: (widget.data.isNotEmpty) ? _buildDropdown() : null,
+      widget: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildTitle(widget.title),
-          const SizedBox(height: 10),
           if (widget.isLoading)
             const Center(child: Loader())
           else if (entries.isEmpty)
             const Center(child: Text("No data available"))
           else ...[
-              _buildChart(entries, total),
-              const SizedBox(height: 10),
-              _buildLegend(entries, total),
-            ],
+            _buildChart(entries, total),
+            const SizedBox(height: 10),
+            _buildLegend(entries, total),
+          ],
         ],
       ),
     );
@@ -92,11 +89,11 @@ class _PieChartWidgetState extends State<PieChartWidget> {
       children: [
         Text(
           translate(title),
-          style:  getTextTheme().bodyMedium?.copyWith(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
+          style: getTextTheme().bodyMedium?.copyWith(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
         ),
         if (widget.data.isNotEmpty) _buildDropdown(),
       ],
@@ -106,7 +103,8 @@ class _PieChartWidgetState extends State<PieChartWidget> {
   // ✅ Dropdown Filter
   Widget _buildDropdown() {
     return SingleSelectionDropDown(
-      maxHeight: 100,
+      maxHeight:
+          Responsive.screenH(context, DeviceType.isMobile(context) ? 15 : 12),
       initiallySelectedKey: selectedFilter,
       items: ["All", "Cancelled"].map((String value) {
         return CustomDataItems(
@@ -116,7 +114,7 @@ class _PieChartWidgetState extends State<PieChartWidget> {
       }).toList(),
       onSelection: (value) {
         setState(() {
-          selectedFilter = value.id??"";
+          selectedFilter = value.id ?? "";
         });
       },
       // dropdownColor: AppColors.darkBg2,
@@ -125,28 +123,25 @@ class _PieChartWidgetState extends State<PieChartWidget> {
 
   // ✅ Generate Pie Chart
   Widget _buildChart(List<MapEntry<String, int>> entries, int total) {
-    colors = widget.data.isNotEmpty
-        ? generateRandomColors(widget.data.length)
-        : [];
+    colors =
+        widget.data.isNotEmpty ? generateRandomColors(widget.data.length) : [];
 
     return Stack(
       alignment: Alignment.center,
       children: [
         SizedBox(
-          height: Responsive.screenH(context, 30),
+          height: Responsive.screenH(context, 40),
           child: PieChart(
             PieChartData(
-
               pieTouchData: PieTouchData(
-
-                touchCallback: (FlTouchEvent event,
-                    PieTouchResponse? pieTouchResponse) {
+                touchCallback:
+                    (FlTouchEvent event, PieTouchResponse? pieTouchResponse) {
                   setState(() {
                     if (event is FlTapUpEvent || event is FlTapDownEvent) {
                       if (pieTouchResponse != null &&
                           pieTouchResponse.touchedSection != null) {
                         touchedIndex = pieTouchResponse
-                            .touchedSection?.touchedSectionIndex ??
+                                .touchedSection?.touchedSectionIndex ??
                             -1;
                         tooltipPosition = event.localPosition!;
                       } else {
@@ -156,10 +151,9 @@ class _PieChartWidgetState extends State<PieChartWidget> {
                   });
                 },
               ),
-
               sections: _generatePieSections(entries, total),
               borderData: FlBorderData(show: false),
-              centerSpaceRadius: 40,
+              centerSpaceRadius:DeviceType.isMobile(context)? 40:80,
               sectionsSpace: 0,
             ),
           ),
@@ -170,7 +164,7 @@ class _PieChartWidgetState extends State<PieChartWidget> {
             entries[touchedIndex].value,
             total > 0
                 ? ((entries[touchedIndex].value / total) * 100)
-                .toStringAsFixed(1)
+                    .toStringAsFixed(1)
                 : "0",
             tooltipPosition,
           ),
@@ -182,7 +176,7 @@ class _PieChartWidgetState extends State<PieChartWidget> {
       List<MapEntry<String, int>> entries, int total) {
     return List.generate(entries.length, (index) {
       final isTouched = index == touchedIndex;
-      final radius = isTouched ? 65 : 60;
+      final radius = isTouched ? DeviceType.isMobile(context)? 65:120 : DeviceType.isMobile(context)? 60:100;
       final entry = entries[index];
 
       return PieChartSectionData(
@@ -198,17 +192,20 @@ class _PieChartWidgetState extends State<PieChartWidget> {
   Widget _buildTooltip(
       String label, int value, String percentage, Offset position) {
     return Positioned(
-      left: position.dx  ,
-      top: position.dy  , // Center vertically
+      left: position.dx,
+      top: position.dy, // Center vertically
       child: Container(
         padding: const EdgeInsets.all(6),
         decoration: BoxDecoration(
-          color: Colors.black87,
+          color: AppColors.darkBg,
+          border: Border.all(color: AppColors.text),
           borderRadius: BorderRadius.circular(6),
         ),
         child: Text(
           "$label\n$value ($percentage%)",
-          style:  getTextTheme().bodyMedium?.copyWith(color: Colors.white, fontSize: 12),
+          style: getTextTheme()
+              .bodyMedium
+              ?.copyWith(color: Colors.white, fontSize: Responsive.fontSize(context, 3),),
           textAlign: TextAlign.center,
         ),
       ),
@@ -219,7 +216,7 @@ class _PieChartWidgetState extends State<PieChartWidget> {
   Widget _buildLegend(List<MapEntry<String, int>> entries, int total) {
     entries.sort((a, b) => b.value.compareTo(a.value));
 
-  return SingleChildScrollView(
+    return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -228,56 +225,8 @@ class _PieChartWidgetState extends State<PieChartWidget> {
               ? double.parse((entry.value / total * 100).toStringAsFixed(2))
               : 0.0;
           return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 5),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start, // ✅ Align items to the start
-              children: [
-                // ✅ Color and Text on Top
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Container(
-                      width: 12,
-                      height:30,
-                      margin: const EdgeInsets.only(right: 6),
-                      decoration: BoxDecoration(
-                        color: _getColor(entries.indexOf(entry)),
-                        shape: BoxShape.circle,
-                      ),
-                    ),
-                    Text(
-                      entry.key,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 4),
-                // ✅ Value and Percentage aligned to the start
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center, // Align to start
-                  children: [
-                    Text(
-                      "     ${entry.value} ",
-                      style: const TextStyle(
-                        color: Colors.white70,
-                        fontSize: 10,
-                      ),
-                    ),
-                    Text(
-                      "($percentage%)",
-                      style: const TextStyle(
-                        color: Colors.white70,
-                        fontSize: 10,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
+            padding: const EdgeInsets.only(right: 8.0),
+            child: LegendWidget(text:  entry.key,subText:  "${entry.value} ($percentage%)", color: _getColor(entries.indexOf(entry))),
           );
         }).toList(),
       ),

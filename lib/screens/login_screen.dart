@@ -9,6 +9,7 @@ import 'package:phoenix/helper/dependency.dart';
 import 'package:phoenix/helper/dialog_helper.dart';
 import 'package:phoenix/helper/enum_helper.dart';
 import 'package:phoenix/helper/nav_helper.dart';
+import 'package:phoenix/helper/responsive_helper.dart';
 import 'package:phoenix/helper/text_helper.dart';
 import 'package:phoenix/helper/utils.dart';
 import 'package:phoenix/widgets/gradient_button.dart';
@@ -23,40 +24,60 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController userNameController = TextEditingController();
-
   final TextEditingController passwordController = TextEditingController();
+  final FocusNode usernameFocusNode = FocusNode();
+  final FocusNode passwordFocusNode = FocusNode();
+  final GlobalKey<FormState> _formKey = GlobalKey();
 
-final GlobalKey<FormState> _formKey= GlobalKey();
+  @override
+  void initState() {
+    super.initState();
+    // Set initial focus to username field
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      FocusScope.of(context).requestFocus(usernameFocusNode);
+    });
+  }
+
+  @override
+  void dispose() {
+    userNameController.dispose();
+    passwordController.dispose();
+    usernameFocusNode.dispose();
+    passwordFocusNode.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.darkBg,
       resizeToAvoidBottomInset: false, // Prevents auto resizing issues
-      body: SafeArea(
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            return SingleChildScrollView(
-              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-              child: ConstrainedBox(
-                constraints: BoxConstraints(minHeight: constraints.maxHeight),
-                child: IntrinsicHeight(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                    child: Form(
-                      key: _formKey,
-                      child: Column(
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: SafeArea(
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              return SingleChildScrollView(
+                keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                  child: IntrinsicHeight(
+                    child: Padding(
+                      padding:  EdgeInsets.symmetric(horizontal: Responsive.padding(context, 3)),
+                      child: Form(
+                        key: _formKey,
+                        child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const SizedBox(height: 80),
+                           SizedBox(height: Responsive.screenH(context, 10)),
                           Center(
                             child: SvgPicture.asset(
                               Assets.imagesPhoenixLogo,
-                              height: 100,
-                              width: 100,
+                              height:  Responsive.screenH(context, 10),
+                              width:  Responsive.screenH(context, 10),
                             ),
                           ),
-                          const SizedBox(height: 40),
+                           SizedBox(height:  Responsive.screenH(context, 10)),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -66,15 +87,19 @@ final GlobalKey<FormState> _formKey= GlobalKey();
                                       .toString()
                                       .trim(),
                                   style: getTextTheme().bodyMedium?.copyWith(
-                                      fontSize: 16, color: AppColors.white),
+                                      fontSize: Responsive.fontSize(context, 4), color: AppColors.white),
                                 ),
-                                const SizedBox(height: 8),
+                                SizedBox(height:  Responsive.screenH(context, 1)),
                                 CustomTextFormField(
                                   hintText: translate(TextHelper.userName),
                                   labelText: translate(TextHelper.userName),
                                   controller: userNameController,
+                                  focusNode: usernameFocusNode,
                                   keyboardType: TextInputType.emailAddress,
                                   textInputAction: TextInputAction.next,
+                                  onFieldSubmitted: (_) {
+                                    FocusScope.of(context).requestFocus(passwordFocusNode);
+                                  },
                                   validator: (value) {
                                     if (value!.isEmpty) {
                                       return translate(TextHelper.pleaseEnterUsername);
@@ -82,21 +107,27 @@ final GlobalKey<FormState> _formKey= GlobalKey();
                                     return null;
                                   },
                                 ),
-                                const SizedBox(height: 16),
+                                SizedBox(height:  Responsive.screenH(context, 3)),
                                 Text(
                                   translate(TextHelper.password)
                                       .toString()
                                       .trim(),
                                   style: getTextTheme().bodyMedium?.copyWith(
-                                      fontSize: 16, color: AppColors.white),
+                                      fontSize: Responsive.fontSize(context, 4), color: AppColors.white),
                                 ),
-                                const SizedBox(height: 8),
+                                SizedBox(height:  Responsive.screenH(context, 1)),
                                 CustomTextFormField(
                                   hintText: translate(TextHelper.password),
                                   labelText: translate(TextHelper.password),
                                   controller: passwordController,
+                                  focusNode: passwordFocusNode,
                                   isPassword: true,
                                   textInputAction: TextInputAction.done,
+                                  onFieldSubmitted: (_) {
+                                    if (_formKey.currentState!.validate()) {
+                                      context.read<AuthCubit>().login(context, userNameController.text, passwordController.text);
+                                    }
+                                  },
                                   validator: (value) {
                                     if (value!.isEmpty) {
                                       return translate(TextHelper.pleaseEnterPassword);
@@ -107,7 +138,7 @@ final GlobalKey<FormState> _formKey= GlobalKey();
                               ],
                             ),
                           ),
-                          const SizedBox(height: 20),
+                          SizedBox(height:  Responsive.screenH(context, 3)),
                           BlocConsumer<AuthCubit, AuthState>(
                             listenWhen: (oldState, newState) =>
                                 oldState.authState != newState.authState,
@@ -122,7 +153,7 @@ final GlobalKey<FormState> _formKey= GlobalKey();
                                 oldState.authState != newState.authState,
                             builder: (context, state) {
                               return Padding(
-                                padding: const EdgeInsets.only(bottom: 30.0),
+                                padding:  EdgeInsets.only(bottom:    Responsive.screenH(context, 3)),
                                 child: GradientButton(
                                   isLoading:
                                       state.authState == ProcessState.loading,
@@ -148,6 +179,6 @@ final GlobalKey<FormState> _formKey= GlobalKey();
           },
         ),
       ),
-    );
+    ));
   }
 }

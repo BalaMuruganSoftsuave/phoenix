@@ -4,6 +4,7 @@ import 'package:phoenix/helper/color_helper.dart';
 import 'package:phoenix/helper/font_helper.dart';
 import 'package:phoenix/helper/responsive_helper.dart';
 import 'package:phoenix/helper/utils.dart';
+import 'package:phoenix/widgets/gap/widgets/gap.dart';
 import 'package:phoenix/widgets/shimmer.dart';
 
 class GlowingCard extends StatelessWidget {
@@ -39,7 +40,7 @@ class GlowingCard extends StatelessWidget {
         ),
         decoration: BoxDecoration(
           color: const Color(0xFF141E2D), // Background color
-          borderRadius: BorderRadius.circular(Responsive.padding(context, 7)),
+          borderRadius: BorderRadius.circular(Responsive.padding(context, 5)),
           boxShadow: [
            BoxShadow(
               color: Colors.black.withValues(alpha: 0.2),
@@ -49,6 +50,7 @@ class GlowingCard extends StatelessWidget {
           ],
         ),
         child: Row(
+
           children: [
             // Circle with Glow Effect
             Container(
@@ -80,6 +82,7 @@ class GlowingCard extends StatelessWidget {
             // Text Column
             Expanded(
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   isLoading
@@ -88,9 +91,12 @@ class GlowingCard extends StatelessWidget {
                           width: Responsive.boxW(context, 30))
                       : Text(translate(title),
                           style: getTextTheme().bodyMedium?.copyWith(
-                              fontSize: Responsive.fontSize(context, 3),
+                              fontSize: Responsive.fontSize(context, 3.5),
                               color: AppColors.subText,
                               fontWeight: FontHelper.semiBold)),
+                  Gap(
+                Responsive.boxW(context,2),
+                  ),
                   isLoading
                       ? Padding(
                         padding: const EdgeInsets.only(top: 8.0),

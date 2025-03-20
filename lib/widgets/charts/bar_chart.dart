@@ -14,6 +14,7 @@ class BarChartWidget extends StatelessWidget {
   final double barRadius;
   final double? width;
   final double barSpace;
+  final double barWidth;
   final bool showBackDraw;
   final bool showAllRods;
   final bool isLegendRequired;
@@ -28,6 +29,7 @@ class BarChartWidget extends StatelessWidget {
     this.isLegendRequired = true,
     required this.barSpace,
     this.width = 120,
+    this.barWidth = 30,
   });
 
   Widget leftTitles(double value, TitleMeta meta) {
@@ -125,7 +127,7 @@ class BarChartWidget extends StatelessWidget {
                         sideTitles: SideTitles(
                           showTitles: true,
                           getTitlesWidget: leftTitles,
-                          reservedSize: 40, // Ensures enough space for numbers
+                          reservedSize: Responsive.screenW(context, 10), // Ensures enough space for numbers
                           interval: 20, // Show labels at 0, 20, 40, 60, 80, 100
                         ),
                       ),
@@ -146,7 +148,7 @@ class BarChartWidget extends StatelessWidget {
                             color: Colors.white, // Border color
                             width: 0.5, // Thin border
                           ),
-                          maxContentWidth: Responsive.boxW(context, 50),
+                          maxContentWidth: Responsive.boxW(context, 80),
                           tooltipRoundedRadius: 10,
 
                           tooltipPadding: const EdgeInsets.symmetric(
@@ -177,7 +179,7 @@ class BarChartWidget extends StatelessWidget {
                                 TextSpan(
                                   text: '$label: ',
                                   style: getTextTheme().bodyMedium?.copyWith(
-                                      fontSize: 12,
+                                      fontSize: Responsive.fontSize(context, 3),
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold),
                                 ),
@@ -187,7 +189,7 @@ class BarChartWidget extends StatelessWidget {
                                 TextSpan(
                                   text: '\$${value.toStringAsFixed(2)} ',
                                   style: getTextTheme().bodyMedium?.copyWith(
-                                      fontSize: 12,
+                                      fontSize: Responsive.fontSize(context, 3),
                                       color: color,
                                       fontWeight: FontWeight.bold),
                                 ),
@@ -196,7 +198,7 @@ class BarChartWidget extends StatelessWidget {
                                   TextSpan(
                                     text: '(${percentage.toStringAsFixed(2)}%)\n',
                                     style: getTextTheme().bodyMedium?.copyWith(
-                                        fontSize: 12,
+                                        fontSize: Responsive.fontSize(context, 3),
                                         color: Colors.grey[300],
                                         fontWeight: FontWeight.bold),
                                   ),
@@ -207,7 +209,7 @@ class BarChartWidget extends StatelessWidget {
                                   TextSpan(
                                     text: '${percentage.toStringAsFixed(1)}%\n',
                                     style: getTextTheme().bodyMedium?.copyWith(
-                                        fontSize: 12,
+                                        fontSize: Responsive.fontSize(context, 3),
                                         color: color,
                                         fontWeight: FontWeight.bold),
                                   ),
@@ -226,7 +228,7 @@ class BarChartWidget extends StatelessWidget {
                               TextSpan(
                                 text: '\n$range',
                                 style: getTextTheme().bodyMedium?.copyWith(
-                                    fontSize: 14,
+                                    fontSize: Responsive.fontSize(context, 3),
                                     color: AppColors.subText,
                                     fontWeight: FontWeight.bold),
                               ),
@@ -236,7 +238,8 @@ class BarChartWidget extends StatelessWidget {
                               textAlign: TextAlign.start,
                               '', // Empty title
                               getTextTheme().bodyMedium!.copyWith(
-                                  fontSize: 12,
+                                  fontSize: Responsive.fontSize(context, 3),
+
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold),
                               children:
@@ -291,7 +294,7 @@ class BarChartWidget extends StatelessWidget {
                             toY: entry.value,
                             // Ensures bars start from the x-axis
                             color: getColorForLabel(entry.key),
-                            width: 30,
+                            width: barWidth,
                             borderRadius: (isBottomBar)
                                 ? BorderRadius.only(
                                     topLeft: Radius.circular(0),

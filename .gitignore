@@ -75,3 +75,603 @@ app.*.map.json
 /windows/flutter/ephemeral/.plugin_symlinks/connectivity_plus/
 /windows/flutter/ephemeral/.plugin_symlinks/firebase_core/
 /linux/flutter/ephemeral/.plugin_symlinks/flutter_local_notifications_linux/
+/ios/Pods/FirebaseCoreInternal/FirebaseCore/Internal/Sources/HeartbeatLogging/_ObjC_HeartbeatController.swift
+/ios/Pods/FirebaseCoreInternal/FirebaseCore/Internal/Sources/HeartbeatLogging/_ObjC_HeartbeatsPayload.swift
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCCTLibrary/Protogen/nanopb/cct.nanopb.c
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCCTLibrary/Protogen/nanopb/cct.nanopb.h
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCCTLibrary/Protogen/nanopb/client_metrics.nanopb.c
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCCTLibrary/Protogen/nanopb/client_metrics.nanopb.h
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCCTLibrary/Protogen/nanopb/compliance.nanopb.c
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCCTLibrary/Protogen/nanopb/compliance.nanopb.h
+/ios/.symlinks/plugins/connectivity_plus/
+/ios/Pods/Target Support Files/connectivity_plus/connectivity_plus.debug.xcconfig
+/ios/Pods/Target Support Files/connectivity_plus/connectivity_plus.modulemap
+/ios/Pods/Local Podspecs/connectivity_plus.podspec.json
+/ios/Pods/Target Support Files/connectivity_plus/connectivity_plus.release.xcconfig
+/ios/Pods/Pods.xcodeproj/xcuserdata/softsuave.xcuserdatad/xcschemes/connectivity_plus.xcscheme
+/ios/Pods/Pods.xcodeproj/xcuserdata/softsuave.xcuserdatad/xcschemes/connectivity_plus-connectivity_plus_privacy.xcscheme
+/ios/Pods/Target Support Files/connectivity_plus/connectivity_plus-dummy.m
+/ios/Pods/Target Support Files/connectivity_plus/connectivity_plus-Info.plist
+/ios/Pods/Target Support Files/connectivity_plus/connectivity_plus-prefix.pch
+/ios/Pods/Target Support Files/connectivity_plus/connectivity_plus-umbrella.h
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCCTLibrary/Protogen/nanopb/external_prequest_context.nanopb.c
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCCTLibrary/Protogen/nanopb/external_prequest_context.nanopb.h
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCCTLibrary/Protogen/nanopb/external_privacy_context.nanopb.c
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCCTLibrary/Protogen/nanopb/external_privacy_context.nanopb.h
+/ios/Pods/PromisesObjC/Sources/FBLPromises/include/FBLPromise+All.h
+/ios/Pods/PromisesObjC/Sources/FBLPromises/FBLPromise+All.m
+/ios/Pods/PromisesObjC/Sources/FBLPromises/include/FBLPromise+Always.h
+/ios/Pods/PromisesObjC/Sources/FBLPromises/FBLPromise+Always.m
+/ios/Pods/PromisesObjC/Sources/FBLPromises/include/FBLPromise+Any.h
+/ios/Pods/PromisesObjC/Sources/FBLPromises/FBLPromise+Any.m
+/ios/Pods/PromisesObjC/Sources/FBLPromises/include/FBLPromise+Async.h
+/ios/Pods/PromisesObjC/Sources/FBLPromises/FBLPromise+Async.m
+/ios/Pods/PromisesObjC/Sources/FBLPromises/include/FBLPromise+Await.h
+/ios/Pods/PromisesObjC/Sources/FBLPromises/FBLPromise+Await.m
+/ios/Pods/PromisesObjC/Sources/FBLPromises/include/FBLPromise+Catch.h
+/ios/Pods/PromisesObjC/Sources/FBLPromises/FBLPromise+Catch.m
+/ios/Pods/PromisesObjC/Sources/FBLPromises/include/FBLPromise+Delay.h
+/ios/Pods/PromisesObjC/Sources/FBLPromises/FBLPromise+Delay.m
+/ios/Pods/PromisesObjC/Sources/FBLPromises/include/FBLPromise+Do.h
+/ios/Pods/PromisesObjC/Sources/FBLPromises/FBLPromise+Do.m
+/ios/Pods/PromisesObjC/Sources/FBLPromises/include/FBLPromise+Race.h
+/ios/Pods/PromisesObjC/Sources/FBLPromises/FBLPromise+Race.m
+/ios/Pods/PromisesObjC/Sources/FBLPromises/include/FBLPromise+Recover.h
+/ios/Pods/PromisesObjC/Sources/FBLPromises/FBLPromise+Recover.m
+/ios/Pods/PromisesObjC/Sources/FBLPromises/include/FBLPromise+Reduce.h
+/ios/Pods/PromisesObjC/Sources/FBLPromises/FBLPromise+Reduce.m
+/ios/Pods/PromisesObjC/Sources/FBLPromises/include/FBLPromise+Retry.h
+/ios/Pods/PromisesObjC/Sources/FBLPromises/FBLPromise+Retry.m
+/ios/Pods/PromisesObjC/Sources/FBLPromises/include/FBLPromise+Testing.h
+/ios/Pods/PromisesObjC/Sources/FBLPromises/FBLPromise+Testing.m
+/ios/Pods/PromisesObjC/Sources/FBLPromises/include/FBLPromise+Then.h
+/ios/Pods/PromisesObjC/Sources/FBLPromises/FBLPromise+Then.m
+/ios/Pods/PromisesObjC/Sources/FBLPromises/include/FBLPromise+Timeout.h
+/ios/Pods/PromisesObjC/Sources/FBLPromises/FBLPromise+Timeout.m
+/ios/Pods/PromisesObjC/Sources/FBLPromises/include/FBLPromise+Validate.h
+/ios/Pods/PromisesObjC/Sources/FBLPromises/FBLPromise+Validate.m
+/ios/Pods/PromisesObjC/Sources/FBLPromises/include/FBLPromise+Wrap.h
+/ios/Pods/PromisesObjC/Sources/FBLPromises/FBLPromise+Wrap.m
+/ios/Pods/PromisesObjC/Sources/FBLPromises/include/FBLPromise.h
+/ios/Pods/PromisesObjC/Sources/FBLPromises/FBLPromise.m
+/ios/Pods/PromisesObjC/Sources/FBLPromises/include/FBLPromiseError.h
+/ios/Pods/PromisesObjC/Sources/FBLPromises/FBLPromiseError.m
+/ios/Pods/PromisesObjC/Sources/FBLPromises/include/FBLPromisePrivate.h
+/ios/Pods/PromisesObjC/Sources/FBLPromises/include/FBLPromises.h
+/ios/Pods/FirebaseCore/FirebaseCore/Sources/FIRAnalyticsConfiguration.h
+/ios/Pods/FirebaseCore/FirebaseCore/Sources/FIRAnalyticsConfiguration.m
+/ios/Pods/FirebaseMessaging/Interop/Analytics/Public/FIRAnalyticsInterop.h
+/ios/Pods/FirebaseMessaging/Interop/Analytics/Public/FIRAnalyticsInteropListener.h
+/ios/Pods/FirebaseCore/FirebaseCore/Sources/Public/FirebaseCore/FIRApp.h
+/ios/Pods/FirebaseCore/FirebaseCore/Sources/FIRApp.m
+/ios/Pods/FirebaseCore/FirebaseCore/Extension/FIRAppInternal.h
+/ios/Pods/FirebaseInstallations/FirebaseCore/Extension/FIRAppInternal.h
+/ios/Pods/FirebaseMessaging/FirebaseCore/Extension/FIRAppInternal.h
+/ios/Pods/FirebaseCore/FirebaseCore/Sources/FIRBundleUtil.h
+/ios/Pods/FirebaseCore/FirebaseCore/Sources/FIRBundleUtil.m
+/ios/Pods/FirebaseCore/FirebaseCore/Extension/FIRComponent.h
+/ios/Pods/FirebaseInstallations/FirebaseCore/Extension/FIRComponent.h
+/ios/Pods/FirebaseMessaging/FirebaseCore/Extension/FIRComponent.h
+/ios/Pods/FirebaseCore/FirebaseCore/Sources/FIRComponent.m
+/ios/Pods/FirebaseCore/FirebaseCore/Extension/FIRComponentContainer.h
+/ios/Pods/FirebaseInstallations/FirebaseCore/Extension/FIRComponentContainer.h
+/ios/Pods/FirebaseMessaging/FirebaseCore/Extension/FIRComponentContainer.h
+/ios/Pods/FirebaseCore/FirebaseCore/Sources/FIRComponentContainer.m
+/ios/Pods/FirebaseCore/FirebaseCore/Sources/FIRComponentContainerInternal.h
+/ios/Pods/FirebaseCore/FirebaseCore/Extension/FIRComponentType.h
+/ios/Pods/FirebaseInstallations/FirebaseCore/Extension/FIRComponentType.h
+/ios/Pods/FirebaseMessaging/FirebaseCore/Extension/FIRComponentType.h
+/ios/Pods/FirebaseCore/FirebaseCore/Sources/FIRComponentType.m
+/ios/Pods/FirebaseCore/FirebaseCore/Sources/Public/FirebaseCore/FIRConfiguration.h
+/ios/Pods/FirebaseCore/FirebaseCore/Sources/FIRConfiguration.m
+/ios/Pods/FirebaseCore/FirebaseCore/Sources/FIRConfigurationInternal.h
+/ios/Pods/FirebaseInstallations/FirebaseInstallations/Source/Library/InstallationsIDController/FIRCurrentDateProvider.h
+/ios/Pods/FirebaseInstallations/FirebaseInstallations/Source/Library/InstallationsIDController/FIRCurrentDateProvider.m
+/ios/Pods/Target Support Files/Firebase/Firebase.debug.xcconfig
+/ios/Pods/Firebase/CoreOnly/Sources/Firebase.h
+/ios/Pods/Headers/Private/Firebase/Firebase.h
+/ios/Pods/Headers/Public/Firebase/Firebase.h
+/ios/Pods/Target Support Files/Firebase/Firebase.release.xcconfig
+/ios/Pods/Pods.xcodeproj/xcuserdata/softsuave.xcuserdatad/xcschemes/Firebase.xcscheme
+/ios/.symlinks/plugins/firebase_core/
+/ios/Pods/Target Support Files/firebase_core/firebase_core.debug.xcconfig
+/ios/Pods/Target Support Files/firebase_core/firebase_core.modulemap
+/ios/Pods/Local Podspecs/firebase_core.podspec.json
+/ios/Pods/Target Support Files/firebase_core/firebase_core.release.xcconfig
+/ios/Pods/Pods.xcodeproj/xcuserdata/softsuave.xcuserdatad/xcschemes/firebase_core.xcscheme
+/ios/Pods/Target Support Files/firebase_core/firebase_core-dummy.m
+/ios/Pods/Target Support Files/firebase_core/firebase_core-Info.plist
+/ios/Pods/Target Support Files/firebase_core/firebase_core-prefix.pch
+/ios/Pods/Target Support Files/firebase_core/firebase_core-umbrella.h
+/ios/.symlinks/plugins/firebase_messaging/
+/ios/Pods/Target Support Files/firebase_messaging/firebase_messaging.debug.xcconfig
+/ios/Pods/Target Support Files/firebase_messaging/firebase_messaging.modulemap
+/ios/Pods/Local Podspecs/firebase_messaging.podspec.json
+/ios/Pods/Target Support Files/firebase_messaging/firebase_messaging.release.xcconfig
+/ios/Pods/Pods.xcodeproj/xcuserdata/softsuave.xcuserdatad/xcschemes/firebase_messaging.xcscheme
+/ios/Pods/Target Support Files/firebase_messaging/firebase_messaging-dummy.m
+/ios/Pods/Pods.xcodeproj/xcuserdata/softsuave.xcuserdatad/xcschemes/firebase_messaging-firebase_messaging_Privacy.xcscheme
+/ios/Pods/Target Support Files/firebase_messaging/firebase_messaging-Info.plist
+/ios/Pods/Target Support Files/firebase_messaging/firebase_messaging-prefix.pch
+/ios/Pods/Target Support Files/firebase_messaging/firebase_messaging-umbrella.h
+/ios/Pods/Target Support Files/FirebaseCore/FirebaseCore.debug.xcconfig
+/ios/Pods/FirebaseCore/FirebaseCore/Sources/Public/FirebaseCore/FirebaseCore.h
+/ios/Pods/Target Support Files/FirebaseCore/FirebaseCore.modulemap
+/ios/Pods/Target Support Files/FirebaseCore/FirebaseCore.release.xcconfig
+/ios/Pods/Pods.xcodeproj/xcuserdata/softsuave.xcuserdatad/xcschemes/FirebaseCore.xcscheme
+/ios/Pods/Target Support Files/FirebaseCore/FirebaseCore-dummy.m
+/ios/Pods/Pods.xcodeproj/xcuserdata/softsuave.xcuserdatad/xcschemes/FirebaseCore-FirebaseCore_Privacy.xcscheme
+/ios/Pods/Target Support Files/FirebaseCore/FirebaseCore-Info.plist
+/ios/Pods/Target Support Files/FirebaseCore/FirebaseCore-umbrella.h
+/ios/Pods/Target Support Files/FirebaseCoreInternal/FirebaseCoreInternal.debug.xcconfig
+/ios/Pods/FirebaseCore/FirebaseCore/Extension/FirebaseCoreInternal.h
+/ios/Pods/FirebaseInstallations/FirebaseCore/Extension/FirebaseCoreInternal.h
+/ios/Pods/FirebaseMessaging/FirebaseCore/Extension/FirebaseCoreInternal.h
+/ios/Pods/Target Support Files/FirebaseCoreInternal/FirebaseCoreInternal.modulemap
+/ios/Pods/Target Support Files/FirebaseCoreInternal/FirebaseCoreInternal.release.xcconfig
+/ios/Pods/Pods.xcodeproj/xcuserdata/softsuave.xcuserdatad/xcschemes/FirebaseCoreInternal.xcscheme
+/ios/Pods/Target Support Files/FirebaseCoreInternal/FirebaseCoreInternal-dummy.m
+/ios/Pods/Pods.xcodeproj/xcuserdata/softsuave.xcuserdatad/xcschemes/FirebaseCoreInternal-FirebaseCoreInternal_Privacy.xcscheme
+/ios/Pods/Target Support Files/FirebaseCoreInternal/FirebaseCoreInternal-Info.plist
+/ios/Pods/Target Support Files/FirebaseCoreInternal/FirebaseCoreInternal-prefix.pch
+/ios/Pods/Target Support Files/FirebaseCoreInternal/FirebaseCoreInternal-umbrella.h
+/ios/Pods/Target Support Files/FirebaseInstallations/FirebaseInstallations.debug.xcconfig
+/ios/Pods/FirebaseInstallations/FirebaseInstallations/Source/Library/Public/FirebaseInstallations/FirebaseInstallations.h
+/ios/Pods/Target Support Files/FirebaseInstallations/FirebaseInstallations.modulemap
+/ios/Pods/Target Support Files/FirebaseInstallations/FirebaseInstallations.release.xcconfig
+/ios/Pods/Pods.xcodeproj/xcuserdata/softsuave.xcuserdatad/xcschemes/FirebaseInstallations.xcscheme
+/ios/Pods/Target Support Files/FirebaseInstallations/FirebaseInstallations-dummy.m
+/ios/Pods/Pods.xcodeproj/xcuserdata/softsuave.xcuserdatad/xcschemes/FirebaseInstallations-FirebaseInstallations_Privacy.xcscheme
+/ios/Pods/Target Support Files/FirebaseInstallations/FirebaseInstallations-Info.plist
+/ios/Pods/Target Support Files/FirebaseInstallations/FirebaseInstallations-umbrella.h
+/ios/Pods/FirebaseInstallations/FirebaseInstallations/Source/Library/Private/FirebaseInstallationsInternal.h
+/ios/Pods/FirebaseMessaging/FirebaseInstallations/Source/Library/Private/FirebaseInstallationsInternal.h
+/ios/Pods/Target Support Files/FirebaseMessaging/FirebaseMessaging.debug.xcconfig
+/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/Public/FirebaseMessaging/FirebaseMessaging.h
+/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/FirebaseMessaging.h
+/ios/Pods/Target Support Files/FirebaseMessaging/FirebaseMessaging.modulemap
+/ios/Pods/Target Support Files/FirebaseMessaging/FirebaseMessaging.release.xcconfig
+/ios/Pods/Pods.xcodeproj/xcuserdata/softsuave.xcuserdatad/xcschemes/FirebaseMessaging.xcscheme
+/ios/Pods/Target Support Files/FirebaseMessaging/FirebaseMessaging-dummy.m
+/ios/Pods/Pods.xcodeproj/xcuserdata/softsuave.xcuserdatad/xcschemes/FirebaseMessaging-FirebaseMessaging_Privacy.xcscheme
+/ios/Pods/Target Support Files/FirebaseMessaging/FirebaseMessaging-Info.plist
+/ios/Pods/Target Support Files/FirebaseMessaging/FirebaseMessaging-umbrella.h
+/ios/Pods/FirebaseCore/FirebaseCore/Sources/FIRFirebaseUserAgent.h
+/ios/Pods/FirebaseCore/FirebaseCore/Sources/FIRFirebaseUserAgent.m
+/ios/Pods/FirebaseCore/FirebaseCore/Extension/FIRHeartbeatLogger.h
+/ios/Pods/FirebaseInstallations/FirebaseCore/Extension/FIRHeartbeatLogger.h
+/ios/Pods/FirebaseMessaging/FirebaseCore/Extension/FIRHeartbeatLogger.h
+/ios/Pods/FirebaseCore/FirebaseCore/Sources/FIRHeartbeatLogger.m
+/ios/Pods/FirebaseInstallations/FirebaseInstallations/Source/Library/Public/FirebaseInstallations/FIRInstallations.h
+/ios/Pods/FirebaseInstallations/FirebaseInstallations/Source/Library/FIRInstallations.m
+/ios/Pods/FirebaseInstallations/FirebaseInstallations/Source/Library/InstallationsAPI/FIRInstallationsAPIService.h
+/ios/Pods/FirebaseInstallations/FirebaseInstallations/Source/Library/InstallationsAPI/FIRInstallationsAPIService.m
+/ios/Pods/FirebaseInstallations/FirebaseInstallations/Source/Library/Public/FirebaseInstallations/FIRInstallationsAuthTokenResult.h
+/ios/Pods/FirebaseInstallations/FirebaseInstallations/Source/Library/FIRInstallationsAuthTokenResult.m
+/ios/Pods/FirebaseInstallations/FirebaseInstallations/Source/Library/FIRInstallationsAuthTokenResultInternal.h
+/ios/Pods/FirebaseInstallations/FirebaseInstallations/Source/Library/InstallationsIDController/FIRInstallationsBackoffController.h
+/ios/Pods/FirebaseInstallations/FirebaseInstallations/Source/Library/InstallationsIDController/FIRInstallationsBackoffController.m
+/ios/Pods/FirebaseInstallations/FirebaseInstallations/Source/Library/Public/FirebaseInstallations/FIRInstallationsErrors.h
+/ios/Pods/FirebaseInstallations/FirebaseInstallations/Source/Library/Errors/FIRInstallationsErrorUtil.h
+/ios/Pods/FirebaseInstallations/FirebaseInstallations/Source/Library/Errors/FIRInstallationsErrorUtil.m
+/ios/Pods/FirebaseInstallations/FirebaseInstallations/Source/Library/Errors/FIRInstallationsHTTPError.h
+/ios/Pods/FirebaseInstallations/FirebaseInstallations/Source/Library/Errors/FIRInstallationsHTTPError.m
+/ios/Pods/FirebaseInstallations/FirebaseInstallations/Source/Library/InstallationsIDController/FIRInstallationsIDController.h
+/ios/Pods/FirebaseInstallations/FirebaseInstallations/Source/Library/InstallationsIDController/FIRInstallationsIDController.m
+/ios/Pods/FirebaseInstallations/FirebaseInstallations/Source/Library/IIDMigration/FIRInstallationsIIDStore.h
+/ios/Pods/FirebaseInstallations/FirebaseInstallations/Source/Library/IIDMigration/FIRInstallationsIIDStore.m
+/ios/Pods/FirebaseInstallations/FirebaseInstallations/Source/Library/IIDMigration/FIRInstallationsIIDTokenStore.h
+/ios/Pods/FirebaseInstallations/FirebaseInstallations/Source/Library/IIDMigration/FIRInstallationsIIDTokenStore.m
+/ios/Pods/FirebaseInstallations/FirebaseInstallations/Source/Library/InstallationsAPI/FIRInstallationsItem+RegisterInstallationAPI.h
+/ios/Pods/FirebaseInstallations/FirebaseInstallations/Source/Library/InstallationsAPI/FIRInstallationsItem+RegisterInstallationAPI.m
+/ios/Pods/FirebaseInstallations/FirebaseInstallations/Source/Library/FIRInstallationsItem.h
+/ios/Pods/FirebaseInstallations/FirebaseInstallations/Source/Library/FIRInstallationsItem.m
+/ios/Pods/FirebaseInstallations/FirebaseInstallations/Source/Library/FIRInstallationsLogger.h
+/ios/Pods/FirebaseInstallations/FirebaseInstallations/Source/Library/FIRInstallationsLogger.m
+/ios/Pods/FirebaseInstallations/FirebaseInstallations/Source/Library/InstallationsIDController/FIRInstallationsSingleOperationPromiseCache.h
+/ios/Pods/FirebaseInstallations/FirebaseInstallations/Source/Library/InstallationsIDController/FIRInstallationsSingleOperationPromiseCache.m
+/ios/Pods/FirebaseInstallations/FirebaseInstallations/Source/Library/InstallationsIDController/FIRInstallationsStatus.h
+/ios/Pods/FirebaseInstallations/FirebaseInstallations/Source/Library/InstallationsStore/FIRInstallationsStore.h
+/ios/Pods/FirebaseInstallations/FirebaseInstallations/Source/Library/InstallationsStore/FIRInstallationsStore.m
+/ios/Pods/FirebaseInstallations/FirebaseInstallations/Source/Library/InstallationsStore/FIRInstallationsStoredAuthToken.h
+/ios/Pods/FirebaseInstallations/FirebaseInstallations/Source/Library/InstallationsStore/FIRInstallationsStoredAuthToken.m
+/ios/Pods/FirebaseInstallations/FirebaseInstallations/Source/Library/InstallationsStore/FIRInstallationsStoredItem.h
+/ios/Pods/FirebaseInstallations/FirebaseInstallations/Source/Library/InstallationsStore/FIRInstallationsStoredItem.m
+/ios/Pods/FirebaseMessaging/Interop/Analytics/Public/FIRInteropEventNames.h
+/ios/Pods/FirebaseMessaging/Interop/Analytics/Public/FIRInteropParameterNames.h
+/ios/Pods/FirebaseCore/FirebaseCore/Extension/FIRLibrary.h
+/ios/Pods/FirebaseInstallations/FirebaseCore/Extension/FIRLibrary.h
+/ios/Pods/FirebaseMessaging/FirebaseCore/Extension/FIRLibrary.h
+/ios/Pods/FirebaseCore/FirebaseCore/Extension/FIRLogger.h
+/ios/Pods/FirebaseInstallations/FirebaseCore/Extension/FIRLogger.h
+/ios/Pods/FirebaseMessaging/FirebaseCore/Extension/FIRLogger.h
+/ios/Pods/FirebaseCore/FirebaseCore/Sources/FIRLogger.m
+/ios/Pods/FirebaseCore/FirebaseCore/Sources/Public/FirebaseCore/FIRLoggerLevel.h
+/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/Public/FirebaseMessaging/FIRMessaging+ExtensionHelper.h
+/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/FIRMessaging+ExtensionHelper.m
+/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/Public/FirebaseMessaging/FIRMessaging.h
+/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/FIRMessaging.m
+/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/FIRMessaging_Private.h
+/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/FIRMessagingAnalytics.h
+/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/FIRMessagingAnalytics.m
+/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/Token/FIRMessagingAPNSInfo.h
+/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/Token/FIRMessagingAPNSInfo.m
+/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/Token/FIRMessagingAuthKeychain.h
+/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/Token/FIRMessagingAuthKeychain.m
+/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/Token/FIRMessagingAuthService.h
+/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/Token/FIRMessagingAuthService.m
+/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/Token/FIRMessagingBackupExcludedPlist.h
+/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/Token/FIRMessagingBackupExcludedPlist.m
+/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/Token/FIRMessagingCheckinPreferences.h
+/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/Token/FIRMessagingCheckinPreferences.m
+/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/Token/FIRMessagingCheckinService.h
+/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/Token/FIRMessagingCheckinService.m
+/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/Token/FIRMessagingCheckinStore.h
+/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/Token/FIRMessagingCheckinStore.m
+/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/FIRMessagingCode.h
+/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/FIRMessagingConstants.h
+/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/FIRMessagingConstants.m
+/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/FIRMessagingContextManagerService.h
+/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/FIRMessagingContextManagerService.m
+/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/FIRMessagingDefines.h
+/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/Public/FirebaseMessaging/FIRMessagingExtensionHelper.h
+/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/FIRMessagingExtensionHelper.m
+/ios/Pods/FirebaseMessaging/FirebaseMessaging/Interop/FIRMessagingInterop.h
+/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/Token/FIRMessagingKeychain.h
+/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/Token/FIRMessagingKeychain.m
+/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/FIRMessagingLogger.h
+/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/FIRMessagingLogger.m
+/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/FIRMessagingPendingTopicsList.h
+/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/FIRMessagingPendingTopicsList.m
+/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/FIRMessagingPersistentSyncMessage.h
+/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/FIRMessagingPersistentSyncMessage.m
+/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/FIRMessagingPubSub.h
+/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/FIRMessagingPubSub.m
+/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/FIRMessagingRemoteNotificationsProxy.h
+/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/FIRMessagingRemoteNotificationsProxy.m
+/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/FIRMessagingRmqManager.h
+/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/FIRMessagingRmqManager.m
+/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/FIRMessagingSyncMessageManager.h
+/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/FIRMessagingSyncMessageManager.m
+/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/Token/FIRMessagingTokenDeleteOperation.h
+/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/Token/FIRMessagingTokenDeleteOperation.m
+/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/Token/FIRMessagingTokenFetchOperation.h
+/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/Token/FIRMessagingTokenFetchOperation.m
+/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/Token/FIRMessagingTokenInfo.h
+/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/Token/FIRMessagingTokenInfo.m
+/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/Token/FIRMessagingTokenManager.h
+/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/Token/FIRMessagingTokenManager.m
+/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/Token/FIRMessagingTokenOperation.h
+/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/Token/FIRMessagingTokenOperation.m
+/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/Token/FIRMessagingTokenStore.h
+/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/Token/FIRMessagingTokenStore.m
+/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/FIRMessagingTopicOperation.h
+/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/FIRMessagingTopicOperation.m
+/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/FIRMessagingTopicsCommon.h
+/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/FIRMessagingUtilities.h
+/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/FIRMessagingUtilities.m
+/ios/Pods/FirebaseCore/FirebaseCore/Sources/Public/FirebaseCore/FIROptions.h
+/ios/Pods/FirebaseCore/FirebaseCore/Sources/FIROptions.m
+/ios/Pods/FirebaseCore/FirebaseCore/Sources/FIROptionsInternal.h
+/ios/Pods/FirebaseCore/FirebaseCore/Sources/Public/FirebaseCore/FIRTimestamp.h
+/ios/Pods/FirebaseCore/FirebaseCore/Sources/FIRTimestamp.m
+/ios/Pods/FirebaseCore/FirebaseCore/Sources/FIRTimestampInternal.h
+/ios/Pods/FirebaseCore/FirebaseCore/Sources/Public/FirebaseCore/FIRVersion.h
+/ios/Pods/FirebaseCore/FirebaseCore/Sources/FIRVersion.m
+/ios/Pods/Target Support Files/Flutter/Flutter.debug.xcconfig
+/ios/Flutter/Flutter.podspec
+/ios/Pods/Local Podspecs/Flutter.podspec.json
+/ios/Pods/Target Support Files/Flutter/Flutter.release.xcconfig
+/ios/Pods/Pods.xcodeproj/xcuserdata/softsuave.xcuserdatad/xcschemes/Flutter.xcscheme
+/ios/.symlinks/plugins/flutter_local_notifications/
+/ios/Pods/Target Support Files/flutter_local_notifications/flutter_local_notifications.debug.xcconfig
+/ios/Pods/Target Support Files/flutter_local_notifications/flutter_local_notifications.modulemap
+/ios/Pods/Local Podspecs/flutter_local_notifications.podspec.json
+/ios/Pods/Target Support Files/flutter_local_notifications/flutter_local_notifications.release.xcconfig
+/ios/Pods/Pods.xcodeproj/xcuserdata/softsuave.xcuserdatad/xcschemes/flutter_local_notifications.xcscheme
+/ios/Pods/Target Support Files/flutter_local_notifications/flutter_local_notifications-dummy.m
+/ios/Pods/Pods.xcodeproj/xcuserdata/softsuave.xcuserdatad/xcschemes/flutter_local_notifications-flutter_local_notifications_privacy.xcscheme
+/ios/Pods/Target Support Files/flutter_local_notifications/flutter_local_notifications-Info.plist
+/ios/Pods/Target Support Files/flutter_local_notifications/flutter_local_notifications-prefix.pch
+/ios/Pods/Target Support Files/flutter_local_notifications/flutter_local_notifications-umbrella.h
+/ios/.symlinks/plugins/flutter_timezone/
+/ios/Pods/Target Support Files/flutter_timezone/flutter_timezone.debug.xcconfig
+/ios/Pods/Target Support Files/flutter_timezone/flutter_timezone.modulemap
+/ios/Pods/Local Podspecs/flutter_timezone.podspec.json
+/ios/Pods/Target Support Files/flutter_timezone/flutter_timezone.release.xcconfig
+/ios/Pods/Pods.xcodeproj/xcuserdata/softsuave.xcuserdatad/xcschemes/flutter_timezone.xcscheme
+/ios/Pods/Target Support Files/flutter_timezone/flutter_timezone-dummy.m
+/ios/Pods/Pods.xcodeproj/xcuserdata/softsuave.xcuserdatad/xcschemes/flutter_timezone-flutter_timezone_privacy.xcscheme
+/ios/Pods/Target Support Files/flutter_timezone/flutter_timezone-Info.plist
+/ios/Pods/Target Support Files/flutter_timezone/flutter_timezone-prefix.pch
+/ios/Pods/Target Support Files/flutter_timezone/flutter_timezone-umbrella.h
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCCTLibrary/Private/GDTCCTCompressionHelper.h
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCCTLibrary/GDTCCTCompressionHelper.m
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCCTLibrary/Private/GDTCCTNanopbHelpers.h
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCCTLibrary/GDTCCTNanopbHelpers.m
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCCTLibrary/Private/GDTCCTUploader.h
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCCTLibrary/GDTCCTUploader.m
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCCTLibrary/Private/GDTCCTUploadOperation.h
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCCTLibrary/GDTCCTUploadOperation.m
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCCTLibrary/Private/GDTCCTURLSessionDataResponse.h
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCCTLibrary/GDTCCTURLSessionDataResponse.m
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCORLibrary/Internal/GDTCORAssert.h
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCORLibrary/GDTCORAssert.m
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCORLibrary/Public/GoogleDataTransport/GDTCORClock.h
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCORLibrary/GDTCORClock.m
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCORLibrary/Public/GoogleDataTransport/GDTCORConsoleLogger.h
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCORLibrary/GDTCORConsoleLogger.m
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCORLibrary/Internal/GDTCORDirectorySizeTracker.h
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCORLibrary/GDTCORDirectorySizeTracker.m
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCORLibrary/Public/GoogleDataTransport/GDTCOREndpoints.h
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCORLibrary/GDTCOREndpoints.m
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCORLibrary/Private/GDTCOREndpoints_Private.h
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCCTLibrary/Public/GDTCOREvent+GDTCCTSupport.h
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCCTLibrary/GDTCOREvent+GDTCCTSupport.m
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCCTLibrary/Private/GDTCOREvent+GDTMetricsSupport.h
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCCTLibrary/GDTCOREvent+GDTMetricsSupport.m
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCORLibrary/Public/GoogleDataTransport/GDTCOREvent.h
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCORLibrary/GDTCOREvent.m
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCORLibrary/Private/GDTCOREvent_Private.h
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCORLibrary/Public/GoogleDataTransport/GDTCOREventDataObject.h
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCORLibrary/Internal/GDTCOREventDropReason.h
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCORLibrary/Public/GoogleDataTransport/GDTCOREventTransformer.h
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCORLibrary/Private/GDTCORFlatFileStorage+Promises.h
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCORLibrary/GDTCORFlatFileStorage+Promises.m
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCORLibrary/Private/GDTCORFlatFileStorage.h
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCORLibrary/GDTCORFlatFileStorage.m
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCORLibrary/Internal/GDTCORLifecycle.h
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCORLibrary/GDTCORLifecycle.m
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCORLibrary/Private/GDTCORLogSourceMetrics.h
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCORLibrary/GDTCORLogSourceMetrics.m
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCCTLibrary/Private/GDTCORMetrics+GDTCCTSupport.h
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCCTLibrary/GDTCORMetrics+GDTCCTSupport.m
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCORLibrary/Private/GDTCORMetrics.h
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCORLibrary/GDTCORMetrics.m
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCORLibrary/Private/GDTCORMetricsController.h
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCORLibrary/GDTCORMetricsController.m
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCORLibrary/Internal/GDTCORMetricsControllerProtocol.h
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCORLibrary/Private/GDTCORMetricsMetadata.h
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCORLibrary/GDTCORMetricsMetadata.m
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCORLibrary/Internal/GDTCORPlatform.h
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCORLibrary/GDTCORPlatform.m
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCORLibrary/Public/GoogleDataTransport/GDTCORProductData.h
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCORLibrary/GDTCORProductData.m
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCORLibrary/Internal/GDTCORReachability.h
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCORLibrary/GDTCORReachability.m
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCORLibrary/Private/GDTCORReachability_Private.h
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCORLibrary/Internal/GDTCORRegistrar.h
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCORLibrary/GDTCORRegistrar.m
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCORLibrary/Private/GDTCORRegistrar_Private.h
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCORLibrary/Internal/GDTCORStorageEventSelector.h
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCORLibrary/GDTCORStorageEventSelector.m
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCORLibrary/Private/GDTCORStorageMetadata.h
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCORLibrary/GDTCORStorageMetadata.m
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCORLibrary/Internal/GDTCORStorageProtocol.h
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCORLibrary/Internal/GDTCORStorageSizeBytes.h
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCORLibrary/Public/GoogleDataTransport/GDTCORTargets.h
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCORLibrary/Private/GDTCORTransformer.h
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCORLibrary/GDTCORTransformer.m
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCORLibrary/Private/GDTCORTransformer_Private.h
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCORLibrary/Public/GoogleDataTransport/GDTCORTransport.h
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCORLibrary/GDTCORTransport.m
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCORLibrary/Private/GDTCORTransport_Private.h
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCORLibrary/Private/GDTCORUploadBatch.h
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCORLibrary/GDTCORUploadBatch.m
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCORLibrary/Private/GDTCORUploadCoordinator.h
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCORLibrary/GDTCORUploadCoordinator.m
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCORLibrary/Internal/GDTCORUploader.h
+/ios/Pods/Target Support Files/GoogleDataTransport/GoogleDataTransport.debug.xcconfig
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/GDTCORLibrary/Public/GoogleDataTransport/GoogleDataTransport.h
+/ios/Pods/Target Support Files/GoogleDataTransport/GoogleDataTransport.modulemap
+/ios/Pods/Target Support Files/GoogleDataTransport/GoogleDataTransport.release.xcconfig
+/ios/Pods/Pods.xcodeproj/xcuserdata/softsuave.xcuserdatad/xcschemes/GoogleDataTransport.xcscheme
+/ios/Pods/Target Support Files/GoogleDataTransport/GoogleDataTransport-dummy.m
+/ios/Pods/Pods.xcodeproj/xcuserdata/softsuave.xcuserdatad/xcschemes/GoogleDataTransport-GoogleDataTransport_Privacy.xcscheme
+/ios/Pods/Target Support Files/GoogleDataTransport/GoogleDataTransport-Info.plist
+/ios/Pods/Target Support Files/GoogleDataTransport/GoogleDataTransport-umbrella.h
+/ios/Pods/Target Support Files/GoogleUtilities/GoogleUtilities.debug.xcconfig
+/ios/Pods/Target Support Files/GoogleUtilities/GoogleUtilities.modulemap
+/ios/Pods/Target Support Files/GoogleUtilities/GoogleUtilities.release.xcconfig
+/ios/Pods/Pods.xcodeproj/xcuserdata/softsuave.xcuserdatad/xcschemes/GoogleUtilities.xcscheme
+/ios/Pods/Target Support Files/GoogleUtilities/GoogleUtilities-dummy.m
+/ios/Pods/Pods.xcodeproj/xcuserdata/softsuave.xcuserdatad/xcschemes/GoogleUtilities-GoogleUtilities_Privacy.xcscheme
+/ios/Pods/Target Support Files/GoogleUtilities/GoogleUtilities-Info.plist
+/ios/Pods/Target Support Files/GoogleUtilities/GoogleUtilities-umbrella.h
+/ios/Pods/GoogleUtilities/GoogleUtilities/AppDelegateSwizzler/Public/GoogleUtilities/GULAppDelegateSwizzler.h
+/ios/Pods/GoogleUtilities/GoogleUtilities/AppDelegateSwizzler/GULAppDelegateSwizzler.m
+/ios/Pods/GoogleUtilities/GoogleUtilities/AppDelegateSwizzler/Internal/GULAppDelegateSwizzler_Private.h
+/ios/Pods/GoogleUtilities/GoogleUtilities/Environment/Public/GoogleUtilities/GULAppEnvironmentUtil.h
+/ios/Pods/GoogleUtilities/GoogleUtilities/Environment/GULAppEnvironmentUtil.m
+/ios/Pods/GoogleUtilities/GoogleUtilities/AppDelegateSwizzler/Public/GoogleUtilities/GULApplication.h
+/ios/Pods/GoogleUtilities/GoogleUtilities/Environment/Public/GoogleUtilities/GULKeychainStorage.h
+/ios/Pods/GoogleUtilities/GoogleUtilities/Environment/SecureStorage/GULKeychainStorage.m
+/ios/Pods/GoogleUtilities/GoogleUtilities/Environment/Public/GoogleUtilities/GULKeychainUtils.h
+/ios/Pods/GoogleUtilities/GoogleUtilities/Environment/SecureStorage/GULKeychainUtils.m
+/ios/Pods/GoogleUtilities/GoogleUtilities/Logger/Public/GoogleUtilities/GULLogger.h
+/ios/Pods/GoogleUtilities/GoogleUtilities/Logger/GULLogger.m
+/ios/Pods/GoogleUtilities/GoogleUtilities/Common/GULLoggerCodes.h
+/ios/Pods/GoogleUtilities/GoogleUtilities/Logger/Public/GoogleUtilities/GULLoggerLevel.h
+/ios/Pods/GoogleUtilities/GoogleUtilities/Network/Public/GoogleUtilities/GULMutableDictionary.h
+/ios/Pods/GoogleUtilities/GoogleUtilities/Network/GULMutableDictionary.m
+/ios/Pods/GoogleUtilities/GoogleUtilities/Network/Public/GoogleUtilities/GULNetwork.h
+/ios/Pods/GoogleUtilities/GoogleUtilities/Network/GULNetwork.m
+/ios/Pods/GoogleUtilities/GoogleUtilities/Network/Public/GoogleUtilities/GULNetworkConstants.h
+/ios/Pods/GoogleUtilities/GoogleUtilities/Network/GULNetworkConstants.m
+/ios/Pods/GoogleUtilities/GoogleUtilities/Environment/Public/GoogleUtilities/GULNetworkInfo.h
+/ios/Pods/GoogleUtilities/GoogleUtilities/Environment/NetworkInfo/GULNetworkInfo.m
+/ios/Pods/GoogleUtilities/GoogleUtilities/Network/GULNetworkInternal.h
+/ios/Pods/GoogleUtilities/GoogleUtilities/Network/Public/GoogleUtilities/GULNetworkLoggerProtocol.h
+/ios/Pods/GoogleUtilities/GoogleUtilities/Network/Public/GoogleUtilities/GULNetworkMessageCode.h
+/ios/Pods/GoogleUtilities/GoogleUtilities/Network/Public/GoogleUtilities/GULNetworkURLSession.h
+/ios/Pods/GoogleUtilities/GoogleUtilities/Network/GULNetworkURLSession.m
+/ios/Pods/GoogleUtilities/GoogleUtilities/NSData+zlib/Public/GoogleUtilities/GULNSData+zlib.h
+/ios/Pods/GoogleUtilities/GoogleUtilities/NSData+zlib/GULNSData+zlib.m
+/ios/Pods/GoogleUtilities/GoogleUtilities/Reachability/GULReachabilityChecker+Internal.h
+/ios/Pods/GoogleUtilities/GoogleUtilities/Reachability/Public/GoogleUtilities/GULReachabilityChecker.h
+/ios/Pods/GoogleUtilities/GoogleUtilities/Reachability/GULReachabilityChecker.m
+/ios/Pods/GoogleUtilities/GoogleUtilities/Reachability/GULReachabilityMessageCode.h
+/ios/Pods/GoogleUtilities/GoogleUtilities/AppDelegateSwizzler/Public/GoogleUtilities/GULSceneDelegateSwizzler.h
+/ios/Pods/GoogleUtilities/GoogleUtilities/AppDelegateSwizzler/GULSceneDelegateSwizzler.m
+/ios/Pods/GoogleUtilities/GoogleUtilities/AppDelegateSwizzler/Internal/GULSceneDelegateSwizzler_Private.h
+/ios/Pods/GoogleUtilities/GoogleUtilities/UserDefaults/Public/GoogleUtilities/GULUserDefaults.h
+/ios/Pods/GoogleUtilities/GoogleUtilities/UserDefaults/GULUserDefaults.m
+/ios/Pods/FirebaseCoreInternal/FirebaseCore/Internal/Sources/HeartbeatLogging/Heartbeat.swift
+/ios/Pods/FirebaseCoreInternal/FirebaseCore/Internal/Sources/HeartbeatLogging/HeartbeatController.swift
+/ios/Pods/FirebaseCoreInternal/FirebaseCore/Internal/Sources/HeartbeatLogging/HeartbeatLoggingTestUtils.swift
+/ios/Pods/FirebaseCoreInternal/FirebaseCore/Internal/Sources/HeartbeatLogging/HeartbeatsBundle.swift
+/ios/Pods/FirebaseCoreInternal/FirebaseCore/Internal/Sources/HeartbeatLogging/HeartbeatsPayload.swift
+/ios/Pods/FirebaseCoreInternal/FirebaseCore/Internal/Sources/HeartbeatLogging/HeartbeatStorage.swift
+/ios/Pods/GoogleUtilities/third_party/IsAppEncrypted/Public/IsAppEncrypted.h
+/ios/Pods/GoogleUtilities/third_party/IsAppEncrypted/IsAppEncrypted.m
+/ios/Pods/Firebase/LICENSE
+/ios/Pods/FirebaseCore/LICENSE
+/ios/Pods/FirebaseCoreInternal/LICENSE
+/ios/Pods/FirebaseInstallations/LICENSE
+/ios/Pods/FirebaseMessaging/LICENSE
+/ios/Pods/GoogleDataTransport/LICENSE
+/ios/Pods/GoogleUtilities/LICENSE
+/ios/Pods/PromisesObjC/LICENSE
+/ios/Pods/nanopb/LICENSE.txt
+/ios/Pods/Manifest.lock
+/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/Protogen/nanopb/me.nanopb.c
+/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/Protogen/nanopb/me.nanopb.h
+/ios/Pods/Firebase/CoreOnly/Sources/module.modulemap
+/ios/Pods/Target Support Files/nanopb/nanopb.debug.xcconfig
+/ios/Pods/Target Support Files/nanopb/nanopb.modulemap
+/ios/Pods/Target Support Files/nanopb/nanopb.release.xcconfig
+/ios/Pods/Pods.xcodeproj/xcuserdata/softsuave.xcuserdatad/xcschemes/nanopb.xcscheme
+/ios/Pods/Target Support Files/nanopb/nanopb-dummy.m
+/ios/Pods/Target Support Files/nanopb/nanopb-Info.plist
+/ios/Pods/Pods.xcodeproj/xcuserdata/softsuave.xcuserdatad/xcschemes/nanopb-nanopb_Privacy.xcscheme
+/ios/Pods/Target Support Files/nanopb/nanopb-prefix.pch
+/ios/Pods/Target Support Files/nanopb/nanopb-umbrella.h
+/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/NSDictionary+FIRMessaging.h
+/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/NSDictionary+FIRMessaging.m
+/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/NSError+FIRMessaging.h
+/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/NSError+FIRMessaging.m
+/ios/.symlinks/plugins/path_provider_foundation/
+/ios/Pods/Target Support Files/path_provider_foundation/path_provider_foundation.debug.xcconfig
+/ios/Pods/Target Support Files/path_provider_foundation/path_provider_foundation.modulemap
+/ios/Pods/Local Podspecs/path_provider_foundation.podspec.json
+/ios/Pods/Target Support Files/path_provider_foundation/path_provider_foundation.release.xcconfig
+/ios/Pods/Pods.xcodeproj/xcuserdata/softsuave.xcuserdatad/xcschemes/path_provider_foundation.xcscheme
+/ios/Pods/Target Support Files/path_provider_foundation/path_provider_foundation-dummy.m
+/ios/Pods/Target Support Files/path_provider_foundation/path_provider_foundation-Info.plist
+/ios/Pods/Pods.xcodeproj/xcuserdata/softsuave.xcuserdatad/xcschemes/path_provider_foundation-path_provider_foundation_privacy.xcscheme
+/ios/Pods/Target Support Files/path_provider_foundation/path_provider_foundation-prefix.pch
+/ios/Pods/Target Support Files/path_provider_foundation/path_provider_foundation-umbrella.h
+/ios/Pods/nanopb/pb.h
+/ios/Pods/nanopb/pb_common.c
+/ios/Pods/nanopb/pb_common.h
+/ios/Pods/nanopb/pb_decode.c
+/ios/Pods/nanopb/pb_decode.h
+/ios/Pods/nanopb/pb_encode.c
+/ios/Pods/nanopb/pb_encode.h
+/ios/Podfile
+/ios/Podfile.lock
+/ios/Pods/Target Support Files/Pods-Runner/Pods-Runner.debug.xcconfig
+/ios/Pods/Target Support Files/Pods-Runner/Pods-Runner.modulemap
+/ios/Pods/Target Support Files/Pods-Runner/Pods-Runner.profile.xcconfig
+/ios/Pods/Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig
+/ios/Pods/Pods.xcodeproj/xcuserdata/softsuave.xcuserdatad/xcschemes/Pods-Runner.xcscheme
+/ios/Pods/Target Support Files/Pods-Runner/Pods-Runner-acknowledgements.markdown
+/ios/Pods/Target Support Files/Pods-Runner/Pods-Runner-acknowledgements.plist
+/ios/Pods/Target Support Files/Pods-Runner/Pods-Runner-dummy.m
+/ios/Pods/Target Support Files/Pods-Runner/Pods-Runner-frameworks.sh
+/ios/Pods/Target Support Files/Pods-Runner/Pods-Runner-frameworks-Debug-input-files.xcfilelist
+/ios/Pods/Target Support Files/Pods-Runner/Pods-Runner-frameworks-Debug-output-files.xcfilelist
+/ios/Pods/Target Support Files/Pods-Runner/Pods-Runner-frameworks-Profile-input-files.xcfilelist
+/ios/Pods/Target Support Files/Pods-Runner/Pods-Runner-frameworks-Profile-output-files.xcfilelist
+/ios/Pods/Target Support Files/Pods-Runner/Pods-Runner-frameworks-Release-input-files.xcfilelist
+/ios/Pods/Target Support Files/Pods-Runner/Pods-Runner-frameworks-Release-output-files.xcfilelist
+/ios/Pods/Target Support Files/Pods-Runner/Pods-Runner-Info.plist
+/ios/Pods/Target Support Files/Pods-Runner/Pods-Runner-resources.sh
+/ios/Pods/Target Support Files/Pods-Runner/Pods-Runner-resources-Debug-input-files.xcfilelist
+/ios/Pods/Target Support Files/Pods-Runner/Pods-Runner-resources-Debug-output-files.xcfilelist
+/ios/Pods/Target Support Files/Pods-Runner/Pods-Runner-resources-Profile-input-files.xcfilelist
+/ios/Pods/Target Support Files/Pods-Runner/Pods-Runner-resources-Profile-output-files.xcfilelist
+/ios/Pods/Target Support Files/Pods-Runner/Pods-Runner-resources-Release-input-files.xcfilelist
+/ios/Pods/Target Support Files/Pods-Runner/Pods-Runner-resources-Release-output-files.xcfilelist
+/ios/Pods/Target Support Files/Pods-Runner/Pods-Runner-umbrella.h
+/ios/Pods/Target Support Files/Pods-RunnerTests/Pods-RunnerTests.debug.xcconfig
+/ios/Pods/Target Support Files/Pods-RunnerTests/Pods-RunnerTests.modulemap
+/ios/Pods/Target Support Files/Pods-RunnerTests/Pods-RunnerTests.profile.xcconfig
+/ios/Pods/Target Support Files/Pods-RunnerTests/Pods-RunnerTests.release.xcconfig
+/ios/Pods/Pods.xcodeproj/xcuserdata/softsuave.xcuserdatad/xcschemes/Pods-RunnerTests.xcscheme
+/ios/Pods/Target Support Files/Pods-RunnerTests/Pods-RunnerTests-acknowledgements.markdown
+/ios/Pods/Target Support Files/Pods-RunnerTests/Pods-RunnerTests-acknowledgements.plist
+/ios/Pods/Target Support Files/Pods-RunnerTests/Pods-RunnerTests-dummy.m
+/ios/Pods/Target Support Files/Pods-RunnerTests/Pods-RunnerTests-Info.plist
+/ios/Pods/Target Support Files/Pods-RunnerTests/Pods-RunnerTests-umbrella.h
+/ios/Pods/FirebaseCore/FirebaseCore/Sources/Resources/PrivacyInfo.xcprivacy
+/ios/Pods/FirebaseCoreInternal/FirebaseCore/Internal/Sources/Resources/PrivacyInfo.xcprivacy
+/ios/Pods/FirebaseInstallations/FirebaseInstallations/Source/Library/Resources/PrivacyInfo.xcprivacy
+/ios/Pods/FirebaseMessaging/FirebaseMessaging/Sources/Resources/PrivacyInfo.xcprivacy
+/ios/Pods/GoogleDataTransport/GoogleDataTransport/Resources/PrivacyInfo.xcprivacy
+/ios/Pods/GoogleUtilities/GoogleUtilities/Privacy/Resources/PrivacyInfo.xcprivacy
+/ios/Pods/nanopb/spm_resources/PrivacyInfo.xcprivacy
+/ios/Pods/PromisesObjC/Sources/FBLPromises/Resources/PrivacyInfo.xcprivacy
+/ios/Pods/Pods.xcodeproj/project.pbxproj
+/ios/Pods/Target Support Files/PromisesObjC/PromisesObjC.debug.xcconfig
+/ios/Pods/Target Support Files/PromisesObjC/PromisesObjC.modulemap
+/ios/Pods/Target Support Files/PromisesObjC/PromisesObjC.release.xcconfig
+/ios/Pods/Pods.xcodeproj/xcuserdata/softsuave.xcuserdatad/xcschemes/PromisesObjC.xcscheme
+/ios/Pods/Target Support Files/PromisesObjC/PromisesObjC-dummy.m
+/ios/Pods/Pods.xcodeproj/xcuserdata/softsuave.xcuserdatad/xcschemes/PromisesObjC-FBLPromises_Privacy.xcscheme
+/ios/Pods/Target Support Files/PromisesObjC/PromisesObjC-Info.plist
+/ios/Pods/Target Support Files/PromisesObjC/PromisesObjC-umbrella.h
+/ios/Pods/Firebase/README.md
+/ios/Pods/FirebaseCore/README.md
+/ios/Pods/FirebaseCoreInternal/README.md
+/ios/Pods/FirebaseInstallations/README.md
+/ios/Pods/FirebaseMessaging/README.md
+/ios/Pods/GoogleDataTransport/README.md
+/ios/Pods/GoogleUtilities/README.md
+/ios/Pods/nanopb/README.md
+/ios/Pods/PromisesObjC/README.md
+/ios/Pods/Target Support Files/connectivity_plus/ResourceBundle-connectivity_plus_privacy-connectivity_plus-Info.plist
+/ios/Pods/Target Support Files/PromisesObjC/ResourceBundle-FBLPromises_Privacy-PromisesObjC-Info.plist
+/ios/Pods/Target Support Files/firebase_messaging/ResourceBundle-firebase_messaging_Privacy-firebase_messaging-Info.plist
+/ios/Pods/Target Support Files/FirebaseCore/ResourceBundle-FirebaseCore_Privacy-FirebaseCore-Info.plist
+/ios/Pods/Target Support Files/FirebaseCoreInternal/ResourceBundle-FirebaseCoreInternal_Privacy-FirebaseCoreInternal-Info.plist
+/ios/Pods/Target Support Files/FirebaseInstallations/ResourceBundle-FirebaseInstallations_Privacy-FirebaseInstallations-Info.plist
+/ios/Pods/Target Support Files/FirebaseMessaging/ResourceBundle-FirebaseMessaging_Privacy-FirebaseMessaging-Info.plist
+/ios/Pods/Target Support Files/flutter_local_notifications/ResourceBundle-flutter_local_notifications_privacy-flutter_local_notifications-Info.plist
+/ios/Pods/Target Support Files/flutter_timezone/ResourceBundle-flutter_timezone_privacy-flutter_timezone-Info.plist
+/ios/Pods/Target Support Files/GoogleDataTransport/ResourceBundle-GoogleDataTransport_Privacy-GoogleDataTransport-Info.plist
+/ios/Pods/Target Support Files/GoogleUtilities/ResourceBundle-GoogleUtilities_Privacy-GoogleUtilities-Info.plist
+/ios/Pods/Target Support Files/nanopb/ResourceBundle-nanopb_Privacy-nanopb-Info.plist
+/ios/Pods/Target Support Files/path_provider_foundation/ResourceBundle-path_provider_foundation_privacy-path_provider_foundation-Info.plist
+/ios/Pods/Target Support Files/shared_preferences_foundation/ResourceBundle-shared_preferences_foundation_privacy-shared_preferences_foundation-Info.plist
+/ios/Pods/FirebaseCoreInternal/FirebaseCore/Internal/Sources/HeartbeatLogging/RingBuffer.swift
+/ios/.symlinks/plugins/shared_preferences_foundation/
+/ios/Pods/Target Support Files/shared_preferences_foundation/shared_preferences_foundation.debug.xcconfig
+/ios/Pods/Target Support Files/shared_preferences_foundation/shared_preferences_foundation.modulemap
+/ios/Pods/Local Podspecs/shared_preferences_foundation.podspec.json
+/ios/Pods/Target Support Files/shared_preferences_foundation/shared_preferences_foundation.release.xcconfig
+/ios/Pods/Pods.xcodeproj/xcuserdata/softsuave.xcuserdatad/xcschemes/shared_preferences_foundation.xcscheme
+/ios/Pods/Target Support Files/shared_preferences_foundation/shared_preferences_foundation-dummy.m
+/ios/Pods/Target Support Files/shared_preferences_foundation/shared_preferences_foundation-Info.plist
+/ios/Pods/Target Support Files/shared_preferences_foundation/shared_preferences_foundation-prefix.pch
+/ios/Pods/Pods.xcodeproj/xcuserdata/softsuave.xcuserdatad/xcschemes/shared_preferences_foundation-shared_preferences_foundation_privacy.xcscheme
+/ios/Pods/Target Support Files/shared_preferences_foundation/shared_preferences_foundation-umbrella.h
+/ios/Pods/FirebaseCoreInternal/FirebaseCore/Internal/Sources/HeartbeatLogging/Storage.swift
+/ios/Pods/FirebaseCoreInternal/FirebaseCore/Internal/Sources/HeartbeatLogging/StorageFactory.swift
+/ios/Runner.xcworkspace/xcuserdata/softsuave.xcuserdatad/UserInterfaceState.xcuserstate
+/ios/Pods/FirebaseCoreInternal/FirebaseCore/Internal/Sources/HeartbeatLogging/WeakContainer.swift
+/ios/Pods/Pods.xcodeproj/xcuserdata/softsuave.xcuserdatad/xcschemes/xcschememanagement.plist
+/ios/.symlinks/plugins/connectivity_plus/
+/ios/.symlinks/plugins/firebase_core/
+/ios/.symlinks/plugins/firebase_messaging/
+/ios/.symlinks/plugins/flutter_local_notifications/
+/ios/.symlinks/plugins/flutter_timezone/
+/ios/.symlinks/plugins/path_provider_foundation/
+/ios/.symlinks/plugins/shared_preferences_foundation/
+/ios/.symlinks/plugins/connectivity_plus/
+/ios/.symlinks/plugins/firebase_core/
+/ios/.symlinks/plugins/firebase_messaging/
+/ios/.symlinks/plugins/flutter_local_notifications/
+/ios/.symlinks/plugins/flutter_timezone/
+/ios/.symlinks/plugins/path_provider_foundation/
+/ios/.symlinks/plugins/shared_preferences_foundation/

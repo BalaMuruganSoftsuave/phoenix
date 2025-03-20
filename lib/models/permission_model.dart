@@ -4,12 +4,14 @@ class PermissionResponse {
   Map<String, List<StoreData>>? storesList;
   bool? isMaster;
 
-  PermissionResponse({this.permissions, this.clientsList, this.storesList, this.isMaster});
+  PermissionResponse(
+      {this.permissions, this.clientsList, this.storesList, this.isMaster});
 
   factory PermissionResponse.fromJson(Map<String, dynamic> json) {
     // Helper to add "Select All" to a list
-    List<T> addSelectAll<T>(List<T> list, T Function() createSelectAll) {
-      if (list.isNotEmpty) {
+    List<T> addSelectAll<T>(List<T> list, T Function() createSelectAll,
+        bool Function(T) isSelectAll) {
+      if (list.isNotEmpty && !list.any(isSelectAll)) {
         list.insert(0, createSelectAll());
       }
       return list;
@@ -23,22 +25,18 @@ class PermissionResponse {
       // Add "Select All" for clientsList
       clientsList: addSelectAll(
           (json['ClientsList'] as List?)
-              ?.map((v) => ClientsList.fromJson(v))
-              .toList() ?? [],
-              () => ClientsList(clientId: -1, clientName: "Select All")
-      ),
+                  ?.map((v) => ClientsList.fromJson(v))
+                  .toList() ??
+              [],
+          () => ClientsList(clientId: -1, clientName: "Select All"),
+          (item) => item.clientId == -1),
 
       // Add "Select All" for storesList
       storesList: (json['StoresList'] as Map<String, dynamic>?)
           ?.map((key, value) => MapEntry(
-          key,
-          addSelectAll(
-              (value as List)
-                  .map((e) => StoreData.fromJson(e))
-                  .toList(),
-                  () => StoreData(storeId: -1, storeName: "Select All")
-          )
-      )),
+                key,
+                (value as List).map((e) => StoreData.fromJson(e)).toList(),
+              )),
 
       isMaster: json['IsMaster'] as bool?,
     );
@@ -48,7 +46,8 @@ class PermissionResponse {
     return {
       'Permissions': permissions?.toJson(),
       'ClientsList': clientsList?.map((v) => v.toJson()).toList(),
-      'StoresList': storesList?.map((key, value) => MapEntry(key, value.map((e) => e.toJson()).toList())),
+      'StoresList': storesList?.map(
+          (key, value) => MapEntry(key, value.map((e) => e.toJson()).toList())),
       'IsMaster': isMaster,
     };
   }

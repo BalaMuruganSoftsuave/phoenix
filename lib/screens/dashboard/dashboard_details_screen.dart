@@ -41,55 +41,9 @@ class DashboardDetailsScreen extends StatelessWidget {
   var image;
   String? title;
   var color;
-  var data = {
-    "Result": [
-      {"Range": "02/27 12AM", "DirectSale": 4591.18},
-      {"Range": "02/27 1AM", "DirectSale": 2612.95},
-      {"Range": "02/27 2AM", "DirectSale": 1748.67},
-      {"Range": "02/27 3AM", "DirectSale": 2448.4},
-      {"Range": "02/27 4AM", "DirectSale": 1778.07},
-      {"Range": "02/27 5AM", "DirectSale": 2245.87},
-      {"Range": "02/27 6AM", "DirectSale": 2827.08},
-      {"Range": "02/27 7AM", "DirectSale": 3348.03},
-      {"Range": "02/27 8AM", "DirectSale": 6104.15},
-      {"Range": "02/27 9AM", "DirectSale": 7754.23},
-      {"Range": "02/27 10AM", "DirectSale": 7805.91},
-      {"Range": "02/27 11AM", "DirectSale": 8646.07},
-      {"Range": "02/27 12PM", "DirectSale": 7262.01},
-      {"Range": "02/27 1PM", "DirectSale": 7110.58},
-      {"Range": "02/27 2PM", "DirectSale": 7833.08},
-      {"Range": "02/27 3PM", "DirectSale": 8379.92},
-      {"Range": "02/27 4PM", "DirectSale": 6479.04},
-      {"Range": "02/27 5PM", "DirectSale": 6832.99},
-      {"Range": "02/27 6PM", "DirectSale": 8841.81},
-      {"Range": "02/27 7PM", "DirectSale": 6659.24},
-      {"Range": "02/27 8PM", "DirectSale": 7872.16},
-      {"Range": "02/27 9PM", "DirectSale": 8727.03},
-      {"Range": "02/27 10PM", "DirectSale": 6844.15},
-      {"Range": "02/27 11PM", "DirectSale": 7026.83}
-    ]
-  };
-  List<Map<String, dynamic>> rawData = [
-    {"Void": 0, "Range": "02/21", "Refund": 10043.5, "Revenue": 182327.05},
-    {"Void": 0, "Range": "02/22", "Refund": 8124.91, "Revenue": 150270.88},
-    {"Void": 37, "Range": "02/23", "Refund": 4857.19, "Revenue": 110804.4},
-    {"Void": 0, "Range": "02/24", "Refund": 8626.84, "Revenue": 107813.33},
-    {"Void": 66.84, "Range": "02/25", "Refund": 11591.73, "Revenue": 114784.71},
-    {"Void": 22.9, "Range": "02/26", "Refund": 8514.03, "Revenue": 149069.58},
-    {"Void": 0, "Range": "02/27", "Refund": 7117.65, "Revenue": 141883.33},
-  ];
 
   @override
   Widget build(BuildContext context) {
-    List<DirectSaleDetailDataResult> salesDataList = (data["Result"] as List)
-        .map((item) => DirectSaleDetailDataResult.fromJson(
-              item,
-            ))
-        .toList();
-
-    LineChartModel chartModel =
-        LineChartModel.fromDirectSalesData(salesDataList);
-    List<ChartData> processedData = processData(rawData);
     return Scaffold(
       backgroundColor: Color(0xFF0B111A),
       body: SafeArea(child: BlocBuilder<DashBoardCubit, DashboardState>(
@@ -114,18 +68,19 @@ class DashboardDetailsScreen extends StatelessWidget {
                   Spacer(),
                   CircleAvatar(
                     backgroundColor: color,
+                    radius: Responsive.boxW(context,DeviceType.isMobile(context)? 5:3),
                     child: Padding(
-                      padding: EdgeInsets.all(Responsive.padding(context, 2)),
+                      padding: EdgeInsets.all(Responsive.padding(context, DeviceType.isMobile(context)?2:1.5)),
                       child: SvgPicture.asset(
                         image,
-                        width: Responsive.boxW(context, 5),
-                        height: Responsive.boxH(context, 5),
+                        width: Responsive.boxW(context, 10),
+                        height: Responsive.boxH(context, 10),
                       ),
                     ),
                   ),
                   Gap(16),
                   Text(
-                    translate(title??''),
+                    translate(title ?? ''),
                     style: getTextTheme().bodyMedium?.copyWith(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
@@ -147,7 +102,9 @@ class DashboardDetailsScreen extends StatelessWidget {
                           circleBgColor: isDirectSale
                               ? Color(0xFFC237F3)
                               : Color(0xFF05CD99),
-                          title: isDirectSale? TextHelper.totalDirectSales: TextHelper.totalApproved,
+                          title: isDirectSale
+                              ? TextHelper.totalDirectSales
+                              : TextHelper.totalApproved,
                           subtitle: isDirectSale
                               ? formatNumber(state.directSaleDetailData?.result
                                       ?.firstOrNull?.approvedOrders ??
@@ -171,7 +128,9 @@ class DashboardDetailsScreen extends StatelessWidget {
                             circleBgColor: isDirectSale
                                 ? Color(0xFF05CD99)
                                 : Color(0xFFE84040),
-                            title: isDirectSale? TextHelper.uniqueApprovalRatio : TextHelper.totalDeclined,
+                            title: isDirectSale
+                                ? TextHelper.uniqueApprovalRatio
+                                : TextHelper.totalDeclined,
                             subtitle: isDirectSale
                                 ? checkNullable(state
                                         .directSaleDetailData
@@ -194,7 +153,9 @@ class DashboardDetailsScreen extends StatelessWidget {
                             onPress: () {}),
                         CardData(
                           circleBgColor: Color(0xFF6AD2FF),
-                          title: isDirectSale? TextHelper.averageOrderValue : TextHelper.approvalRatio,
+                          title: isDirectSale
+                              ? TextHelper.averageOrderValue
+                              : TextHelper.approvalRatio,
                           // subtitle: formatCurrency(state.directSaleDetailData?.result?.first.averageOrderValue ?? 0.0),
                           subtitle: isDirectSale
                               ? formatCurrency(double.parse((state
@@ -218,7 +179,9 @@ class DashboardDetailsScreen extends StatelessWidget {
                         ),
                         CardData(
                           circleBgColor: Color(0xFFF36337),
-                          title: isDirectSale? TextHelper.abandonCartRatio : TextHelper.canceledSubscribers,
+                          title: isDirectSale
+                              ? TextHelper.abandonCartRatio
+                              : TextHelper.canceledSubscribers,
                           subtitle: isDirectSale
                               ? checkNullable(state.directSaleDetailData?.result
                                       ?.firstOrNull?.abandonCartRatio ??
@@ -273,9 +236,17 @@ class DashboardDetailsScreen extends StatelessWidget {
                                                   ?.result ??
                                               []),
                                           barRadius: 20,
-                                          barSpace: -10,
+                                          barSpace: -20,
                                           showAllRods: true,
-                                          width: 120,
+                                          barWidth:
+                                              !DeviceType.isMobile(context)
+                                                  ? 40
+                                                  : 30,
+                                          width: Responsive.screenW(
+                                              context,
+                                              !DeviceType.isMobile(context)
+                                                  ? 20
+                                                  : 25),
                                           isLegendRequired: false,
                                         )),
                       Gap(20),
@@ -294,9 +265,17 @@ class DashboardDetailsScreen extends StatelessWidget {
                                                   ?.result ??
                                               []),
                                           barRadius: 20,
-                                          barSpace: -10,
+                                          barSpace: -20,
                                           showAllRods: true,
-                                          width: 85,
+                                          barWidth:
+                                              !DeviceType.isMobile(context)
+                                                  ? 40
+                                                  : 30,
+                                          width: Responsive.screenW(
+                                              context,
+                                              !DeviceType.isMobile(context)
+                                                  ? 15
+                                                  : 25),
                                           isLegendRequired: false,
                                         ))
                           : PieChartWidget(

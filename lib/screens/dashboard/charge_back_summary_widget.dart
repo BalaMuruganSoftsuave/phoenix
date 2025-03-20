@@ -5,6 +5,7 @@ import 'package:phoenix/cubit/dashboard/dashboard_state.dart';
 import 'package:phoenix/helper/color_helper.dart';
 import 'package:phoenix/helper/dependency.dart';
 import 'package:phoenix/helper/enum_helper.dart';
+import 'package:phoenix/helper/responsive_helper.dart';
 import 'package:phoenix/helper/text_helper.dart';
 import 'package:phoenix/helper/utils.dart';
 import 'package:phoenix/models/dashboard/chargeback_summary_model.dart';
@@ -74,7 +75,9 @@ class ChargebackSummary extends StatelessWidget {
               : (state.chargeBackSummaryData?.result ?? []).isEmpty
                   ? NoDataWidget()
                   : Container(
-                      padding: EdgeInsets.symmetric(vertical: 10),
+                      padding: EdgeInsets.symmetric(
+                        vertical: Responsive.screenH(context, 2),
+                      ),
                       decoration: BoxDecoration(
                           color: AppColors.darkBg,
                           borderRadius: BorderRadius.circular(12)),
@@ -87,21 +90,30 @@ class ChargebackSummary extends StatelessWidget {
                           return Column(
                             children: [
                               Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 10.0, horizontal: 15.0),
+                                padding:  EdgeInsets.symmetric(
+                                  vertical: Responsive.screenH(context, 1),
+                                  horizontal: Responsive.screenH(context, 1.5),
+                                ),
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Expanded(
                                       child: Text(item["key"] ?? "",
-                                          style: getTextTheme().bodyMedium?.copyWith(
-                                              fontSize: 14,
-                                              color: Colors.white)),
+                                          style: getTextTheme()
+                                              .bodyMedium
+                                              ?.copyWith(
+                                                  fontSize: Responsive.fontSize(
+                                                      context, 3),
+                                                  color: Colors.white)),
                                     ),
                                     Text((item["value"] ?? "").toString(),
-                                        style: getTextTheme().bodyMedium?.copyWith(
-                                            fontSize: 14, color: Colors.white)),
+                                        style: getTextTheme()
+                                            .bodyMedium
+                                            ?.copyWith(
+                                                fontSize: Responsive.fontSize(
+                                                    context, 3),
+                                                color: Colors.white)),
                                   ],
                                 ),
                               ),

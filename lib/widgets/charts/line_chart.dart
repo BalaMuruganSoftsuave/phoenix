@@ -47,7 +47,7 @@ class SalesRevenueChart extends StatelessWidget {
             ),
             padding: const EdgeInsets.all(16.0),
             child: LineChart(
-              sampleData1(),
+              sampleData1(context),
               // curve: Curves.bounceIn,
               duration: const Duration(milliseconds: 250),
             ),
@@ -77,8 +77,8 @@ class SalesRevenueChart extends StatelessWidget {
                     children: totalSales.entries.map((entry) {
                       Color color = _getLegendColor(entry.key);
                       return SizedBox(
-                        width: (MediaQuery.of(context).size.width - 24) /
-                            2.3, // 2 items per row
+                        width: DeviceType.isMobile(context)?(MediaQuery.of(context).size.width - 24) /
+                            2.3:null, // 2 items per row
                         child: LegendWidget(
                           color: color,
                           text: entry.key,
@@ -214,7 +214,7 @@ class SalesRevenueChart extends StatelessWidget {
 
   // Find the overall min/max across all data series
 
-  LineChartData sampleData1() {
+  LineChartData sampleData1(context) {
     List<FlSpot> spots = [];
     double minY = 0;
     double maxY = 0;
@@ -237,12 +237,14 @@ class SalesRevenueChart extends StatelessWidget {
     return LineChartData(
       minY: minY,
       maxY: maxY,
-      lineTouchData: lineTouchData1(),
+      lineTouchData: lineTouchData1(
+        context,
+      ),
       gridData: FlGridData(
         show: true,
         drawHorizontalLine: true,
         drawVerticalLine: false,
-        horizontalInterval: Math.max((maxY - minY) / 3, 1),
+        horizontalInterval: Math.max((maxY - minY) / 5, 1),
         getDrawingHorizontalLine: (value) {
           return FlLine(
             color: AppColors.lines,
@@ -251,7 +253,7 @@ class SalesRevenueChart extends StatelessWidget {
           );
         },
       ),
-      titlesData: getTitlesData(spots),
+      titlesData: getTitlesData(spots,context),
       borderData: FlBorderData(
         show: false,
         border: const Border(
@@ -307,7 +309,7 @@ class SalesRevenueChart extends StatelessWidget {
     return const FlGridData(show: false);
   }
 
-  FlTitlesData getTitlesData(List<FlSpot> spots) {
+  FlTitlesData getTitlesData(List<FlSpot> spots,context) {
     double minY = 0;
     double maxY = 0;
 
@@ -341,33 +343,31 @@ class SalesRevenueChart extends StatelessWidget {
           showTitles: true,
           maxIncluded: true,
           minIncluded: true,
-          reservedSize: Responsive.padding(getCtx()!, 10),
+          reservedSize: Responsive.padding(getCtx()!, DeviceType.isMobile(context)?12:8),
           getTitlesWidget: (value, meta) {
-            double absMax = Math.max(
-                minY.abs(), maxY.abs()); // Get the larger absolute value
-            interval = absMax / 2;
+            // Always include 0, minY, and maxY
+            List<double> valuesToShow = [minY, 0, maxY];
 
-            List<double> valuesToShow = [
-              minY, // Ensure minY is included
-              -absMax, // Most negative value
-              -interval, // Middle negative value
-              0, // Zero
-              interval, // Middle positive value
-              maxY // Most positive value
-            ];
+            // Add intermediate values
+            int numIntermediateValues = 3;
+            double step = (maxY - minY) / (numIntermediateValues + 1);
+            for (int i = 1; i <= numIntermediateValues; i++) {
+              valuesToShow.add(minY + step * i);
+            }
 
-            valuesToShow = valuesToShow
-                .map((v) => double.parse(v.toStringAsFixed(1)))
-                .toList();
+            valuesToShow.sort();
+            valuesToShow = valuesToShow.toSet().toList(); // Remove duplicates
 
-            // Only show our specific values
             if (valuesToShow.contains(value)) {
               return Text(
                 formatValue(value),
-                style:  getTextTheme().bodyMedium?.copyWith(fontSize: 10, color: Colors.white),
+                style: getTextTheme().bodyMedium?.copyWith(
+                  fontSize: Responsive.fontSize(context, 2.5),
+                  color: Colors.white,
+                ),
               );
             }
-            return Container(); // Hide other values
+            return Container();
           },
           interval: Math.max((maxY - minY) / 2, 0.1),
         ),
@@ -375,7 +375,7 @@ class SalesRevenueChart extends StatelessWidget {
       bottomTitles: AxisTitles(
         sideTitles: SideTitles(
             showTitles: true,
-            reservedSize: 20,
+            reservedSize: Responsive.padding(getCtx()!, DeviceType.isMobile(context)?12:8),
             interval: 1,
             getTitlesWidget: (value, meta) {
               // Process only whole integer values
@@ -417,7 +417,9 @@ class SalesRevenueChart extends StatelessWidget {
 
                 return Text(
                   formatRange(range),
-                  style: getTextTheme().bodyMedium?.copyWith(fontSize: 10, color: Colors.white),
+                  style: getTextTheme()
+                      .bodyMedium
+                      ?.copyWith(   fontSize: Responsive.fontSize(context, 2.5), color: Colors.white),
                   textAlign: TextAlign.center,
                 );
               } else {
@@ -444,7 +446,9 @@ class SalesRevenueChart extends StatelessWidget {
 
                   return Text(
                     formatRange(range),
-                    style: getTextTheme().bodyMedium?.copyWith(fontSize: 10, color: Colors.white),
+                    style: getTextTheme().bodyMedium?.copyWith(
+                        fontSize: Responsive.fontSize(context, 2.5),
+                        color: Colors.white),
                     textAlign: TextAlign.center,
                   );
                 }
@@ -462,7 +466,7 @@ class SalesRevenueChart extends StatelessWidget {
     );
   }
 
-  LineTouchData lineTouchData1() {
+  LineTouchData lineTouchData1(context) {
     return LineTouchData(
       handleBuiltInTouches: true,
       touchTooltipData: LineTouchTooltipData(
@@ -507,7 +511,7 @@ class SalesRevenueChart extends StatelessWidget {
             return LineTooltipItem(
               '', // Empty main text to use only children
               getTextTheme().bodyMedium!.copyWith(
-                  fontSize: 12,
+                  fontSize: Responsive.fontSize(context, 3),
                   color: Colors.white,
                   fontWeight: FontWeight.bold),
               textAlign: TextAlign.start,
@@ -515,20 +519,25 @@ class SalesRevenueChart extends StatelessWidget {
                 TextSpan(
                     text: '$lineName : ', // Label with extra spaces
                     style: getTextTheme().labelMedium?.copyWith(
-                        color: Colors.white, fontWeight: FontWeight.bold)),
+                        fontSize: Responsive.fontSize(context, 3),
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold)),
                 TextSpan(
                     text: areaMap
                         ? '\$${spot.y.toStringAsFixed(2)}'
                         : '${spot.y.toInt()}',
-                    style: getTextTheme()
-                        .labelMedium
-                        ?.copyWith(color: color, fontWeight: FontWeight.bold)),
+                    style: getTextTheme().labelMedium?.copyWith(
+                          color: color,
+                          fontWeight: FontWeight.bold,
+                          fontSize: Responsive.fontSize(context, 3),
+                        )),
                 // Only add the range to the last tooltip item
                 if (isLastSpot)
                   TextSpan(
                       text: '\n\n$range',
                       style: getTextTheme().labelLarge?.copyWith(
                           color: AppColors.subText,
+                          fontSize: Responsive.fontSize(context, 3),
                           fontWeight: FontWeight.bold)),
               ],
             );

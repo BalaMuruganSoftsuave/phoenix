@@ -203,7 +203,7 @@ String timeAgo(String dateString) {
 }
 
 getUserName() {
-  return PreferenceHelper.getUserName();
+  return PreferenceHelper.getUserName()??"";
 }
 
 List<Map<String, dynamic>> sortTimeRanges({
@@ -286,6 +286,8 @@ FilterPayload adjustStartEndDateRefund(String startDate, String endDate) {
 
 logout() {
   PreferenceHelper.clearPreferences();
+  // Add this line to remove focus
+  FocusManager.instance.primaryFocus?.unfocus();
 }
 
 List<Color> generateRandomColors(int length) {

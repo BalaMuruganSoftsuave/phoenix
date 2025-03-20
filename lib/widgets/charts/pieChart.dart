@@ -11,7 +11,6 @@ import '../../helper/responsive_helper.dart';
 import '../../helper/utils.dart';
 import 'legend_widget.dart';
 
-
 class PieChartFilterWidget extends StatefulWidget {
   const PieChartFilterWidget(
       {super.key,
@@ -117,13 +116,15 @@ class PieChartFilterWidgetState extends State<PieChartFilterWidget> {
         ),
         child: Text(
           "$chargebackType\n$count ($percentage%)",
-          style: getTextTheme().bodyMedium?.copyWith(color: Colors.white, fontSize: 12),
+          style: getTextTheme().bodyMedium?.copyWith(
+                color: Colors.white,
+                fontSize: Responsive.fontSize(context, 3),
+              ),
           textAlign: TextAlign.center,
         ),
       ),
     );
   }
-
 
   Widget _buildChargebackLegend(Map<String, int> chargebackTotals, int total) {
     List<MapEntry<String, int>> entries = chargebackTotals.entries.toList();
@@ -138,11 +139,12 @@ class PieChartFilterWidgetState extends State<PieChartFilterWidget> {
         // Get index of entry
         int index = entries.indexOf(entry);
         return SizedBox(
-          width: MediaQuery.sizeOf(context).width/2.5,
+          width: MediaQuery.sizeOf(context).width / 2.5,
           child: LegendWidget(
             color: colors[index % colors.length], // Use index for color cycling
             text: entry.key,
-            subText: '${entry.value} (${percentage % 1 == 0 ? percentage.toInt() : percentage.toStringAsFixed(2)}%)',
+            subText:
+                '${entry.value} (${percentage % 1 == 0 ? percentage.toInt() : percentage.toStringAsFixed(2)}%)',
           ),
         );
       }).toList(),
@@ -177,7 +179,7 @@ class PieChartFilterWidgetState extends State<PieChartFilterWidget> {
                   style: getTextTheme().titleSmall?.copyWith(
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
-                        fontSize: Responsive.fontSize(context, 4.8),
+                        fontSize: Responsive.fontSize(context, 4),
                       ),
                 ),
               ),

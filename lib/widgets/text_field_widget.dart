@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:phoenix/helper/color_helper.dart';
+import 'package:phoenix/helper/responsive_helper.dart';
 import 'package:phoenix/helper/utils.dart';
 
 class CustomTextFormField extends StatefulWidget {
@@ -11,6 +12,7 @@ class CustomTextFormField extends StatefulWidget {
   final TextInputAction textInputAction;
   final String? Function(String?)? validator;
   final void Function(String)? onChanged;
+  final void Function(String)? onFieldSubmitted;
   final Widget? prefixIcon;
   final Widget? suffixIcon;
   final bool autoFocus;
@@ -31,7 +33,7 @@ class CustomTextFormField extends StatefulWidget {
     this.suffixIcon,
     this.autoFocus = false,
     this.errorMessage,
-    this.focusNode,
+    this.focusNode, this.onFieldSubmitted,
   });
 
   @override
@@ -69,9 +71,9 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
     return TextFormField(
       focusNode: _internalFocusNode,
       style: getTextTheme().displayMedium?.copyWith(
-        color: Colors.white,
-        fontSize: 16,
-      ),
+            color: Colors.white,
+            fontSize: Responsive.fontSize(context, 4),
+          ),
       cursorColor: Colors.white,
       controller: widget.controller,
       obscureText: widget.isPassword ? _isObscured : false,
@@ -80,6 +82,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
       validator: widget.validator,
       onChanged: widget.onChanged,
       autofocus: widget.autoFocus,
+      onFieldSubmitted: widget.onFieldSubmitted,
       decoration: InputDecoration(
         fillColor: AppColors.darkBg2,
         filled: true,
@@ -87,18 +90,26 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         hintText: widget.hintText,
         labelText: widget.labelText,
         prefixIcon: widget.prefixIcon,
+        labelStyle: getTextTheme().bodyMedium?.copyWith(
+              color: AppColors.grey,
+              fontSize: Responsive.fontSize(context, 4),
+            ),
+        hintStyle: getTextTheme().bodyMedium?.copyWith(
+          color: Colors.grey,
+          fontSize: Responsive.fontSize(context, 4),
+        ),
         suffixIcon: widget.isPassword
             ? GestureDetector(
-          onTap: () {
-            setState(() {
-              _isObscured = !_isObscured;
-            });
-          },
-          child: Icon(
-            _isObscured ? Icons.visibility : Icons.visibility_off,
-            color: Colors.grey,
-          ),
-        )
+                onTap: () {
+                  setState(() {
+                    _isObscured = !_isObscured;
+                  });
+                },
+                child: Icon(
+                  _isObscured ? Icons.visibility : Icons.visibility_off,
+                  color: Colors.grey,
+                ),
+              )
             : widget.suffixIcon,
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
@@ -111,7 +122,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
           borderSide:
-          const BorderSide(color: AppColors.notificationCardBackground),
+              const BorderSide(color: AppColors.notificationCardBackground),
         ),
         disabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),

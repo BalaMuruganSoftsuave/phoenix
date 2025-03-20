@@ -173,7 +173,7 @@ class _FilterComponentState extends State<FilterComponent> {
       padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
       decoration: BoxDecoration(
         color: Color(0xFF0B111A), // Dark background
-        borderRadius: BorderRadius.circular(10),
+        // borderRadius: BorderRadius.circular(10),
       ),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
@@ -186,14 +186,14 @@ class _FilterComponentState extends State<FilterComponent> {
                     : handleSelection(item["key"]!),
                 child: (item["key"] != "custom")
                     ? Container(
-                        margin: EdgeInsets.symmetric(horizontal: 5),
+                        margin: EdgeInsets.symmetric(horizontal: Responsive.screenW(context, 1)),
                         padding:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                            EdgeInsets.symmetric(vertical: Responsive.screenH(context, 1), horizontal: Responsive.screenW(context, 3)),
                         decoration: BoxDecoration(
                           color: isSelected
                               ? Color(0xFFF90182)
                               : Color(0xFF141E2D),
-                          borderRadius: BorderRadius.circular(50),
+                          borderRadius: BorderRadius.circular( Responsive.screenW(context, 6)),
                           border: Border.all(
                               color: Color(0xFFA3AED0).withValues(alpha: 0.4)),
                         ),
@@ -264,10 +264,14 @@ class _FilterComponentState extends State<FilterComponent> {
                                         .bodyMedium
                                         ?.copyWith(color: AppColors.white),
                                   )
-                                : Icon(
-                                    Icons.calendar_today_sharp,
-                                    color: AppColors.subText,
-                                  )),
+                                : Padding(
+                                  padding: DeviceType.isMobile(context)?EdgeInsets.zero :EdgeInsets.symmetric(vertical:  Responsive.screenW(context, 1),horizontal:  Responsive.screenW(context, 2)),
+                                  child: Icon(
+                                      Icons.calendar_today_sharp,
+                                      color: AppColors.subText,
+
+                                    ),
+                                )),
                       ));
           }).toList(),
         ),
