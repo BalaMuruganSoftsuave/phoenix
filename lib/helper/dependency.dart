@@ -91,13 +91,13 @@ class IdValueItem {
 }
 
 List<IdValueItem> weekDays = [
-  IdValueItem(id: "Sunday", name: "Sun"),
-  IdValueItem(id: "Monday", name: "Mon"),
-  IdValueItem(id: "Tuesday", name: "Tue"),
-  IdValueItem(id: "Wednesday", name: "Wed"),
-  IdValueItem(id: "Thursday", name: "Thu"),
-  IdValueItem(id: "Friday", name: "Fri"),
-  IdValueItem(id: "Saturday", name: "Sat"),
+  IdValueItem(id: "1", name: "Sun"),
+  IdValueItem(id: "2", name: "Mon"),
+  IdValueItem(id: "3", name: "Tue"),
+  IdValueItem(id: "4", name: "Wed"),
+  IdValueItem(id: "5", name: "Thu"),
+  IdValueItem(id: "6", name: "Fri"),
+  IdValueItem(id: "7", name: "Sat"),
 ];
 
 List<IdValueItem> notificationConfigurationItem = [

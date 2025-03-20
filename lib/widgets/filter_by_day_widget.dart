@@ -1,5 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:phoenix/cubit/dashboard/dashboard_cubit.dart';
+import 'package:phoenix/cubit/dashboard/dashboard_state.dart';
 import 'package:phoenix/helper/color_helper.dart';
 import 'package:phoenix/helper/responsive_helper.dart';
 import 'package:phoenix/helper/text_helper.dart';
@@ -35,99 +38,25 @@ class _FilterComponentState extends State<FilterComponent> {
     {"label": "Last Year", "key": "lastYear"},
   ];
 
-  String selectedKey = "today";
-  DateTimeRange? selectedRange;
-  DateTimeRange? selectedCustomRange;
 
-  void handleSelection(String key) {
-    if (selectedKey != key) {
+
+  void handleSelection(String key,DashboardState state) {
+    if (state.selectedKey != key) {
       if (key == "custom") {
         // _selectDateRange();
       } else {
-        setState(() {
-          selectedCustomRange = null;
-          selectedKey = key;
-          selectedRange = _getDateRange(key);
-        });
+        // setState(() {
+        //   state.selectedCustomRange = null;
+        //   state.selectedKey = key;
+        //   state.selectedRange = _getDateRange(key);
+        // });
+        context.read<DashBoardCubit>().updateFilterData(key, _getDateRange(key), null);
 
-        widget.onSelectionChange?.call(key, range: selectedRange);
+        widget.onSelectionChange?.call(key, range: _getDateRange(key));
       }
     }
   }
 
-  Future<void> _selectDateRange() async {
-    final ThemeData theme = ThemeHelper.lightTheme(context);
-
-    final picked = await showDateRangePicker(
-      context: context,
-      initialEntryMode: DatePickerEntryMode.calendarOnly,
-      // Shows only calendar
-      firstDate: DateTime(1900),
-      lastDate: DateTime.now(),
-      cancelText: translate(TextHelper.cancel),
-      barrierColor: Colors.black54,
-      // Dim background
-      builder: (context, child) {
-        return Dialog(
-          // Wrap in Dialog for full styling control
-          backgroundColor: AppColors.darkBg2, // Ensures full background color
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          child: Container(
-            height: Responsive.screenH(context, 70),
-            decoration: BoxDecoration(
-              color: AppColors.darkBg2, // Full background matches app theme
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Theme(
-              data: theme.copyWith(
-                scaffoldBackgroundColor: AppColors.darkBg2,
-                cardColor: AppColors.darkBg2,
-                colorScheme: theme.colorScheme.copyWith(
-                  primary: AppColors.pink,
-                  onSurface: AppColors.white,
-                  onInverseSurface: AppColors.white,
-                  onPrimary: AppColors.white,
-                  onPrimaryContainer: AppColors.white,
-                  onSurfaceVariant: AppColors.white,
-                ),
-
-                textTheme: TextTheme(
-                  bodyMedium: getTextTheme()
-                      .bodyMedium
-                      ?.copyWith(color: Colors.white), // Date text color
-                  bodySmall: getTextTheme()
-                      .bodyMedium
-                      ?.copyWith(color: Colors.white), // Labels text color
-                ),
-                textButtonTheme: TextButtonThemeData(
-                  style: TextButton.styleFrom(
-                      foregroundColor: Colors.pink), // Button text color
-                ),
-                dialogBackgroundColor:
-                    AppColors.darkBg2, // Ensures full background matches theme
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(12),
-                child: child!,
-              ),
-            ),
-          ),
-        );
-      },
-    );
-
-    if (picked != null) {
-      setState(() {
-        selectedKey = "custom";
-
-        selectedCustomRange =
-            DateTimeRange(start: picked.start, end: picked.end);
-      });
-
-      widget.onSelectionChange?.call("custom", range: selectedCustomRange);
-    }
-  }
 
   DateTimeRange _getDateRange(String key) {
     final now = DateTime.now();
@@ -169,113 +98,128 @@ class _FilterComponentState extends State<FilterComponent> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-      decoration: BoxDecoration(
-        color: Color(0xFF0B111A), // Dark background
-        // borderRadius: BorderRadius.circular(10),
-      ),
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          children: ranges.map((item) {
-            bool isSelected = selectedKey == item["key"];
-            return GestureDetector(
-                onTap: () => widget.isDisabled == true
-                    ? null
-                    : handleSelection(item["key"]!),
-                child: (item["key"] != "custom")
-                    ? Container(
-                        margin: EdgeInsets.symmetric(horizontal: Responsive.screenW(context, 1)),
-                        padding:
-                            EdgeInsets.symmetric(vertical: Responsive.screenH(context, 1), horizontal: Responsive.screenW(context, 3)),
-                        decoration: BoxDecoration(
-                          color: isSelected
-                              ? Color(0xFFF90182)
-                              : Color(0xFF141E2D),
-                          borderRadius: BorderRadius.circular( Responsive.screenW(context, 6)),
-                          border: Border.all(
-                              color: Color(0xFFA3AED0).withValues(alpha: 0.4)),
-                        ),
-                        child: Text(
-                          item["label"]!,
-                          style: getTextTheme().bodyMedium?.copyWith(
-                                color: isSelected
-                                    ? Colors.white
-                                    : Color(0xFFA3AED0),
-                                fontWeight: FontWeight.w600,
-                              ),
-                        ))
-                    : ChartDateFilterWidget(
-                        isDisabled: widget.isDisabled,
-                        dateBackgroundColor: AppColors.darkBg,
-                        weekRowTextColor: AppColors.white,
-                        containerColor: AppColors.darkBg,
-                        arrowColor: AppColors.subText,
-                        currentMonthDateColor: AppColors.white,
-                        otherMonthDateColor:
-                            AppColors.subText.withValues(alpha: 0.2),
-                        selectedBackgroundColor: AppColors.pink,
-                        inBetweenColor: AppColors.grey2,
-                        cancelTextColor: AppColors.subText,
-                        doneTextColor: AppColors.subText,
-                        applyCancelButtonColor: AppColors.pink,
-                        otherMonthColor: AppColors.subText,
-                        selectedMonthColor: AppColors.white,
-                        selectedDateColor: AppColors.white,
-                        monthYearColor: AppColors.subText,
-                        otherYearColor: AppColors.white,
-                        dividerColor: AppColors.subText,
-                        selectedYearColor: AppColors.subText,
-                        buttonTextStyle: getTextTheme().bodyMedium,
-                        labelTextStyle: getTextTheme().bodyMedium,
-                        onChange: (DateFilterModal date) {
-                          // Handle selected date change
-                          setState(() {
-                            selectedKey = "custom";
-                            selectedCustomRange = DateTimeRange(
-                                start: DateTime.parse(date.startDate ?? ""),
-                                end: DateTime.parse(date.endDate ?? ""));
-                          });
-
-                          widget.onSelectionChange
-                              ?.call("custom", range: selectedCustomRange);
-
-                          debugPrint(
-                              "Selected Date Range: ${date.startDate} to ${date.endDate}");
-                        },
-                        child: Container(
-                            margin: EdgeInsets.symmetric(horizontal: 5),
+    return BlocBuilder<DashBoardCubit, DashboardState>(
+      builder: (context, state) {
+        return Container(
+          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+          decoration: BoxDecoration(
+            color: Color(0xFF0B111A), // Dark background
+            // borderRadius: BorderRadius.circular(10),
+          ),
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: ranges.map((item) {
+                bool isSelected = state.selectedKey == item["key"];
+                return GestureDetector(
+                    onTap: () => widget.isDisabled == true
+                        ? null
+                        : handleSelection(item["key"]!,state),
+                    child: (item["key"] != "custom")
+                        ? Container(
+                            margin: EdgeInsets.symmetric(
+                                horizontal: Responsive.screenW(context, 1)),
                             padding: EdgeInsets.symmetric(
-                                vertical: 10, horizontal: 20),
+                                vertical: Responsive.screenH(context, 1),
+                                horizontal: Responsive.screenW(context, 3)),
                             decoration: BoxDecoration(
                               color: isSelected
                                   ? Color(0xFFF90182)
                                   : Color(0xFF141E2D),
-                              borderRadius: BorderRadius.circular(50),
+                              borderRadius: BorderRadius.circular(
+                                  Responsive.screenW(context, 6)),
                               border: Border.all(
                                   color:
                                       Color(0xFFA3AED0).withValues(alpha: 0.4)),
                             ),
-                            child: selectedCustomRange != null
-                                ? Text(
-                                    "${formatter.format(selectedCustomRange!.start)} to ${formatter.format(selectedCustomRange!.end)}",
-                                    style: getTextTheme()
-                                        .bodyMedium
-                                        ?.copyWith(color: AppColors.white),
-                                  )
-                                : Padding(
-                                  padding: DeviceType.isMobile(context)?EdgeInsets.zero :EdgeInsets.symmetric(vertical:  Responsive.screenW(context, 1),horizontal:  Responsive.screenW(context, 2)),
-                                  child: Icon(
-                                      Icons.calendar_today_sharp,
-                                      color: AppColors.subText,
+                            child: Text(
+                              item["label"]!,
+                              style: getTextTheme().bodyMedium?.copyWith(
+                                    color: isSelected
+                                        ? Colors.white
+                                        : Color(0xFFA3AED0),
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                            ))
+                        : ChartDateFilterWidget(
+                            isDisabled: widget.isDisabled,
+                            dateBackgroundColor: AppColors.darkBg,
+                            weekRowTextColor: AppColors.white,
+                            containerColor: AppColors.darkBg,
+                            arrowColor: AppColors.subText,
+                            currentMonthDateColor: AppColors.white,
+                            otherMonthDateColor:
+                                AppColors.subText.withValues(alpha: 0.2),
+                            selectedBackgroundColor: AppColors.pink,
+                            inBetweenColor: AppColors.grey2,
+                            cancelTextColor: AppColors.subText,
+                            doneTextColor: AppColors.subText,
+                            applyCancelButtonColor: AppColors.pink,
+                            otherMonthColor: AppColors.subText,
+                            selectedMonthColor: AppColors.white,
+                            selectedDateColor: AppColors.white,
+                            monthYearColor: AppColors.subText,
+                            otherYearColor: AppColors.white,
+                            dividerColor: AppColors.subText,
+                            selectedYearColor: AppColors.subText,
+                            buttonTextStyle: getTextTheme().bodyMedium,
+                            labelTextStyle: getTextTheme().bodyMedium,
+                            onChange: (DateFilterModal date) {
+                              // Handle selected date change
+                              // setState(() {
+                                state.selectedKey = "custom";
+                                var range = DateTimeRange(
+                                    start: DateTime.parse(date.startDate ?? ""),
+                                    end: DateTime.parse(date.endDate ?? ""));
+                              // });
 
-                                    ),
-                                )),
-                      ));
-          }).toList(),
-        ),
-      ),
+                              context.read<DashBoardCubit>().updateFilterData("custom", null, range);
+
+                              widget.onSelectionChange
+                                  ?.call("custom", range: state.selectedCustomRange);
+
+                              debugPrint(
+                                  "Selected Date Range: ${date.startDate} to ${date.endDate}");
+                            },
+                            child: Container(
+                                margin: EdgeInsets.symmetric(horizontal: 5),
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 10, horizontal: 20),
+                                decoration: BoxDecoration(
+                                  color: isSelected
+                                      ? Color(0xFFF90182)
+                                      : Color(0xFF141E2D),
+                                  borderRadius: BorderRadius.circular(50),
+                                  border: Border.all(
+                                      color: Color(0xFFA3AED0)
+                                          .withValues(alpha: 0.4)),
+                                ),
+                                child: state.selectedCustomRange != null
+                                    ? Text(
+                                        "${formatter.format(state.selectedCustomRange!.start)} to ${formatter.format(state.selectedCustomRange!.end)}",
+                                        style: getTextTheme()
+                                            .bodyMedium
+                                            ?.copyWith(color: AppColors.white),
+                                      )
+                                    : Padding(
+                                        padding: DeviceType.isMobile(context)
+                                            ? EdgeInsets.zero
+                                            : EdgeInsets.symmetric(
+                                                vertical: Responsive.screenW(
+                                                    context, 1),
+                                                horizontal: Responsive.screenW(
+                                                    context, 2)),
+                                        child: Icon(
+                                          Icons.calendar_today_sharp,
+                                          color: AppColors.subText,
+                                        ),
+                                      )),
+                          ));
+              }).toList(),
+            ),
+          ),
+        );
+      },
     );
   }
 }
