@@ -207,7 +207,7 @@ class BarChartWidget extends StatelessWidget {
                               if(!isLegendRequired) {
                                 textSpans.add(
                                   TextSpan(
-                                    text: '${percentage.toStringAsFixed(1)}%\n',
+                                    text: '${percentage.toStringAsFixed(2)}%\n',
                                     style: getTextTheme().bodyMedium?.copyWith(
                                         fontSize: Responsive.fontSize(context, 3),
                                         color: color,
@@ -338,7 +338,7 @@ class BarChartWidget extends StatelessWidget {
                         .elementAt(i)), // Get corresponding color
                     text: chartData[0].values.keys.elementAt(i),
                     subText:isLegendRequired==false?null:
-                        '${formatCurrency(chartData.fold<double>(0, (sum, data) => sum + (data.values[chartData[0].values.keys.elementAt(i)] ?? 0)))}/${(totalPercentages[totalPercentages.keys.elementAt(i)] ?? 0).toStringAsFixed(1)}%',
+                        '${formatCurrency(chartData.fold<double>(0, (sum, data) => sum + (data.values[chartData[0].values.keys.elementAt(i)] ?? 0)))}/${(totalPercentages[totalPercentages.keys.elementAt(i)] ?? 0).toStringAsFixed(2)}%',
                   ),
                 ),
               ),

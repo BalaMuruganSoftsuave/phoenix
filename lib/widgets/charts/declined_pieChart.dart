@@ -153,13 +153,14 @@ class _PieChartWidgetState extends State<PieChartWidget> {
               ),
               sections: _generatePieSections(entries, total),
               borderData: FlBorderData(show: false),
-              centerSpaceRadius:DeviceType.isMobile(context)? 40:80,
+              centerSpaceRadius:DeviceType.isMobile(context)? 60:80,
               sectionsSpace: 0,
             ),
           ),
         ),
         if (touchedIndex != -1 && touchedIndex < entries.length)
           _buildTooltip(
+            context,
             entries[touchedIndex].key,
             entries[touchedIndex].value,
             total > 0
@@ -189,10 +190,14 @@ class _PieChartWidgetState extends State<PieChartWidget> {
   }
 
   // ✅ Tooltip for chart sections
-  Widget _buildTooltip(
+  Widget _buildTooltip(BuildContext context,
       String label, int value, String percentage, Offset position) {
+    print("Hellot ${position.dx}");
+    print(MediaQuery.sizeOf(context).width);
+    var width = MediaQuery.sizeOf(context).width - position.dx;
+    print(width);
     return Positioned(
-      left: position.dx,
+      left: width > 180 ? position.dx : position.dx - width*1.2,
       top: position.dy, // Center vertically
       child: Container(
         padding: const EdgeInsets.all(6),
