@@ -4,6 +4,8 @@ import 'dart:math' as math;
 import 'package:phoenix/helper/color_helper.dart';
 import 'package:phoenix/helper/utils.dart';
 
+
+
 class MultiSelectionDropDown extends StatefulWidget {
    MultiSelectionDropDown({
     required this.items,
@@ -16,6 +18,7 @@ class MultiSelectionDropDown extends StatefulWidget {
     this.errorText,
     this.showError = false,
     this.isEnabled = true,
+     this.prevSelected,
     super.key, this.selectAll= true,
   });
 
@@ -29,7 +32,8 @@ class MultiSelectionDropDown extends StatefulWidget {
   final String? errorText;
   final bool showError;
   final bool isEnabled;
-   bool? selectAll;
+   final bool? selectAll;
+   final List<int>? prevSelected;
 
   @override
   State<MultiSelectionDropDown> createState() => _MultiSelectionDropDownState();
@@ -56,11 +60,22 @@ class _MultiSelectionDropDownState extends State<MultiSelectionDropDown> {
     _filteredItems = List.from(widget.items);
     if (widget.selectAll == true && widget.items.isNotEmpty) {
       setState(() {
+
         selectedKeys = widget.items.map((e) => e.id).toSet();
         selectionOrder = widget.items.map((e) => e.id).toList();
       });
       WidgetsBinding.instance.addPostFrameCallback((_) {
         widget.onSelection(widget.items);
+      });
+    } else {
+      setState(() {
+        selectedKeys = widget.prevSelected?.map((e) => e).toSet()??{};
+        selectionOrder = widget.prevSelected?.map((e) => e).toList()??[];
+      });
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        widget.onSelection(widget.items
+            .where((e) => selectedKeys.contains(e.id))
+            .toList());
       });
     }
     WidgetsBinding.instance.addPostFrameCallback((_) {

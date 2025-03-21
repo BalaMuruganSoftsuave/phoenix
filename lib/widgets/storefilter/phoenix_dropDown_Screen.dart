@@ -10,6 +10,7 @@ import 'package:phoenix/helper/utils.dart';
 import 'package:phoenix/models/permission_model.dart';
 import 'package:phoenix/screens/dashboard.dart';
 
+import '../../helper/dependency.dart';
 import 'custom_multi_selection_dropdown.dart';
 
 class ClientStoreFilterWidget extends StatefulWidget {
@@ -17,7 +18,11 @@ class ClientStoreFilterWidget extends StatefulWidget {
   final Function(List<int>, List<int>) onChanged;
   final bool? isDisabled;
 
-  const ClientStoreFilterWidget({super.key, required this.onChanged, required this.state, this.isDisabled=false});
+  const ClientStoreFilterWidget(
+      {super.key,
+      required this.onChanged,
+      required this.state,
+      this.isDisabled = false});
 
   @override
   _ClientStoreFilterWidgetState createState() =>
@@ -64,8 +69,8 @@ class _ClientStoreFilterWidgetState extends State<ClientStoreFilterWidget> {
                 height: screenHeight * 0.37,
                 child: StoreSelectionWidget(
                   onSubmit: handleSubmit,
-                  clientList: widget.state.permissions?.clientsList??[],
-                  storeList: widget.state.permissions?.storesList??{},
+                  clientList: widget.state.permissions?.clientsList ?? [],
+                  storeList: widget.state.permissions?.storesList ?? {},
                   onClose: _hideOverlay,
                 ),
               ),
@@ -91,20 +96,24 @@ class _ClientStoreFilterWidgetState extends State<ClientStoreFilterWidget> {
   Widget build(BuildContext context) {
     return InkWell(
       key: _buttonKey,
-      onTap: widget.isDisabled==true?null:() {
-        if (_overlayEntry == null) {
-          _showOverlay(context);
-        } else {
-          _hideOverlay();
-        }
-      },
+      onTap: widget.isDisabled == true
+          ? null
+          : () {
+              if (_overlayEntry == null) {
+                _showOverlay(context);
+              } else {
+                _hideOverlay();
+              }
+            },
       child: Container(
-          margin: EdgeInsets.symmetric(horizontal: Responsive.screenW(context, 1)),
-          padding:
-          EdgeInsets.symmetric(vertical: Responsive.screenH(context, 1), horizontal: Responsive.screenW(context, 3)),
+          margin:
+              EdgeInsets.symmetric(horizontal: Responsive.screenW(context, 1)),
+          padding: EdgeInsets.symmetric(
+              vertical: Responsive.screenH(context, 1),
+              horizontal: Responsive.screenW(context, 3)),
           decoration: BoxDecoration(
             color: Color(0xFF141E2D),
-            borderRadius: BorderRadius.circular( Responsive.screenW(context, 4)),
+            borderRadius: BorderRadius.circular(Responsive.screenW(context, 4)),
             border: Border.all(color: Color(0xFFA3AED0).withValues(alpha: 0.4)),
           ),
           child: Icon(
@@ -140,8 +149,18 @@ class _StoreSelectionWidgetState extends State<StoreSelectionWidget> {
 
   List<StoreData> storesList = [];
 
+
   @override
   Widget build(BuildContext context) {
+    final prevSelected =
+        getCtx()?.read<DashBoardCubit>().state.prevSelected ?? [];
+
+    // Check if prevSelected is not empty and update the store list
+    if (prevSelected.isNotEmpty) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        updateStoreList(prevSelected, context);
+      });
+    }
     return LayoutBuilder(builder: (context, constraints) {
       return Container(
         margin: EdgeInsets.symmetric(horizontal: 12),
@@ -171,18 +190,27 @@ class _StoreSelectionWidgetState extends State<StoreSelectionWidget> {
                 height: 10,
               ),
               MultiSelectionDropDown(
+                  selectAll: getCtx()!.read<DashBoardCubit>().state.selectAll,
+                prevSelected: prevSelected,
                 items: widget.clientList
                     .map((e) => CustomDropDownMenuItem(
-                        id: e.clientId!, name: e.clientName!))
+                    id: e.clientId!, name: e.clientName!))
                     .toList(),
                 onSelection: (selectedItems) {
                   selectedClientID.clear();
                   for (var e in selectedItems) {
                     selectedClientID.add(e.id);
                   }
+
                   setState(() {
-                    updateStoreList(selectedClientID,context);
+                    updateStoreList(selectedClientID, context);
+                    if((getCtx()!.read<DashBoardCubit>().state.prevSelected??[]).isNotEmpty){
+                      getCtx()!.read<DashBoardCubit>().updateBoolean(false);
+                    }
                   });
+                  getCtx()!
+                      .read<DashBoardCubit>()
+                      .updateItems(selectedClientID);
                 },
                 hitText: 'Select Clients',
                 emptyStateText: 'No clients available',
@@ -197,7 +225,8 @@ class _StoreSelectionWidgetState extends State<StoreSelectionWidget> {
                 items: storesList
                     .map((i) => CustomDropDownMenuItem(
                         id: i.storeId!, name: i.storeName!))
-                    .toSet().toList(),
+                    .toSet()
+                    .toList(),
                 onSelection: (selectedItems) {
                   selectedStoreID.clear();
                   for (var i in selectedItems) {
@@ -235,7 +264,7 @@ class _StoreSelectionWidgetState extends State<StoreSelectionWidget> {
     });
   }
 
-  updateStoreList(List<int> selectedClientID,BuildContext context) {
+  updateStoreList(List<int> selectedClientID, BuildContext context) {
     storesList.clear();
     if (selectedClientID.any((item) => item == -1) && storesList.isEmpty) {
       storesList.add(StoreData(storeId: -1, storeName: "Select All"));
@@ -248,11 +277,11 @@ class _StoreSelectionWidgetState extends State<StoreSelectionWidget> {
           selectedClientID.isNotEmpty) {
         storesList.add(StoreData(storeId: -1, storeName: "Select All"));
       }
-      var stores=context.read<DashBoardCubit>().state.permissions?.storesList;
+      var stores = context.read<DashBoardCubit>().state.permissions?.storesList;
       for (var item in selectedClientID) {
         final clientIdString = item.toString();
         if (widget.storeList.containsKey(clientIdString)) {
-          storesList.addAll(stores?[clientIdString]??[]);
+          storesList.addAll(stores?[clientIdString] ?? []);
         }
       }
     }

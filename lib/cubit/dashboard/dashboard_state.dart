@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:phoenix/helper/enum_helper.dart';
 import 'package:phoenix/models/dashboard/chargeback_summary_model.dart';
@@ -59,10 +60,16 @@ class DashboardState {
   DtSaleAppRatioDataResponse? directSaleAppRatioData;
   DetailChartDeclinedBreakDownDataResponse? detailChartDeclinedBreakDownData;
   DetailChartApprovalRatioDataResponse? detailChartAppRatioData;
+  List<int>? prevSelected ;
+  List<int>? prevSelectedOrder ;
+  bool selectAll;
 
   DashboardState({
     this.filterPayload,
+     this.prevSelected,
     this.permissions,
+    this.selectAll=true,
+    this.prevSelectedOrder,
     this.permissionReqState = ProcessState.none,
     this.chargeBacksData,
     this.chargeBacksReqState = ProcessState.none,
@@ -112,6 +119,10 @@ class DashboardState {
     FilterPayload? filterPayload,
     PermissionResponse? permissions,
     ProcessState? permissionReqState,
+    List<StoreData>? storesList ,
+    List<int>? prevSelected ,
+     bool? selectAll,
+    List<int>?prevSelectedOrder,
     DashBoardOverViewResponse? directSaleData,
     ProcessState? directSaleReqState,
     DashBoardOverViewResponse? initialSubscriptionData,
@@ -156,6 +167,9 @@ class DashboardState {
     DateTimeRange? selectedCustomRange,
   }) {
     return DashboardState(
+       prevSelected: prevSelected??this.prevSelected,
+        selectAll: selectAll??this.selectAll,
+        prevSelectedOrder : prevSelectedOrder??this.prevSelectedOrder,
         filterPayload: filterPayload ?? this.filterPayload,
         permissions: permissions ?? this.permissions,
         permissionReqState: permissionReqState ?? this.permissionReqState,

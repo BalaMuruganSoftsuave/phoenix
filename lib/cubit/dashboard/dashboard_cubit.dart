@@ -177,6 +177,15 @@ class DashBoardCubit extends Cubit<DashboardState> {
     }
   }
 
+  updateItems(id){
+    emit(state.copyWith(prevSelected: id));
+  }
+
+  updateBoolean(value){
+    emit(state.copyWith(selectAll: value));
+
+  }
+
   void getDirectSaleData(BuildContext context) async {
     try {
       emit(state.copyWith(directSaleReqState: ProcessState.loading));
