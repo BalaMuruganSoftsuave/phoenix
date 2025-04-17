@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phoenix/cubit/dashboard/dashboard_cubit.dart';
 import 'package:phoenix/cubit/dashboard/dashboard_state.dart';
-
 import 'package:phoenix/helper/color_helper.dart';
+import 'package:phoenix/helper/dialog_helper.dart';
+import 'package:phoenix/helper/enum_helper.dart';
 import 'package:phoenix/helper/font_helper.dart';
 import 'package:phoenix/helper/responsive_helper.dart';
 import 'package:phoenix/helper/utils.dart';
 import 'package:phoenix/models/permission_model.dart';
-import 'package:phoenix/screens/dashboard.dart';
 
 import '../../helper/dependency.dart';
 import 'custom_multi_selection_dropdown.dart';
@@ -89,6 +89,7 @@ class _ClientStoreFilterWidgetState extends State<ClientStoreFilterWidget> {
 
   void handleSubmit(List<int> clientIds, List<int> storeIds) {
     print("${clientIds.length}--- ${storeIds.length}");
+
     widget.onChanged(clientIds, storeIds);
   }
 
@@ -97,7 +98,12 @@ class _ClientStoreFilterWidgetState extends State<ClientStoreFilterWidget> {
     return InkWell(
       key: _buttonKey,
       onTap: widget.isDisabled == true
-          ? null
+          ? () {
+              CustomToast.show(
+                  context: context,
+                  message: "Hold on a moment, it's still loading.",
+                  status: ToastStatus.warning);
+            }
           : () {
               if (_overlayEntry == null) {
                 _showOverlay(context);
@@ -149,18 +155,23 @@ class _StoreSelectionWidgetState extends State<StoreSelectionWidget> {
 
   List<StoreData> storesList = [];
 
-
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    // TODO: implement initState
+    super.initState();
     final prevSelected =
         getCtx()?.read<DashBoardCubit>().state.prevSelected ?? [];
 
     // Check if prevSelected is not empty and update the store list
     if (prevSelected.isNotEmpty) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
+      setState(() {
         updateStoreList(prevSelected, context);
       });
     }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
       return Container(
         margin: EdgeInsets.symmetric(horizontal: 12),
@@ -189,54 +200,83 @@ class _StoreSelectionWidgetState extends State<StoreSelectionWidget> {
               SizedBox(
                 height: 10,
               ),
-              MultiSelectionDropDown(
-                  selectAll: getCtx()!.read<DashBoardCubit>().state.selectAll,
-                prevSelected: prevSelected,
-                items: widget.clientList
-                    .map((e) => CustomDropDownMenuItem(
-                    id: e.clientId!, name: e.clientName!))
-                    .toList(),
-                onSelection: (selectedItems) {
-                  selectedClientID.clear();
-                  for (var e in selectedItems) {
-                    selectedClientID.add(e.id);
-                  }
+              BlocBuilder<DashBoardCubit, DashboardState>(
+                builder: (context, state) {
+                  return Column(
+                    children: [
+                      MultiSelectionDropDown(
+                        selectAll: state.selectAll,
+                        prevSelected: state.prevSelected ?? [],
+                        items: widget.clientList
+                            .map((e) => CustomDropDownMenuItem(
+                                id: e.clientId!, name: e.clientName!))
+                            .toList(),
+                        onSelection: (selectedItems, isFirst) {
+                          selectedClientID.clear();
+                          for (var e in selectedItems) {
+                            selectedClientID.add(e.id);
+                          }
 
-                  setState(() {
-                    updateStoreList(selectedClientID, context);
-                    if((getCtx()!.read<DashBoardCubit>().state.prevSelected??[]).isNotEmpty){
-                      getCtx()!.read<DashBoardCubit>().updateBoolean(false);
-                    }
-                  });
-                  getCtx()!
-                      .read<DashBoardCubit>()
-                      .updateItems(selectedClientID);
+                          setState(() {
+                            updateStoreList(selectedClientID, context);
+                            if ((getCtx()!
+                                        .read<DashBoardCubit>()
+                                        .state
+                                        .prevSelected ??
+                                    [])
+                                .isNotEmpty) {
+                              getCtx()!
+                                  .read<DashBoardCubit>()
+                                  .updateBoolean(false);
+                            }
+                          });
+                          if (!isFirst) {
+                            getCtx()!
+                                .read<DashBoardCubit>()
+                                .updateStoreItems(<int>[]);
+                          }
+                        },
+                        hitText: 'Select Clients',
+                        emptyStateText: 'No clients available',
+                        errorText: 'Please select at least one client',
+                        showError: false,
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      MultiSelectionDropDown(
+                        selectAll: state.selectAllStore,
+                        prevSelected: state.prevSelectedStore ?? [],
+                        key: ValueKey(storesList.length),
+                        items: storesList
+                            .map((i) => CustomDropDownMenuItem(
+                                id: i.storeId!, name: i.storeName!))
+                            .toSet()
+                            .toList(),
+                        onSelection: (selectedItems, isFirst) {
+                          selectedStoreID.clear();
+                          for (var i in selectedItems) {
+                            selectedStoreID.add(i.id);
+                          }
+                          if ((getCtx()!
+                                      .read<DashBoardCubit>()
+                                      .state
+                                      .prevSelectedStore ??
+                                  [])
+                              .isNotEmpty) {
+                            getCtx()!
+                                .read<DashBoardCubit>()
+                                .updateStoreAll(false);
+                          }
+                        },
+                        hitText: 'Select Stores',
+                        emptyStateText: 'No clients available',
+                        errorText: 'Please select at least one client',
+                        showError: selectedClientID.isEmpty,
+                      ),
+                    ],
+                  );
                 },
-                hitText: 'Select Clients',
-                emptyStateText: 'No clients available',
-                errorText: 'Please select at least one client',
-                showError: false,
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              MultiSelectionDropDown(
-                key: ValueKey(storesList.length),
-                items: storesList
-                    .map((i) => CustomDropDownMenuItem(
-                        id: i.storeId!, name: i.storeName!))
-                    .toSet()
-                    .toList(),
-                onSelection: (selectedItems) {
-                  selectedStoreID.clear();
-                  for (var i in selectedItems) {
-                    selectedStoreID.add(i.id);
-                  }
-                },
-                hitText: 'Select Stores',
-                emptyStateText: 'No clients available',
-                errorText: 'Please select at least one client',
-                showError: selectedClientID.isEmpty,
               ),
               SizedBox(
                 height: 20,
@@ -245,8 +285,25 @@ class _StoreSelectionWidgetState extends State<StoreSelectionWidget> {
                 style: ButtonStyle(
                     backgroundColor: WidgetStatePropertyAll(AppColors.pink)),
                 onPressed: () {
-                  widget.onSubmit(selectedClientID, selectedStoreID);
-                  widget.onClose();
+                  if (selectedClientID.isNotEmpty &&
+                      selectedStoreID.isNotEmpty) {
+                    getCtx()!.read<DashBoardCubit>().updateBoolean(false);
+                    getCtx()!.read<DashBoardCubit>().updateStoreAll(false);
+                    getCtx()!
+                        .read<DashBoardCubit>()
+                        .updateStoreItems(selectedStoreID);
+
+                    getCtx()!
+                        .read<DashBoardCubit>()
+                        .updateItems(selectedClientID);
+                    widget.onSubmit(selectedClientID, selectedStoreID);
+                    widget.onClose();
+                  } else {
+                    CustomToast.show(
+                        context: context,
+                        message: "Please select both fields",
+                        status: ToastStatus.warning);
+                  }
                 },
                 child: Text(
                   "Apply",

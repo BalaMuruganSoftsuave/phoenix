@@ -4,11 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phoenix/cubit/dashboard/dashboard_cubit.dart';
 import 'package:phoenix/cubit/dashboard/dashboard_state.dart';
 import 'package:phoenix/helper/color_helper.dart';
+import 'package:phoenix/helper/dialog_helper.dart';
+import 'package:phoenix/helper/enum_helper.dart';
 import 'package:phoenix/helper/responsive_helper.dart';
-import 'package:phoenix/helper/text_helper.dart';
 import 'package:phoenix/helper/utils.dart';
 
-import '../helper/theme_helper.dart';
 import 'custom_calendar_widget/chart_date_filter_widget.dart';
 
 DateFormat formatter = DateFormat('yyyy-MM-dd');
@@ -38,9 +38,7 @@ class _FilterComponentState extends State<FilterComponent> {
     {"label": "Last Year", "key": "lastYear"},
   ];
 
-
-
-  void handleSelection(String key,DashboardState state) {
+  void handleSelection(String key, DashboardState state) {
     if (state.selectedKey != key) {
       if (key == "custom") {
         // _selectDateRange();
@@ -50,13 +48,14 @@ class _FilterComponentState extends State<FilterComponent> {
         //   state.selectedKey = key;
         //   state.selectedRange = _getDateRange(key);
         // });
-        context.read<DashBoardCubit>().updateFilterData(key, _getDateRange(key), null);
+        context
+            .read<DashBoardCubit>()
+            .updateFilterData(key, _getDateRange(key), null);
 
         widget.onSelectionChange?.call(key, range: _getDateRange(key));
       }
     }
   }
-
 
   DateTimeRange _getDateRange(String key) {
     final now = DateTime.now();
@@ -112,9 +111,18 @@ class _FilterComponentState extends State<FilterComponent> {
               children: ranges.map((item) {
                 bool isSelected = state.selectedKey == item["key"];
                 return GestureDetector(
-                    onTap: () => widget.isDisabled == true
-                        ? null
-                        : handleSelection(item["key"]!,state),
+                    onTap: () {
+                      if (widget.isDisabled == true) {
+                        CustomToast.show(
+                          context: context,
+                          message: "Hold on a moment, it's still loading.",
+                          status: ToastStatus.warning,
+                        );
+                      } else {
+                        handleSelection(item["key"]!, state);
+                      }
+                    },
+
                     child: (item["key"] != "custom")
                         ? Container(
                             margin: EdgeInsets.symmetric(
@@ -167,16 +175,18 @@ class _FilterComponentState extends State<FilterComponent> {
                             onChange: (DateFilterModal date) {
                               // Handle selected date change
                               // setState(() {
-                                state.selectedKey = "custom";
-                                var range = DateTimeRange(
-                                    start: DateTime.parse(date.startDate ?? ""),
-                                    end: DateTime.parse(date.endDate ?? ""));
+                              state.selectedKey = "custom";
+                              var range = DateTimeRange(
+                                  start: DateTime.parse(date.startDate ?? ""),
+                                  end: DateTime.parse(date.endDate ?? ""));
                               // });
 
-                              context.read<DashBoardCubit>().updateFilterData("custom", null, range);
+                              context
+                                  .read<DashBoardCubit>()
+                                  .updateFilterData("custom", null, range);
 
-                              widget.onSelectionChange
-                                  ?.call("custom", range: state.selectedCustomRange);
+                              widget.onSelectionChange?.call("custom",
+                                  range: state.selectedCustomRange);
 
                               debugPrint(
                                   "Selected Date Range: ${date.startDate} to ${date.endDate}");

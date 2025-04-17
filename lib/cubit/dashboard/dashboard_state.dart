@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:phoenix/helper/enum_helper.dart';
 import 'package:phoenix/models/dashboard/chargeback_summary_model.dart';
@@ -60,16 +59,20 @@ class DashboardState {
   DtSaleAppRatioDataResponse? directSaleAppRatioData;
   DetailChartDeclinedBreakDownDataResponse? detailChartDeclinedBreakDownData;
   DetailChartApprovalRatioDataResponse? detailChartAppRatioData;
-  List<int>? prevSelected ;
-  List<int>? prevSelectedOrder ;
+  List<int>? prevSelected;
+
+  List<int>? prevSelectedStore;
+
   bool selectAll;
+  bool selectAllStore;
 
   DashboardState({
     this.filterPayload,
-     this.prevSelected,
+    this.prevSelected,
     this.permissions,
-    this.selectAll=true,
-    this.prevSelectedOrder,
+    this.selectAll = true,
+    this.selectAllStore = true,
+    this.prevSelectedStore,
     this.permissionReqState = ProcessState.none,
     this.chargeBacksData,
     this.chargeBacksReqState = ProcessState.none,
@@ -119,10 +122,11 @@ class DashboardState {
     FilterPayload? filterPayload,
     PermissionResponse? permissions,
     ProcessState? permissionReqState,
-    List<StoreData>? storesList ,
-    List<int>? prevSelected ,
-     bool? selectAll,
-    List<int>?prevSelectedOrder,
+    List<StoreData>? storesList,
+    List<int>? prevSelected,
+    bool? selectAll,
+    bool? selectAllStore,
+    List<int>? prevSelectedStore,
     DashBoardOverViewResponse? directSaleData,
     ProcessState? directSaleReqState,
     DashBoardOverViewResponse? initialSubscriptionData,
@@ -167,9 +171,9 @@ class DashboardState {
     DateTimeRange? selectedCustomRange,
   }) {
     return DashboardState(
-       prevSelected: prevSelected??this.prevSelected,
-        selectAll: selectAll??this.selectAll,
-        prevSelectedOrder : prevSelectedOrder??this.prevSelectedOrder,
+        prevSelected: prevSelected ?? this.prevSelected,
+        selectAll: selectAll ?? this.selectAll,
+        prevSelectedStore: prevSelectedStore ?? this.prevSelectedStore,
         filterPayload: filterPayload ?? this.filterPayload,
         permissions: permissions ?? this.permissions,
         permissionReqState: permissionReqState ?? this.permissionReqState,
@@ -236,6 +240,7 @@ class DashboardState {
             dashboardAppRatioReqState ?? this.dashboardAppRatioReqState,
         selectedCustomRange: selectedCustomRange ?? this.selectedCustomRange,
         selectedRange: selectedRange ?? this.selectedRange,
-        selectedKey: selectedKey ?? this.selectedKey);
+        selectedKey: selectedKey ?? this.selectedKey,
+        selectAllStore: selectAllStore ?? this.selectAllStore);
   }
 }

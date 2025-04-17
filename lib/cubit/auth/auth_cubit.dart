@@ -51,6 +51,7 @@ class AuthCubit extends Cubit<AuthState> {
           message: TextHelper.sessionExpiredPleaseLogin,
           status: ToastStatus.failure);
       emit(state.copyWith(authState: ProcessState.failure));
+      logout();
       openScreen(loginScreen);
       debugLog("refreshToken issue : \n${e.message.toString()}");
       return false;
@@ -60,7 +61,7 @@ class AuthCubit extends Cubit<AuthState> {
     } finally {}
   }
 
-  logout() {
+  logoutAuth() {
     emit(AuthState());
   }
 }

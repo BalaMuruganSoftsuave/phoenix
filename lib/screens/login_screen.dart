@@ -34,7 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
     super.initState();
     // Set initial focus to username field
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      FocusScope.of(context).requestFocus(usernameFocusNode);
+      // FocusScope.of(context).requestFocus(usernameFocusNode);
     });
   }
 

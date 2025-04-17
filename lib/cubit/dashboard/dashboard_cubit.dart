@@ -64,6 +64,12 @@ class DashBoardCubit extends Cubit<DashboardState> {
       state.filterPayload?.groupBy = groupBy;
     }
     if (clientList != null && storeList != null) {
+      if(clientList.contains(-1)) {
+        clientList.remove(-1);
+      }
+      if(storeList.contains(-1)) {
+        storeList.remove(-1);
+      }
       state.filterPayload ??= FilterPayload();
       state.filterPayload?.clientIds = clientList;
       state.filterPayload?.storeIds = storeList;
@@ -183,7 +189,13 @@ class DashBoardCubit extends Cubit<DashboardState> {
 
   updateBoolean(value){
     emit(state.copyWith(selectAll: value));
+  }
+  updateStoreItems(id){
+    emit(state.copyWith(prevSelectedStore: id));
+  }
 
+  updateStoreAll(value){
+    emit(state.copyWith(selectAllStore: value));
   }
 
   void getDirectSaleData(BuildContext context) async {
@@ -741,7 +753,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
           await _apiService.getSalesRevenueData(state.filterPayload?.toJson());
 
       _refreshTokenForSalesRevenue = 0; // Reset counter on success
-      if (state.filterPayload?.groupBy == "hour") {
+      if (state.filterPayload?.groupBy == "hour" &&( res?.result??[]).isNotEmpty ) {
         var data = generateSlots<Map<String, dynamic>>(
           start: state.filterPayload?.startDate ?? "",
           end: state.filterPayload?.endDate ?? "",
@@ -815,23 +827,30 @@ class DashBoardCubit extends Cubit<DashboardState> {
           await _apiService.getNetSubscriberData(state.filterPayload?.toJson());
 
       _refreshTokenForNetSubscribers = 0; // Reset counter on success
-      if (state.filterPayload?.groupBy == "hour") {
-        var data = generateSlots<Map<String, dynamic>>(
-          start: state.filterPayload?.startDate ?? "",
-          end: state.filterPayload?.endDate ?? "",
-          // existingData: data1,
-          existingData: res?.result?.map((e) => e.toJson()).toList() ?? [],
-          defaultValues: {
-            'Range': '',
-            'NewSubscriptions': 0,
-            'CancelledSubscriptions': 0,
-            'NetSubscriptions': 0,
-          },
-          groupBy: state.filterPayload?.groupBy ?? "",
-          getRange: (data) => data["Range"] ?? "",
-        );
-        state.netSubscribersData?.result
-            ?.addAll(data.map((e) => SubscriptionData.fromJson(e)).toList());
+      if (state.filterPayload?.groupBy == "hour" &&
+          (res?.result?.isNotEmpty ?? false)) {
+        final resultList = res?.result??[];
+        final isSingleItem = resultList.length == 1;
+        final isRangeValid = resultList.first.range?.isNotEmpty ?? false;
+
+        if (!isSingleItem || isRangeValid) {
+          final data = generateSlots<Map<String, dynamic>>(
+            start: state.filterPayload?.startDate ?? "",
+            end: state.filterPayload?.endDate ?? "",
+            existingData: resultList.map((e) => e.toJson()).toList(),
+            defaultValues: {
+              'Range': '',
+              'NewSubscriptions': 0,
+              'CancelledSubscriptions': 0,
+              'NetSubscriptions': 0,
+            },
+            groupBy: state.filterPayload?.groupBy ?? "",
+            getRange: (data) => data["Range"] ?? "",
+          );
+
+          state.netSubscribersData?.result
+              ?.addAll(data.map((e) => SubscriptionData.fromJson(e)).toList());
+        }
       }
       emit(state.copyWith(
           netSubscribersReqState: ProcessState.success,
@@ -939,10 +958,13 @@ class DashBoardCubit extends Cubit<DashboardState> {
     try {
       emit(state.copyWith(coverageHealthDataReqState: ProcessState.loading));
 
-      final res = await _apiService
+      var res = await _apiService
           .getCoverageHealthData(state.filterPayload?.toJson());
 
       _refreshTokenForChargeBackSummary = 0; // Reset counter on success
+      if(res?.result?.length==1 && (res?.result?.firstOrNull?.cardType??"").isEmpty){
+        res=CoverageHealthDataResponse();
+      }
       emit(state.copyWith(
           coverageHealthDataReqState: ProcessState.success,
           coverageHealthDataData: res));

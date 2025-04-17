@@ -176,10 +176,13 @@ class HomeScreen extends StatelessWidget {
                                                         FontWeight.w600),
                                           ),
                                           Text(
-                                            formatCurrency(calculateTotalSum(
+                                              calculateTotalSum(
+                                                  state.totalSalesRevenueData
+                                                      ?.result ??
+                                                      [])>0?formatCurrency(calculateTotalSum(
                                                     state.totalSalesRevenueData
                                                             ?.result ??
-                                                        []))
+                                                        [])):"0"
                                                 .toString(),
                                             style: getTextTheme()
                                                 .bodyMedium

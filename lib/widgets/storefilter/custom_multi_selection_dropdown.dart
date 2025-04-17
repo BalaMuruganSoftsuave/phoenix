@@ -23,7 +23,7 @@ class MultiSelectionDropDown extends StatefulWidget {
   });
 
   final double? maxHeight;
-  final void Function(List<CustomDropDownMenuItem> selectedItems) onSelection;
+   final void Function(List<CustomDropDownMenuItem> selectedItems,bool isFirst ) onSelection;
   final List<CustomDropDownMenuItem> items;
   final String? hitText;
   final bool readOnly;
@@ -65,17 +65,21 @@ class _MultiSelectionDropDownState extends State<MultiSelectionDropDown> {
         selectionOrder = widget.items.map((e) => e.id).toList();
       });
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        widget.onSelection(widget.items);
+        widget.onSelection(widget.items,true);
       });
     } else {
       setState(() {
         selectedKeys = widget.prevSelected?.map((e) => e).toSet()??{};
         selectionOrder = widget.prevSelected?.map((e) => e).toList()??[];
+        if(selectedKeys.length==(widget.items.length-1)){
+          selectedKeys.add(-1);
+          selectionOrder.add(-1);
+        }
       });
       WidgetsBinding.instance.addPostFrameCallback((_) {
         widget.onSelection(widget.items
             .where((e) => selectedKeys.contains(e.id))
-            .toList());
+            .toList(),true);
       });
     }
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -185,7 +189,7 @@ class _MultiSelectionDropDownState extends State<MultiSelectionDropDown> {
 
     widget.onSelection(widget.items
         .where((e) => selectedKeys.contains(e.id))
-        .toList());
+        .toList(),false);
   }
 
   @override
@@ -233,8 +237,8 @@ class _MultiSelectionDropDownState extends State<MultiSelectionDropDown> {
                         if (!selectedKeys.contains(-1) && selectionOrder.isNotEmpty)
                           TextSpan(
                             text: widget.items
-                                .firstWhere((e) => e.id == selectionOrder.first)
-                                .name,
+                                .firstWhereOrNull((e) => e.id == selectionOrder.first)
+                                ?.name,
                             style: getTextTheme().bodySmall?.copyWith(fontSize: 14),
                           ),
                         if (selectedKeys.length > 1)
