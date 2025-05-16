@@ -50,6 +50,7 @@ class ChargebackSummary extends StatelessWidget {
 
       // Skip if keyPrefix is unknown (empty)
       if (keyPrefix?.toLowerCase() == "unknown") return [];
+      if (keyPrefix== null) return [];
 
       return [
         {

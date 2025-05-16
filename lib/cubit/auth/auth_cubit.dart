@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phoenix/helper/api/api_helper.dart';
 import 'package:phoenix/helper/api/api_service.dart';
@@ -14,6 +16,7 @@ import 'auth_state.dart';
 class AuthCubit extends Cubit<AuthState> {
   AuthCubit() : super(AuthState());
   final ApiService _apiService = ApiService();
+  static Completer<bool>? _refreshCompleter;
 
   login(context, String userName, String password) async {
     try {
@@ -38,13 +41,17 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  refreshToken(context) async {
+  Future<bool> refreshToken(context) async {
+    if (_refreshCompleter != null) {
+      return _refreshCompleter!.future;
+    }
+    _refreshCompleter = Completer<bool>();
     try {
       var token = PreferenceHelper.getRefreshToken();
       LoginResponse? res = await _apiService.getRefreshToken(token ?? "");
       await PreferenceHelper.saveAccessToken(res?.accessToken ?? "");
       await PreferenceHelper.saveRefreshToken(res?.refreshToken ?? "");
-      return true;
+      _refreshCompleter!.complete(true);
     } on ApiFailure catch (e) {
       CustomToast.show(
           context: getCtx(context)!,
@@ -54,11 +61,15 @@ class AuthCubit extends Cubit<AuthState> {
       logout();
       openScreen(loginScreen);
       debugLog("refreshToken issue : \n${e.message.toString()}");
-      return false;
+      _refreshCompleter?.complete(false);
     } catch (e) {
       debugLog("refreshToken issue: \n${e.toString()}");
-      return false;
-    } finally {}
+      _refreshCompleter?.complete(false);
+    } finally {
+      final completer = _refreshCompleter;
+      _refreshCompleter = null;
+      return completer!.future;
+    }
   }
 
   logoutAuth() {

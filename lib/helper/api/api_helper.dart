@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:http/http.dart';
 import 'package:phoenix/helper/enum_helper.dart';
 
 class APIHelper {
@@ -12,12 +12,14 @@ class APIHelper {
       bool isFile = false,
       String token = "",
       String accessToken = "",
-      Map<String, String> header = const {}}) async {
+      Map<String, String> header = const {},
+      CancelToken? cancelToken}) async
+  {
     var connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult.contains(ConnectivityResult.mobile) ||
         connectivityResult.contains(ConnectivityResult.wifi) ||
         connectivityResult.contains(ConnectivityResult.other)) {
-      final https = Client();
+      final dio = Dio();
       Uri url = Uri.parse(urlString);
       Response response;
       var headers = {
@@ -33,12 +35,19 @@ class APIHelper {
         makeLog(
             text:
                 "API : ${method.toString()} url : $url \nrequest : ${body.toString()} ");
+        Options options = Options(
+          headers: headers,
+          responseType: isFile ? ResponseType.bytes : ResponseType.json,
+        );
+
         switch (method) {
           case Method.post:
-            response = await https.post(url,
-                headers: headers,
-                body: type == BodyType.urlencoded ? body : jsonEncode(body),
-                encoding: Encoding.getByName("utf-8"));
+            response = await dio.post(
+              url.toString(),
+              data: type == BodyType.urlencoded ? body : jsonEncode(body),
+              options: options,
+              cancelToken: cancelToken,
+            );
             break;
           case Method.get:
             if (body != null &&
@@ -48,62 +57,122 @@ class APIHelper {
               String queryString = Uri(queryParameters: body).query;
               url = Uri.parse("$urlString?$queryString");
             }
-            response = await https.get(url, headers: headers);
+            response = await dio.get(
+              url.toString(),
+              options: options,
+              cancelToken: cancelToken,
+            );
             break;
           case Method.put:
-            response = await https.put(url,
-                headers: headers,
-                body: type == BodyType.urlencoded ? body : jsonEncode(body),
-                encoding: Encoding.getByName("utf-8"));
+            response = await dio.put(
+              url.toString(),
+              data: type == BodyType.urlencoded ? body : jsonEncode(body),
+              options: options,
+              cancelToken: cancelToken,
+            );
             break;
           case Method.patch:
-            response = await https.patch(url,
-                headers: headers,
-                body: type == BodyType.urlencoded ? body : jsonEncode(body),
-                encoding: Encoding.getByName("utf-8"));
+            response = await dio.patch(
+              url.toString(),
+              data: type == BodyType.urlencoded ? body : jsonEncode(body),
+              options: options,
+              cancelToken: cancelToken,
+            );
             break;
           case Method.delete:
-            response = await https.delete(url,
-                headers: headers,
-                body: jsonEncode(body),
-                encoding: Encoding.getByName("utf-8"));
+            response = await dio.delete(
+              url.toString(),
+              data: jsonEncode(body),
+              options: options,
+              cancelToken: cancelToken,
+            );
             break;
           default:
-            response = await https.post(url,
-                headers: headers,
-                body: type == BodyType.urlencoded ? body : jsonEncode(body),
-                encoding: Encoding.getByName("utf-8"));
+            response = await dio.post(
+              url.toString(),
+              data: type == BodyType.urlencoded ? body : jsonEncode(body),
+              options: options,
+              cancelToken: cancelToken,
+            );
+        }
+      } on DioException catch (e) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx and is also not 304.
+        if (e.type == DioExceptionType.cancel) {
+          // Request was cancelled intentionally - return empty map instead of null
+          debugLog("Request cancelled: ${e.message ?? ""}");
+          throw ApiFailure(100, "Cancelled");
+        }
+        if (e.response != null) {
+          debugLog(e.response.toString());
+          debugLog(e.message ?? "");
+          if(e.response.toString().isNotEmpty) {
+            var body = jsonDecode(e.response.toString());
+            var message = "";
+            if (body != null && body.containsKey("Errors")) {
+              final errors = body["Errors"];
+              if (errors.isNotEmpty) {
+                message = errors["message"];
+              }
+            } else if (body != null && body.containsKey("message")) {
+              if (body["message"] != null && body["error"] != null) {
+                message = body["error"];
+              } else {
+                message = body["message"];
+              }
+            } else if (body != null && body.containsKey("error_description")) {
+              message = body["error_description"];
+            } else {
+              message = body?.toString() ?? "error response body not found";
+            }
+            throw ApiFailure(e.response?.statusCode ?? 400, message);
+          }else{
+            throw ApiFailure(e.response?.statusCode ?? 400, "Failed to Load");
+          }
+        } else {
+          // Something happened in setting up or sending the request that triggered an Error
+          debugLog("Request error: ${e.message ?? ""}");
+          throw ApiFailure(e.response?.statusCode ?? 400, e.toString());
         }
       } catch (e) {
         makeLog(text: e.toString());
         throw ApiFailure(400, e.toString());
       }
+
       dynamic decodedJson;
       String? decodeError;
-      String contentType = response.headers['content-type'] ?? '';
-      if (contentType.contains('text/html')) {
+      String contentType = response.headers['content-type']?.first ?? '';
+      
+      // Check for HTML content in response
+      if (contentType.contains('text/html') || 
+          (response.data is String && (response.data as String).contains('<!DOCTYPE html>')) ||
+          (response.data is String && (response.data as String).contains('<html'))) {
+        debugLog("Received HTML response instead of JSON");
         throw ApiFailure(400, "Failed to load");
       }
+
       if (!isFile) {
         try {
-          decodedJson = jsonDecode(response.body);
+          decodedJson = response.data;
         } catch (e) {
           decodeError = e.toString();
         }
       }
-      makeLog(text: "Response: ${response.body.toString()}");
+
+      makeLog(text: "Response: ${response.data.toString()}");
 
       if (decodeError != null) {
         throw ApiFailure(
-            response.statusCode, 'jsonDecode Error : $decodeError');
-      } //TODO: remove after development (when response.statusCode == 302 is fixed)
+            response.statusCode ?? 400, 'jsonDecode Error : $decodeError');
+      }
+
       if (response.statusCode == 200 ||
           response.statusCode == 201 ||
           response.statusCode == 202 ||
           response.statusCode == 204 ||
           response.statusCode == 302) {
         if (isFile) {
-          return response.bodyBytes;
+          return response.data;
         } else {
           return decodedJson;
         }
@@ -126,16 +195,8 @@ class APIHelper {
         } else {
           message = body?.toString() ?? "error response body not found";
         }
-        throw ApiFailure(response.statusCode, message);
-      }
-      // else if (response.statusCode == 401) {
-      //   // customToast(
-      //   //     status: ToastStatusEnum.error,
-      //   //     message: "Session Expired please login again");
-      //   // logoutAndClearData(getCtx()!);
-      //
-      // }
-      else {
+        throw ApiFailure(response.statusCode ?? 400, message);
+      } else {
         String message = "";
         var body = decodedJson;
         if (body != null && body.containsKey("Errors")) {
@@ -148,7 +209,7 @@ class APIHelper {
         } else {
           message = body?.toString() ?? "error response body not found";
         }
-        throw ApiFailure(response.statusCode, message);
+        throw ApiFailure(response.statusCode ?? 400, message);
       }
     } else {
       throw ApiFailure(501, "Please check your internet connection");

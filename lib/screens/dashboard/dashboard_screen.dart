@@ -43,32 +43,32 @@ class HomeScreen extends StatelessWidget {
                             Expanded(
                               flex: 4,
                               child: FilterComponent(
-                                isDisabled: (state.directSaleReqState ==
-                                        ProcessState.loading ||
-                                    state.initialSubscriptionReqState ==
-                                        ProcessState.loading ||
-                                    state.recurringSubscriptionReqState ==
-                                        ProcessState.loading ||
-                                    state.subscriptionSalvageReqState ==
-                                        ProcessState.loading ||
-                                    state.upsellReqState ==
-                                        ProcessState.loading ||
-                                    state.subscriptionBillReqState ==
-                                        ProcessState.loading ||
-                                    state.totalTransactionReqState ==
-                                        ProcessState.loading ||
-                                    state.refundsReqState ==
-                                        ProcessState.loading ||
-                                    state.chargeBacksReqState ==
-                                        ProcessState.loading ||
-                                    state.totalSalesRevenueReqState ==
-                                        ProcessState.loading ||
-                                    state.netSubscribersReqState ==
-                                        ProcessState.loading ||
-                                    state.chargeBackSummaryReqState ==
-                                        ProcessState.loading ||
-                                    state.coverageHealthDataReqState ==
-                                        ProcessState.loading),
+                                // isDisabled: (state.directSaleReqState ==
+                                //         ProcessState.loading ||
+                                //     state.initialSubscriptionReqState ==
+                                //         ProcessState.loading ||
+                                //     state.recurringSubscriptionReqState ==
+                                //         ProcessState.loading ||
+                                //     state.subscriptionSalvageReqState ==
+                                //         ProcessState.loading ||
+                                //     state.upsellReqState ==
+                                //         ProcessState.loading ||
+                                //     state.subscriptionBillReqState ==
+                                //         ProcessState.loading ||
+                                //     state.totalTransactionReqState ==
+                                //         ProcessState.loading ||
+                                //     state.refundsReqState ==
+                                //         ProcessState.loading ||
+                                //     state.chargeBacksReqState ==
+                                //         ProcessState.loading ||
+                                //     state.totalSalesRevenueReqState ==
+                                //         ProcessState.loading ||
+                                //     state.netSubscribersReqState ==
+                                //         ProcessState.loading ||
+                                //     state.chargeBackSummaryReqState ==
+                                //         ProcessState.loading ||
+                                //     state.coverageHealthDataReqState ==
+                                //         ProcessState.loading),
                                 onSelectionChange: (key, {range}) {
                                   context.read<DashBoardCubit>().updateFilter(
                                       context,
@@ -82,32 +82,32 @@ class HomeScreen extends StatelessWidget {
                             Expanded(
                                 flex: 1,
                                 child: ClientStoreFilterWidget(
-                                  isDisabled: (state.directSaleReqState ==
-                                          ProcessState.loading ||
-                                      state.initialSubscriptionReqState ==
-                                          ProcessState.loading ||
-                                      state.recurringSubscriptionReqState ==
-                                          ProcessState.loading ||
-                                      state.subscriptionSalvageReqState ==
-                                          ProcessState.loading ||
-                                      state.upsellReqState ==
-                                          ProcessState.loading ||
-                                      state.subscriptionBillReqState ==
-                                          ProcessState.loading ||
-                                      state.totalTransactionReqState ==
-                                          ProcessState.loading ||
-                                      state.refundsReqState ==
-                                          ProcessState.loading ||
-                                      state.chargeBacksReqState ==
-                                          ProcessState.loading ||
-                                      state.totalSalesRevenueReqState ==
-                                          ProcessState.loading ||
-                                      state.netSubscribersReqState ==
-                                          ProcessState.loading ||
-                                      state.chargeBackSummaryReqState ==
-                                          ProcessState.loading ||
-                                      state.coverageHealthDataReqState ==
-                                          ProcessState.loading),
+                                  // isDisabled: (state.directSaleReqState ==
+                                  //         ProcessState.loading ||
+                                  //     state.initialSubscriptionReqState ==
+                                  //         ProcessState.loading ||
+                                  //     state.recurringSubscriptionReqState ==
+                                  //         ProcessState.loading ||
+                                  //     state.subscriptionSalvageReqState ==
+                                  //         ProcessState.loading ||
+                                  //     state.upsellReqState ==
+                                  //         ProcessState.loading ||
+                                  //     state.subscriptionBillReqState ==
+                                  //         ProcessState.loading ||
+                                  //     state.totalTransactionReqState ==
+                                  //         ProcessState.loading ||
+                                  //     state.refundsReqState ==
+                                  //         ProcessState.loading ||
+                                  //     state.chargeBacksReqState ==
+                                  //         ProcessState.loading ||
+                                  //     state.totalSalesRevenueReqState ==
+                                  //         ProcessState.loading ||
+                                  //     state.netSubscribersReqState ==
+                                  //         ProcessState.loading ||
+                                  //     state.chargeBackSummaryReqState ==
+                                  //         ProcessState.loading ||
+                                  //     state.coverageHealthDataReqState ==
+                                  //         ProcessState.loading),
                                   state: state,
                                   onChanged: (clientIDs, storeIDs) {
                                     context.read<DashBoardCubit>().updateFilter(

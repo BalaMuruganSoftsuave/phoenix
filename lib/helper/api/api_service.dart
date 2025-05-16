@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
+import 'package:dio/dio.dart';
 import 'package:phoenix/helper/enum_helper.dart';
 import 'package:phoenix/helper/preference_helper.dart';
 import 'package:phoenix/models/dashboard/chargeback_summary_model.dart';
@@ -22,11 +22,17 @@ import 'api_helper.dart';
 
 class ApiService {
   final APIHelper _apiHelper = APIHelper();
+  CancelToken? _loginCancelToken;
+  CancelToken? _refreshCancelToken;
 
   /// Login API Call
   Future<LoginResponse?> login(String userName, String password,
-      {String? fcm}) async {
+      {String? fcm,})
+  async {
+    _loginCancelToken?.cancel("Cancelled previous login request");
 
+    // Create new token for this request
+    _loginCancelToken = CancelToken();
     try {
       final response = await _apiHelper.makeReq(
         ApiConstants.loginUrl,
@@ -35,6 +41,7 @@ class ApiService {
           "Password": password,
           "DeviceToken": fcm,
         },
+        cancelToken: _loginCancelToken
       );
       return LoginResponse.fromJson(response);
     } catch (e) {
@@ -42,13 +49,21 @@ class ApiService {
     }
   }
 
-  Future<LoginResponse?> getRefreshToken(String token) async {
+  Future<LoginResponse?> getRefreshToken(String token)
+  async {
+    try {
+      _refreshCancelToken?.cancel("Cancelled previous refresh request");
+    } catch (_) {
+      debugLog("Cancelled previous refresh request");
+    }
+    _refreshCancelToken = CancelToken();
     try {
       final response = await _apiHelper.makeReq(
         ApiConstants.refreshToken,
         {
           "RefreshToken": token,
         },
+        cancelToken: _refreshCancelToken
       );
       return LoginResponse.fromJson(response);
     } catch (e) {
@@ -56,204 +71,211 @@ class ApiService {
     }
   }
 
-  Future<PermissionResponse?> getPermissionsData() async {
+  Future<PermissionResponse?> getPermissionsData(CancelToken? cancelToken) async {
+
     var token = PreferenceHelper.getAccessToken();
     try {
       final response = await _apiHelper.makeReq(ApiConstants.getPermissions, {},
-          method: Method.get, token: token ?? "");
+          method: Method.get, token: token ?? "",cancelToken: cancelToken);
       return PermissionResponse.fromJson(response);
     } catch (e) {
       rethrow;
     }
   }
 
-  Future<DashBoardOverViewResponse?> getDirectSaleData(body) async {
+  Future<DashBoardOverViewResponse?> getDirectSaleData(body,CancelToken? cancelToken) async {
+
     var token = PreferenceHelper.getAccessToken();
 
     try {
       final response = await _apiHelper.makeReq(
           ApiConstants.getDirectSale, body,
-          method: Method.post, token: token ?? "");
+          method: Method.post, token: token ?? "",cancelToken: cancelToken);
       return DashBoardOverViewResponse.fromJson(response);
     } catch (e) {
       rethrow;
     }
   }
 
-  Future<DashBoardOverViewResponse?> getInitialSubscriptionData(body) async {
+  Future<DashBoardOverViewResponse?> getInitialSubscriptionData(body,CancelToken? cancelToken) async {
     var token = PreferenceHelper.getAccessToken();
-
     try {
       final response = await _apiHelper.makeReq(
           ApiConstants.getInitialSubscription, body,
-          method: Method.post, token: token ?? "");
+          method: Method.post, token: token ?? "",cancelToken: cancelToken);
       return DashBoardOverViewResponse.fromJson(response);
     } catch (e) {
       rethrow;
     }
   }
 
-  Future<DashBoardOverViewResponse?> getSubscriptionSalvageData(body) async {
+  Future<DashBoardOverViewResponse?> getSubscriptionSalvageData(body,CancelToken? cancelToken) async {
+
     var token = PreferenceHelper.getAccessToken();
 
     try {
       final response = await _apiHelper.makeReq(
           ApiConstants.getSubscriptionSalvage, body,
-          method: Method.post, token: token ?? "");
+          method: Method.post, token: token ?? "",cancelToken: cancelToken);
       return DashBoardOverViewResponse.fromJson(response);
     } catch (e) {
       rethrow;
     }
   }
 
-  Future<DashBoardOverViewResponse?> getSubscriptionBillData(body) async {
+  Future<DashBoardOverViewResponse?> getSubscriptionBillData(body,CancelToken? cancelToken) async {
+
     var token = PreferenceHelper.getAccessToken();
 
     try {
       final response = await _apiHelper.makeReq(
           ApiConstants.getSubscriptionBill, body,
-          method: Method.post, token: token ?? "");
+          method: Method.post, token: token ?? "",cancelToken: cancelToken);
       return DashBoardOverViewResponse.fromJson(response);
     } catch (e) {
       rethrow;
     }
   }
 
-  Future<DashBoardOverViewResponse?> getRecurringData(body) async {
+  Future<DashBoardOverViewResponse?> getRecurringData(body,CancelToken? cancelToken) async {
     var token = PreferenceHelper.getAccessToken();
 
     try {
       final response = await _apiHelper.makeReq(
           ApiConstants.getRecurringSubscription, body,
-          method: Method.post, token: token ?? "");
+          method: Method.post, token: token ?? "",cancelToken: cancelToken);
       return DashBoardOverViewResponse.fromJson(response);
     } catch (e) {
       rethrow;
     }
   }
 
-  Future<DashBoardOverViewResponse?> getUpsellData(body) async {
+  Future<DashBoardOverViewResponse?> getUpsellData(body,CancelToken? cancelToken) async {
     var token = PreferenceHelper.getAccessToken();
 
     try {
       final response = await _apiHelper.makeReq(ApiConstants.getUpsell, body,
-          method: Method.post, token: token ?? "");
+          method: Method.post, token: token ?? "",cancelToken: cancelToken);
       return DashBoardOverViewResponse.fromJson(response);
     } catch (e) {
       rethrow;
     }
   }
 
-  Future<DashBoardSecondData?> getTotalTransactionsData(body) async {
+  Future<DashBoardSecondData?> getTotalTransactionsData(body,CancelToken? cancelToken) async {
+
     var token = PreferenceHelper.getAccessToken();
 
     try {
       final response = await _apiHelper.makeReq(
           ApiConstants.getTotalTransactions, body,
-          method: Method.post, token: token ?? "");
+          method: Method.post, token: token ?? "",cancelToken: cancelToken);
       return DashBoardSecondData.fromJson(response);
     } catch (e) {
       rethrow;
     }
   }
 
-  Future<DashBoardSecondData?> getRefundTransactionsData(body) async {
+  Future<DashBoardSecondData?> getRefundTransactionsData(body,CancelToken? cancelToken) async {
     var token = PreferenceHelper.getAccessToken();
 
     try {
       final response = await _apiHelper.makeReq(
           ApiConstants.getRefundTransactions, body,
-          method: Method.post, token: token ?? "");
+          method: Method.post, token: token ?? "",cancelToken: cancelToken);
       return DashBoardSecondData.fromJson(response);
     } catch (e) {
       rethrow;
     }
   }
 
-  Future<DashBoardSecondData?> getChargebackTransactionsData(body) async {
+  Future<DashBoardSecondData?> getChargebackTransactionsData(body,CancelToken? cancelToken) async {
+
     var token = PreferenceHelper.getAccessToken();
 
     try {
       final response = await _apiHelper.makeReq(
           ApiConstants.getChargebackTransactions, body,
-          method: Method.post, token: token ?? "");
+          method: Method.post, token: token ?? "",cancelToken: cancelToken);
       return DashBoardSecondData.fromJson(response);
     } catch (e) {
       rethrow;
     }
   }
 
-  Future<LifeTimeDataResponse?> getLifeTimeData(body) async {
+  Future<LifeTimeDataResponse?> getLifeTimeData(body,CancelToken? cancelToken) async {
+
     var token = PreferenceHelper.getAccessToken();
 
     try {
       final response = await _apiHelper.makeReq(ApiConstants.getLifetime, body,
-          method: Method.post, token: token ?? "");
+          method: Method.post, token: token ?? "",cancelToken: cancelToken);
       return LifeTimeDataResponse.fromJson(response);
     } catch (e) {
       rethrow;
     }
   }
 
-  Future<SalesRevenueDataResponse?> getSalesRevenueData(body) async {
+  Future<SalesRevenueDataResponse?> getSalesRevenueData(body,CancelToken? cancelToken) async {
+
     var token = PreferenceHelper.getAccessToken();
 
     try {
       final response = await _apiHelper.makeReq(
           ApiConstants.getTotalSalesRevenue, body,
-          method: Method.post, token: token ?? "");
+          method: Method.post, token: token ?? "",cancelToken: cancelToken);
       return SalesRevenueDataResponse.fromJson(response);
     } catch (e) {
       rethrow;
     }
   }
 
-  Future<NetSubscribersDataResponse?> getNetSubscriberData(body) async {
+  Future<NetSubscribersDataResponse?> getNetSubscriberData(body,CancelToken? cancelToken) async {
     var token = PreferenceHelper.getAccessToken();
 
     try {
       final response = await _apiHelper.makeReq(
           ApiConstants.getNetSubscribers, body,
-          method: Method.post, token: token ?? "");
+          method: Method.post, token: token ?? "",cancelToken: cancelToken);
       return NetSubscribersDataResponse.fromJson(response);
     } catch (e) {
       rethrow;
     }
   }
 
-  Future<ChargeBackSummaryDataResponse?> getChargebackSummaryData(body) async {
+  Future<ChargeBackSummaryDataResponse?> getChargebackSummaryData(body,CancelToken? cancelToken) async {
     var token = PreferenceHelper.getAccessToken();
 
     try {
       final response = await _apiHelper.makeReq(
           ApiConstants.getChargebackSummary, body,
-          method: Method.post, token: token ?? "");
+          method: Method.post, token: token ?? "",cancelToken: cancelToken);
       return ChargeBackSummaryDataResponse.fromJson(response);
     } catch (e) {
       rethrow;
     }
   }
 
-  Future<CoverageHealthDataResponse?> getCoverageHealthData(body) async {
+  Future<CoverageHealthDataResponse?> getCoverageHealthData(body,CancelToken? cancelToken) async {
     var token = PreferenceHelper.getAccessToken();
 
     try {
       final response = await _apiHelper.makeReq(
           ApiConstants.getCoverageHealth, body,
-          method: Method.post, token: token ?? "");
+          method: Method.post, token: token ?? "",cancelToken: cancelToken);
       return CoverageHealthDataResponse.fromJson(response);
     } catch (e) {
       rethrow;
     }
   }
 
-  Future<RefundRatioDataResponse?> getRefundRatioData(body) async {
+  Future<RefundRatioDataResponse?> getRefundRatioData(body,CancelToken? cancelToken) async {
     var token = PreferenceHelper.getAccessToken();
 
     try {
       final response = await _apiHelper.makeReq(
           ApiConstants.getRefundRatio, body,
-          method: Method.post, token: token ?? "");
+          method: Method.post, token: token ?? "",cancelToken: cancelToken);
       return RefundRatioDataResponse.fromJson(response);
     } catch (e) {
       rethrow;

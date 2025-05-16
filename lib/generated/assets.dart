@@ -68,6 +68,7 @@ class Assets {
   static const String imagesHome = 'assets/images/home.svg';
   static const String imagesInitialSubscription = 'assets/images/initial_subscription.svg';
   static const String imagesNotification = 'assets/images/Notification.svg';
+  static const String imagesPhoenix = 'assets/images/phoenix.png';
   static const String imagesPhoenixBird = 'assets/images/phoenix_bird.svg';
   static const String imagesPhoenixLogo = 'assets/images/phoenix_logo.svg';
   static const String imagesRecurringSubscription = 'assets/images/recurring_subscription.svg';

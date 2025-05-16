@@ -77,7 +77,7 @@ class FirebaseHelper {
   // Initialize Local Notifications
   static void _initLocalNotifications() {
     const AndroidInitializationSettings androidInitializationSettings =
-    AndroidInitializationSettings('@mipmap/ic_launcher');
+    AndroidInitializationSettings('@drawable/notification_icon');
 
     final InitializationSettings initializationSettings = InitializationSettings(
       android: androidInitializationSettings,iOS: DarwinInitializationSettings()
@@ -96,7 +96,9 @@ class FirebaseHelper {
       importance: Importance.max,
       priority: Priority.high,
       playSound: true,
-      sound: RawResourceAndroidNotificationSound("notification")
+      icon: "@drawable/notification_icon",
+      sound: RawResourceAndroidNotificationSound("notification"),
+      largeIcon: DrawableResourceAndroidBitmap('@drawable/ic_launcher'), //
     );
 
     const iOSNotificationDetails=DarwinNotificationDetails(sound: "notification.caf");

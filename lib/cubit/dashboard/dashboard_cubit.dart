@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phoenix/helper/api/api_helper.dart';
@@ -42,7 +43,22 @@ class DashBoardCubit extends Cubit<DashboardState> {
   int _refreshTokenForDirectSaleApprovalRatio = 0; // Track refresh attempts
   int _refreshTokenForDetailChartBreakDown = 0; // Track refresh attempts
   int _refreshTokenForDetailChartApprovalRatio = 0; // Track refresh attempts
-
+  CancelToken? _permissionsCancelToken;
+  CancelToken? _directSaleCancelToken;
+  CancelToken? _initialSubscriptionCancelToken;
+  CancelToken? _subscriptionSalvageCancelToken;
+  CancelToken? _subscriptionBillCancelToken;
+  CancelToken? _recurringCancelToken;
+  CancelToken? _upsellCancelToken;
+  CancelToken? _totalTransactionsCancelToken;
+  CancelToken? _refundTransactionsCancelToken;
+  CancelToken? _chargebackTransactionsCancelToken;
+  CancelToken? _lifeTimeCancelToken;
+  CancelToken? _salesRevenueCancelToken;
+  CancelToken? _netSubscriberCancelToken;
+  CancelToken? _chargebackSummaryCancelToken;
+  CancelToken? _coverageHealthCancelToken;
+  CancelToken? _refundRatioCancelToken;
   void updateFilterData(String? selectedKey, DateTimeRange? selectedRange,
       DateTimeRange? selectedCustomRange) {
     emit(state.copyWith(
@@ -106,11 +122,16 @@ class DashBoardCubit extends Cubit<DashboardState> {
   void getPermissionsData(BuildContext context) async {
     List<int> clientIDs = [];
     List<int> storeIds = [];
-
+    try {
+      _permissionsCancelToken?.cancel("Cancelled previous permissions request");
+    } catch (_) {
+      debugLog("Cancelled previous permissions request");
+    }
+    _permissionsCancelToken = CancelToken();
     try {
       emit(state.copyWith(permissionReqState: ProcessState.loading));
 
-      final res = await _apiService.getPermissionsData();
+      final res = await _apiService.getPermissionsData(_permissionsCancelToken);
 
       _tokenRefreshAttempts = 0; // Reset counter on success
       // Collect all client IDs
@@ -200,15 +221,24 @@ class DashBoardCubit extends Cubit<DashboardState> {
 
   void getDirectSaleData(BuildContext context) async {
     try {
+      _directSaleCancelToken?.cancel("Cancelled previous directSale request");
+    } catch (_) {
+      debugLog("Cancelled previous directSale request");
+    }
+    _directSaleCancelToken = CancelToken();
+    try {
       emit(state.copyWith(directSaleReqState: ProcessState.loading));
 
       final res =
-          await _apiService.getDirectSaleData(state.filterPayload?.toJson());
+          await _apiService.getDirectSaleData(state.filterPayload?.toJson(),_directSaleCancelToken);
 
       _refreshTokenForDirectSale = 0; // Reset counter on success
       emit(state.copyWith(
           directSaleReqState: ProcessState.success, directSaleData: res));
     } on ApiFailure catch (e) {
+      if(e.code==100){
+        return;
+      }
       if (e.code == 401) {
         if (_refreshTokenForDirectSale >= 2) {
           CustomToast.show(
@@ -252,16 +282,25 @@ class DashBoardCubit extends Cubit<DashboardState> {
 
   void getInitialSubscriptionData(BuildContext context) async {
     try {
+      _initialSubscriptionCancelToken?.cancel("Cancelled previous  request");
+    } catch (_) {
+      debugLog("Cancelled previous initialSubscription request");
+    }
+    _initialSubscriptionCancelToken = CancelToken();
+    try {
       emit(state.copyWith(initialSubscriptionReqState: ProcessState.loading));
 
       final res = await _apiService
-          .getInitialSubscriptionData(state.filterPayload?.toJson());
+          .getInitialSubscriptionData(state.filterPayload?.toJson(),_initialSubscriptionCancelToken);
 
       _refreshTokenForInitialSub = 0; // Reset counter on success
       emit(state.copyWith(
           initialSubscriptionReqState: ProcessState.success,
           initialSubscriptionData: res));
     } on ApiFailure catch (e) {
+      if(e.code==100){
+        return;
+      }
       if (e.code == 401) {
         if (_refreshTokenForInitialSub >= 2) {
           CustomToast.show(
@@ -304,16 +343,26 @@ class DashBoardCubit extends Cubit<DashboardState> {
 
   void getRecurringSubscription(BuildContext context) async {
     try {
+      _recurringCancelToken?.cancel("Cancelled previous  request");
+    } catch (_) {
+      debugLog("Cancelled previous recurring request");
+    }
+    _recurringCancelToken = CancelToken();
+    try {
+
       emit(state.copyWith(recurringSubscriptionReqState: ProcessState.loading));
 
       final res =
-          await _apiService.getRecurringData(state.filterPayload?.toJson());
+          await _apiService.getRecurringData(state.filterPayload?.toJson(),_recurringCancelToken);
 
       _refreshTokenForRecurringSub = 0; // Reset counter on success
       emit(state.copyWith(
           recurringSubscriptionReqState: ProcessState.success,
           recurringSubscriptionData: res));
     } on ApiFailure catch (e) {
+      if(e.code==100){
+        return;
+      }
       if (e.code == 401) {
         if (_refreshTokenForRecurringSub >= 2) {
           CustomToast.show(
@@ -357,16 +406,25 @@ class DashBoardCubit extends Cubit<DashboardState> {
 
   void getSubscriptionSalvageData(BuildContext context) async {
     try {
+      _subscriptionSalvageCancelToken?.cancel("Cancelled previous subscriptionSalvage request");
+    } catch (_) {
+      debugLog("Cancelled previous subscriptionSalvage request");
+    }
+    _subscriptionSalvageCancelToken = CancelToken();
+    try {
       emit(state.copyWith(subscriptionSalvageReqState: ProcessState.loading));
 
       final res = await _apiService
-          .getSubscriptionSalvageData(state.filterPayload?.toJson());
+          .getSubscriptionSalvageData(state.filterPayload?.toJson(),_subscriptionSalvageCancelToken);
 
       _refreshTokenForSubscriptionSal = 0; // Reset counter on success
       emit(state.copyWith(
           subscriptionSalvageReqState: ProcessState.success,
           subscriptionSalvageData: res));
     } on ApiFailure catch (e) {
+      if(e.code==100){
+        return;
+      }
       if (e.code == 401) {
         if (_refreshTokenForSubscriptionSal >= 2) {
           CustomToast.show(
@@ -409,15 +467,24 @@ class DashBoardCubit extends Cubit<DashboardState> {
 
   void getUpsellData(BuildContext context) async {
     try {
+      _upsellCancelToken?.cancel("Cancelled previous upsell request");
+    } catch (_) {
+      debugLog("Cancelled previous upsell request");
+    }
+    _upsellCancelToken = CancelToken();
+    try {
       emit(state.copyWith(upsellReqState: ProcessState.loading));
 
       final res =
-          await _apiService.getUpsellData(state.filterPayload?.toJson());
+          await _apiService.getUpsellData(state.filterPayload?.toJson(),_upsellCancelToken);
 
       _refreshTokenForUpsellData = 0; // Reset counter on success
       emit(state.copyWith(
           upsellReqState: ProcessState.success, upsellData: res));
     } on ApiFailure catch (e) {
+      if(e.code==100){
+        return;
+      }
       if (e.code == 401) {
         if (_refreshTokenForUpsellData >= 2) {
           CustomToast.show(
@@ -457,16 +524,26 @@ class DashBoardCubit extends Cubit<DashboardState> {
 
   void getSubscriptionToBillData(BuildContext context) async {
     try {
+      _subscriptionBillCancelToken?.cancel("Cancelled previous subscriptionBill request");
+    } catch (_) {
+      debugLog("Cancelled previous subscriptionBill request");
+    }
+    _subscriptionBillCancelToken = CancelToken();
+    try {
+
       emit(state.copyWith(subscriptionBillReqState: ProcessState.loading));
 
       final res = await _apiService
-          .getSubscriptionBillData(state.filterPayload?.toJson());
+          .getSubscriptionBillData(state.filterPayload?.toJson(),_subscriptionBillCancelToken);
 
       _refreshTokenForSubscriptionToBill = 0; // Reset counter on success
       emit(state.copyWith(
           subscriptionBillReqState: ProcessState.success,
           subscriptionBillData: res));
     } on ApiFailure catch (e) {
+      if(e.code==100){
+        return;
+      }
       if (e.code == 401) {
         if (_refreshTokenForSubscriptionToBill >= 2) {
           CustomToast.show(
@@ -521,16 +598,25 @@ class DashBoardCubit extends Cubit<DashboardState> {
           )
         : null;
     try {
+      _totalTransactionsCancelToken?.cancel("Cancelled previous request");
+    } catch (_) {
+      debugLog("Cancelled previous totalTransactions request");
+    }
+    _totalTransactionsCancelToken = CancelToken();
+    try {
       emit(state.copyWith(totalTransactionReqState: ProcessState.loading));
 
       final res =
-          await _apiService.getTotalTransactionsData(newPayload?.toJson());
+          await _apiService.getTotalTransactionsData(newPayload?.toJson(),_totalTransactionsCancelToken);
 
       _refreshTokenForTotalTransaction = 0; // Reset counter on success
       emit(state.copyWith(
           totalTransactionReqState: ProcessState.success,
           totalTransactionData: res));
     } on ApiFailure catch (e) {
+      if(e.code==100){
+        return;
+      }
       if (e.code == 401) {
         if (_refreshTokenForTotalTransaction >= 2) {
           CustomToast.show(
@@ -585,15 +671,24 @@ class DashBoardCubit extends Cubit<DashboardState> {
           )
         : null;
     try {
+      _refundTransactionsCancelToken?.cancel("Cancelled previous  request");
+    } catch (_) {
+      debugLog("Cancelled previous refundTransactions request");
+    }
+    _refundTransactionsCancelToken = CancelToken();
+    try {
       emit(state.copyWith(refundsReqState: ProcessState.loading));
 
       final res =
-          await _apiService.getRefundTransactionsData(newPayload?.toJson());
+          await _apiService.getRefundTransactionsData(newPayload?.toJson(),_refundTransactionsCancelToken);
 
       _refreshTokenForRefundData = 0; // Reset counter on success
       emit(state.copyWith(
           refundsReqState: ProcessState.success, refundsData: res));
     } on ApiFailure catch (e) {
+      if(e.code==100){
+        return;
+      }
       if (e.code == 401) {
         if (_refreshTokenForRefundData >= 2) {
           CustomToast.show(
@@ -647,15 +742,24 @@ class DashBoardCubit extends Cubit<DashboardState> {
           )
         : null;
     try {
+      _chargebackTransactionsCancelToken?.cancel("Cancelled previous chargebackTransactions request");
+    } catch (_) {
+      debugLog("Cancelled previous chargebackTransactions request");
+    }
+    _chargebackTransactionsCancelToken = CancelToken();
+    try {
       emit(state.copyWith(chargeBacksReqState: ProcessState.loading));
 
       final res =
-          await _apiService.getChargebackTransactionsData(newPayload?.toJson());
+          await _apiService.getChargebackTransactionsData(newPayload?.toJson(),_chargebackTransactionsCancelToken);
 
       _refreshTokenForChargeBackData = 0; // Reset counter on success
       emit(state.copyWith(
           chargeBacksReqState: ProcessState.success, chargeBacksData: res));
     } on ApiFailure catch (e) {
+      if(e.code==100){
+        return;
+      }
       if (e.code == 401) {
         if (_refreshTokenForChargeBackData >= 2) {
           CustomToast.show(
@@ -696,15 +800,24 @@ class DashBoardCubit extends Cubit<DashboardState> {
 
   void getLifeTimeData(BuildContext context) async {
     try {
+      _lifeTimeCancelToken?.cancel("Cancelled previous login request");
+    } catch (_) {
+      debugLog("Cancelled previous lifeTime request");
+    }
+    _lifeTimeCancelToken = CancelToken();
+    try {
       emit(state.copyWith(lifeTimeReqState: ProcessState.loading));
 
       final res =
-          await _apiService.getLifeTimeData(state.filterPayload?.toJson());
+          await _apiService.getLifeTimeData(state.filterPayload?.toJson(),_lifeTimeCancelToken);
 
       _refreshTokenForLifeTimeData = 0; // Reset counter on success
       emit(state.copyWith(
           lifeTimeReqState: ProcessState.success, lifeTimeData: res));
     } on ApiFailure catch (e) {
+      if(e.code==100){
+        return;
+      }
       if (e.code == 401) {
         if (_refreshTokenForLifeTimeData >= 2) {
           CustomToast.show(
@@ -744,13 +857,19 @@ class DashBoardCubit extends Cubit<DashboardState> {
 
   void getSalesRevenuesData(BuildContext context) async {
     try {
+      _salesRevenueCancelToken?.cancel("Cancelled previous  request");
+    } catch (_) {
+      debugLog("Cancelled previous salesRevenue request");
+    }
+    _salesRevenueCancelToken = CancelToken();
+    try {
       emit(state.copyWith(
         totalSalesRevenueReqState: ProcessState.loading,
         totalSalesRevenueData: SalesRevenueDataResponse(result: []),
       ));
 
       final res =
-          await _apiService.getSalesRevenueData(state.filterPayload?.toJson());
+          await _apiService.getSalesRevenueData(state.filterPayload?.toJson(),_salesRevenueCancelToken);
 
       _refreshTokenForSalesRevenue = 0; // Reset counter on success
       if (state.filterPayload?.groupBy == "hour" &&( res?.result??[]).isNotEmpty ) {
@@ -779,6 +898,9 @@ class DashBoardCubit extends Cubit<DashboardState> {
               ? state.totalSalesRevenueData
               : res));
     } on ApiFailure catch (e) {
+      if(e.code==100){
+        return;
+      }
       if (e.code == 401) {
         if (_refreshTokenForSalesRevenue >= 2) {
           CustomToast.show(
@@ -819,12 +941,18 @@ class DashBoardCubit extends Cubit<DashboardState> {
 
   void getNetSubscribersData(BuildContext context) async {
     try {
+      _netSubscriberCancelToken?.cancel("Cancelled previous login request");
+    } catch (_) {
+      debugLog("Cancelled previous netSubscriber request");
+    }
+    _netSubscriberCancelToken = CancelToken();
+    try {
       emit(state.copyWith(
           netSubscribersReqState: ProcessState.loading,
           netSubscribersData: NetSubscribersDataResponse(result: [])));
 
       final res =
-          await _apiService.getNetSubscriberData(state.filterPayload?.toJson());
+          await _apiService.getNetSubscriberData(state.filterPayload?.toJson(),_netSubscriberCancelToken);
 
       _refreshTokenForNetSubscribers = 0; // Reset counter on success
       if (state.filterPayload?.groupBy == "hour" &&
@@ -858,6 +986,9 @@ class DashBoardCubit extends Cubit<DashboardState> {
               ? state.netSubscribersData
               : res));
     } on ApiFailure catch (e) {
+      if(e.code==100){
+        return;
+      }
       if (e.code == 401) {
         if (_refreshTokenForNetSubscribers >= 2) {
           CustomToast.show(
@@ -898,16 +1029,25 @@ class DashBoardCubit extends Cubit<DashboardState> {
 
   void getChargeBackSummaryData(BuildContext context) async {
     try {
+      _chargebackSummaryCancelToken?.cancel("Cancelled previous login request");
+    } catch (_) {
+      debugLog("Cancelled previous chargebackSummary request");
+    }
+    _chargebackSummaryCancelToken = CancelToken();
+    try {
       emit(state.copyWith(chargeBackSummaryReqState: ProcessState.loading));
 
       final res = await _apiService
-          .getChargebackSummaryData(state.filterPayload?.toJson());
+          .getChargebackSummaryData(state.filterPayload?.toJson(),_chargebackSummaryCancelToken);
 
       _refreshTokenForCoverageHealth = 0; // Reset counter on success
       emit(state.copyWith(
           chargeBackSummaryReqState: ProcessState.success,
           chargeBackSummaryData: res));
     } on ApiFailure catch (e) {
+      if(e.code==100){
+        return;
+      }
       if (e.code == 401) {
         if (_refreshTokenForCoverageHealth >= 2) {
           CustomToast.show(
@@ -956,10 +1096,17 @@ class DashBoardCubit extends Cubit<DashboardState> {
 
   void getCoverageHealthData(BuildContext context) async {
     try {
+      _coverageHealthCancelToken?.cancel("Cancelled previous  request");
+    } catch (_) {
+      debugLog("Cancelled previous coverageHealth request");
+    }
+
+    _coverageHealthCancelToken = CancelToken();
+    try {
       emit(state.copyWith(coverageHealthDataReqState: ProcessState.loading));
 
       var res = await _apiService
-          .getCoverageHealthData(state.filterPayload?.toJson());
+          .getCoverageHealthData(state.filterPayload?.toJson(),_coverageHealthCancelToken);
 
       _refreshTokenForChargeBackSummary = 0; // Reset counter on success
       if(res?.result?.length==1 && (res?.result?.firstOrNull?.cardType??"").isEmpty){
@@ -969,6 +1116,9 @@ class DashBoardCubit extends Cubit<DashboardState> {
           coverageHealthDataReqState: ProcessState.success,
           coverageHealthDataData: res));
     } on ApiFailure catch (e) {
+      if(e.code==100){
+        return;
+      }
       if (e.code == 401) {
         if (_refreshTokenForChargeBackSummary >= 2) {
           CustomToast.show(
@@ -1031,14 +1181,24 @@ class DashBoardCubit extends Cubit<DashboardState> {
           )
         : null;
     try {
+      _refundRatioCancelToken?.cancel("Cancelled previous refund ratio request");
+    } catch (_) {
+      debugLog("Cancelled previous refund ratio request");
+    }
+
+    _refundRatioCancelToken = CancelToken();
+    try {
       emit(state.copyWith(refundRatioReqState: ProcessState.loading));
 
-      final res = await _apiService.getRefundRatioData(newPayload?.toJson());
+      final res = await _apiService.getRefundRatioData(newPayload?.toJson(),_refundRatioCancelToken);
 
       _refreshTokenForRefundRatio = 0; // Reset counter on success
       emit(state.copyWith(
           refundRatioReqState: ProcessState.success, refundRatioData: res));
     } on ApiFailure catch (e) {
+      if(e.code==100){
+        return;
+      }
       if (e.code == 401) {
         if (_refreshTokenForRefundRatio >= 2) {
           CustomToast.show(
@@ -1097,6 +1257,9 @@ class DashBoardCubit extends Cubit<DashboardState> {
           dashboardDetailReqState: ProcessState.success,
           directSaleDetailData: res));
     } on ApiFailure catch (e) {
+      if(e.code==100){
+        return;
+      }
       if (e.code == 401) {
         if (_refreshTokenForDirectSaleDetailData >= 2) {
           CustomToast.show(
@@ -1153,6 +1316,9 @@ class DashBoardCubit extends Cubit<DashboardState> {
           dashboardDetailReqState: ProcessState.success,
           dashboardDetailData: res));
     } on ApiFailure catch (e) {
+      if(e.code==100){
+        return;
+      }
       if (e.code == 401) {
         if (_refreshTokenForDashboardDetailData >= 2) {
           CustomToast.show(
@@ -1202,6 +1368,9 @@ class DashBoardCubit extends Cubit<DashboardState> {
           dashboardRevenueReqState: ProcessState.success,
           directSaleRevenueData: res));
     } on ApiFailure catch (e) {
+      if(e.code==100){
+        return;
+      }
       if (e.code == 401) {
         if (_refreshTokenForDirectSaleRevenueData >= 2) {
           CustomToast.show(
@@ -1247,6 +1416,9 @@ class DashBoardCubit extends Cubit<DashboardState> {
           dashboardAppRatioReqState: ProcessState.success,
           directSaleAppRatioData: res));
     } on ApiFailure catch (e) {
+      if(e.code==100){
+        return;
+      }
       if (e.code == 401) {
         if (_refreshTokenForDirectSaleApprovalRatio >= 2) {
           CustomToast.show(
@@ -1303,6 +1475,9 @@ class DashBoardCubit extends Cubit<DashboardState> {
           dashboardRevenueReqState: ProcessState.success,
           detailChartDeclinedBreakDownData: res));
     } on ApiFailure catch (e) {
+      if(e.code==100){
+        return;
+      }
       if (e.code == 401) {
         if (_refreshTokenForDetailChartBreakDown >= 2) {
           CustomToast.show(
@@ -1359,6 +1534,9 @@ class DashBoardCubit extends Cubit<DashboardState> {
           dashboardAppRatioReqState: ProcessState.success,
           detailChartAppRatioData: res));
     } on ApiFailure catch (e) {
+      if(e.code==100){
+        return;
+      }
       if (e.code == 401) {
         if (_refreshTokenForDetailChartApprovalRatio >= 2) {
           CustomToast.show(
