@@ -211,7 +211,7 @@ class DashboardState {
             totalSalesRevenueReqState ?? this.totalSalesRevenueReqState,
         netSubscribersData: netSubscribersData ?? this.netSubscribersData,
         netSubscribersReqState:
-            netSubscribersReqState ?? this.totalSalesRevenueReqState,
+            netSubscribersReqState ?? this.netSubscribersReqState,
         chargeBackSummaryData:
             chargeBackSummaryData ?? this.chargeBackSummaryData,
         chargeBackSummaryReqState:

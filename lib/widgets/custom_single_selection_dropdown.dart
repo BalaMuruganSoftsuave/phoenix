@@ -16,7 +16,7 @@ class SingleSelectionDropDown extends StatefulWidget {
     this.isEnabled = true,
     this.onTap,
     this.initiallySelectedKey, // NEW PARAMETER
-    super.key,
+    super.key,  this.isNeedToUpdateInitialValue=false,
   });
 
   final double? maxHeight;
@@ -29,6 +29,7 @@ class SingleSelectionDropDown extends StatefulWidget {
   final String? errorText;
   final bool showError;
   final bool isEnabled;
+  final bool isNeedToUpdateInitialValue;
   final Function? onTap;
   final String? initiallySelectedKey; // NEW PARAMETER
 
@@ -74,9 +75,14 @@ class _SingleSelectionDropDownState extends State<SingleSelectionDropDown> {
         selectedKey = widget.initiallySelectedKey; // Update on widget update
       });
     }
-    setState(() {
-      selectedKey = widget.initiallySelectedKey; // Update on widget update
-    });
+    if(widget.isNeedToUpdateInitialValue){
+      setState(() {
+        selectedKey = widget.initiallySelectedKey; // Update on widget update
+      });
+    }
+    // setState(() {
+    //   selectedKey = widget.initiallySelectedKey; // Update on widget update
+    // });
   }
 
   @override

@@ -13,16 +13,19 @@ import '../../helper/color_helper.dart';
 import '../../helper/dependency.dart';
 
 class SalesRevenueChart extends StatelessWidget {
-  const SalesRevenueChart({
-    super.key,
-    this.areaMap = false,
-    required this.chartModel,
-    this.isDetailScreen = false,
-  });
+  const SalesRevenueChart(
+      {super.key,
+      this.areaMap = false,
+      required this.chartModel,
+      this.isDetailScreen = false,
+      this.customLegend = false,
+      this.netChartDataLegend});
 
   final bool areaMap;
   final bool isDetailScreen;
   final LineChartModel chartModel;
+  final LineChartModel? netChartDataLegend;
+  final bool customLegend;
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +33,8 @@ class SalesRevenueChart extends StatelessWidget {
         ? _calculateDirectSales()
         : _calculateTotalSales(); // Calculate totals for legend
     final totalSubs = _calculateTotalSubscriptions(chartModel.subscriptionData);
+    final totalLegendSubs = _calculateTotalSubscriptions(
+        netChartDataLegend?.subscriptionData ?? []);
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -77,8 +82,9 @@ class SalesRevenueChart extends StatelessWidget {
                     children: totalSales.entries.map((entry) {
                       Color color = _getLegendColor(entry.key);
                       return SizedBox(
-                        width: DeviceType.isMobile(context)?(MediaQuery.of(context).size.width - 24) /
-                            2.3:null, // 2 items per row
+                        width: DeviceType.isMobile(context)
+                            ? (MediaQuery.of(context).size.width - 24) / 2.3
+                            : null, // 2 items per row
                         child: LegendWidget(
                           color: color,
                           text: entry.key,
@@ -87,38 +93,80 @@ class SalesRevenueChart extends StatelessWidget {
                       );
                     }).toList(),
                   )
-                : Wrap(
-                    alignment:
-                        WrapAlignment.start, // Align items from the start
-                    spacing: 30, // Horizontal spacing between items
-                    runSpacing: 15,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                : customLegend
+                    ? Wrap(
+                        alignment:
+                            WrapAlignment.start, // Align items from the start
+                        spacing: 30, // Horizontal spacing between items
+                        runSpacing: 15,
                         children: [
-                          Expanded(
-                            child: LegendWidget(
-                                color: AppColors.pink,
-                                text: 'Net Subscribers',
-                                subText: (totalSubs['netSubscriptions'] ?? 0)
-                                    .toString()),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: LegendWidget(
+                                    color: AppColors.pink,
+                                    text: 'Net Subscribers',
+                                    subText:
+                                        (totalLegendSubs['netSubscriptions'] ??
+                                                0)
+                                            .toString()),
+                              ),
+                              Expanded(
+                                child: LegendWidget(
+                                    color: AppColors.successGreen,
+                                    text: 'New Subscribers',
+                                    subText:
+                                        (totalLegendSubs['newSubscriptions'] ??
+                                                0)
+                                            .toString()),
+                              ),
+                            ],
                           ),
-                          Expanded(
-                            child: LegendWidget(
-                                color: AppColors.successGreen,
-                                text: 'New Subscribers',
-                                subText: (totalSubs['newSubscriptions'] ?? 0)
-                                    .toString()),
-                          ),
+                          LegendWidget(
+                              color: AppColors.seaBlue,
+                              text: 'Cancelled Subscribers',
+                              subText:
+                                  (totalLegendSubs['cancelledSubscriptions'] ??
+                                          0)
+                                      .toString()),
                         ],
-                      ),
-                      LegendWidget(
-                          color: AppColors.seaBlue,
-                          text: 'Cancelled Subscribers',
-                          subText: (totalSubs['cancelledSubscriptions'] ?? 0)
-                              .toString()),
-                    ],
-                  )
+                      )
+                    : Wrap(
+                        alignment:
+                            WrapAlignment.start, // Align items from the start
+                        spacing: 30, // Horizontal spacing between items
+                        runSpacing: 15,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: LegendWidget(
+                                    color: AppColors.pink,
+                                    text: 'Net Subscribers',
+                                    subText:
+                                        (totalSubs['netSubscriptions'] ?? 0)
+                                            .toString()),
+                              ),
+                              Expanded(
+                                child: LegendWidget(
+                                    color: AppColors.successGreen,
+                                    text: 'New Subscribers',
+                                    subText:
+                                        (totalSubs['newSubscriptions'] ?? 0)
+                                            .toString()),
+                              ),
+                            ],
+                          ),
+                          LegendWidget(
+                              color: AppColors.seaBlue,
+                              text: 'Cancelled Subscribers',
+                              subText:
+                                  (totalSubs['cancelledSubscriptions'] ?? 0)
+                                      .toString()),
+                        ],
+                      )
       ],
     );
   }
@@ -253,7 +301,7 @@ class SalesRevenueChart extends StatelessWidget {
           );
         },
       ),
-      titlesData: getTitlesData(spots,context),
+      titlesData: getTitlesData(spots, context),
       borderData: FlBorderData(
         show: false,
         border: const Border(
@@ -309,7 +357,7 @@ class SalesRevenueChart extends StatelessWidget {
     return const FlGridData(show: false);
   }
 
-  FlTitlesData getTitlesData(List<FlSpot> spots,context) {
+  FlTitlesData getTitlesData(List<FlSpot> spots, context) {
     double minY = 0;
     double maxY = 0;
 
@@ -343,7 +391,8 @@ class SalesRevenueChart extends StatelessWidget {
           showTitles: true,
           maxIncluded: true,
           minIncluded: true,
-          reservedSize: Responsive.padding(getCtx()!, DeviceType.isMobile(context)?12:8),
+          reservedSize: Responsive.padding(
+              getCtx()!, DeviceType.isMobile(context) ? 12 : 8),
           getTitlesWidget: (value, meta) {
             // Always include 0, minY, and maxY
             List<double> valuesToShow = [minY, 0, maxY];
@@ -362,9 +411,9 @@ class SalesRevenueChart extends StatelessWidget {
               return Text(
                 formatValue(value),
                 style: getTextTheme().bodyMedium?.copyWith(
-                  fontSize: Responsive.fontSize(context, 2.5),
-                  color: Colors.white,
-                ),
+                      fontSize: Responsive.fontSize(context, 2.5),
+                      color: Colors.white,
+                    ),
               );
             }
             return Container();
@@ -375,7 +424,8 @@ class SalesRevenueChart extends StatelessWidget {
       bottomTitles: AxisTitles(
         sideTitles: SideTitles(
             showTitles: true,
-            reservedSize: Responsive.padding(getCtx()!, DeviceType.isMobile(context)?12:8),
+            reservedSize: Responsive.padding(
+                getCtx()!, DeviceType.isMobile(context) ? 12 : 8),
             interval: 1,
             getTitlesWidget: (value, meta) {
               // Process only whole integer values
@@ -417,9 +467,9 @@ class SalesRevenueChart extends StatelessWidget {
 
                 return Text(
                   formatRange(range),
-                  style: getTextTheme()
-                      .bodyMedium
-                      ?.copyWith(   fontSize: Responsive.fontSize(context, 2.5), color: Colors.white),
+                  style: getTextTheme().bodyMedium?.copyWith(
+                      fontSize: Responsive.fontSize(context, 2.5),
+                      color: Colors.white),
                   textAlign: TextAlign.center,
                 );
               } else {

@@ -38,14 +38,19 @@ class PieChartFilterWidgetState extends State<PieChartFilterWidget> {
     super.initState();
     _filterData("All");
   }
+  @override
+  void dispose() {
+    FocusScope.of(context).unfocus();
+    super.dispose();
+  }
 
   @override
   void didUpdateWidget(covariant PieChartFilterWidget oldWidget) {
-    // TODO: implement didUpdateWidget
-    _filterData("All");
     super.didUpdateWidget(oldWidget);
+    if (oldWidget.transactions != widget.transactions) {
+      _filterData(selectedFilter);
+    }
   }
-
   void _filterData(String filter) {
     setState(() {
       selectedFilter = filter;

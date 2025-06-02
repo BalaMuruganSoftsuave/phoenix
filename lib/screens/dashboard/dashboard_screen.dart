@@ -205,6 +205,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 selectedNetSubscriberFilter,
                                 builder:
                                     (context, String selectedValue, _) {
+                                  print( state
+                                      .netSubscribersReqState);
                                   return ContainerWidget(
                                       height: 60,
                                       title: TextHelper.netSubscribers,
@@ -221,6 +223,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                           ? NoDataWidget()
                                           : SalesRevenueChart(
                                           areaMap: false,
+                                          customLegend: true,
+                                          netChartDataLegend: getNetSubData(
+                                             state.netSubscribersData
+                                                  ?.result ??
+                                                  []),
                                           chartModel: getNetSubData(
                                               selectedValue=="cumulative"? cumulativeData:state.netSubscribersData
                                                   ?.result ??
@@ -327,6 +334,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildDropdown(context, selectedValue) {
     return SingleSelectionDropDown(
+      isNeedToUpdateInitialValue: true,
       maxHeight:
       Responsive.screenH(context, DeviceType.isMobile(context) ? 15 : 12),
       initiallySelectedKey: selectedValue,
