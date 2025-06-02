@@ -98,7 +98,7 @@ class FirebaseHelper {
       playSound: true,
       icon: "@drawable/notification_icon",
       sound: RawResourceAndroidNotificationSound("notification"),
-      largeIcon: DrawableResourceAndroidBitmap('@drawable/ic_launcher'), //
+      largeIcon: DrawableResourceAndroidBitmap('ic_launcher'), //
     );
 
     const iOSNotificationDetails=DarwinNotificationDetails(sound: "notification.caf");

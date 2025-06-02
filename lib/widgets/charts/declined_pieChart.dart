@@ -15,6 +15,7 @@ import '../../helper/utils.dart';
 class PieChartWidget extends StatefulWidget {
   final String title;
   final bool isLoading;
+  final bool isFilterDropdownNeeded;
   final List<DetailChartDeclinedBreakDownDataResult> data;
 
   const PieChartWidget({
@@ -22,6 +23,7 @@ class PieChartWidget extends StatefulWidget {
     required this.title,
     required this.data,
     this.isLoading = false,
+    this.isFilterDropdownNeeded = true,
   });
 
   @override
@@ -65,14 +67,14 @@ class _PieChartWidgetState extends State<PieChartWidget> {
 
     return ContainerWidget(
       title: widget.title,
-      childWidget: (widget.data.isNotEmpty) ? _buildDropdown() : null,
+      childWidget: (widget.data.isNotEmpty&& widget.isFilterDropdownNeeded) ? _buildDropdown() : null,
       widget: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (widget.isLoading)
             const Center(child: Loader())
           else if (entries.isEmpty)
-            const Center(child: Text("No data available"))
+             Center(child: Text("No data available",style: getTextTheme().bodyMedium?.copyWith(color: Colors.white),))
           else ...[
             _buildChart(entries, total),
             const SizedBox(height: 10),

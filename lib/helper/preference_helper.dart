@@ -1,3 +1,4 @@
+import 'package:phoenix/helper/firebase_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PreferenceHelper {
@@ -62,7 +63,7 @@ class PreferenceHelper {
   }
 
   /// Retrieves Refresh Token
-  static String? getFcm() {
-    return _sharedPref?.getString(_fcm);
+  static Future<String?> getFcm() async {
+    return _sharedPref?.getString(_fcm)?? await FirebaseHelper.getFCMToken();
   }
 }

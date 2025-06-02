@@ -76,6 +76,7 @@ class DetailChartDeclinedBreakDownDataResult {
   final double percentage;
   final int cancelled;
 
+
   DetailChartDeclinedBreakDownDataResult({
     required this.reason,
     required this.value,
@@ -140,8 +141,10 @@ class DetailChartApprovalRatioDataResponse {
 
 class DetailChartApprovalRatioDataResult {
   String? range;
+  String? declinedReason;
   num? totalOrders;
   num? approvedOrders;
+  num? declinedCount;
   num? cancelledOrders;
 
   DetailChartApprovalRatioDataResult({this.range, this.totalOrders, this.approvedOrders});

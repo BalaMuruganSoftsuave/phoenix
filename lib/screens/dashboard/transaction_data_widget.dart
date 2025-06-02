@@ -22,21 +22,26 @@ class DashBoardFirstDataWidget extends StatelessWidget {
     return RenderSection(title: "", cards: [
       CardData(
         circleBgColor: Color(0xFFF90182),
-        title:
-            state.directSaleData?.result?.firstOrNull?.label ?? TextHelper.directSale,
+        title: state.directSaleData?.result?.firstOrNull?.label ??
+            TextHelper.directSale,
         subtitle: getSubtitle(
             state.directSaleData?.result?.firstOrNull?.approvedOrders ?? 0,
             state.directSaleData?.result?.firstOrNull?.approvalPercentage ?? 0),
         image: Assets.imagesDirectSale,
         isLoading: state.directSaleReqState == ProcessState.loading,
         onPress: () {
-       context.read<DashBoardCubit>().getDirectSaleDetailData(context);
-       context.read<DashBoardCubit>().getDirectSaleRevenueData(context);
-       context.read<DashBoardCubit>().getDirectSaleApprovalRatio(context);
+          context.read<DashBoardCubit>().getDirectSaleDetailData(context);
+          // context.read<DashBoardCubit>().getDirectSaleRevenueData(context);
+          context
+              .read<DashBoardCubit>()
+              .getDetailChartBreakdownData(context, DashboardData.directSale);
+
+          context.read<DashBoardCubit>().getDirectSaleApprovalRatio(context);
 
           openScreen(salesRevenueDetails,
               args: LinkedHashMap.from({
                 "isDirectSale": true,
+                "isUpsell": false,
                 "image": Assets.imagesDirectSale,
                 "title": "Direct Sale",
                 "color": Color(0xFFF90182),
@@ -57,12 +62,16 @@ class DashBoardFirstDataWidget extends StatelessWidget {
           image: Assets.imagesInitialSubscription,
           isLoading: state.initialSubscriptionReqState == ProcessState.loading,
           onPress: () {
-            context.read<DashBoardCubit>().getDashboardDetailData(context, DashboardData.initialSubscription);
-            context.read<DashBoardCubit>().getDetailChartBreakdownData(context, DashboardData.initialSubscription);
-            context.read<DashBoardCubit>().getDetailChartApprovalRatioData(context, DashboardData.initialSubscription);
-              openScreen(salesRevenueDetails,
+            context.read<DashBoardCubit>().getDashboardDetailData(
+                context, DashboardData.initialSubscription);
+            context.read<DashBoardCubit>().getDetailChartBreakdownData(
+                context, DashboardData.initialSubscription);
+            context.read<DashBoardCubit>().getDetailChartApprovalRatioData(
+                context, DashboardData.initialSubscription);
+            openScreen(salesRevenueDetails,
                 args: LinkedHashMap.from({
                   "isDirectSale": false,
+                  "isUpsell": false,
                   "image": Assets.imagesInitialSubscription,
                   "title": TextHelper.initialSubscription,
                   "color": Color(0xFFC237F3)
@@ -83,12 +92,16 @@ class DashBoardFirstDataWidget extends StatelessWidget {
           isLoading:
               state.recurringSubscriptionReqState == ProcessState.loading,
           onPress: () {
-            context.read<DashBoardCubit>().getDashboardDetailData(context, DashboardData.recurringSubscription);
-            context.read<DashBoardCubit>().getDetailChartBreakdownData(context, DashboardData.recurringSubscription);
-            context.read<DashBoardCubit>().getDetailChartApprovalRatioData(context, DashboardData.recurringSubscription);
+            context.read<DashBoardCubit>().getDashboardDetailData(
+                context, DashboardData.recurringSubscription);
+            context.read<DashBoardCubit>().getDetailChartBreakdownData(
+                context, DashboardData.recurringSubscription);
+            context.read<DashBoardCubit>().getDetailChartApprovalRatioData(
+                context, DashboardData.recurringSubscription);
             openScreen(salesRevenueDetails,
                 args: LinkedHashMap.from({
                   "isDirectSale": false,
+                  "isUpsell": false,
                   "image": Assets.imagesRecurringSubscription,
                   "title": TextHelper.recurringSubscription,
                   "color": Color(0xFF05CD99)
@@ -109,12 +122,18 @@ class DashBoardFirstDataWidget extends StatelessWidget {
           image: Assets.imagesSubscriptionSalvage,
           isLoading: state.subscriptionSalvageReqState == ProcessState.loading,
           onPress: () {
-            context.read<DashBoardCubit>().getDashboardDetailData(context, DashboardData.subSalvage);
-            context.read<DashBoardCubit>().getDetailChartBreakdownData(context, DashboardData.subSalvage);
-            context.read<DashBoardCubit>().getDetailChartApprovalRatioData(context, DashboardData.subSalvage);
+            context
+                .read<DashBoardCubit>()
+                .getDashboardDetailData(context, DashboardData.subSalvage);
+            context
+                .read<DashBoardCubit>()
+                .getDetailChartBreakdownData(context, DashboardData.subSalvage);
+            context.read<DashBoardCubit>().getDetailChartApprovalRatioData(
+                context, DashboardData.subSalvage);
             openScreen(salesRevenueDetails,
                 args: LinkedHashMap.from({
                   "isDirectSale": false,
+                  "isUpsell": false,
                   "image": Assets.imagesSubscriptionSalvage,
                   "title": TextHelper.subscribersSalvage,
                   "color": Color(0xFF6AD2FF)
@@ -122,18 +141,32 @@ class DashBoardFirstDataWidget extends StatelessWidget {
           }),
       CardData(
         circleBgColor: Color(0xFFF36337),
-        title: state.upsellData?.result?.firstOrNull?.label ?? TextHelper.upsell,
+        title:
+            state.upsellData?.result?.firstOrNull?.label ?? TextHelper.upsell,
         subtitle: getSubtitle(
             state.upsellData?.result?.firstOrNull?.approvedOrders ?? 0,
             state.upsellData?.result?.firstOrNull?.approvalPercentage ?? 0),
         // subtitle: getSubtitle(upsell['ApprovedOrders'] ?? 0, upsell['ApprovalPercentage'] ?? 0),
         image: Assets.imagesUpsell,
         isLoading: state.upsellReqState == ProcessState.loading,
+        onPress: (){
+          context
+              .read<DashBoardCubit>()
+              .getDetailChartBreakdownData(context, DashboardData.upsell);
+          openScreen(salesRevenueDetails,
+              args: LinkedHashMap.from({
+                "isUpsell": true,
+                "isDirectSale": false,
+                "image": Assets.imagesUpsell,
+                "title": "Upsell",
+                "color": Color(0xFFF36337),
+              }));
+        }
       ),
       CardData(
         circleBgColor: Color(0xFFC237F3),
         title: state.subscriptionBillData?.result?.firstOrNull?.label ??
-          TextHelper.subscriptionBill,
+            TextHelper.subscriptionBill,
         subtitle: getSubtitle(
             state.subscriptionBillData?.result?.firstOrNull?.approvedOrders ??
                 0,
@@ -155,7 +188,6 @@ class TransactionDataWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: Responsive.padding(context, 2)),
       child: RenderSection(title: getTitle(), cards: [
@@ -167,8 +199,7 @@ class TransactionDataWidget extends StatelessWidget {
                           "0") >
                   0
               ? formatNumber(double.parse(
-              state.totalTransactionData?.result?.totalTransactions ??
-                  "0") )
+                  state.totalTransactionData?.result?.totalTransactions ?? "0"))
               : '-',
           image: Assets.imagesTotalTransactions,
           // Replace with actual asset
@@ -208,9 +239,12 @@ class TransactionDataWidget extends StatelessWidget {
   }
 
   getTitle() {
-    if(state.filterPayload?.endDate!=null&&state.filterPayload?.endDate!=null) {
-      return adjustDates(state.filterPayload?.startDate??"", state.filterPayload?.endDate??"").monthRange;
-    }else{
+    if (state.filterPayload?.endDate != null &&
+        state.filterPayload?.endDate != null) {
+      return adjustDates(state.filterPayload?.startDate ?? "",
+              state.filterPayload?.endDate ?? "")
+          .monthRange;
+    } else {
       return "";
     }
   }
@@ -218,6 +252,7 @@ class TransactionDataWidget extends StatelessWidget {
 
 class LifeTimeDataWidget extends StatelessWidget {
   final DashboardState state;
+
   const LifeTimeDataWidget({super.key, required this.state});
 
   @override
@@ -228,27 +263,30 @@ class LifeTimeDataWidget extends StatelessWidget {
         CardData(
           circleBgColor: const Color(0xFF05CD99),
           title: TextHelper.activeSubscribers,
-          subtitle: formatNumber(state.lifeTimeData?.result?.activeSubscriptions?? 0),
+          subtitle: formatNumber(
+              state.lifeTimeData?.result?.activeSubscriptions ?? 0),
           image: Assets.imagesActiveSubscribers,
-          isLoading:state.lifeTimeReqState==ProcessState.loading,
+          isLoading: state.lifeTimeReqState == ProcessState.loading,
         ),
         CardData(
           circleBgColor: const Color(0xFF6AD2FF),
           title: TextHelper.subscribersInSalvage,
-          subtitle: formatNumber(state.lifeTimeData?.result?.subscriptionInSalvage?? 0),
+          subtitle: formatNumber(
+              state.lifeTimeData?.result?.subscriptionInSalvage ?? 0),
 
           // subtitle: formatNumber(lifeTimeData?["SubscriptionInSalvage"] ?? 0),
           image: Assets.imagesSubscriptionSalvage,
-          isLoading: state.lifeTimeReqState==ProcessState.loading,
+          isLoading: state.lifeTimeReqState == ProcessState.loading,
         ),
         CardData(
           circleBgColor: const Color(0xFFE84040),
           title: TextHelper.canceledSubscribers,
-          subtitle: formatNumber(state.lifeTimeData?.result?.cancelledSubscriptions?? 0),
+          subtitle: formatNumber(
+              state.lifeTimeData?.result?.cancelledSubscriptions ?? 0),
 
           // subtitle: formatNumber(lifeTimeData?["CancelledSubscriptions"] ?? 0),
           image: Assets.imagesCanceledSubscribers,
-          isLoading: state.lifeTimeReqState==ProcessState.loading,
+          isLoading: state.lifeTimeReqState == ProcessState.loading,
         ),
       ]),
     );

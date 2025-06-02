@@ -100,6 +100,29 @@ class SubscriptionData {
     data['NetSubscriptions'] = netSubscriptions;
     return data;
   }
+ static List<SubscriptionData> getCumulativeSubscriptionData(List<SubscriptionData> input) {
+    int totalNew = 0;
+    int totalCancelled = 0;
+    int totalNet = 0;
+
+    List<SubscriptionData> cumulativeList = [];
+
+    for (var data in input) {
+      totalNew += data.newSubscriptions??0;
+      totalCancelled += data.cancelledSubscriptions??0;
+      totalNet += data.netSubscriptions??0;
+      cumulativeList.add(
+        SubscriptionData(
+          range: data.range,
+          newSubscriptions: totalNew,
+          cancelledSubscriptions: totalCancelled,
+          netSubscriptions: totalNet,
+        ),
+      );
+    }
+
+    return cumulativeList;
+  }
 }
 
 class LineChartModel {

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
@@ -37,6 +38,7 @@ class APIHelper {
                 "API : ${method.toString()} url : $url \nrequest : ${body.toString()} ");
         Options options = Options(
           headers: headers,
+
           responseType: isFile ? ResponseType.bytes : ResponseType.json,
         );
 
@@ -95,6 +97,17 @@ class APIHelper {
               cancelToken: cancelToken,
             );
         }
+      }on SocketException catch (e) {
+        // Handle network/DNS failures
+        print('Network error: ${e.message}');
+        throw ApiFailure(400, "Network error");
+        // Show a toast/snackbar or fallback UI
+      } on HttpException catch (e) {
+        print('HTTP error: ${e.message}');
+        throw ApiFailure(400, "Network error");
+      } on FormatException catch (e) {
+        print('Bad response format: ${e.message}');
+        throw ApiFailure(400, "Failed to load");
       } on DioException catch (e) {
         // The request was made and the server responded with a status code
         // that falls out of the range of 2xx and is also not 304.
@@ -102,6 +115,10 @@ class APIHelper {
           // Request was cancelled intentionally - return empty map instead of null
           debugLog("Request cancelled: ${e.message ?? ""}");
           throw ApiFailure(100, "Cancelled");
+        }
+        if (e.type == DioExceptionType.connectionTimeout) {
+          // Show user-friendly error
+          throw ApiFailure(400,"Connection timed out. Please try again.");
         }
         if (e.response != null) {
           debugLog(e.response.toString());

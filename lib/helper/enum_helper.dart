@@ -10,5 +10,6 @@ enum DashboardData {
   directSale,
   initialSubscription,
   recurringSubscription,
-  subSalvage
+  subSalvage,
+  upsell
 }

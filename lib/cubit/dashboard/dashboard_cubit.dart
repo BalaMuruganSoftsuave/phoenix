@@ -59,6 +59,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
   CancelToken? _chargebackSummaryCancelToken;
   CancelToken? _coverageHealthCancelToken;
   CancelToken? _refundRatioCancelToken;
+
   void updateFilterData(String? selectedKey, DateTimeRange? selectedRange,
       DateTimeRange? selectedCustomRange) {
     emit(state.copyWith(
@@ -80,10 +81,10 @@ class DashBoardCubit extends Cubit<DashboardState> {
       state.filterPayload?.groupBy = groupBy;
     }
     if (clientList != null && storeList != null) {
-      if(clientList.contains(-1)) {
+      if (clientList.contains(-1)) {
         clientList.remove(-1);
       }
-      if(storeList.contains(-1)) {
+      if (storeList.contains(-1)) {
         storeList.remove(-1);
       }
       state.filterPayload ??= FilterPayload();
@@ -204,18 +205,19 @@ class DashBoardCubit extends Cubit<DashboardState> {
     }
   }
 
-  updateItems(id){
+  updateItems(id) {
     emit(state.copyWith(prevSelected: id));
   }
 
-  updateBoolean(value){
+  updateBoolean(value) {
     emit(state.copyWith(selectAll: value));
   }
-  updateStoreItems(id){
+
+  updateStoreItems(id) {
     emit(state.copyWith(prevSelectedStore: id));
   }
 
-  updateStoreAll(value){
+  updateStoreAll(value) {
     emit(state.copyWith(selectAllStore: value));
   }
 
@@ -229,14 +231,14 @@ class DashBoardCubit extends Cubit<DashboardState> {
     try {
       emit(state.copyWith(directSaleReqState: ProcessState.loading));
 
-      final res =
-          await _apiService.getDirectSaleData(state.filterPayload?.toJson(),_directSaleCancelToken);
+      final res = await _apiService.getDirectSaleData(
+          state.filterPayload?.toJson(), _directSaleCancelToken);
 
       _refreshTokenForDirectSale = 0; // Reset counter on success
       emit(state.copyWith(
           directSaleReqState: ProcessState.success, directSaleData: res));
     } on ApiFailure catch (e) {
-      if(e.code==100){
+      if (e.code == 100) {
         return;
       }
       if (e.code == 401) {
@@ -290,15 +292,15 @@ class DashBoardCubit extends Cubit<DashboardState> {
     try {
       emit(state.copyWith(initialSubscriptionReqState: ProcessState.loading));
 
-      final res = await _apiService
-          .getInitialSubscriptionData(state.filterPayload?.toJson(),_initialSubscriptionCancelToken);
+      final res = await _apiService.getInitialSubscriptionData(
+          state.filterPayload?.toJson(), _initialSubscriptionCancelToken);
 
       _refreshTokenForInitialSub = 0; // Reset counter on success
       emit(state.copyWith(
           initialSubscriptionReqState: ProcessState.success,
           initialSubscriptionData: res));
     } on ApiFailure catch (e) {
-      if(e.code==100){
+      if (e.code == 100) {
         return;
       }
       if (e.code == 401) {
@@ -349,18 +351,17 @@ class DashBoardCubit extends Cubit<DashboardState> {
     }
     _recurringCancelToken = CancelToken();
     try {
-
       emit(state.copyWith(recurringSubscriptionReqState: ProcessState.loading));
 
-      final res =
-          await _apiService.getRecurringData(state.filterPayload?.toJson(),_recurringCancelToken);
+      final res = await _apiService.getRecurringData(
+          state.filterPayload?.toJson(), _recurringCancelToken);
 
       _refreshTokenForRecurringSub = 0; // Reset counter on success
       emit(state.copyWith(
           recurringSubscriptionReqState: ProcessState.success,
           recurringSubscriptionData: res));
     } on ApiFailure catch (e) {
-      if(e.code==100){
+      if (e.code == 100) {
         return;
       }
       if (e.code == 401) {
@@ -406,7 +407,8 @@ class DashBoardCubit extends Cubit<DashboardState> {
 
   void getSubscriptionSalvageData(BuildContext context) async {
     try {
-      _subscriptionSalvageCancelToken?.cancel("Cancelled previous subscriptionSalvage request");
+      _subscriptionSalvageCancelToken
+          ?.cancel("Cancelled previous subscriptionSalvage request");
     } catch (_) {
       debugLog("Cancelled previous subscriptionSalvage request");
     }
@@ -414,15 +416,15 @@ class DashBoardCubit extends Cubit<DashboardState> {
     try {
       emit(state.copyWith(subscriptionSalvageReqState: ProcessState.loading));
 
-      final res = await _apiService
-          .getSubscriptionSalvageData(state.filterPayload?.toJson(),_subscriptionSalvageCancelToken);
+      final res = await _apiService.getSubscriptionSalvageData(
+          state.filterPayload?.toJson(), _subscriptionSalvageCancelToken);
 
       _refreshTokenForSubscriptionSal = 0; // Reset counter on success
       emit(state.copyWith(
           subscriptionSalvageReqState: ProcessState.success,
           subscriptionSalvageData: res));
     } on ApiFailure catch (e) {
-      if(e.code==100){
+      if (e.code == 100) {
         return;
       }
       if (e.code == 401) {
@@ -475,14 +477,14 @@ class DashBoardCubit extends Cubit<DashboardState> {
     try {
       emit(state.copyWith(upsellReqState: ProcessState.loading));
 
-      final res =
-          await _apiService.getUpsellData(state.filterPayload?.toJson(),_upsellCancelToken);
+      final res = await _apiService.getUpsellData(
+          state.filterPayload?.toJson(), _upsellCancelToken);
 
       _refreshTokenForUpsellData = 0; // Reset counter on success
       emit(state.copyWith(
           upsellReqState: ProcessState.success, upsellData: res));
     } on ApiFailure catch (e) {
-      if(e.code==100){
+      if (e.code == 100) {
         return;
       }
       if (e.code == 401) {
@@ -524,24 +526,24 @@ class DashBoardCubit extends Cubit<DashboardState> {
 
   void getSubscriptionToBillData(BuildContext context) async {
     try {
-      _subscriptionBillCancelToken?.cancel("Cancelled previous subscriptionBill request");
+      _subscriptionBillCancelToken
+          ?.cancel("Cancelled previous subscriptionBill request");
     } catch (_) {
       debugLog("Cancelled previous subscriptionBill request");
     }
     _subscriptionBillCancelToken = CancelToken();
     try {
-
       emit(state.copyWith(subscriptionBillReqState: ProcessState.loading));
 
-      final res = await _apiService
-          .getSubscriptionBillData(state.filterPayload?.toJson(),_subscriptionBillCancelToken);
+      final res = await _apiService.getSubscriptionBillData(
+          state.filterPayload?.toJson(), _subscriptionBillCancelToken);
 
       _refreshTokenForSubscriptionToBill = 0; // Reset counter on success
       emit(state.copyWith(
           subscriptionBillReqState: ProcessState.success,
           subscriptionBillData: res));
     } on ApiFailure catch (e) {
-      if(e.code==100){
+      if (e.code == 100) {
         return;
       }
       if (e.code == 401) {
@@ -606,15 +608,15 @@ class DashBoardCubit extends Cubit<DashboardState> {
     try {
       emit(state.copyWith(totalTransactionReqState: ProcessState.loading));
 
-      final res =
-          await _apiService.getTotalTransactionsData(newPayload?.toJson(),_totalTransactionsCancelToken);
+      final res = await _apiService.getTotalTransactionsData(
+          newPayload?.toJson(), _totalTransactionsCancelToken);
 
       _refreshTokenForTotalTransaction = 0; // Reset counter on success
       emit(state.copyWith(
           totalTransactionReqState: ProcessState.success,
           totalTransactionData: res));
     } on ApiFailure catch (e) {
-      if(e.code==100){
+      if (e.code == 100) {
         return;
       }
       if (e.code == 401) {
@@ -679,14 +681,14 @@ class DashBoardCubit extends Cubit<DashboardState> {
     try {
       emit(state.copyWith(refundsReqState: ProcessState.loading));
 
-      final res =
-          await _apiService.getRefundTransactionsData(newPayload?.toJson(),_refundTransactionsCancelToken);
+      final res = await _apiService.getRefundTransactionsData(
+          newPayload?.toJson(), _refundTransactionsCancelToken);
 
       _refreshTokenForRefundData = 0; // Reset counter on success
       emit(state.copyWith(
           refundsReqState: ProcessState.success, refundsData: res));
     } on ApiFailure catch (e) {
-      if(e.code==100){
+      if (e.code == 100) {
         return;
       }
       if (e.code == 401) {
@@ -742,7 +744,8 @@ class DashBoardCubit extends Cubit<DashboardState> {
           )
         : null;
     try {
-      _chargebackTransactionsCancelToken?.cancel("Cancelled previous chargebackTransactions request");
+      _chargebackTransactionsCancelToken
+          ?.cancel("Cancelled previous chargebackTransactions request");
     } catch (_) {
       debugLog("Cancelled previous chargebackTransactions request");
     }
@@ -750,14 +753,14 @@ class DashBoardCubit extends Cubit<DashboardState> {
     try {
       emit(state.copyWith(chargeBacksReqState: ProcessState.loading));
 
-      final res =
-          await _apiService.getChargebackTransactionsData(newPayload?.toJson(),_chargebackTransactionsCancelToken);
+      final res = await _apiService.getChargebackTransactionsData(
+          newPayload?.toJson(), _chargebackTransactionsCancelToken);
 
       _refreshTokenForChargeBackData = 0; // Reset counter on success
       emit(state.copyWith(
           chargeBacksReqState: ProcessState.success, chargeBacksData: res));
     } on ApiFailure catch (e) {
-      if(e.code==100){
+      if (e.code == 100) {
         return;
       }
       if (e.code == 401) {
@@ -808,14 +811,14 @@ class DashBoardCubit extends Cubit<DashboardState> {
     try {
       emit(state.copyWith(lifeTimeReqState: ProcessState.loading));
 
-      final res =
-          await _apiService.getLifeTimeData(state.filterPayload?.toJson(),_lifeTimeCancelToken);
+      final res = await _apiService.getLifeTimeData(
+          state.filterPayload?.toJson(), _lifeTimeCancelToken);
 
       _refreshTokenForLifeTimeData = 0; // Reset counter on success
       emit(state.copyWith(
           lifeTimeReqState: ProcessState.success, lifeTimeData: res));
     } on ApiFailure catch (e) {
-      if(e.code==100){
+      if (e.code == 100) {
         return;
       }
       if (e.code == 401) {
@@ -868,11 +871,12 @@ class DashBoardCubit extends Cubit<DashboardState> {
         totalSalesRevenueData: SalesRevenueDataResponse(result: []),
       ));
 
-      final res =
-          await _apiService.getSalesRevenueData(state.filterPayload?.toJson(),_salesRevenueCancelToken);
+      final res = await _apiService.getSalesRevenueData(
+          state.filterPayload?.toJson(), _salesRevenueCancelToken);
 
       _refreshTokenForSalesRevenue = 0; // Reset counter on success
-      if (state.filterPayload?.groupBy == "hour" &&( res?.result??[]).isNotEmpty ) {
+      if (state.filterPayload?.groupBy == "hour" &&
+          (res?.result ?? []).isNotEmpty) {
         var data = generateSlots<Map<String, dynamic>>(
           start: state.filterPayload?.startDate ?? "",
           end: state.filterPayload?.endDate ?? "",
@@ -898,7 +902,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
               ? state.totalSalesRevenueData
               : res));
     } on ApiFailure catch (e) {
-      if(e.code==100){
+      if (e.code == 100) {
         return;
       }
       if (e.code == 401) {
@@ -951,13 +955,13 @@ class DashBoardCubit extends Cubit<DashboardState> {
           netSubscribersReqState: ProcessState.loading,
           netSubscribersData: NetSubscribersDataResponse(result: [])));
 
-      final res =
-          await _apiService.getNetSubscriberData(state.filterPayload?.toJson(),_netSubscriberCancelToken);
+      final res = await _apiService.getNetSubscriberData(
+          state.filterPayload?.toJson(), _netSubscriberCancelToken);
 
       _refreshTokenForNetSubscribers = 0; // Reset counter on success
       if (state.filterPayload?.groupBy == "hour" &&
           (res?.result?.isNotEmpty ?? false)) {
-        final resultList = res?.result??[];
+        final resultList = res?.result ?? [];
         final isSingleItem = resultList.length == 1;
         final isRangeValid = resultList.first.range?.isNotEmpty ?? false;
 
@@ -986,7 +990,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
               ? state.netSubscribersData
               : res));
     } on ApiFailure catch (e) {
-      if(e.code==100){
+      if (e.code == 100) {
         return;
       }
       if (e.code == 401) {
@@ -1037,15 +1041,15 @@ class DashBoardCubit extends Cubit<DashboardState> {
     try {
       emit(state.copyWith(chargeBackSummaryReqState: ProcessState.loading));
 
-      final res = await _apiService
-          .getChargebackSummaryData(state.filterPayload?.toJson(),_chargebackSummaryCancelToken);
+      final res = await _apiService.getChargebackSummaryData(
+          state.filterPayload?.toJson(), _chargebackSummaryCancelToken);
 
       _refreshTokenForCoverageHealth = 0; // Reset counter on success
       emit(state.copyWith(
           chargeBackSummaryReqState: ProcessState.success,
           chargeBackSummaryData: res));
     } on ApiFailure catch (e) {
-      if(e.code==100){
+      if (e.code == 100) {
         return;
       }
       if (e.code == 401) {
@@ -1105,18 +1109,19 @@ class DashBoardCubit extends Cubit<DashboardState> {
     try {
       emit(state.copyWith(coverageHealthDataReqState: ProcessState.loading));
 
-      var res = await _apiService
-          .getCoverageHealthData(state.filterPayload?.toJson(),_coverageHealthCancelToken);
+      var res = await _apiService.getCoverageHealthData(
+          state.filterPayload?.toJson(), _coverageHealthCancelToken);
 
       _refreshTokenForChargeBackSummary = 0; // Reset counter on success
-      if(res?.result?.length==1 && (res?.result?.firstOrNull?.cardType??"").isEmpty){
-        res=CoverageHealthDataResponse();
+      if (res?.result?.length == 1 &&
+          (res?.result?.firstOrNull?.cardType ?? "").isEmpty) {
+        res = CoverageHealthDataResponse();
       }
       emit(state.copyWith(
           coverageHealthDataReqState: ProcessState.success,
           coverageHealthDataData: res));
     } on ApiFailure catch (e) {
-      if(e.code==100){
+      if (e.code == 100) {
         return;
       }
       if (e.code == 401) {
@@ -1181,7 +1186,8 @@ class DashBoardCubit extends Cubit<DashboardState> {
           )
         : null;
     try {
-      _refundRatioCancelToken?.cancel("Cancelled previous refund ratio request");
+      _refundRatioCancelToken
+          ?.cancel("Cancelled previous refund ratio request");
     } catch (_) {
       debugLog("Cancelled previous refund ratio request");
     }
@@ -1190,13 +1196,14 @@ class DashBoardCubit extends Cubit<DashboardState> {
     try {
       emit(state.copyWith(refundRatioReqState: ProcessState.loading));
 
-      final res = await _apiService.getRefundRatioData(newPayload?.toJson(),_refundRatioCancelToken);
+      final res = await _apiService.getRefundRatioData(
+          newPayload?.toJson(), _refundRatioCancelToken);
 
       _refreshTokenForRefundRatio = 0; // Reset counter on success
       emit(state.copyWith(
           refundRatioReqState: ProcessState.success, refundRatioData: res));
     } on ApiFailure catch (e) {
-      if(e.code==100){
+      if (e.code == 100) {
         return;
       }
       if (e.code == 401) {
@@ -1257,7 +1264,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
           dashboardDetailReqState: ProcessState.success,
           directSaleDetailData: res));
     } on ApiFailure catch (e) {
-      if(e.code==100){
+      if (e.code == 100) {
         return;
       }
       if (e.code == 401) {
@@ -1316,7 +1323,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
           dashboardDetailReqState: ProcessState.success,
           dashboardDetailData: res));
     } on ApiFailure catch (e) {
-      if(e.code==100){
+      if (e.code == 100) {
         return;
       }
       if (e.code == 401) {
@@ -1368,7 +1375,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
           dashboardRevenueReqState: ProcessState.success,
           directSaleRevenueData: res));
     } on ApiFailure catch (e) {
-      if(e.code==100){
+      if (e.code == 100) {
         return;
       }
       if (e.code == 401) {
@@ -1416,7 +1423,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
           dashboardAppRatioReqState: ProcessState.success,
           directSaleAppRatioData: res));
     } on ApiFailure catch (e) {
-      if(e.code==100){
+      if (e.code == 100) {
         return;
       }
       if (e.code == 401) {
@@ -1468,14 +1475,21 @@ class DashBoardCubit extends Cubit<DashboardState> {
           : fromWhere == DashboardData.recurringSubscription
               ? await _apiService.getRecurringSubscriptionDeclinedBreakdown(
                   state.filterPayload?.toJson())
-              : await _apiService.getSubscriptionSalvageDeclinedBreakdown(
-                  state.filterPayload?.toJson());
+              : fromWhere == DashboardData.directSale
+                  ? await _apiService.getDirectSaleDeclinedBreakdown(
+                      state.filterPayload?.toJson())
+                  : fromWhere == DashboardData.upsell
+                      ? await _apiService.getUpsellDeclinedBreakdown(
+                          state.filterPayload?.toJson())
+                      : await _apiService
+                          .getSubscriptionSalvageDeclinedBreakdown(
+                              state.filterPayload?.toJson());
       _refreshTokenForDetailChartBreakDown = 0; // Reset counter on success
       emit(state.copyWith(
           dashboardRevenueReqState: ProcessState.success,
           detailChartDeclinedBreakDownData: res));
     } on ApiFailure catch (e) {
-      if(e.code==100){
+      if (e.code == 100) {
         return;
       }
       if (e.code == 401) {
@@ -1534,7 +1548,7 @@ class DashBoardCubit extends Cubit<DashboardState> {
           dashboardAppRatioReqState: ProcessState.success,
           detailChartAppRatioData: res));
     } on ApiFailure catch (e) {
-      if(e.code==100){
+      if (e.code == 100) {
         return;
       }
       if (e.code == 401) {

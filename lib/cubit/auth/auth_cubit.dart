@@ -21,7 +21,7 @@ class AuthCubit extends Cubit<AuthState> {
   login(context, String userName, String password) async {
     try {
       emit(state.copyWith(authState: ProcessState.loading));
-      var fcm=PreferenceHelper.getFcm();
+      var fcm=await PreferenceHelper.getFcm();
       LoginResponse? res = await _apiService.login(userName, password,fcm: fcm);
       await PreferenceHelper.saveInitialLogin();
       await PreferenceHelper.saveAccessToken(res?.accessToken ?? "");

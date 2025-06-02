@@ -44,7 +44,7 @@ class _FilterComponentState extends State<FilterComponent> {
         // _selectDateRange();
       } else {
         // setState(() {
-        //   state.selectedCustomRange = null;
+          state.selectedCustomRange = null;
         //   state.selectedKey = key;
         //   state.selectedRange = _getDateRange(key);
         // });
@@ -71,10 +71,10 @@ class _FilterComponentState extends State<FilterComponent> {
             start: today.subtract(Duration(days: 6)), end: today);
       case "last30":
         return DateTimeRange(
-            start: today.subtract(Duration(days: 29)), end: today);
+            start: today.subtract(Duration(days: 30)), end: today);
       case "last90":
         return DateTimeRange(
-            start: today.subtract(Duration(days: 89)), end: today);
+            start: today.subtract(Duration(days: 90)), end: today);
       case "last365":
         return DateTimeRange(
             start: today.subtract(Duration(days: 365)), end: today);
@@ -99,6 +99,7 @@ class _FilterComponentState extends State<FilterComponent> {
   Widget build(BuildContext context) {
     return BlocBuilder<DashBoardCubit, DashboardState>(
       builder: (context, state) {
+        print(state.selectedCustomRange);
         return Container(
           padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
           decoration: BoxDecoration(
@@ -186,7 +187,7 @@ class _FilterComponentState extends State<FilterComponent> {
                                   .updateFilterData("custom", null, range);
 
                               widget.onSelectionChange?.call("custom",
-                                  range: state.selectedCustomRange);
+                                  range: range);
 
                               debugPrint(
                                   "Selected Date Range: ${date.startDate} to ${date.endDate}");

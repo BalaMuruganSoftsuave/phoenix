@@ -8,6 +8,7 @@ import 'package:phoenix/helper/preference_helper.dart';
 import 'package:phoenix/models/dashboard/additional_models.dart';
 import 'package:phoenix/models/filter_payload_model.dart';
 import 'package:phoenix/models/line_chart_model.dart';
+import 'package:phoenix/widgets/custom_single_selection_dropdown.dart';
 
 import '../cubit/dashboard/dashboard_cubit.dart';
 import 'nav_observer.dart';
@@ -52,9 +53,9 @@ String formatNumber(num number, {String locale = 'en_US'}) {
 
 /// Formats a number as currency (USD)
 String formatCurrency(double value) {
-  if (value == 0) {
-    return '-';
-  }
+  // if (value == 0) {
+  //   return '-';
+  // }
   final format = NumberFormat.currency(locale: 'en_US', symbol: '\$');
   return format.format(value);
 }
@@ -437,3 +438,8 @@ DateTime _parsedDate(String range) {
   int day = int.parse(parts[1]);
   return DateTime(DateTime.now().year, month, day);
 }
+
+List<CustomDataItems> netSubscriberFilter=[
+  CustomDataItems(name: "Net per day", id: "netPerDay"),
+  CustomDataItems(name:  "Cumulative",id: "cumulative"),
+];

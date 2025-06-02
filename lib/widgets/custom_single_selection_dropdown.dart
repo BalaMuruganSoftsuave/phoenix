@@ -74,6 +74,9 @@ class _SingleSelectionDropDownState extends State<SingleSelectionDropDown> {
         selectedKey = widget.initiallySelectedKey; // Update on widget update
       });
     }
+    setState(() {
+      selectedKey = widget.initiallySelectedKey; // Update on widget update
+    });
   }
 
   @override
