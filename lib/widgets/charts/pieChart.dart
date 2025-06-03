@@ -40,7 +40,6 @@ class PieChartFilterWidgetState extends State<PieChartFilterWidget> {
   }
   @override
   void dispose() {
-    FocusScope.of(context).unfocus();
     super.dispose();
   }
 
