@@ -205,9 +205,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                 selectedNetSubscriberFilter,
                                 builder:
                                     (context, String selectedValue, _) {
-                                  print( state
-                                      .netSubscribersReqState);
-                                  return ContainerWidget(
+                                      state.netSubscribersData?.result?.forEach((e) => print(e.toJson()));
+
+                                      return ContainerWidget(
                                       height: 60,
                                       title: TextHelper.netSubscribers,
                                       childWidget: _buildDropdown(

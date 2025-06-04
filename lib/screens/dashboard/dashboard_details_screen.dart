@@ -55,43 +55,52 @@ class DashboardDetailsScreen extends StatelessWidget {
             Container(
               height: Responsive.boxH(context, 10),
               color: AppColors.backgroundGrey,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
+              child:Stack(
+                alignment: Alignment.center,
                 children: [
-                  IconButton(
-                      onPressed: () {
-                        back();
-                      },
-                      icon: Icon(
-                        Icons.arrow_back,
-                        color: AppColors.white,
-                      )),
-                  Spacer(),
-                  CircleAvatar(
-                    backgroundColor: color,
-                    radius: Responsive.boxW(
-                        context, DeviceType.isMobile(context) ? 5 : 3),
-                    child: Padding(
-                      padding: EdgeInsets.all(Responsive.padding(
-                          context, DeviceType.isMobile(context) ? 2 : 1.5)),
-                      child: SvgPicture.asset(
-                        image,
-                        width: Responsive.boxW(context, 10),
-                        height: Responsive.boxH(context, 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      IconButton(
+                        onPressed: back,
+                        icon: Icon(
+                          Icons.arrow_back,
+                          color: AppColors.white,
+                        ),
                       ),
-                    ),
+                      const SizedBox(width: 48), // reserve space on right
+                    ],
                   ),
-                  Gap(16),
-                  Text(
-                    translate(title ?? ''),
-                    style: getTextTheme().bodyMedium?.copyWith(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: Responsive.fontSize(context, 5)),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      CircleAvatar(
+                        backgroundColor: color,
+                        radius: Responsive.boxW(
+                            context, DeviceType.isMobile(context) ? 5 : 3),
+                        child: Padding(
+                          padding: EdgeInsets.all(Responsive.padding(
+                              context, DeviceType.isMobile(context) ? 2 : 1.5)),
+                          child: SvgPicture.asset(
+                            image,
+                            width: Responsive.boxW(context, 10),
+                            height: Responsive.boxH(context, 10),
+                          ),
+                        ),
+                      ),
+                      Gap(16),
+                      Text(
+                        translate(title ?? ''),
+                        style: getTextTheme().bodyMedium?.copyWith(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: Responsive.fontSize(context, 5)),
+                      ),
+                    ],
                   ),
-                  Spacer()
                 ],
-              ),
+              )
+
             ),
             Expanded(
               child: Padding(

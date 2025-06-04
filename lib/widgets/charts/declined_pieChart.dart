@@ -177,6 +177,7 @@ class _PieChartWidgetState extends State<PieChartWidget> {
 
   List<PieChartSectionData> _generatePieSections(
       List<MapEntry<String, int>> entries, int total) {
+    entries.sort((a, b) => b.value.compareTo(a.value));
     return List.generate(entries.length, (index) {
       final isTouched = index == touchedIndex;
       final radius = isTouched ? DeviceType.isMobile(context)? 65:120 : DeviceType.isMobile(context)? 60:100;
@@ -194,10 +195,7 @@ class _PieChartWidgetState extends State<PieChartWidget> {
   // ✅ Tooltip for chart sections
   Widget _buildTooltip(BuildContext context,
       String label, int value, String percentage, Offset position) {
-    print("Hellot ${position.dx}");
-    print(MediaQuery.sizeOf(context).width);
     var width = MediaQuery.sizeOf(context).width - position.dx;
-    print(width);
     return Positioned(
       left: width > 180 ? position.dx : position.dx - width*1.2,
       top: position.dy, // Center vertically
@@ -223,19 +221,28 @@ class _PieChartWidgetState extends State<PieChartWidget> {
   Widget _buildLegend(List<MapEntry<String, int>> entries, int total) {
     entries.sort((a, b) => b.value.compareTo(a.value));
 
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: entries.map((entry) {
-          double percentage = total > 0
-              ? double.parse((entry.value / total * 100).toStringAsFixed(2))
-              : 0.0;
-          return Padding(
-            padding: const EdgeInsets.only(right: 8.0),
-            child: LegendWidget(text:  entry.key,subText:  "${entry.value} ($percentage%)", color: _getColor(entries.indexOf(entry))),
-          );
-        }).toList(),
+    return SizedBox(
+      width: MediaQuery.of(context).size.width,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: entries.map((entry) {
+            double percentage = total > 0
+                ? double.parse((entry.value / total * 100).toStringAsFixed(2))
+                : 0.0;
+
+            return Padding(
+              padding: const EdgeInsets.only(right: 8.0),
+              child: IntrinsicWidth(
+                child: LegendWidget(
+                  text: entry.key,
+                  subText: "${entry.value} ($percentage%)",
+                  color: _getColor(entries.indexOf(entry)),
+                ),
+              ),
+            );
+          }).toList(),
+        ),
       ),
     );
   }

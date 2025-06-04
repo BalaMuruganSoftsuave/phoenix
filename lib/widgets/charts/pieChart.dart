@@ -47,7 +47,7 @@ class PieChartFilterWidgetState extends State<PieChartFilterWidget> {
   void didUpdateWidget(covariant PieChartFilterWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.transactions != widget.transactions) {
-      _filterData(selectedFilter);
+      _filterData("All");
     }
   }
   void _filterData(String filter) {
@@ -80,7 +80,8 @@ class PieChartFilterWidgetState extends State<PieChartFilterWidget> {
       ...{...widget.transactions.map((t) => t.cardType ?? "")}
     ];
     return SingleSelectionDropDown(
-        initiallySelectedKey: "All",
+        initiallySelectedKey: selectedFilter,
+        isNeedToUpdateInitialValue: true,
         items: cardTypes.map<CustomDataItems>((String value) {
           return CustomDataItems(
               id: value, name: value.toString().toTitleCase());
@@ -148,7 +149,7 @@ class PieChartFilterWidgetState extends State<PieChartFilterWidget> {
             color: colors[index % colors.length], // Use index for color cycling
             text: entry.key,
             subText:
-                '${entry.value} (${percentage % 1 == 0 ? percentage.toInt() : percentage.toStringAsFixed(2)}%)',
+                '${formatNumber(entry.value)} (${percentage % 1 == 0 ? percentage.toInt() : percentage.toStringAsFixed(2)}%)',
           ),
         );
       }).toList(),

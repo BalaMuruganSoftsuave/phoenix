@@ -102,7 +102,7 @@ class BarChartWidget extends StatelessWidget {
 
       children: [
         SizedBox(
-          height: Responsive.screenH(context, 28),
+          height: Responsive.screenH(context, 29),
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal, // Enables horizontal scrolling
 
@@ -127,7 +127,7 @@ class BarChartWidget extends StatelessWidget {
                         sideTitles: SideTitles(
                           showTitles: true,
                           getTitlesWidget: leftTitles,
-                          reservedSize: Responsive.screenW(context, 10), // Ensures enough space for numbers
+                          reservedSize: Responsive.screenW(context, 12), // Ensures enough space for numbers
                           interval: 20, // Show labels at 0, 20, 40, 60, 80, 100
                         ),
                       ),
@@ -318,32 +318,40 @@ class BarChartWidget extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 10),
+        // Wrap(
+        //   alignment: WrapAlignment.start,
+        //   // Align items from the start
+        //   spacing: 4,
+        //   // Horizontal spacing between items
+        //   runSpacing: 15,
+        //   // Vertical spacing between wrapped rowstween wrapped rows
+        //   children: [
         Wrap(
-          alignment: WrapAlignment.start,
-          // Align items from the start
-          spacing: 4,
-          // Horizontal spacing between items
-          runSpacing: 15,
-          // Vertical spacing between wrapped rowstween wrapped rows
+          spacing: 12, // Space between items
+          runSpacing: 8, // Space between lines
           children: [
-            for (int i = 0; i < chartData[0].values.keys.length; i++) ...[
+            for (int i = 0; i < chartData[0].values.keys.length; i++)
               Padding(
-                padding:  EdgeInsets.only(right: isLegendRequired==false?10.0:0),
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width/2.3,
+                padding: const EdgeInsets.only(right: 4.0),
+                child: IntrinsicWidth(
                   child: LegendWidget(
-                    color: getColorForLabel(chartData[0]
-                        .values
-                        .keys
-                        .elementAt(i)), // Get corresponding color
+                    color: getColorForLabel(chartData[0].values.keys.elementAt(i)),
                     text: chartData[0].values.keys.elementAt(i),
-                    subText:isLegendRequired==false?null:
-                        '${formatCurrency(chartData.fold<double>(0, (sum, data) => sum + (data.values[chartData[0].values.keys.elementAt(i)] ?? 0)))}/${(totalPercentages[totalPercentages.keys.elementAt(i)] ?? 0).toStringAsFixed(2)}%',
+                    subText: isLegendRequired == false
+                        ? null
+                        : '${formatCurrency(chartData.fold<double>(
+                        0,
+                            (sum, data) =>
+                        sum + (data.values[chartData[0].values.keys.elementAt(i)] ?? 0)))}/${(totalPercentages[totalPercentages.keys.elementAt(i)] ?? 0).toStringAsFixed(2)}%',
                   ),
                 ),
               ),
+          ],
+        )
 
-              // Add vertical divider except for the last item
+
+
+        // Add vertical divider except for the last item
               // if (i < chartData[0].values.keys.length - 1)
               //   Container(
               //     width: 1, // Divider thickness
@@ -352,9 +360,9 @@ class BarChartWidget extends StatelessWidget {
               //     margin: EdgeInsets.symmetric(
               //         horizontal: 10), // Space around divider
               //   ),
-            ],
-          ],
-        ),
+          //   ],
+          // ],
+        // ),
       ],
     );
   }

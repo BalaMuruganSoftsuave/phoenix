@@ -108,16 +108,16 @@ class SalesRevenueChart extends StatelessWidget {
                                     color: AppColors.pink,
                                     text: 'Net Subscribers',
                                     subText:
-                                        (totalLegendSubs['netSubscriptions'] ??
-                                                0)
-                                            .toString()),
+                                        formatNumber((totalLegendSubs['netSubscriptions'] ??
+                                            0)
+                                            )),
                               ),
                               Expanded(
                                 child: LegendWidget(
                                     color: AppColors.successGreen,
                                     text: 'New Subscribers',
                                     subText:
-                                        (totalLegendSubs['newSubscriptions'] ??
+                                    formatNumber(totalLegendSubs['newSubscriptions'] ??
                                                 0)
                                             .toString()),
                               ),
@@ -127,7 +127,7 @@ class SalesRevenueChart extends StatelessWidget {
                               color: AppColors.seaBlue,
                               text: 'Cancelled Subscribers',
                               subText:
-                                  (totalLegendSubs['cancelledSubscriptions'] ??
+                              formatNumber(totalLegendSubs['cancelledSubscriptions'] ??
                                           0)
                                       .toString()),
                         ],

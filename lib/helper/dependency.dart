@@ -206,49 +206,67 @@ String timeAgo(String dateString) {
 getUserName() {
   return PreferenceHelper.getUserName()??"";
 }
-
 List<Map<String, dynamic>> sortTimeRanges({
   required List<Map<String, dynamic>>? data,
-  required String timeKey, // The key containing time (e.g., "Range")
+  required String timeKey,
 }) {
   if (data == null || data.isEmpty) return [];
 
-  // Function to check if the time part exists in the "Range" string
-  bool hasValidTime(String range) {
-    List<String> parts = range.split(" ");
-    return parts.length >= 2 && RegExp(r'\d{1,2}(AM|PM)').hasMatch(parts[1]);
+  final now = DateTime.now();
+
+  // Try to parse "MM/dd" or "MM/dd hAM/PM"
+  DateTime? parseDateTime(String range) {
+    try {
+      final parts = range.split(' ');
+      final dateParts = parts[0].split('/');
+
+      if (dateParts.length != 2) return null;
+
+      int month = int.parse(dateParts[0]);
+      int day = int.parse(dateParts[1]);
+      int hour = 0;
+
+      if (parts.length == 2) {
+        String time = parts[1];
+        bool isPM = time.contains("PM");
+        hour = int.parse(time.replaceAll(RegExp(r'[^0-9]'), ''));
+        if (isPM && hour != 12) hour += 12;
+        if (!isPM && hour == 12) hour = 0;
+      }
+
+      return DateTime(now.year, month, day, hour);
+    } catch (e) {
+      return null;
+    }
   }
 
-  // Check if all entries are missing valid time parts
-  bool allMissingTimes = data.every((entry) => !hasValidTime(entry[timeKey]));
+  // Parse all entries and add a temp datetime field
+  final withDateTime = data.map((entry) {
+    final dt = parseDateTime(entry[timeKey]);
+    return {
+      ...entry,
+      '_sortDateTime': dt,
+    };
+  }).toList();
 
-  // If all are missing valid times, return the original data
-  if (allMissingTimes) return data;
-
-  // Convert time to 24-hour format for sorting
-  int parseTime(String range) {
-    if (!hasValidTime(range)) return -1; // Invalid format
-    List<String> parts = range.split(" ");
-    String time = parts[1];
-    int hour = int.parse(time.replaceAll(RegExp(r'[^0-9]'), ''));
-    bool isPM = time.contains("PM");
-
-    if (isPM && hour != 12) hour += 12;
-    if (!isPM && hour == 12) hour = 0;
-
-    return hour;
+  // Check if all entries could be parsed
+  if (withDateTime.any((e) => e['_sortDateTime'] == null)) {
+    return data; // Fallback: return original unsorted list
   }
 
-  // Sort the data without modifying its structure
-  List<Map<String, dynamic>> sortedResults = List.from(data);
-  sortedResults.sort((a, b) {
-    int timeA = parseTime(a[timeKey]);
-    int timeB = parseTime(b[timeKey]);
-    return timeA.compareTo(timeB);
+  // Sort by the temporary datetime field
+  withDateTime.sort((a, b) {
+    return (a['_sortDateTime'] as DateTime).compareTo(b['_sortDateTime'] as DateTime);
   });
 
-  return sortedResults;
+  // Remove the temp field and return clean data
+  return withDateTime.map((e) {
+    final newEntry = Map<String, dynamic>.from(e);
+    newEntry.remove('_sortDateTime');
+    return newEntry;
+  }).toList();
 }
+
 
 FilterPayload adjustStartEndDateRefund(String startDate, String endDate) {
   print("startDate:$startDate");
@@ -361,7 +379,8 @@ List<T> generateSlots<T>({
   required T defaultValues,
   required String groupBy, // "hour" or "day"
   required String Function(T) getRange,
-}) {
+})
+{
   DateTime startDate = DateTime.parse(start);
   DateTime endDate = DateTime.parse(end);
 

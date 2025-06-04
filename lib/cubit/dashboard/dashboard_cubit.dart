@@ -102,7 +102,6 @@ class DashBoardCubit extends Cubit<DashboardState> {
         (state.filterPayload?.storeIds ?? []).isEmpty) {
       getPermissionsData(context);
     } else {
-
       getDirectSaleData(context);
       getInitialSubscriptionData(context);
       getRecurringSubscription(context);
@@ -981,30 +980,15 @@ class DashBoardCubit extends Cubit<DashboardState> {
             getRange: (data) => data["Range"] ?? "",
           );
 
-          // Create a new list instead of mutating the old one
-          final updatedList = List<SubscriptionData>.from(resultList)
-            ..addAll(data.map((e) => SubscriptionData.fromJson(e)).toList());
-
-          final updatedData = NetSubscribersDataResponse(result: updatedList);
-
-          emit(state.copyWith(
-            netSubscribersReqState: ProcessState.success,
-            netSubscribersData: updatedData,
-          ));
-        } else {
-          emit(state.copyWith(
-            netSubscribersReqState: ProcessState.success,
-            netSubscribersData: res,
-          ));
+          state.netSubscribersData?.result
+              ?.addAll(data.map((e) => SubscriptionData.fromJson(e)).toList());
         }
-      } else {
-        emit(state.copyWith(
-          netSubscribersReqState: ProcessState.success,
-          netSubscribersData: res,
-        ));
       }
-      debugPrint("State emitted: success");
-
+      emit(state.copyWith(
+          netSubscribersReqState: ProcessState.success,
+          netSubscribersData: state.filterPayload?.groupBy == "hour"
+              ? state.netSubscribersData
+              : res));
     } on ApiFailure catch (e) {
       if (e.code == 100) {
         return;
@@ -1045,8 +1029,6 @@ class DashBoardCubit extends Cubit<DashboardState> {
           context: context, message: e.toString(), status: ToastStatus.failure);
       emit(state.copyWith(netSubscribersReqState: ProcessState.failure));
     }
-    debugPrint("getNetSubscribersData: end");
-
   }
 
   void getChargeBackSummaryData(BuildContext context) async {

@@ -69,7 +69,7 @@ class _ClientStoreFilterWidgetState extends State<ClientStoreFilterWidget> {
                 height: screenHeight * 0.37,
                 child: StoreSelectionWidget(
                   onSubmit: handleSubmit,
-                  clientList: widget.state.permissions?.clientsList ?? [],
+                  clientList: (widget.state.permissions?.clientsList ?? []),
                   storeList: widget.state.permissions?.storesList ?? {},
                   onClose: _hideOverlay,
                 ),
@@ -207,10 +207,7 @@ class _StoreSelectionWidgetState extends State<StoreSelectionWidget> {
                       MultiSelectionDropDown(
                         selectAll: state.selectAll,
                         prevSelected: state.prevSelected ?? [],
-                        items: widget.clientList
-                            .map((e) => CustomDropDownMenuItem(
-                                id: e.clientId!, name: e.clientName!))
-                            .toList(),
+                        items:getSortedClientItems(widget.clientList),
                         onSelection: (selectedItems, isFirst) {
                           selectedClientID.clear();
                           for (var e in selectedItems) {
@@ -248,11 +245,7 @@ class _StoreSelectionWidgetState extends State<StoreSelectionWidget> {
                         selectAll: state.selectAllStore,
                         prevSelected: state.prevSelectedStore ?? [],
                         key: ValueKey(storesList.length),
-                        items: storesList
-                            .map((i) => CustomDropDownMenuItem(
-                                id: i.storeId!, name: i.storeName!))
-                            .toSet()
-                            .toList(),
+                        items: getSortedStoreItems(),
                         onSelection: (selectedItems, isFirst) {
                           selectedStoreID.clear();
                           for (var i in selectedItems) {
@@ -321,6 +314,48 @@ class _StoreSelectionWidgetState extends State<StoreSelectionWidget> {
     });
   }
 
+  List<CustomDropDownMenuItem> getSortedStoreItems() {
+    final allItems = storesList
+        .map((i) => CustomDropDownMenuItem(id: i.storeId!, name: i.storeName!))
+        .toList();
+
+    // Separate "Select All" item (assumed to have id == -1)
+    final selectAllItem =
+    allItems.firstWhere((item) => item.id == -1, orElse: () => CustomDropDownMenuItem(id: -999, name: ''));
+
+    final filteredItems = allItems.where((item) => item.id != -1).toList();
+
+    // Sort all except "Select All"
+    filteredItems.sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+
+    // Add "Select All" at the beginning if it exists
+    if (selectAllItem.id != -999) {
+      filteredItems.insert(0, selectAllItem);
+    }
+
+    return filteredItems;
+  }
+  List<CustomDropDownMenuItem> getSortedClientItems(List<ClientsList> clientList) {
+    final items = clientList
+        .map((e) => CustomDropDownMenuItem(id: e.clientId!, name: e.clientName!))
+        .toList();
+
+    // Separate "Select All" if it exists (id == -1)
+    final selectAllItem =
+    items.firstWhere((item) => item.id == -1, orElse: () => CustomDropDownMenuItem(id: -999, name: ''));
+
+    final filteredItems = items.where((item) => item.id != -1).toList();
+
+    // Sort alphabetically by name
+    filteredItems.sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+
+    // Add "Select All" back to the top
+    if (selectAllItem.id != -999) {
+      filteredItems.insert(0, selectAllItem);
+    }
+
+    return filteredItems;
+  }
   updateStoreList(List<int> selectedClientID, BuildContext context) {
     storesList.clear();
     if (selectedClientID.any((item) => item == -1) && storesList.isEmpty) {

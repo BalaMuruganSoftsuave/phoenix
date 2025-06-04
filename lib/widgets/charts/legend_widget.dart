@@ -20,41 +20,47 @@ class LegendWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Wrap(
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
           padding: const EdgeInsets.only(top: 4.0),
           child: CircleAvatar(
-            radius: 6, // Small dot
+            radius: 6,
             backgroundColor: color,
           ),
         ),
         SizedBox(width: 8),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              text, // Revenue, Refund, Void
-              style: getTextTheme().labelSmall?.copyWith(
+        Expanded( // So subText can wrap inside column
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                text,
+                style: getTextTheme().labelSmall?.copyWith(
+                  fontSize: Responsive.fontSize(getCtx()!, 3),
+                  color: AppColors.text,
+                  fontWeight: FontHelper.semiBold,
+                ),
+              ),
+              if (subText != null && subText!.isNotEmpty) ...[
+                Gap(8),
+                Text(
+                  subText!,
+                  softWrap: true,
+                  overflow: TextOverflow.visible,
+                  style: getTextTheme().labelSmall?.copyWith(
                     fontSize: Responsive.fontSize(getCtx()!, 3),
-                    color: AppColors.text,
+                    color: AppColors.white,
                     fontWeight: FontHelper.semiBold,
                   ),
-            ),
-            if (subText != null) ...[
-              Gap(8),
-              Text(
-                subText ?? "", // Example: $500
-                style: getTextTheme().labelSmall?.copyWith(
-                      fontSize: Responsive.fontSize(getCtx()!, 3),
-                      color: AppColors.white,
-                      fontWeight: FontHelper.semiBold,
-                    ),
-              ),
+                ),
+              ],
             ],
-          ],
+          ),
         ),
       ],
     );
+
   }
 }
