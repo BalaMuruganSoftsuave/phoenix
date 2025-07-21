@@ -25,6 +25,20 @@ class FirebaseHelper {
     await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
     // Request Notification Permission (iOS only)
     await requestPermission();
+    // Wait for APNs token to be set (iOS only)
+    if (Platform.isIOS) {
+      String? apnsToken;
+      int retry = 0;
+      // Try for up to 2 seconds (20 x 100ms)
+      while (apnsToken == null && retry < 20) {
+        apnsToken = await FirebaseMessaging.instance.getAPNSToken();
+        if (apnsToken == null) {
+          await Future.delayed(Duration(milliseconds: 100));
+          retry++;
+        }
+      }
+      debugPrint('APNs Token: $apnsToken');
+    }
 
     // Initialize Local Notifications
     _initLocalNotifications();

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:phoenix/cubit/dashboard/dashboard_cubit.dart';
@@ -18,7 +19,10 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    getData(); // Ensures it runs only once
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      await precacheImage(AssetImage(Assets.assetsImagesPhoenixLogo), context);
+      getData(); // Ensures it runs only once
+    });
   }
 
   @override
@@ -26,8 +30,8 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       backgroundColor: AppColors.darkBg2,
       body: Center(
-        child: SvgPicture.asset(
-          Assets.imagesPhoenixLogo,
+        child: Image.asset(
+          Assets.assetsImagesPhoenixLogo,
           height: 100,
           width: 200,
         ),

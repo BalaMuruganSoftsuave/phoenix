@@ -5,6 +5,7 @@ class Assets {
   static const String apiApiConstant = 'lib/helper/api/api_constant.dart';
   static const String apiApiHelper = 'lib/helper/api/api_helper.dart';
   static const String apiApiService = 'lib/helper/api/api_service.dart';
+  static const String assetsImagesPhoenixLogo = 'assets/images/phoenix_logo.webp';
   static const String authAuthCubit = 'lib/cubit/auth/auth_cubit.dart';
   static const String authAuthState = 'lib/cubit/auth/auth_state.dart';
   static const String bottomNavigationWidgetButton = 'lib/widgets/bottom_navigation_widget/button.dart';
