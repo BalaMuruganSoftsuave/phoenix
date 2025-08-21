@@ -7,7 +7,22 @@ import 'package:flutter/foundation.dart';
 import 'package:phoenix/helper/api/api_constant.dart';
 import 'package:phoenix/helper/enum_helper.dart';
 
+getMessage(body){
+  String message='';
+  if (body != null && body is Map) {
+    if (body.containsKey("Errors") && body["Errors"].isNotEmpty) {
+      message = body["Errors"]["message"];
+    } else if (body.containsKey("message")) {
+      message = body["error"] ?? body["message"];
+    } else if (body.containsKey("error_description")) {
+      message = body["error_description"];
+    }
+  }
+  return message;
+}
+
 class APIHelper {
+
   makeReq(String urlString, dynamic body,
       {Method method = Method.post,
       BodyType type = BodyType.json,
@@ -105,7 +120,7 @@ class APIHelper {
         print('Bad response format: ${e.message}');
         throw ApiFailure(400, "Failed to load");
       } on DioException catch (e) {
-        // Additional Dio error types handling
+        // Additonal Dio error types handling
         try {
           if (e.type == DioExceptionType.cancel) {
             debugLog("Request cancelled: ${e.message ?? ""}");
@@ -124,25 +139,35 @@ class APIHelper {
               body = null;
             }
             String message = "";
-            if (body != null && body is Map) {
-              if (body.containsKey("Errors") && body["Errors"].isNotEmpty) {
-                message = body["Errors"]["message"];
-              } else if (body.containsKey("message")) {
-                message = body["error"] ?? body["message"];
-              } else if (body.containsKey("error_description")) {
-                message = body["error_description"];
-              }
-            }
+
+            message=getMessage(body);
+            // if (body != null && body is Map) {
+            //   if (body.containsKey("Errors") && body["Errors"].isNotEmpty) {
+            //     message = body["Errors"]["message"];
+            //     print("&&&&&&&&&${message}");
+            //   } else if (body.containsKey("message")) {
+            //     message = body["error"] ?? body["message"];
+            //   } else if (body.containsKey("error_description")) {
+            //     message = body["error_description"];
+            //   }
+            // }
             if (message.isEmpty) message = "Failed to load";
             throw ApiFailure(e.response?.statusCode ?? 400, message);
           } else {
             throw ApiFailure(e.response?.statusCode ?? 400, "Failed to load");
           }
         } catch (_) {
+          String message=getMessage(e.response?.data);
           if (e.response?.statusCode == null || e.response?.statusCode == 100) {
             throw ApiFailure(e.response?.statusCode ?? 100, "");
           } else {
-            throw ApiFailure(e.response?.statusCode ?? 400, "Failed to load");
+            if(message.isEmpty) {
+              throw ApiFailure(e.response?.statusCode ?? 400, "Failed to load");
+            }
+            else{
+              throw ApiFailure(e.response?.statusCode ?? 400, message);
+
+            }
           }
         }
       } catch (e) {
