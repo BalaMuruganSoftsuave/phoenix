@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:phoenix/helper/api/api_constant.dart';
 import 'package:phoenix/helper/enum_helper.dart';
 
 class APIHelper {
@@ -14,12 +15,10 @@ class APIHelper {
       String token = "",
       String accessToken = "",
       Map<String, String> header = const {},
-      CancelToken? cancelToken}) async
-  {
+      CancelToken? cancelToken}) async {
     var connectivityResult = await (Connectivity().checkConnectivity());
-    if (connectivityResult.contains(ConnectivityResult.mobile) ||
-        connectivityResult.contains(ConnectivityResult.wifi) ||
-        connectivityResult.contains(ConnectivityResult.other)) {
+   
+    if (!connectivityResult.contains(ConnectivityResult.none)) {
       final dio = Dio();
       Uri url = Uri.parse(urlString);
       Response response;
@@ -38,7 +37,6 @@ class APIHelper {
                 "API : ${method.toString()} url : $url \nrequest : ${body.toString()} ");
         Options options = Options(
           headers: headers,
-
           responseType: isFile ? ResponseType.bytes : ResponseType.json,
         );
 
@@ -97,11 +95,9 @@ class APIHelper {
               cancelToken: cancelToken,
             );
         }
-      }on SocketException catch (e) {
-        // Handle network/DNS failures
+      } on SocketException catch (e) {
         print('Network error: ${e.message}');
         throw ApiFailure(400, "Network error");
-        // Show a toast/snackbar or fallback UI
       } on HttpException catch (e) {
         print('HTTP error: ${e.message}');
         throw ApiFailure(400, "Network error");
@@ -109,85 +105,92 @@ class APIHelper {
         print('Bad response format: ${e.message}');
         throw ApiFailure(400, "Failed to load");
       } on DioException catch (e) {
-        // The request was made and the server responded with a status code
-        // that falls out of the range of 2xx and is also not 304.
-        if (e.type == DioExceptionType.cancel) {
-          // Request was cancelled intentionally - return empty map instead of null
-          debugLog("Request cancelled: ${e.message ?? ""}");
-          throw ApiFailure(100, "Cancelled");
-        }
-        if (e.type == DioExceptionType.connectionTimeout) {
-          // Show user-friendly error
-          throw ApiFailure(400,"Connection timed out. Please try again.");
-        }
-        if (e.response != null) {
-          debugLog(e.response.toString());
-          debugLog(e.message ?? "");
-          if(e.response.toString().isNotEmpty) {
-            var body = jsonDecode(e.response.toString());
-            var message = "";
-            if (body != null && body.containsKey("Errors")) {
-              final errors = body["Errors"];
-              if (errors.isNotEmpty) {
-                message = errors["message"];
-              }
-            } else if (body != null && body.containsKey("message")) {
-              if (body["message"] != null && body["error"] != null) {
-                message = body["error"];
-              } else {
-                message = body["message"];
-              }
-            } else if (body != null && body.containsKey("error_description")) {
-              message = body["error_description"];
-            } else {
-              message = body?.toString() ?? "error response body not found";
+        // Additional Dio error types handling
+        try {
+          if (e.type == DioExceptionType.cancel) {
+            debugLog("Request cancelled: ${e.message ?? ""}");
+            throw ApiFailure(100, "Cancelled");
+          } else if (e.type == DioExceptionType.connectionTimeout) {
+            debugLog("Connection timed out. Please try again.");
+
+            throw ApiFailure(400, "Connection timed out. Please try again.");
+          } else if (e.response != null && e.response?.data != null) {
+            var body;
+            try {
+              body = e.response?.data is String
+                  ? jsonDecode(e.response?.data)
+                  : e.response?.data;
+            } catch (parseError) {
+              body = null;
             }
+            String message = "";
+            if (body != null && body is Map) {
+              if (body.containsKey("Errors") && body["Errors"].isNotEmpty) {
+                message = body["Errors"]["message"];
+              } else if (body.containsKey("message")) {
+                message = body["error"] ?? body["message"];
+              } else if (body.containsKey("error_description")) {
+                message = body["error_description"];
+              }
+            }
+            if (message.isEmpty) message = "Failed to load";
             throw ApiFailure(e.response?.statusCode ?? 400, message);
-          }else{
-            throw ApiFailure(e.response?.statusCode ?? 400, "Failed to Load");
+          } else {
+            throw ApiFailure(e.response?.statusCode ?? 400, "Failed to load");
           }
-        } else {
-          // Something happened in setting up or sending the request that triggered an Error
-          debugLog("Request error: ${e.message ?? ""}");
-          throw ApiFailure(e.response?.statusCode ?? 400, e.toString());
+        } catch (_) {
+          if (e.response?.statusCode == null || e.response?.statusCode == 100) {
+            throw ApiFailure(e.response?.statusCode ?? 100, "");
+          } else {
+            throw ApiFailure(e.response?.statusCode ?? 400, "Failed to load");
+          }
         }
       } catch (e) {
+        // Catches all FormatException, type errors, null pointer, etc.
         makeLog(text: e.toString());
-        throw ApiFailure(400, e.toString());
+        if (e is ApiFailure && (e.code == null || e.code == 100)) {
+          throw ApiFailure(e.code ?? 100, "");
+        } else {
+          throw ApiFailure(400, "Failed to load");
+        }
+//         throw ApiFailure(400, "Failed to load");
       }
 
       dynamic decodedJson;
       String? decodeError;
       String contentType = response.headers['content-type']?.first ?? '';
-      
+
       // Check for HTML content in response
-      if (contentType.contains('text/html') || 
-          (response.data is String && (response.data as String).contains('<!DOCTYPE html>')) ||
-          (response.data is String && (response.data as String).contains('<html'))) {
+      // Detect unexpected HTML response
+      if (contentType.contains('text/html') ||
+          (response.data is String &&
+              (response.data as String).contains('<!DOCTYPE html>')) ||
+          (response.data is String &&
+              (response.data as String).contains('<html'))) {
         debugLog("Received HTML response instead of JSON");
         throw ApiFailure(400, "Failed to load");
       }
 
-      if (!isFile) {
-        try {
-          decodedJson = response.data;
-        } catch (e) {
-          decodeError = e.toString();
+// Attempt to decode JSON or fallback on error
+      try {
+        if (!isFile) {
+          // If string, try decoding; else keep as is (for Map or List)
+          if (response.data is String) {
+            decodedJson = jsonDecode(response.data);
+          } else {
+            decodedJson = response.data;
+          }
         }
+      } catch (e) {
+        // Any decoding error is handled here
+        debugLog("JSON decode error: $e");
+        throw ApiFailure(response.statusCode ?? 400, "Failed to load");
       }
 
       makeLog(text: "Response: ${response.data.toString()}");
 
-      if (decodeError != null) {
-        throw ApiFailure(
-            response.statusCode ?? 400, 'jsonDecode Error : $decodeError');
-      }
-
-      if (response.statusCode == 200 ||
-          response.statusCode == 201 ||
-          response.statusCode == 202 ||
-          response.statusCode == 204 ||
-          response.statusCode == 302) {
+// Only these status codes are considered successful
+      if ([200, 201, 202, 204, 302].contains(response.statusCode)) {
         if (isFile) {
           return response.data;
         } else {

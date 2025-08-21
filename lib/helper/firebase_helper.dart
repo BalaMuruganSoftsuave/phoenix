@@ -82,10 +82,15 @@ class FirebaseHelper {
 
   // Get FCM Token
   static Future<String?> getFCMToken() async {
+    try{
     String? token = await _firebaseMessaging.getToken();
     PreferenceHelper.saveFcm(token??"");
     debugPrint("FCM Token: $token");
-    return token;
+    return token;}
+    catch(e){
+      debugPrint(e.toString());
+      return null;
+    }
   }
 
   // Initialize Local Notifications

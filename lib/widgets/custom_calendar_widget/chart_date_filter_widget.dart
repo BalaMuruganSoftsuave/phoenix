@@ -207,11 +207,11 @@ class _CustomDatePickerWidgetState extends State<ChartDateFilterWidget>
                         onChange: (range) {
                           if (range.start != null) {
                             selectedDateRange.startDate =
-                                range.start?.toUtc().toString();
+                                range.start.toString();
                           }
                           if (range.end != null) {
                             selectedDateRange.endDate =
-                                range.end?.toUtc().toString();
+                                range.end.toString();
                           }
                         },
                       ),
